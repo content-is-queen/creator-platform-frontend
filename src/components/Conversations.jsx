@@ -1,5 +1,5 @@
-import React from 'react';
-import MainNav from '../../navigation/MainNav';
+import React from "react";
+import MainNav from "./MainNav";
 
 const Conversations = () => (
   <section className="message">
