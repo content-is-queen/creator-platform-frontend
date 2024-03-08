@@ -1,7 +1,7 @@
 import styles from "./Conversations.module.css";
 
 import MainNav from "@/components/MainNav";
-import ChartList from "@/components/ChartList";
+import ConversationList from "@/components/ConversationList";
 
 const MessageActivity = () => {
   const users = [1, 2, 3, 4];
@@ -12,7 +12,7 @@ const MessageActivity = () => {
         <div className={styles.message_grid_item}>
           <ul>
             {users?.map((user) => (
-              <ChartList key={user} />
+              <ConversationList key={user} />
             ))}
           </ul>
         </div>

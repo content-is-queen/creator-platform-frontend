@@ -14,14 +14,14 @@
 }
 
 .opp_top {
-  background-image: url("./public/images/longitem.png");
+  background-image: url("/images/longitem.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 .opp_down {
-  background-image: url("./public/images/smallitem.png");
+  background-image: url("/images/smallitem.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

@@ -1,8 +1,8 @@
 "use client";
 
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
-const ChartList = () => (
+const ConversationList = () => (
   <li>
     <Link href="/conversations">
       <div className="pr-4 pl-4 flex items-center space-x-4 rtl:space-x-reverse hover:bg-gray-300 hover:rounded-lg border-t-0 border-b border-gray-200 border-solid pb-2">
@@ -28,4 +28,4 @@ const ChartList = () => (
   </li>
 );
 
-export default ChartList;
+export default ConversationList;

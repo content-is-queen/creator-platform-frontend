@@ -1,8 +1,6 @@
-import "./dashboard.css";
+import "./Dashboard.css";
 
 import MainNav from "@/components/MainNav";
-
-import guardian from "../../img/guardian.png";
 
 const Dashboard = () => {
   const opportunities = [1, 2, 3];
@@ -24,7 +22,7 @@ const Dashboard = () => {
                       <div className="flex items-center">
                         <img
                           className="h-12 w-12 rounded-full mr-2"
-                          src={guardian}
+                          src="/images/guardian.png"
                           alt="Jese imae"
                         />
                         <div className="flex flex-col gap-2.5">
