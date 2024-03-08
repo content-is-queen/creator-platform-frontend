@@ -20,7 +20,7 @@ const MainNav = () => {
     <nav className="bg-queen-blue border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="" className="h-16" alt="Queen Logo" />
+          <img src="" className="h-16" alt="Content is queen" />
         </a>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <div
