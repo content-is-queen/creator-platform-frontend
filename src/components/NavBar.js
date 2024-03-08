@@ -7,6 +7,7 @@ import isAuth from "../helpers/isAuth";
 
 import Secure from "../utils/SecureLs";
 
+
 const NavBar = () => {
   // const navigate = useNavigate();
   // const user = isAuth();

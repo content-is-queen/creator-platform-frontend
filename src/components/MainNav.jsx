@@ -17,10 +17,14 @@ const MainNav = () => {
     setIsToggleClicked((prev) => !prev);
   };
   return (
-    <nav className="bg-queen-blue border-gray-200">
+    <nav className="bg-queen-blue text-queen-yellow border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="" className="h-16" alt="Content is queen" />
+          <img
+            src="/images/horizontal-logo.png"
+            className="h-16"
+            alt="Content is queen"
+          />
         </a>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <div
@@ -97,8 +101,7 @@ const MainNav = () => {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="w-8 h-8 rounded-full"
-                    src="/docs/images/people/profile-picture-3.jpg"
-                    alt="use"
+                    src="/images/keshe.jpg"
                   />
                 </button>
               </li>

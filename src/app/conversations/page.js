@@ -1,4 +1,4 @@
-import styles from "./Conversations.module.css";
+import "./Conversations.css";
 
 import MainNav from "@/components/MainNav";
 import ConversationList from "@/components/ConversationList";
@@ -8,8 +8,8 @@ const MessageActivity = () => {
   return (
     <section className="bg-queen-gray message h-screen">
       <MainNav />
-      <div className={styles.message_grid}>
-        <div className={styles.message_grid_item}>
+      <div className="message_grid">
+        <div className="message_grid_item">
           <ul>
             {users?.map((user) => (
               <ConversationList key={user} />
@@ -17,7 +17,7 @@ const MessageActivity = () => {
           </ul>
         </div>
 
-        <div className={styles.message_grid_item}>
+        <div className="grid_item">
           <div className="p-4 pt-8 flex items-center space-x-4 rtl:space-x-reverse hover:rounded-lg border-solid pb-2">
             <div className="flex-shrink-0">
               <img
