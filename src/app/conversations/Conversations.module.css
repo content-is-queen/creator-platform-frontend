@@ -1,0 +1,42 @@
+.message {
+  background-image: url("/images/msgbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+}
+
+.message_grid {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  padding: 2rem 4rem;
+  grid-gap: 2rem;
+  height: 90vh;
+}
+.message_grid_item {
+  border-radius: 2rem;
+  background-color: #fff;
+}
+
+.second {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+}
+
+.message_grid_item li {
+  padding: 0.5rem 0;
+}
+.cov {
+  height: 100vh !important;
+}
+
+@media (max-width: 768px) {
+  .message_grid {
+    grid-template-columns: 100%;
+    padding: 2rem;
+  }
+  .second {
+    display: none !important;
+  }
+}

@@ -1,6 +1,7 @@
-import React from "react";
-import MainNav from "./MainNav";
-import "./Dashboeard.css";
+import "./dashboard.css";
+
+import MainNav from "@/components/MainNav";
+
 import guardian from "../../img/guardian.png";
 
 const Dashboard = () => {

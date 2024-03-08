@@ -1,0 +1,28 @@
+.dashboard_grid {
+  display: grid;
+  grid-template-columns: 65% 35%;
+}
+
+.opportunity_p {
+  font-size: 1.5rem;
+}
+
+.right-opportunity {
+  display: grid;
+  grid-template-rows: 60% 40%;
+  grid-gap: 2rem;
+}
+
+.opp_top {
+  background-image: url("./public/images/longitem.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.opp_down {
+  background-image: url("./public/images/smallitem.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}

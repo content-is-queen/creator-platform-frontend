@@ -1,16 +1,15 @@
-import React from "react";
-import MainNav from "./MainNav";
-import "./MessageActivity.css";
-import ChartList from "./ChartList";
-import keshe from "../../img/keshe.jpg";
+import styles from "./Conversations.module.css";
+
+import MainNav from "@/components/MainNav";
+import ChartList from "@/components/ChartList";
 
 const MessageActivity = () => {
   const users = [1, 2, 3, 4];
   return (
     <section className="bg-queen-gray message h-screen">
       <MainNav />
-      <div className="massage_grid">
-        <div className="massage_grid_item">
+      <div className={styles.message_grid}>
+        <div className={styles.message_grid_item}>
           <ul>
             {users?.map((user) => (
               <ChartList key={user} />
@@ -18,12 +17,12 @@ const MessageActivity = () => {
           </ul>
         </div>
 
-        <div className="massage_grid_item second">
+        <div className={styles.message_grid_item}>
           <div className="p-4 pt-8 flex items-center space-x-4 rtl:space-x-reverse hover:rounded-lg border-solid pb-2">
             <div className="flex-shrink-0">
               <img
                 className="w-12 h-12 lg:w-20 lg:h-20 rounded-full"
-                src={keshe}
+                src="/images/keshe.jpg"
                 alt="Neiage"
               />
             </div>
@@ -39,7 +38,7 @@ const MessageActivity = () => {
               <div className="flex flex-col mt-5">
                 <div className="flex justify-start mb-4">
                   <img
-                    src={keshe}
+                    src="/images/keshe.jpg"
                     className="object-cover h-12 w-12 rounded-full"
                     alt=""
                   />
