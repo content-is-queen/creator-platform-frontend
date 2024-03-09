@@ -1,6 +1,6 @@
 const AuthTemplate = ({ children }) => (
-  <section className="grid grid-cols-1 md:grid-cols-2 h-screen">
-    <div className="hidden md:grid bg-queen-blue login-rows h-full">
+  <section className="grid h-screen md:grid-cols-2">
+    <div className="hidden bg-queen-blue login-rows h-full md:grid">
       <div className="flex justify-center items-center">
         <img
           src="/images/stacked-logo.png"
@@ -8,7 +8,7 @@ const AuthTemplate = ({ children }) => (
           alt="background dots"
         />
       </div>
-      <div className="login_img relative">
+      <div className="relative">
         <img
           src="/images/moredots.png"
           className="h-full object-cover"
@@ -16,7 +16,7 @@ const AuthTemplate = ({ children }) => (
         />
       </div>
     </div>
-    <div className="login_container bg-queen-white flex justify-center items-center h-full">
+    <div className="bg-queen-white flex justify-center items-center h-full">
       {children}
     </div>
   </section>

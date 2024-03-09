@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "FormaDJRBanner";
+  src: url("/fonts/FormaDJRBanner-Bold.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "FormaDJRBanner";
+  src: url("/fonts/FormaDJRBanner-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "FormaDJRDeck";
+  src: url("/fonts/FormaDJRDeck-Regular.woff2") format("woff2");
+}
+ 
