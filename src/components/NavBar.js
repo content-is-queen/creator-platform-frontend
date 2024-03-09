@@ -9,18 +9,6 @@ import Secure from "../utils/SecureLs";
 
 
 const NavBar = () => {
-  // const navigate = useNavigate();
-  // const user = isAuth();
-  // const startAuth = () => {
-  //   navigate("/login");
-  // };
-
-  // const handleLogout = () => {
-  //   Secure.removeToken();
-  //   window.location.href = "/";
-  // };
-
-  const user = false;
 
   return (
     <nav className="bg-white dark:bg-slate-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
