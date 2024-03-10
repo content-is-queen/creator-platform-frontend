@@ -44,6 +44,9 @@ const MainNav = () => {
     }
   };
 
+  
+
+
   const { email } = isAuth();
   useEffect(() => {
    if(!email){
@@ -55,7 +58,7 @@ console.log(userProfile);
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
       <Container className="flex flex-wrap items-center justify-between">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src="/images/horizontal-logo.png"
             className="h-16"
