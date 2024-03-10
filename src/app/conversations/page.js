@@ -1,9 +1,13 @@
+"use client";
+
 import "./Conversations.css";
 
 import MainNav from "@/components/MainNav";
 import ConversationList from "@/components/ConversationList";
+import { useEffect, useState } from "react";
 
 const MessageActivity = () => {
+
   const users = [1, 2, 3, 4];
   return (
     <section className="bg-queen-gray message h-screen">
