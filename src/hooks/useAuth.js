@@ -1,20 +1,18 @@
 import isAuth from "@/helpers/isAuth";
-import useRouter from "next/router";
 
 const useAuth = () => {
   const user = isAuth();
-  const router = useRouter();
 
   const startAuth = () => {
-    router.push("/login");
+    window.location.href = "/login";
   };
 
   const handleLogout = () => {
     Secure.removeToken();
-    router.push("/");
+    window.location.href = "/";
   };
 
-  return { user, handleLogout };
+  return { user, startAuth, handleLogout };
 };
 
 export default useAuth;
