@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import AuthTemplate from "@/components/AuthTemplate";
+import Button from "@/components/Button";
 
 const SignUp = () => (
   <AuthTemplate>
@@ -92,18 +93,7 @@ const SignUp = () => (
           confirm Password
         </label>
       </div>
-      <button
-        type="button"
-        className="text-white bg-queen-orange hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 auth-btn"
-      >
-        SIGN IN
-      </button>
-      <Link
-        href="/login"
-        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-      >
-        Login
-      </Link>
+      <Button href="/dashboard">Create account</Button>
     </form>
   </AuthTemplate>
 );

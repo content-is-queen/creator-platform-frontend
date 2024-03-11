@@ -1,13 +1,13 @@
 import Link from "next/link";
 
+import Heading from "@/components/Heading";
 import AuthTemplate from "@/components/AuthTemplate";
+import Button from "@/components/Button";
 
 const Login = () => (
   <AuthTemplate>
     <form className="p-2">
-      <h1 className="uppercase text-queen-black login-title font-anton">
-        welcome back
-      </h1>
+      <Heading tag="h1">Welcome back</Heading>
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="email"
@@ -42,18 +42,7 @@ const Login = () => (
           Password
         </label>
       </div>
-      <button
-        type="button"
-        className="text-white bg-queen-orange hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 auth-btn"
-      >
-        SIGN IN
-      </button>
-      <Link
-        href="/signup"
-        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-      >
-        Sign Up
-      </Link>
+      <Button href="/dashboard">Sign in</Button>
     </form>
   </AuthTemplate>
 );

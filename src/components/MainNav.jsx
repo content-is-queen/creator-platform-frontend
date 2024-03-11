@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { IoNotificationsOutline } from "react-icons/io5";
+import Container from "./Container";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -17,8 +18,8 @@ const MainNav = () => {
     setIsToggleClicked((prev) => !prev);
   };
   return (
-    <nav className="bg-queen-blue text-queen-yellow border-gray-200">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
+    <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
+      <Container className="flex flex-wrap items-center justify-between">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src="/images/horizontal-logo.png"
@@ -33,7 +34,7 @@ const MainNav = () => {
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border   md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
+            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
               <Link
                 href="/dashboard"
                 className={({ isActive }) =>
@@ -159,7 +160,7 @@ const MainNav = () => {
             </svg>
           </button>
         </div>
-      </div>
+      </Container>
     </nav>
   );
 };
