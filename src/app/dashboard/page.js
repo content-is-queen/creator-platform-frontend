@@ -19,7 +19,7 @@ const OPPORTUNITIES = [
     href: "/#",
     type: "Pitch",
     excerpt:
-      "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
+      "the main body of a book or other piece of writing, as distinct from other material such as notes, appendices, and illustrations.",
   },
   {
     company: {
@@ -33,7 +33,7 @@ const OPPORTUNITIES = [
     href: "/#",
     type: "Pitch",
     excerpt:
-      "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
+      "the main body of a book or other piece of writing, as distinct from other material such as notes, appendices, and illustrations.",
   },
   {
     company: {
@@ -47,7 +47,7 @@ const OPPORTUNITIES = [
     href: "/#",
     type: "Pitch",
     excerpt:
-      "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
+      "the main body of a book or other piece of writing, as distinct from other material such as notes, appendices, and illustrations.",
   },
 ];
 

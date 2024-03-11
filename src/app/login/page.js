@@ -19,7 +19,7 @@ const Login = () => (
         {FIELDS.map(({ children, ...otherProps }) => (
           <Input {...otherProps}>{children}</Input>
         ))}
-        <Text size="sm" className="mt-2">
+        <Text size="sm" className="!mt-2">
           <Link href="#">Forgot password?</Link>
         </Text>
       </div>
