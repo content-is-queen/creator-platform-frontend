@@ -22,7 +22,7 @@ const MainNav = () => {
       <Container className="flex flex-wrap items-center justify-between">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
-            src="/images/horizontal-logo.png"
+            src="/images/CiQ_Logo_Horizontal.svg"
             className="h-16"
             alt="Content is queen"
           />
