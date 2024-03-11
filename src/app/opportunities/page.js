@@ -1,5 +1,4 @@
-import React from 'react';
-import MainNav from '../../navigation/MainNav';
+import MainNav from "@/components/MainNav";
 
 const Opportunities = () => (
   <section>
