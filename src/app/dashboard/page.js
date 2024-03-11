@@ -1,11 +1,10 @@
-import "./Dashboard.css";
-
 import MainNav from "@/components/MainNav";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
 import OpportunityCard from "@/components/OpportunityCard";
 import Button from "@/components/Button";
+import Panel from "@/components/Panel";
 
 const OPPORTUNITIES = [
   {
@@ -58,8 +57,8 @@ const Dashboard = () => (
     <div className="bg-queen-white h-full py-12 md:py-20">
       <Container>
         <Heading>Welcome back, Kaleshe</Heading>
-        <div className="dashboard_grid gap-8">
-          <div className="pt-2 pl-0">
+        <div className="grid gap-8 md:grid-cols-6">
+          <div className="pt-2 pl-0 md:col-span-4">
             <Text size="xl" className="mb-4">
               Recommended opportunities for you
             </Text>
@@ -74,9 +73,9 @@ const Dashboard = () => (
               View all opportunities
             </Button>
           </div>
-          <div className="right-opportunity">
-            <div className="opp_top rounded-2xl"></div>
-            <div className="opp_down rounded-2xl"></div>
+          <div className="grid gap-8 md:col-span-2">
+            <Panel title="Overview"></Panel>
+            <Panel title="Most Recent Chat"></Panel>
           </div>
         </div>
       </Container>
