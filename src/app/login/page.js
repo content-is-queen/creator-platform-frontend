@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import Heading from "@/components/Heading";
 import AuthTemplate from "@/components/AuthTemplate";
+import Text from "@/components/Text";
 import Button from "@/components/Button";
 
 const Login = () => (
@@ -41,8 +42,18 @@ const Login = () => (
         >
           Password
         </label>
+        <Text size="sm" className="mt-2">
+          <Link href="#">Forgot password?</Link>
+        </Text>
       </div>
       <Button href="/dashboard">Sign in</Button>
+
+      <Text size="sm" className="mt-2">
+        Don't have an account?{" "}
+        <Link href="/signup" className="font-medium">
+          Signup
+        </Link>
+      </Text>
     </form>
   </AuthTemplate>
 );
