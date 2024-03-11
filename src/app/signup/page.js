@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import AuthTemplate from "@/components/AuthTemplate";
+import Text from "@/components/Text";
 import Button from "@/components/Button";
 
 const SignUp = () => (
@@ -94,6 +95,12 @@ const SignUp = () => (
         </label>
       </div>
       <Button href="/dashboard">Create account</Button>
+      <Text size="sm" className="mt-2">
+        Already registered?{" "}
+        <Link href="/login" className="font-medium">
+          Login
+        </Link>
+      </Text>
     </form>
   </AuthTemplate>
 );
