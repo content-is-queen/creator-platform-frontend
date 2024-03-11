@@ -33,15 +33,15 @@ const MainNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
-      <Container className="flex flex-wrap items-center justify-between">
+    <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-2">
+      <Container className="flex flex-wrap items-center justify-between text-sm">
         <Link
           href="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
             src="/images/CiQ_Logo_Horizontal.svg"
-            className="h-16"
+            className="h-10"
             alt="Content is queen"
           />
         </Link>

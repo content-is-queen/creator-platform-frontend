@@ -1,5 +1,6 @@
 import { cva } from "class-variance-authority";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 
 const ButtonVariants = cva(
@@ -26,7 +27,7 @@ const Button = ({ variant, tag, children, className, ...otherProps }) => {
 
   return (
     <Tag
-      className={clsx(ButtonVariants({ variant }), className)}
+      className={clsx(twMerge(ButtonVariants({ variant }), className))}
       {...otherProps}
     >
       {children}
