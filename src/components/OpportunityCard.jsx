@@ -53,7 +53,12 @@ const OpportunityCard = ({
     </div>
 
     <div className="flex justify-between items-center">
-      <Text color="muted">{excerpt}</Text>
+      <div className="max-w-lg">
+        <Text color="muted" className="truncate">
+          {excerpt}
+        </Text>
+      </div>
+
       <Button variant="white" href={href}>
         View
       </Button>
