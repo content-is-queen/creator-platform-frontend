@@ -45,35 +45,34 @@ const OPTIONS = [
 ];
 
 const SignUp = () => {
-  const [active, setActive] = useState(OPTIONS[0].id);
-  const FIELDS = OPTIONS.find(({ id }) => id === active).fields;
+  const [active, setActive] = useState(OPTIONS[0]);
 
   useEffect(() => {}, [active]);
 
   return (
     <AuthTemplate>
-        <Heading>Sign up</Heading>
-        <form>
-          <div className="mb-6">
-            <Tabs options={OPTIONS} active={active} setActive={setActive} />
-          </div>
+      <Heading>Sign up</Heading>
+      <form>
+        <div className="mb-6">
+          <Tabs options={OPTIONS} active={active} setActive={setActive} />
+        </div>
 
-          <div className="space-y-6">
-            {FIELDS.map(({ children, ...otherProps }) => (
-              <Input {...otherProps}>{children}</Input>
-            ))}
-          </div>
+        <div className="space-y-6">
+          {active.fields.map(({ children, ...otherProps }) => (
+            <Input {...otherProps}>{children}</Input>
+          ))}
+        </div>
 
-          <Button href="/dashboard" className="mt-8">
-            Create account
-          </Button>
-          <Text size="sm" className="mt-4">
-            Already registered?{" "}
-            <Link href="/login" className="font-medium">
-              Login
-            </Link>
-          </Text>
-        </form>
+        <Button href="/dashboard" className="mt-8">
+          Create account
+        </Button>
+        <Text size="sm" className="mt-4">
+          Already registered?{" "}
+          <Link href="/login" className="font-medium">
+            Login
+          </Link>
+        </Text>
+      </form>
     </AuthTemplate>
   );
 };

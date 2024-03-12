@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 import Section from "./Section";
 import Tabs from "./Tabs";
-import clsx from "clsx";
 
 const OPTIONS = [
   {
@@ -15,29 +14,21 @@ const OPTIONS = [
   {
     label: "Credits",
     id: "credits",
+    theme: "orange",
     children: <>A list of credits</>,
   },
   { label: "Reviews", id: "reviews", children: <>Reviews from brands</> },
 ];
 
 const ProfileTabs = () => {
-  const [active, setActive] = useState(OPTIONS[0].id);
-  const COMPONENT = OPTIONS.find(({ id }) => id === active).children;
+  const [active, setActive] = useState(OPTIONS[0]);
 
   useEffect(() => {}, [active]);
 
   return (
-    <Section
-      size="4xl"
-      className={clsx(active === "credits" && "bg-queen-orange text-white")}
-    >
-      <Tabs
-        options={OPTIONS}
-        active={active}
-        setActive={setActive}
-        {...(active === "credits" ? { light: true } : null)}
-      />
-      <div className="py-14">{COMPONENT}</div>
+    <Section size="4xl" {...(active?.theme ? { theme: active.theme } : null)}>
+      <Tabs options={OPTIONS} active={active} setActive={setActive} />
+      <div className="py-14">{active.children}</div>
     </Section>
   );
 };
