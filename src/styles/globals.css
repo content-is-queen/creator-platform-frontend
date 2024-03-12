@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --nav-height: 80px;
+}
+
 @font-face {
   font-family: "FormaDJRBanner";
   src: url("/fonts/FormaDJRBanner-Bold.woff2") format("woff2");
@@ -17,4 +21,7 @@
   font-family: "FormaDJRDeck";
   src: url("/fonts/FormaDJRDeck-Regular.woff2") format("woff2");
 }
- 
+
+nav {
+  height: var(--nav-height);
+}

@@ -1,20 +1,32 @@
 "use client";
 
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { IoNotificationsOutline } from "react-icons/io5";
-import Container from "./Container";
 import isAuth from "@/helpers/isAuth";
 import API from "@/api/api";
 import { doSignOut } from "@/firebase/auth";
 import Secure from "@/utils/SecureLs";
 
+import { IoNotificationsOutline } from "react-icons/io5";
+
+import Container from "@/components/Container";
+
+const PAGES = [
+  {
+    href: "/dashboard",
+    label: "Dashboard",
+  },
+  { href: "/opportunities", label: "Opportunities" },
+  { href: "/conversations", label: "Conversations" },
+];
+
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
-
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -30,41 +42,41 @@ const MainNav = () => {
       Secure.removeToken();
       window.location.href = "/login";
     } catch (error) {
-      console.error('Sign out error:', error);
+      console.error("Sign out error:", error);
     }
   };
-
 
   const fetchUserProfile = async () => {
     try {
-      const response = await API.get('auth/profile');
+      const response = await API.get("auth/profile");
       setUserProfile(response.data.message);
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error("Error fetching user profile:", error);
     }
   };
 
-  
-
-
   const { email } = isAuth();
   useEffect(() => {
-   if(!email){
-    window.location.href = "/login";
-   }
-   fetchUserProfile();
+    if (!email) {
+      window.location.href = "/login";
+    }
+    fetchUserProfile();
   }, []);
-console.log(userProfile);
+  const pathname = usePathname();
+
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
-      <Container className="flex flex-wrap items-center justify-between">
-        <a href="/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
+      <Container className="flex flex-wrap items-center justify-between text-sm w-full">
+        <Link
+          href="/dashboard"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img
-            src="/images/horizontal-logo.png"
-            className="h-16"
+            src="/images/CiQ_Logo_Horizontal.svg"
+            className="h-10"
             alt="Content is queen"
           />
-        </a>
+        </Link>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <div
             className={`${
@@ -72,47 +84,17 @@ console.log(userProfile);
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
-              <Link
-                href="/dashboard"
-                className={({ isActive }) =>
-                  `${
-                    isActive
-                      ? "text-gray-500 border-b-4 border-queen-yellow pb-1"
-                      : "text-gray-500"
-                  } flex items-center p-2 text-queen-yellow uppercase hover:border-b-4 border-queen-yellow`
-                }
-              >
-                dashboard
-              </Link>
-              <li>
-                <Link
-                  href="/opportunities"
-                  className={({ isActive }) =>
-                    `${
-                      isActive
-                        ? "text-gray-500 border-b-4 border-queen-yellow pb-1"
-                        : "text-gray-500"
-                    } flex items-center p-2 text-queen-yellow uppercase hover:border-b-4 border-queen-yellow`
-                  }
+            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
+              {PAGES.map(({ href, label }) => (
+                <li
+                  className={clsx(
+                    pathname === href &&
+                      "relative after:absolute after:h-0.5 after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1.5"
+                  )}
                 >
-                  opportunities
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/conversations"
-                  className={({ isActive }) =>
-                    `${
-                      isActive
-                        ? "text-gray-500 border-b-4 border-queen-yellow pb-1"
-                        : "text-gray-500"
-                    } flex items-center p-2 text-queen-yellow uppercase hover:border-b-4 border-queen-yellow`
-                  }
-                >
-                  conversations
-                </Link>
-              </li>
+                  <Link href={href}>{label}</Link>
+                </li>
+              ))}
               <li className="text-queen-yellow flex items-center">
                 <button
                   type="button"
@@ -154,14 +136,14 @@ console.log(userProfile);
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900 dark:text-white">
-                {userProfile?.podcast_name}
+                  {userProfile?.podcast_name}
                 </span>
                 <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
                   {email}
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
-              <li>
+                <li>
                   <Link
                     href="/profile"
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline m-4 pb-4"
@@ -179,13 +161,13 @@ console.log(userProfile);
                 </li>
 
                 <li>
-                <button
-                  className="font-medium text-blue-600 m-4"
-                  onClick={handleSignOut}
-                >
-                 Logout
-                </button>
-              </li>
+                  <button
+                    className="font-medium text-blue-600 m-4"
+                    onClick={handleSignOut}
+                  >
+                    Logout
+                  </button>
+                </li>
               </ul>
             </div>
           )}
