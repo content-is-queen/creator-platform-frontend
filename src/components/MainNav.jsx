@@ -33,8 +33,8 @@ const MainNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-2">
-      <Container className="flex flex-wrap items-center justify-between text-sm">
+    <nav className="bg-queen-blue text-queen-yellow border-gray-200 flex">
+      <Container className="flex flex-wrap items-center justify-between text-sm w-full">
         <Link
           href="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -52,7 +52,7 @@ const MainNav = () => {
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
-            <ul className="flex flex-col items-center px-4 py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
+            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
               {PAGES.map(({ href, label }) => (
                 <li
                   className={clsx(

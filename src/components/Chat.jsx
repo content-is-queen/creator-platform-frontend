@@ -8,20 +8,12 @@ import clsx from "clsx";
 
 import Button from "./Button";
 
-const USERS = {
-  user_1: {
-    username: "Kaleshe",
-    profilePicture: "",
-  },
-  user_2: { username: "Femi", profilePicture: "" },
-};
-
 const Message = ({ currentUser, children }) => (
   <div className={clsx("flex", currentUser && "justify-end")}>
     {!currentUser && (
       <img
         src="/images/keshe.jpg"
-        className="object-cover h-10 w-10 rounded-full"
+        className="object-cover flex-shrink-0 h-10 w-10 rounded-full"
       />
     )}
     <div
@@ -39,11 +31,14 @@ const Message = ({ currentUser, children }) => (
 
 const Chat = () => {
   return (
-    <div className="col-span-4 bg-white p-8 rounded-3xl shadow-md">
-      <div className="flex items-center space-x-4 rtl:space-x-reverse hover:rounded-lg border-solid pb-2">
+    <div
+      className="relative col-span-4 bg-white px-8 rounded-3xl shadow-md overflow-y-auto"
+      style={{ maxHeight: "calc(100vh - var(--nav-height) - 54px)" }}
+    >
+      <div className="sticky top-0 pt-8 bg-white flex items-center space-x-4 rtl:space-x-reverse hover:rounded-lg border-solid pb-2">
         <div className="flex-shrink-0">
           <img
-            className="w-12 h-12 lg:w-16 lg:h-16 object-cover rounded-full"
+            className="w-12 h-12 flex-shrink-0 lg:w-16 lg:h-16 object-cover rounded-full"
             src="/images/keshe.jpg"
           />
         </div>
@@ -65,38 +60,36 @@ const Chat = () => {
           </Message>
           <Message>Okay, awesome!</Message>
         </div>
-        <div>
-          <div className="relative flex">
-            <input
-              type="text"
-              placeholder="Enter your message"
-              className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 rounded-full py-2 border border-queen-black/20"
-            />
-            <div className="absolute right-0 pr-4 items-center inset-y-0 hidden sm:flex">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
-              >
-                <FontAwesomeIcon className="h-6 w-6" icon={faImage} />
-              </button>
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
-              >
-                <FontAwesomeIcon className="h-6 w-6" icon={faPaperclip} />
-              </button>
-              <Button
-                tag="button"
-                type="button"
-                className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"
-              >
-                <span className="sr-only">Send</span>
-                <FontAwesomeIcon
-                  className="shrink-0 h-4 w-4"
-                  icon={faPaperPlane}
-                />
-              </Button>
-            </div>
+        <div className="bg-gradient-to-t from-white from-40% to-transparent py-8 sticky bottom-0 w-full flex">
+          <input
+            type="text"
+            placeholder="Enter your message"
+            className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
+          />
+          <div className="absolute right-0 pr-4 items-center inset-y-0 hidden sm:flex">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
+            >
+              <FontAwesomeIcon className="h-6 w-6" icon={faImage} />
+            </button>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
+            >
+              <FontAwesomeIcon className="h-6 w-6" icon={faPaperclip} />
+            </button>
+            <Button
+              tag="button"
+              type="button"
+              className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"
+            >
+              <span className="sr-only">Send</span>
+              <FontAwesomeIcon
+                className="shrink-0 h-4 w-4"
+                icon={faPaperPlane}
+              />
+            </Button>
           </div>
         </div>
       </div>
