@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
-const Tabs = ({ active, setActive, options }) => {
+const Tabs = ({ active, setActive, options, light }) => {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-6">
       {options.map((option, index) => (
         <button
           onClick={(e) => {
@@ -10,10 +10,15 @@ const Tabs = ({ active, setActive, options }) => {
             setActive(options[index].id);
           }}
           className={clsx(
-            "text-xl hover:text-queen-black",
+            "text-lg",
+            light
+              ? "text-queen-white hover:text-queen-white"
+              : "text-queen-black hover:text-queen-black",
+            { "after:bg-queen-black": !light && active },
+            { "after:bg-queen-white": light && active },
             option.id === active
-              ? "text-queen-black relative after:absolute after:h-0.5 after:w-full after:bg-queen-black after:left-0 after:bottom-0"
-              : "text-queen-black/60"
+              ? "relative after:absolute after:h-0.5 after:w-full  after:left-0 after:bottom-0"
+              : "text-opacity-60"
           )}
         >
           {option.label}
