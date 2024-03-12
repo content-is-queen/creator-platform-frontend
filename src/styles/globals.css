@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 @font-face {
   font-family: "FormaDJRBanner";
   src: url("/fonts/FormaDJRBanner-Bold.woff2") format("woff2");
@@ -17,4 +22,3 @@
   font-family: "FormaDJRDeck";
   src: url("/fonts/FormaDJRDeck-Regular.woff2") format("woff2");
 }
- 

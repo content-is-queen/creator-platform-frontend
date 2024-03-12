@@ -17,7 +17,9 @@ module.exports = {
         "queen-orange": "#FF7300",
       },
       fontFamily: {
-        anton: ["Anton", "sans-serif"],
+        heading: ["Anton", "sans-serif"],
+        sans: ["var(--font-forma-deck)"],
+        subheading: ["var(--font-forma-banner)"],
       },
     },
   },

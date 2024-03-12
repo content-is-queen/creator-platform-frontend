@@ -7,7 +7,7 @@ import Button from "@/components/Button";
 const SignUp = () => (
   <AuthTemplate>
     <form className="p-2">
-      <h1 className="uppercase text-queen-black login-title font-anton">
+      <h1 className="uppercase text-queen-black login-title font-heading">
         SIGN UP
       </h1>
       <div className="flex mb-4">
