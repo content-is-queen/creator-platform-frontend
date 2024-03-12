@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
+
 import Container from "./Container";
 
 const THEMES = {
@@ -16,3 +18,10 @@ const Section = ({ children, theme, className, size, ...otherProps }) => (
 );
 
 export default Section;
+
+Section.propTypes = {
+  theme: PropTypes.oneOf(["orange"]),
+  className: PropTypes.string,
+  children: PropTypes.node,
+  size: PropTypes.oneOf(["md", "2xl", "4xl", "6xl"]),
+};
