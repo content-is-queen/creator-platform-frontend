@@ -1,7 +1,9 @@
-import Card from "./Card";
-import Button from "./Button";
-import Text from "./Text";
 import Link from "next/link";
+
+import Card from "@/components/Card";
+import Button from "@/components/Button";
+import Text from "@/components/Text";
+import Tag from "@/components/Tag";
 
 const OpportunityCard = ({
   company,
@@ -47,9 +49,7 @@ const OpportunityCard = ({
     </div>
     <div className="flex content-start items-center mb-2">
       <p className="text-xl mr-3 text-queen-black capitalize">{title}</p>
-      <span className="text-queen-black uppercase bg-queen-yellow font-medium rounded-full text-xs px-3 py-0.5">
-        {type}
-      </span>
+      <Tag>{type}</Tag>
     </div>
 
     <div className="flex justify-between items-center">
