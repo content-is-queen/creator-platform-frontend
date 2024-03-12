@@ -19,6 +19,7 @@
     "axios": "^1.6.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "debounce": "^2.0.0",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
     "jwt-decode": "^4.0.0",
