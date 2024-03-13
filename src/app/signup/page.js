@@ -117,7 +117,7 @@ const SignUp = () => {
   const [active, setActive] = useState(OPTIONS[0]);
   const [isSigningIn, setIsSigningIn] = useState(false);
 
-  useEffect(() => {}, [active]);
+  useEffect(() => {}, [active, password]);
 
   const onSubmit = async (data) => {
     try {
