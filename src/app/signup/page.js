@@ -163,8 +163,14 @@ const SignUp = () => {
         </div>
 
         <div className="space-y-6">
-          {active.fields.map(({ children, ...otherProps }) => (
-            <Input control={control} errors={errors} {...otherProps}>
+          {active.fields.map(({ children, name, ...otherProps }) => (
+            <Input
+              key={name}
+              name={name}
+              control={control}
+              errors={errors}
+              {...otherProps}
+            >
               {children}
             </Input>
           ))}

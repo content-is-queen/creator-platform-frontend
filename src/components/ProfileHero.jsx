@@ -25,7 +25,7 @@ const ProfileHero = () => {
           <h1 className="font-anton uppercase text-2xl">{name}</h1>
           <div className="flex gap-2">
             {tags?.map((tag) => (
-              <Tag>{tag}</Tag>
+              <Tag key={tag}>{tag}</Tag>
             ))}
           </div>
           <p className="text-sm">{bio}</p>

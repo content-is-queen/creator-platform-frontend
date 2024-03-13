@@ -87,6 +87,7 @@ const MainNav = () => {
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
               {PAGES.map(({ href, label }) => (
                 <li
+                  key={href}
                   className={clsx(
                     pathname === href &&
                       "relative after:absolute after:h-0.5 after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1.5"

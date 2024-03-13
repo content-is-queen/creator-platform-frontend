@@ -39,7 +39,7 @@ const Search = ({ tags }) => {
       </Input>
       <div className="flex gap-2">
         {tags?.map((tag) => (
-          <FilterTag>{tag}</FilterTag>
+          <FilterTag key={tag}>{tag}</FilterTag>
         ))}
       </div>
     </section>

@@ -73,8 +73,14 @@ const Login = () => {
       <Heading>Welcome back</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6">
-          {FIELDS.map(({ children, ...otherProps }) => (
-            <Input control={control} errors={errors} {...otherProps}>
+          {FIELDS.map(({ children, name, ...otherProps }) => (
+            <Input
+              key={name}
+              control={control}
+              errors={errors}
+              name={name}
+              {...otherProps}
+            >
               {children}
             </Input>
           ))}
@@ -86,7 +92,7 @@ const Login = () => {
           {isSigningIn ? "SIGNING IN..." : "SIGN IN"}{" "}
         </Button>
         <Text size="sm" className="mt-4">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/signup" className="font-medium">
             Signup
           </Link>
