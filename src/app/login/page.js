@@ -82,7 +82,7 @@ const Login = () => {
             <Link href="#">Forgot password?</Link>
           </Text>
         </div>
-        <Button tag="button" type="button" className="mt-8">
+        <Button tag="button" type="submit" className="mt-8">
           {isSigningIn ? "SIGNING IN..." : "SIGN IN"}{" "}
         </Button>
         <Text size="sm" className="mt-4">

@@ -170,7 +170,7 @@ const SignUp = () => {
           ))}
         </div>
 
-        <Button tag="button" type="button" className="mt-8">
+        <Button tag="button" type="submit" className="mt-8">
           {isSigningIn ? "Signing up..." : "Sign up"}
         </Button>
         <Text size="sm" className="mt-4">
