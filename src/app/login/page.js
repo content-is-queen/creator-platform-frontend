@@ -19,7 +19,6 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    // console.log(isSigningIn, data);
     try {
       if (!isSigningIn) {
         setIsSigningIn(true);
