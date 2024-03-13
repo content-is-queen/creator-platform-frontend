@@ -19,6 +19,7 @@ const ProfileHero = () => {
           <img
             className="w-full h-full rounded-full object-cover"
             src={profileImage.url}
+            alt=""
           />
         </div>
         <div className="space-y-2 max-w-96">

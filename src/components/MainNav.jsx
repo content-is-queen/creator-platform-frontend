@@ -61,7 +61,7 @@ const MainNav = () => {
       window.location.href = "/login";
     }
     fetchUserProfile();
-  }, []);
+  }, [email]);
   const pathname = usePathname();
 
   return (
@@ -124,6 +124,7 @@ const MainNav = () => {
                   <img
                     className="w-8 h-8 rounded-full"
                     src="/images/keshe.jpg"
+                    alt="Kaleshe"
                   />
                 </button>
               </li>
