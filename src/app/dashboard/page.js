@@ -11,51 +11,6 @@ import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import API from "@/api/api";
 
-const OPPORTUNITIES = [
-  {
-    company: {
-      name: "The Guardian",
-      image: { src: "/images/guardian.png" },
-      profileUrl: "/#",
-    },
-    title: "Marketing email",
-    budget: "Under 1k",
-    deadline: "2 Mar 2024",
-    href: "/#",
-    type: "Pitch",
-    excerpt:
-      "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
-  },
-  {
-    company: {
-      name: "The Guardian",
-      image: { src: "/images/guardian.png" },
-      profileUrl: "/#",
-    },
-    title: "Marketing email",
-    budget: "Under 1k",
-    deadline: "2 Mar 2024",
-    href: "/#",
-    type: "Pitch",
-    excerpt:
-      "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
-  },
-  {
-    company: {
-      name: "The Guardian",
-      image: { src: "/images/guardian.png" },
-      profileUrl: "/#",
-    },
-    title: "Marketing email",
-    budget: "Under 1k",
-    deadline: "2 Mar 2024",
-    href: "/#",
-    type: "Pitch",
-    excerpt:
-      "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
-  },
-];
-
 const Dashboard = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [opportunitiesList,setOpportunitiesList] =useState();
