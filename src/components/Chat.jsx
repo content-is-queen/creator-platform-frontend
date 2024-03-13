@@ -41,7 +41,8 @@ const Chat = () => {
           <img
             className="w-12 h-12 flex-shrink-0 lg:w-16 lg:h-16 object-cover rounded-full"
             src="/images/keshe.jpg"
-            alt="Kaleshe"
+            alt="Kaleshe
+            "
           />
         </div>
         <div className="flex-1 min-w-0">
