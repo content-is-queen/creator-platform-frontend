@@ -7,6 +7,8 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import Container from "./Container";
 import isAuth from "@/helpers/isAuth";
 import API from "@/api/api";
+import { doSignOut } from "@/firebase/auth";
+import Secure from "@/utils/SecureLs";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -22,6 +24,15 @@ const MainNav = () => {
     setIsToggleClicked((prev) => !prev);
   };
 
+  const handleSignOut = async () => {
+    try {
+      await doSignOut();
+      Secure.removeToken();
+      window.location.href = "/login";
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
 
 
   const fetchUserProfile = async () => {
@@ -140,7 +151,7 @@ console.log(userProfile);
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900 dark:text-white">
-                {userProfile?.full_name}
+                {userProfile?.podcast_name}
                 </span>
                 <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
                   {email}
@@ -163,6 +174,15 @@ console.log(userProfile);
                     Current user info
                   </Link>
                 </li>
+
+                <li>
+                <button
+                  className="font-medium text-blue-600 m-4"
+                  onClick={handleSignOut}
+                >
+                 Logout
+                </button>
+              </li>
               </ul>
             </div>
           )}

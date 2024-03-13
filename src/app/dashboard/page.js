@@ -69,12 +69,11 @@ const Dashboard = () => {
     };
     fetchUserProfile();
   }, []);
-
 return <main>
     <MainNav />
     <div className="bg-queen-white h-full py-12 md:py-20">
       <Container>
-        <Heading>Welcome back, {userProfile?.user_name}</Heading>
+        <Heading>Welcome back, {userProfile?.podcast_name}</Heading>
         <div className="dashboard_grid gap-8">
           <div className="pt-2 pl-0">
             <Text size="xl" className="mb-4">

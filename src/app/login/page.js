@@ -25,7 +25,7 @@ const Login = () => {
        const { user } = await doSignInWithEmailAndPassword(data.email, data.password);
        const token = await user.getIdToken();
        Secure.setToken(token);
-       window.location.href = "/";
+       window.location.href = "/dashboard";
       }
     } catch (error) {
       const errorMessageWithoutFirebase = error.message.replace(/firebase: /i, '');
