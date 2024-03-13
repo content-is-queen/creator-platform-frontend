@@ -1,8 +1,7 @@
-
 "use client";
-import React, { useState } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import AuthTemplate from "@/components/AuthTemplate";
 import Text from "@/components/Text";
