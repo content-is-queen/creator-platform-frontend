@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 import Container from "./Container";
+import isAuth from "@/helpers/isAuth";
+import API from "@/api/api";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
+
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -17,6 +21,26 @@ const MainNav = () => {
   const handleToggle = () => {
     setIsToggleClicked((prev) => !prev);
   };
+
+
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await API.get('auth/profile');
+      setUserProfile(response.data.message);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  const { email } = isAuth();
+  useEffect(() => {
+   if(!email){
+    window.location.href = "/login";
+   }
+   fetchUserProfile();
+  }, []);
+console.log(userProfile);
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
       <Container className="flex flex-wrap items-center justify-between">
@@ -116,17 +140,25 @@ const MainNav = () => {
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900 dark:text-white">
-                  Bonnie Green
+                {userProfile?.full_name}
                 </span>
                 <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                  name@flowbite.com
+                  {email}
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
+              <li>
+                  <Link
+                    href="/profile"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline m-4 pb-4"
+                  >
+                    Profile
+                  </Link>
+                </li>
                 <li>
                   <Link
                     href="/signup"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline m-4 pt-4"
                   >
                     Current user info
                   </Link>

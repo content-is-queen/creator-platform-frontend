@@ -1,3 +1,5 @@
+"use client";
+
 import "./Dashboard.css";
 
 import MainNav from "@/components/MainNav";
@@ -6,6 +8,8 @@ import Container from "@/components/Container";
 import Text from "@/components/Text";
 import OpportunityCard from "@/components/OpportunityCard";
 import Button from "@/components/Button";
+import { useEffect, useState } from "react";
+import API from "@/api/api";
 
 const OPPORTUNITIES = [
   {
@@ -52,12 +56,25 @@ const OPPORTUNITIES = [
   },
 ];
 
-const Dashboard = () => (
-  <main>
+const Dashboard = () => {
+  const [userProfile, setUserProfile] = useState(null);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await API.get('auth/profile');
+        setUserProfile(response.data.message);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+    fetchUserProfile();
+  }, []);
+
+return <main>
     <MainNav />
     <div className="bg-queen-white h-full py-12 md:py-20">
       <Container>
-        <Heading>Welcome back, Kaleshe</Heading>
+        <Heading>Welcome back, {userProfile?.user_name}</Heading>
         <div className="dashboard_grid gap-8">
           <div className="pt-2 pl-0">
             <Text size="xl" className="mb-4">
@@ -82,6 +99,6 @@ const Dashboard = () => (
       </Container>
     </div>
   </main>
-);
+    };
 
 export default Dashboard;
