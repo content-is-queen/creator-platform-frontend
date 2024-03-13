@@ -54,17 +54,16 @@ const MainNav = () => {
    }
    fetchUserProfile();
   }, []);
-console.log(userProfile);
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
       <Container className="flex flex-wrap items-center justify-between">
-        <a href="/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link href="/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src="/images/horizontal-logo.png"
             className="h-16"
             alt="Content is queen"
           />
-        </a>
+        </Link>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <div
             className={`${
