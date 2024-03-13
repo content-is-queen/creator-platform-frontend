@@ -59,8 +59,6 @@ const Dashboard = () => {
     fetchOpportunitiesList();
   }, []);
 
-
-  console.log(opportunitiesList);
 return <main>
     <MainNav />
     <div className="bg-queen-white h-full py-12 md:py-20">

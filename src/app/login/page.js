@@ -28,8 +28,8 @@ const Login = () => {
        window.location.href = "/dashboard";
       }
     } catch (error) {
-      const errorMessageWithoutFirebase = error.message.replace(/firebase: /i, '');
-      // toast.error(errorMessageWithoutFirebase || 'Try again!');
+      // this one wilt be used for toast
+    const errorMessageWithoutFirebase = error.message.replace(/firebase: /i, '');
     } finally {
       setIsSigningIn(false);
     }
@@ -44,7 +44,7 @@ if(email){
   return (
     <AuthTemplate>
     <form className="p-2" onSubmit={handleSubmit(onSubmit)}>
-    <Heading tag="h1">Welcome back</Heading>
+    <Heading tag='h1' className="uppercase text-queen-black login-title font-anton">welcome back</Heading>
     <div className="relative z-0 w-full mb-5 group">
       <Controller
         name="email"
