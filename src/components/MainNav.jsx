@@ -1,8 +1,9 @@
 "use client";
-
+import { useEffect, useState } from 'react';
 import clsx from "clsx";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
+import isAuth from "../helpers/isAuth.js"
+import API from "../api/api.js";
 
 import Link from "next/link";
 
@@ -23,16 +24,45 @@ const MainNav = () => {
   const [isToggleClicked, setIsToggleClicked] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
 
-
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
   };
-
+  
   const handleToggle = () => {
     setIsToggleClicked((prev) => !prev);
   };
-
+  
   const pathname = usePathname();
+  const handleSignOut = async () => {
+    try {
+      await doSignOut();
+      Secure.removeToken();
+      window.location.href = "/login";
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+  
+  
+  const fetchUserProfile = async () => {
+    try {
+      const response = await API.get('auth/profile');
+      setUserProfile(response.data.message);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  
+
+
+  const { email } = isAuth();
+  useEffect(() => {
+   if(!email){
+    window.location.href = "/login";
+   }
+   fetchUserProfile();
+  }, []);
 
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 flex">
@@ -109,7 +139,7 @@ const MainNav = () => {
                 {userProfile?.podcast_name}
                 </span>
                 <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                  {/* {email} */}
+                  {email}
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
@@ -133,7 +163,7 @@ const MainNav = () => {
                 <li>
                 <button
                   className="font-medium text-blue-600 m-4"
-                  // onClick={handleSignOut}
+                  onClick={handleSignOut}
                 >
                  Logout
                 </button>
