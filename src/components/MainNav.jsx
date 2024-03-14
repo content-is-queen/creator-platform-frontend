@@ -1,16 +1,13 @@
 "use client";
-import { useEffect, useState } from 'react';
-import clsx from "clsx";
-import { usePathname } from "next/navigation";
-import isAuth from "../helpers/isAuth.js"
-import API from "../api/api.js";
-
-import clsx from "clsx";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import isAuth from "@/helpers/isAuth.js";
+import API from "@/api/api.js";
 
 import { IoNotificationsOutline } from "react-icons/io5";
+
 import Container from "@/components/Container";
 
 const PAGES = [
@@ -33,11 +30,11 @@ const MainNav = () => {
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
   };
-  
+
   const handleToggle = () => {
     setIsToggleClicked((prev) => !prev);
-  };  
-  
+  };
+
   const handleSignOut = async () => {
     try {
       await doSignOut();
@@ -47,7 +44,7 @@ const MainNav = () => {
       console.error("Sign out error:", error);
     }
   };
-    
+
   const fetchUserProfile = async () => {
     try {
       const response = await API.get("auth/profile");
@@ -96,9 +93,7 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-                  <Link href={href}>{label}</Link>
-                </li>
-              ))}
+
               <li className="text-queen-yellow flex items-center">
                 <button
                   type="button"
