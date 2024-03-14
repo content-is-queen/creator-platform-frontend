@@ -13,6 +13,8 @@ import Text from "@/components/Text";
 
 const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [active, setActive] = useState(OPTIONS[0]);
+
   const {
     handleSubmit,
     control,
@@ -35,12 +37,14 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {}, [active]);
   useEffect(()=>{
 const {email} = isAuth();
 if(email){
   window.location.href = "/dashboard";
 }
   },[]);
+  
   return (
     <AuthTemplate>
     <form className="p-2" onSubmit={handleSubmit(onSubmit)}>

@@ -1,24 +1,20 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
 
-const Tabs = ({ active, setActive, options, light }) => {
+const Tabs = ({ active, setActive, options }) => {
   return (
     <div className="flex gap-6">
       {options.map((option, index) => (
         <button
           onClick={(e) => {
             e.preventDefault();
-            setActive(options[index].id);
+            setActive(options[index]);
           }}
           className={clsx(
-            "text-lg",
-            light
-              ? "text-queen-white hover:text-queen-white"
-              : "text-queen-black hover:text-queen-black",
-            { "after:bg-queen-black": !light && active },
-            { "after:bg-queen-white": light && active },
-            option.id === active
-              ? "relative after:absolute after:h-0.5 after:w-full  after:left-0 after:bottom-0"
-              : "text-opacity-60"
+            "text-lg hover:text-current after:bg-current",
+            option.id === active.id
+              ? "relative after:absolute after:h-0.5 after:w-full after:left-0 after:bottom-0"
+              : "opacity-60"
           )}
         >
           {option.label}
@@ -29,3 +25,10 @@ const Tabs = ({ active, setActive, options, light }) => {
 };
 
 export default Tabs;
+
+Tabs.propTypes = {
+  active: PropTypes.object.isRequired,
+  setActive: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  light: PropTypes.bool,
+};

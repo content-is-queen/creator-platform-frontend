@@ -1,8 +1,14 @@
 import clsx from "clsx";
 import Container from "./Container";
 
-const Section = ({ children, className, size, ...otherProps }) => (
-  <section className={clsx(className, "py-16")}>
+const THEMES = {
+  orange: {
+    classes: "bg-queen-orange text-white",
+  },
+};
+
+const Section = ({ children, theme, className, size, ...otherProps }) => (
+  <section className={clsx(className, THEMES[theme]?.classes, "py-16")}>
     <Container size={size} {...otherProps}>
       {children}
     </Container>
