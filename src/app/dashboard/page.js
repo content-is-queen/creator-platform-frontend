@@ -63,7 +63,7 @@ useEffect(() => {
     <MainNav />
     <div className="bg-queen-white h-full py-12 md:py-20">
       <Container>
-        <Heading>Welcome back, Kaleshe</Heading>
+      <Heading>Welcome back,{isLoading? "Loading ..." : ''} {userProfile?.podcast_name}</Heading>
         <div className="grid gap-8 md:grid-cols-6">
           <div className="pt-2 pl-0 md:col-span-4">
             <Text size="xl" className="mb-4">

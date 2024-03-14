@@ -133,7 +133,7 @@ const MainNav = () => {
                 <li>
                 <button
                   className="font-medium text-blue-600 m-4"
-                  onClick={handleSignOut}
+                  // onClick={handleSignOut}
                 >
                  Logout
                 </button>
