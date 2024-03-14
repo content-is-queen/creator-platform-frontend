@@ -21,6 +21,7 @@ const OpportunityCard = ({
           className="rounded-full mr-2"
           height={28}
           width={28}
+          alt=""
           {...company.image}
         />
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">

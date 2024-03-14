@@ -5,7 +5,10 @@ import { usePathname } from "next/navigation";
 import isAuth from "../helpers/isAuth.js"
 import API from "../api/api.js";
 
+import clsx from "clsx";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 import Container from "@/components/Container";
@@ -24,51 +27,48 @@ const MainNav = () => {
   const [isToggleClicked, setIsToggleClicked] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
 
+  const pathname = usePathname();
+  const { email } = isAuth();
+
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
   };
   
   const handleToggle = () => {
     setIsToggleClicked((prev) => !prev);
-  };
+  };  
   
-  const pathname = usePathname();
   const handleSignOut = async () => {
     try {
       await doSignOut();
       Secure.removeToken();
       window.location.href = "/login";
     } catch (error) {
-      console.error('Sign out error:', error);
+      console.error("Sign out error:", error);
     }
   };
-  
-  
+    
   const fetchUserProfile = async () => {
     try {
-      const response = await API.get('auth/profile');
+      const response = await API.get("auth/profile");
       setUserProfile(response.data.message);
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error("Error fetching user profile:", error);
     }
   };
 
-  
-
-
-  const { email } = isAuth();
   useEffect(() => {
-   if(!email){
-    window.location.href = "/login";
-   }
-   fetchUserProfile();
-  }, []);
+    if (!email) {
+      window.location.href = "/login";
+    }
+    fetchUserProfile();
+  }, [email]);
 
   return (
-    <nav className="bg-queen-blue text-queen-yellow border-gray-200 flex">
+    <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
       <Container className="flex flex-wrap items-center justify-between text-sm w-full">
         <Link
-          href="/"
+          href="/dashboard"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
@@ -87,11 +87,15 @@ const MainNav = () => {
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
               {PAGES.map(({ href, label }) => (
                 <li
+                  key={href}
                   className={clsx(
                     pathname === href &&
                       "relative after:absolute after:h-0.5 after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1.5"
                   )}
                 >
+                  <Link href={href}>{label}</Link>
+                </li>
+              ))}
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
@@ -123,6 +127,7 @@ const MainNav = () => {
                   <img
                     className="w-8 h-8 rounded-full"
                     src="/images/keshe.jpg"
+                    alt="Kaleshe"
                   />
                 </button>
               </li>
@@ -136,14 +141,14 @@ const MainNav = () => {
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900 dark:text-white">
-                {userProfile?.podcast_name}
+                  {userProfile?.podcast_name}
                 </span>
                 <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
                   {email}
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
-              <li>
+                <li>
                   <Link
                     href="/profile"
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline m-4 pb-4"
@@ -151,6 +156,7 @@ const MainNav = () => {
                     Profile
                   </Link>
                 </li>
+
                 <li>
                   <Link
                     href="/signup"
@@ -161,13 +167,13 @@ const MainNav = () => {
                 </li>
 
                 <li>
-                <button
-                  className="font-medium text-blue-600 m-4"
-                  onClick={handleSignOut}
-                >
-                 Logout
-                </button>
-              </li>
+                  <button
+                    className="font-medium text-blue-600 m-4"
+                    onClick={handleSignOut}
+                  >
+                    Logout
+                  </button>
+                </li>
               </ul>
             </div>
           )}

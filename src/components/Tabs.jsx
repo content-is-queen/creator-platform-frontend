@@ -6,6 +6,7 @@ const Tabs = ({ active, setActive, options }) => {
     <div className="flex gap-6">
       {options.map((option, index) => (
         <button
+          key={option}
           onClick={(e) => {
             e.preventDefault();
             setActive(options[index]);
