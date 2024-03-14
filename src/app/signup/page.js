@@ -22,6 +22,7 @@ const SignUp = () => {
     control,
     register,
     formState: { errors },
+    clearErrors,
   } = useForm();
   const password = useWatch({ control, name: "password" });
 
@@ -117,6 +118,10 @@ const SignUp = () => {
   const [active, setActive] = useState(OPTIONS[0]);
   const [isSigningIn, setIsSigningIn] = useState(false);
 
+  useEffect(() => {
+    clearErrors();
+  }, [active]);
+
   useEffect(() => {}, [active, password]);
 
   const onSubmit = async (data) => {
@@ -181,7 +186,7 @@ const SignUp = () => {
         </Button>
         <Text size="sm" className="mt-4">
           Already registered?{" "}
-          <Link href="/login" className="font-medium">
+          <Link href="/login" className="font-medium text-queen-blue">
             Login
           </Link>
         </Text>
