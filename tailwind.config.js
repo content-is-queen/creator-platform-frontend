@@ -8,6 +8,9 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      backgroundImage: {
+        dots: "url('/images/CiQ_Pattern_02.svg')",
+      },
       colors: {
         "queen-blue": "#3667ED",
         "queen-yellow": "#E5FC52",
