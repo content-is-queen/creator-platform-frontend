@@ -18,6 +18,7 @@ const ConversationPreview = ({ active, setActive, index }) => {
         >
           <div className="shrink-0">
             <img
+              alt=""
               className="w-14 h-14 rounded-full object-cover"
               src="/images/keshe.jpg"
             />
