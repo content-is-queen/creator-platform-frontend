@@ -14,7 +14,6 @@ const Message = ({ currentUser, children }) => (
       <img
         src="/images/keshe.jpg"
         className="object-cover flex-shrink-0 h-10 w-10 rounded-full"
-        alt="Kaleshe"
       />
     )}
     <div
@@ -41,8 +40,11 @@ const Chat = () => {
           <img
             className="w-12 h-12 flex-shrink-0 lg:w-16 lg:h-16 object-cover rounded-full"
             src="/images/keshe.jpg"
+<<<<<<< HEAD
+=======
             alt="Kaleshe
             "
+>>>>>>> main
           />
         </div>
         <div className="flex-1 min-w-0">

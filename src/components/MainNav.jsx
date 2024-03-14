@@ -1,17 +1,16 @@
 "use client";
+import { useEffect, useState } from 'react';
+import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import isAuth from "../helpers/isAuth.js"
+import API from "../api/api.js";
 
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import isAuth from "@/helpers/isAuth";
-import API from "@/api/api";
-import { doSignOut } from "@/firebase/auth";
-import Secure from "@/utils/SecureLs";
-
 import { IoNotificationsOutline } from "react-icons/io5";
-
 import Container from "@/components/Container";
 
 const PAGES = [
@@ -28,14 +27,17 @@ const MainNav = () => {
   const [isToggleClicked, setIsToggleClicked] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
 
+  const pathname = usePathname();
+  const { email } = isAuth();
+
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
   };
-
+  
   const handleToggle = () => {
     setIsToggleClicked((prev) => !prev);
-  };
-
+  };  
+  
   const handleSignOut = async () => {
     try {
       await doSignOut();
@@ -45,7 +47,7 @@ const MainNav = () => {
       console.error("Sign out error:", error);
     }
   };
-
+    
   const fetchUserProfile = async () => {
     try {
       const response = await API.get("auth/profile");
@@ -55,14 +57,12 @@ const MainNav = () => {
     }
   };
 
-  const { email } = isAuth();
   useEffect(() => {
     if (!email) {
       window.location.href = "/login";
     }
     fetchUserProfile();
   }, [email]);
-  const pathname = usePathname();
 
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
@@ -93,6 +93,9 @@ const MainNav = () => {
                       "relative after:absolute after:h-0.5 after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1.5"
                   )}
                 >
+                  <Link href={href}>{label}</Link>
+                </li>
+              ))}
                   <Link href={href}>{label}</Link>
                 </li>
               ))}

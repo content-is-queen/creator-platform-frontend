@@ -20,7 +20,6 @@ const ConversationPreview = ({ active, setActive, index }) => {
             <img
               className="w-14 h-14 rounded-full object-cover"
               src="/images/keshe.jpg"
-              alt="Kaleshe"
             />
           </div>
 
