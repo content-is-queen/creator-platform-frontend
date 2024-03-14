@@ -23,7 +23,7 @@ const ProfileHero = () => {
           />
         </div>
         <div className="space-y-2 max-w-96">
-          <h1 className="font-anton uppercase text-2xl">{name}</h1>
+          <h1 className="font-heading uppercase text-2xl">{name}</h1>
           <div className="flex gap-2">
             {tags?.map((tag) => (
               <Tag key={tag}>{tag}</Tag>

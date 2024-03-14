@@ -15,7 +15,7 @@ const Tabs = ({ active, setActive, options }) => {
             "text-lg hover:text-current after:bg-current",
             option.id === active.id
               ? "relative after:absolute after:h-0.5 after:w-full after:left-0 after:bottom-0"
-              : "opacity-60"
+              : "opacity-60 hover:opacity-40 "
           )}
         >
           {option.label}
