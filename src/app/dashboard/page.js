@@ -10,6 +10,7 @@ import OpportunityCard from "@/components/OpportunityCard";
 import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import API from "@/api/api";
+import Panel from "@/components/Panel";
 
 const Dashboard = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -80,9 +81,9 @@ return <main>
               View all opportunities
             </Button>
           </div>
-          <div className="right-opportunity">
-            <div className="opp_top rounded-2xl"></div>
-            <div className="opp_down rounded-2xl"></div>
+          <div className="grid gap-8 md:col-span-2">
+            <Panel title="Overview"></Panel>
+            <Panel title="Most Recent Chat"></Panel>
           </div>
         </div>
       </Container>
