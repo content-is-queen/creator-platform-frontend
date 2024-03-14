@@ -153,6 +153,7 @@ const MainNav = () => {
                     Profile
                   </Link>
                 </li>
+
                 <li>
                   <Link
                     href="/signup"
