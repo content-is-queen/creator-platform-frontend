@@ -1,61 +1,108 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+
+import { doSignInWithEmailAndPassword } from "@/firebase/auth";
+import Secure from "@/utils/SecureLs";
 
 import Heading from "@/components/Heading";
 import AuthTemplate from "@/components/AuthTemplate";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
 
-const Login = () => (
-  <AuthTemplate>
-    <form className="p-2">
-      <Heading tag="h1">Welcome back</Heading>
-      <div className="relative z-0 w-full mb-5 group">
-        <input
-          type="email"
-          autoComplete="off"
-          name="floating_email"
-          id="floating_email"
-          className="block py-3 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-queen-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-queen-blue peer"
-          placeholder=" "
-          required
-        />
-        <label
-          htmlFor="floating_email"
-          className="peer-focus:font-medium absolute text-lg text-queen-black  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Email address
-        </label>
-      </div>
-      <div className="relative z-0 w-full mb-5 group">
-        <input
-          type="password"
-          autoComplete="off"
-          name="floating_password"
-          id="floating_password"
-          className="block py-3 px-0 w-full text-lg text-queen-black bg-transparent border-0 border-b-2 text-queen-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-queen-blue peer"
-          placeholder=" "
-          required
-        />
-        <label
-          htmlFor="floating_password"
-          className="peer-focus:font-medium absolute text-lg text-queen-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Password
-        </label>
-        <Text size="sm" className="mt-2">
-          <Link href="#">Forgot password?</Link>
+
+const FIELDS = [
+  {
+    name: "email",
+    type: "email",
+    children: "Email Address",
+    rules: {
+      required: "Email address is required",
+      pattern: {
+        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+        message: "Invalid email address",
+      },
+    },
+  },
+  {
+    name: "password",
+    type: "password",
+    children: "Password",
+    rules: {
+      required: "Password is required",
+      minLength: {
+        value: 6,
+        message: "Password must be at least 6 characters",
+      },
+    },
+  },
+];
+
+const Login = () => {
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  
+  const onSubmit = async (data) => {
+    try {
+      if (!isSigningIn) {
+        setIsSigningIn(true);
+        const { user } = await doSignInWithEmailAndPassword(
+          data.email,
+          data.password
+        );
+        const token = await user.getIdToken();
+        Secure.setToken(token);
+        window.location.href = "/dashboard";
+      }
+    } catch (error) {
+      const errorMessageWithoutFirebase = error.message.replace(
+        /firebase: /i,
+        ""
+      );
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
+
+  return (
+    <AuthTemplate>
+      <Heading>Welcome back</Heading>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="space-y-6">
+          {FIELDS.map(({ children, name, ...otherProps }) => (
+            <Input
+              key={name}
+              control={control}
+              errors={errors}
+              name={name}
+              {...otherProps}
+            >
+              {children}
+            </Input>
+          ))}
+          <Text size="sm" className="!mt-2">
+            <Link href="#">Forgot password?</Link>
+          </Text>
+        </div>
+        <Button tag="button" type="submit" className="mt-8">
+          {isSigningIn ? "SIGNING IN..." : "SIGN IN"}{" "}
+        </Button>
+        <Text size="sm" className="mt-4">
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" className="font-medium">
+            Signup
+          </Link>
         </Text>
-      </div>
-      <Button href="/dashboard">Sign in</Button>
-
-      <Text size="sm" className="mt-2">
-        Don't have an account?{" "}
-        <Link href="/signup" className="font-medium">
-          Signup
-        </Link>
-      </Text>
-    </form>
-  </AuthTemplate>
-);
+      </form>
+    </AuthTemplate>
+  );
+};
 
 export default Login;
