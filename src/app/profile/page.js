@@ -1,10 +1,13 @@
 import MainNav from "@/components/MainNav";
+import ProfileHero from "@/components/ProfileHero";
+import ProfileTabs from "@/components/ProfileTabs";
 
-const Profiles = () => (
-  <section>
+const Profile = () => (
+  <div>
     <MainNav />
-    <h1>This is the profilepage page</h1>
-  </section>
+    <ProfileHero />
+    <ProfileTabs />
+  </div>
 );
 
-export default Profiles;
+export default Profile;
