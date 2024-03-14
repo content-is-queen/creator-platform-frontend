@@ -1,72 +1,71 @@
 "use client";
-
-import "./Dashboard.css";
-
+import { useEffect, useState } from "react";
 import MainNav from "@/components/MainNav";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
 import OpportunityCard from "@/components/OpportunityCard";
 import Button from "@/components/Button";
-import { useEffect, useState } from "react";
-import API from "@/api/api";
 import Panel from "@/components/Panel";
+import API from "../../api/api";
 
 const Dashboard = () => {
-  const [userProfile, setUserProfile] = useState(null);
-  const [opportunitiesList,setOpportunitiesList] =useState();
-  const [isLoading, setIsloading] = useState(false);
+const [userProfile, setUserProfile] = useState(null);
+const [opportunitiesList,setOpportunitiesList] =useState();
+const [isLoading, setIsloading] = useState(false);
 
-  const fetchUserProfile = async () => {
-    try {
-      const response = await API.get('auth/profile');
-      setUserProfile(response.data.message);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  };
 
-  const fetchOpportunitiesList = async () => {
-    try {
-      const opportunity = [];
-      setIsloading(true);
-      const response = await API.get('/opportunities');
-      response.data.message?.map(item=>{
-        opportunity.push({
-          company: {
-            name: "The Guardian",
-            image: { src: "/images/guardian.png" },
-            profileUrl: "/#",
-          },
-          title: item.title,
-          budget: "Under 1k",
-          deadline: "2 Mar 2024",
-          href: "/#",
-          type: "Pitch",
-          excerpt:
-            "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
-        });
-      })
-      setOpportunitiesList(opportunity);
-      setIsloading(false);
+const fetchUserProfile = async () => {
+  try {
+    const response = await API.get('auth/profile');
+    setUserProfile(response.data.message);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+  }
+};
 
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  };
+const fetchOpportunitiesList = async () => {
+  try {
+    const opportunity = [];
+    setIsloading(true);
+    const response = await API.get('/opportunities');
+    response.data.message?.map(item=>{
+      opportunity.push({
+        company: {
+          name: "The Guardian",
+          image: { src: "/images/guardian.png" },
+          profileUrl: "/#",
+        },
+        title: item.title,
+        budget: "Under 1k",
+        deadline: "2 Mar 2024",
+        href: "/#",
+        type: "Pitch",
+        excerpt:
+          "‘Think: Sustainability’ is a podcast about practical solutions for a bette.....",
+      });
+    })
+    setOpportunitiesList(opportunity);
+    setIsloading(false);
 
-  useEffect(() => {
-    fetchUserProfile();
-    fetchOpportunitiesList();
-  }, []);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+  }
+};
 
-return <main>
+useEffect(() => {
+  fetchUserProfile();
+  fetchOpportunitiesList();
+}, []);
+
+
+  return <main>
     <MainNav />
     <div className="bg-queen-white h-full py-12 md:py-20">
       <Container>
-        <Heading>Welcome back,{isLoading? "Loading ..." : ''} {userProfile?.podcast_name}</Heading>
-        <div className="dashboard_grid gap-8">
-          <div className="pt-2 pl-0">
+        <Heading>Welcome back, Kaleshe</Heading>
+        <div className="grid gap-8 md:grid-cols-6">
+          <div className="pt-2 pl-0 md:col-span-4">
             <Text size="xl" className="mb-4">
               Recommended opportunities for you
             </Text>
@@ -89,6 +88,6 @@ return <main>
       </Container>
     </div>
   </main>
-    };
+};
 
 export default Dashboard;
