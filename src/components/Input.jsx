@@ -1,7 +1,7 @@
 const Input = ({ children, name, ...otherProps }) => (
   <div className="relative z-0 w-full group">
     <input
-      className="block py-3 px-0 w-full text-sm text-queen-black bg-transparent border-0 border-b-2 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
+      className="block py-3.5 px-0 w-full text-sm text-queen-black bg-transparent border-0 border-b-2 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
       name={name}
       placeholder=" "
       id={name}

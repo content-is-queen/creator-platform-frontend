@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Link from "next/link";
 
 const ButtonVariants = cva(
-  "inline-block font-subheading font-bold rounded-full text-sm uppercase",
+  "inline-block font-medium rounded-full text-sm uppercase hover:opacity-90 transition",
   {
     variants: {
       variant: {

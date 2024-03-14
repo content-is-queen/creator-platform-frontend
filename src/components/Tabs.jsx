@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 const Tabs = ({ active, setActive, options }) => {
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-4">
       {options.map((option, index) => (
         <button
           onClick={(e) => {
