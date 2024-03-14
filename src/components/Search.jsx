@@ -6,8 +6,10 @@ import debounce from "debounce";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import Input from "@/components/Input";
+import { inputStyles } from "@/components/Input";
+
 import FilterTag from "@/components/FilterTag";
+import clsx from "clsx";
 
 const Search = ({ tags }) => {
   const [query, setQuery] = useState(null);
@@ -21,23 +23,24 @@ const Search = ({ tags }) => {
 
   return (
     <section>
-      <Input
-        type="search"
-        name="search"
-        placeholder="Search"
-        label={false}
-        className="mb-5"
-        onChange={changeHandler}
-        icon={
-          <FontAwesomeIcon
-            className="absolute right-0 h-4 w-4 -translate-y-1/2 top-1/2"
-            icon={faSearch}
-          />
-        }
-      >
+      <div className="relative z-0 w-full group">
+        <input
+          type="search"
+          name="search"
+          placeholder="Search"
+          className={clsx(inputStyles.input, "px-4")}
+          onChange={changeHandler}
+        />
+
+        <FontAwesomeIcon
+          className="absolute right-0 h-4 w-4 -translate-y-1/2 top-1/2"
+          icon={faSearch}
+        />
+      </div>
+      <label htmlFor="search" className="sr-only">
         Search
-      </Input>
-      <div className="flex gap-2">
+      </label>
+      <div className="flex gap-2 mt-6">
         {tags?.map((tag) => (
           <FilterTag key={tag}>{tag}</FilterTag>
         ))}
