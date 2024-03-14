@@ -8,11 +8,11 @@ const ConversationPreview = ({ active, setActive, index }) => {
   };
 
   return (
-    <li className="first:rounded-t-3xl last:rounded-b-3xl overflow-hidden">
+    <li className="first:rounded-t-3xl overflow-hidden">
       <button type="button" className="w-full" onClick={clickHandler}>
         <div
           className={clsx(
-            "flex items-center justify-between gap-4 px-6 py-4 hover:bg-queen-gray/80 border-t-0 border-b border-gray-200 border-solid",
+            "flex items-center gap-x-4 px-6 py-1 hover:bg-queen-gray/80 border-t-0 border-b last:border-b-0 border-gray-200 border-solid",
             active === index && "bg-queen-gray/40"
           )}
         >
@@ -23,15 +23,17 @@ const ConversationPreview = ({ active, setActive, index }) => {
             />
           </div>
 
-          <div className="py-2">
-            <div className="flex gap-4 items-center justify-between">
-              <p className="font-medium text-queen-black truncate">
+          <div className="py-3 flex-1">
+            <div className="flex gap-4 items-center">
+              <p className="text-sm font-medium text-queen-black truncate">
                 Kaleshe Alleyne-Vassel
               </p>
-              <div className="text-sm text-queen-black/60">Jan 26</div>
+              <div className="text-xs text-queen-black/60 justify-self-end">
+                Jan 26
+              </div>
             </div>
 
-            <div className="space-y-1    max-w-[150px]">
+            <div className="space-y-1 max-w-[150px]">
               <p className="text-left text-sm text-queen-black/60 truncate">
                 Email Marketing
               </p>

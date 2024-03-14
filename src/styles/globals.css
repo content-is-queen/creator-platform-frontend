@@ -6,6 +6,9 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+:root {
+  --nav-height: 80px;
+}
 
 @font-face {
   font-family: "FormaDJRBanner";
@@ -21,4 +24,9 @@ html {
 @font-face {
   font-family: "FormaDJRDeck";
   src: url("/fonts/FormaDJRDeck-Regular.woff2") format("woff2");
+}
+
+
+nav {
+  height: var(--nav-height);
 }
