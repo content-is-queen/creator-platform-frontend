@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 
 const ButtonVariants = cva(
-  "inline-block font-medium rounded-full text-sm uppercase hover:opacity-90 transition",
+  "inline-block leading-none font-subheading font-bold rounded-full text-sm uppercase hover:opacity-90 transition",
   {
     variants: {
       variant: {
