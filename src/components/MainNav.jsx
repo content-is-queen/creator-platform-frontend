@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, redirect } from "next/navigation";
 import isAuth from "@/helpers/isAuth.js";
 import API from "@/api/api.js";
 
@@ -54,10 +54,11 @@ const MainNav = () => {
     }
   };
 
-  useEffect(() => {
-    if (!email) {
-      window.location.href = "/login";
-    }
+  useLayoutEffect(() => {
+    // if (!email) {
+    //   redirect("/login");
+    // }
+
     fetchUserProfile();
   }, [email]);
 
