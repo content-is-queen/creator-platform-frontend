@@ -41,7 +41,6 @@ const Chat = ({getchatIds}) => {
   const [roomMessages, setroomMessages] = useState([]);
   const formatedConversationId = `${getchatIds.sender}_${getchatIds.receiver}`
   const formatedConversationIdReverse = `${getchatIds.receiver}_${getchatIds.sender}`
-console.log(roomMessages,"kkkkklllllll");
   const fetchSenderMessageList = async () => {
     try {
       const messagesRef = collection(db, "rooms", formatedConversationId, "messages");
