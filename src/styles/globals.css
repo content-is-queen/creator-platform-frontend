@@ -10,9 +10,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-:root {
-  --nav-height: 80px;
-}
 
 @font-face {
   font-family: "FormaDJRBanner";
