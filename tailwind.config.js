@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         dots: "url('/images/CiQ_Pattern_02.svg')",
+        purpleDots: "url('/images/CiQ_Pattern 4 lilac.svg')",
       },
       colors: {
         "queen-blue": "#3667ED",
@@ -20,7 +21,9 @@ module.exports = {
         "queen-orange": "#FF7300",
       },
       fontFamily: {
-        anton: ["Anton", "sans-serif"],
+        heading: ["Anton", "sans-serif"],
+        sans: ["var(--font-forma-deck)"],
+        subheading: ["var(--font-forma-banner)"],
       },
     },
   },

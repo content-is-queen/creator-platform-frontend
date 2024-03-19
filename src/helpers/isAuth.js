@@ -1,5 +1,5 @@
+import Secure from '@/utils/SecureLs';
 import { jwtDecode } from 'jwt-decode';
-import Secure from '../utils/SecureLs';
 
 const isAuth = (token = Secure.getToken()) => {
   try {

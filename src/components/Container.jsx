@@ -3,6 +3,7 @@ import clsx from "clsx";
 const SIZES = {
   md: "max-w-md",
   "2xl": "max-w-2xl",
+  "3xl": "max-w-3xl",
   "4xl": "max-w-4xl",
   "6xl": "max-w-6xl",
 };

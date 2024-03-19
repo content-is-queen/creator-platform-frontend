@@ -19,13 +19,14 @@ const ProfileHero = () => {
           <img
             className="w-full h-full rounded-full object-cover"
             src={profileImage.url}
+            alt=""
           />
         </div>
         <div className="space-y-2 max-w-96">
-          <h1 className="font-anton uppercase text-2xl">{name}</h1>
+          <h1 className="font-heading uppercase text-2xl">{name}</h1>
           <div className="flex gap-2">
             {tags?.map((tag) => (
-              <Tag>{tag}</Tag>
+              <Tag key={tag}>{tag}</Tag>
             ))}
           </div>
           <p className="text-sm">{bio}</p>

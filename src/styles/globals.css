@@ -6,6 +6,11 @@
   --nav-height: 80px;
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 @font-face {
   font-family: "FormaDJRBanner";
   src: url("/fonts/FormaDJRBanner-Bold.woff2") format("woff2");

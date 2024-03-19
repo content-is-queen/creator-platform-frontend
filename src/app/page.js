@@ -1,9 +1,9 @@
-import NavBar from "@/components/NavBar";
+import MainNav from "@/components/MainNav";
 
 export default function Home() {
   return (
     <div>
-      <NavBar />
+      <MainNav />
       <h1>This is the dashboard</h1>
     </div>
   );
