@@ -4,8 +4,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 
-import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
-
 import { db } from "@/firebase/firebase";
 import { doCreateUserWithEmailAndPassword } from "@/firebase/auth";
 import { addDoc, collection, doc } from "firebase/firestore";

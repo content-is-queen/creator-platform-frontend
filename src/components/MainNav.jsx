@@ -1,12 +1,10 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
 import { IoNotificationsOutline } from "react-icons/io5";
-
 import Container from "@/components/Container";
 import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
