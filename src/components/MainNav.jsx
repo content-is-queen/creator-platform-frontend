@@ -1,13 +1,5 @@
 "use client";
-<<<<<<< HEAD
-
-import clsx from "clsx";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
-
-=======
 import { useEffect, useState, useLayoutEffect } from "react";
->>>>>>> main
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname, redirect } from "next/navigation";
@@ -15,10 +7,6 @@ import isAuth from "@/helpers/isAuth.js";
 import API from "@/api/api.js";
 
 import { IoNotificationsOutline } from "react-icons/io5";
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 import Container from "@/components/Container";
 
 const PAGES = [
