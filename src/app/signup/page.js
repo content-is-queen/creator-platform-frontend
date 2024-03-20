@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+
+import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
 import { db } from "@/firebase/firebase";
 import { doCreateUserWithEmailAndPassword } from "@/firebase/auth";
@@ -118,6 +119,7 @@ const SignUp = () => {
 
   const [active, setActive] = useState(OPTIONS[0]);
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const { login } = useUserProfile();
 
   useEffect(() => {
     clearErrors();
@@ -145,6 +147,8 @@ const SignUp = () => {
       });
 
       console.log("Profile added successfully. Document ID:", docRef.id);
+
+      login(user);
 
       setIsSigningIn(false);
       window.location.href = "/login";

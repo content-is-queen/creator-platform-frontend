@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
+import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
+
 import { doSignInWithEmailAndPassword } from "@/firebase/auth";
-import Secure from "@/utils/SecureLs";
 
 import Heading from "@/components/Heading";
 import AuthTemplate from "@/components/AuthTemplate";
@@ -42,6 +43,8 @@ const FIELDS = [
 
 const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const { login, userProfile } = useUserProfile();
+
   const {
     handleSubmit,
     control,
@@ -56,9 +59,10 @@ const Login = () => {
           data.email,
           data.password
         );
-        const token = await user.getIdToken();
-        Secure.setToken(token);
-        window.location.href = "/dashboard";
+
+        const { email, photoURL } = user;
+
+        login(user);
       }
     } catch (error) {
       const errorMessageWithoutFirebase = error.message.replace(
@@ -95,7 +99,7 @@ const Login = () => {
         </Button>
         <Text size="sm" className="mt-4">
           Don&apos;t have an account?{" "}
-        <Link href="/signup" className="font-medium text-queen-blue">
+          <Link href="/signup" className="font-medium text-queen-blue">
             Signup
           </Link>
         </Text>

@@ -1,16 +1,48 @@
-import { createContext, useContext, useState } from 'react';
+"use client";
+
+import { createContext, useContext, useState } from "react";
+import Secure from "@/utils/SecureLs";
 
 const UserProfileContext = createContext();
 
 export const UserProfileProvider = ({ children }) => {
-  const [userProfile, setUserProfile] = useState(null);
+  const getInitialState = () => {
+    if (typeof localStorage !== "undefined") {
+      return localStorage?.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : null;
+    }
+  };
 
-  const login = (userData) => {
-    setUserProfile(userData);
+  const [userProfile, setUserProfile] = useState(getInitialState);
+
+  const login = async (user) => {
+    try {
+      const token = await user.getIdToken();
+
+      const { email, photoUrl } = user;
+
+      Secure.setToken(token);
+      window.location.href = "/";
+      setUserProfile();
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: email, photoUrl: photoUrl })
+      );
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   const logout = () => {
-    setUserProfile(null);
+    try {
+      Secure.removeToken();
+      setUserProfile(null);
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
   };
 
   return (
@@ -23,7 +55,7 @@ export const UserProfileProvider = ({ children }) => {
 export const useUserProfile = () => {
   const context = useContext(UserProfileContext);
   if (!context) {
-    throw new Error('useUserProfile must be used within a UserProfileProvider');
+    throw new Error("useUserProfile must be used within a UserProfileProvider");
   }
   return context;
 };

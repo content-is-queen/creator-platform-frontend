@@ -1,3 +1,4 @@
+import { UserProfileProvider } from "@/contexts/AuthContext/UserProfileContext";
 import "../styles/globals.css";
 
 import localFont from "next/font/local";
@@ -26,7 +27,9 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <UserProfileProvider>{children}</UserProfileProvider>
+      </body>
     </html>
   );
 }
