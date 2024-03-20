@@ -1,17 +1,16 @@
 "use client";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname, redirect } from "next/navigation";
-import isAuth from "@/helpers/isAuth.js";
-import API from "@/api/api.js";
+import { usePathname } from "next/navigation";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 import Container from "@/components/Container";
+import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
 const PAGES = [
   {
-    href: "/dashboard",
+    href: "/",
     label: "Dashboard",
   },
   { href: "/opportunities", label: "Opportunities" },
@@ -21,10 +20,10 @@ const PAGES = [
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
+
+  const { userProfile, logout } = useUserProfile();
 
   const pathname = usePathname();
-  const { email } = isAuth();
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -35,37 +34,14 @@ const MainNav = () => {
   };
 
   const handleSignOut = async () => {
-    try {
-      await doSignOut();
-      Secure.removeToken();
-      window.location.href = "/login";
-    } catch (error) {
-      console.error("Sign out error:", error);
-    }
+    logout();
   };
-
-  const fetchUserProfile = async () => {
-    try {
-      const response = await API.get("auth/profile");
-      setUserProfile(response.data.message);
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
-
-  useLayoutEffect(() => {
-    // if (!email) {
-    //   redirect("/login");
-    // }
-
-    fetchUserProfile();
-  }, [email]);
 
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
       <Container className="flex flex-wrap items-center justify-between text-sm w-full">
         <Link
-          href="/dashboard"
+          href="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
@@ -134,11 +110,8 @@ const MainNav = () => {
               id="user-dropdown"
             >
               <div className="px-4 py-3">
-                <span className="block text-sm text-gray-900 dark:text-white">
-                  {userProfile?.podcast_name}
-                </span>
                 <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                  {email}
+                  {userProfile.email}
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">

@@ -71,7 +71,7 @@ export default async function Opportunity({ params }) {
         <div className="mt-20 pb-60 space-y-8">
           <div>
             <Link
-              href="/dashboard"
+              href="/"
               className="text-sm inline-flex items-center gap-1.5 mb-7"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
