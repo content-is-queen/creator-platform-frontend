@@ -27,7 +27,7 @@ export const UserProfileProvider = ({ children }) => {
       setUserProfile();
       localStorage.setItem(
         "user",
-        JSON.stringify({ email: email, photoUrl: photoUrl })
+        JSON.stringify({ email: email, photoUrl: photoUrl, role: "creator" })
       );
     } catch (error) {
       console.error("Login error:", error);
