@@ -69,7 +69,7 @@ const MainNav = () => {
             id="navbar-user"
           >
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
-              {PAGES[userProfile.role]?.map(({ href, label }) => (
+              {PAGES[userProfile?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(

@@ -24,7 +24,7 @@ export const UserProfileProvider = ({ children }) => {
 
       Secure.setToken(token);
       window.location.href = "/";
-      setUserProfile();
+      setUserProfile({ email: email, photoUrl: photoUrl, role: "creator" });
       localStorage.setItem(
         "user",
         JSON.stringify({ email: email, photoUrl: photoUrl, role: "creator" })

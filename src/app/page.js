@@ -11,7 +11,7 @@ const Dashboard = () => {
   const { userProfile } = useUserProfile();
 
   const Component =
-    userProfile.role === "creator" ? CreatorDashboard : ClientDashboard;
+    userProfile?.role === "creator" ? CreatorDashboard : ClientDashboard;
 
   useLayoutEffect(() => {
     if (!userProfile) {
