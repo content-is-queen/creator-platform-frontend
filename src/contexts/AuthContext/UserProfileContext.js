@@ -24,10 +24,10 @@ export const UserProfileProvider = ({ children }) => {
 
       Secure.setToken(token);
       window.location.href = "/";
-      setUserProfile();
-      localStorage.setItem(
+      setUserProfile({ email: email, photoUrl: photoUrl, role: "creator" });
+      sessionStorage.setItem(
         "user",
-        JSON.stringify({ email: email, photoUrl: photoUrl })
+        JSON.stringify({ email: email, photoUrl: photoUrl, role: "creator" })
       );
     } catch (error) {
       console.error("Login error:", error);
@@ -38,7 +38,7 @@ export const UserProfileProvider = ({ children }) => {
     try {
       Secure.removeToken();
       setUserProfile(null);
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
       window.location.href = "/login";
     } catch (error) {
       console.error("Sign out error:", error);

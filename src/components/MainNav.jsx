@@ -1,21 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
 import { IoNotificationsOutline } from "react-icons/io5";
+
 import Container from "@/components/Container";
 import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
-
-const PAGES = [
-  {
-    href: "/",
-    label: "Dashboard",
-  },
-  { href: "/opportunities", label: "Opportunities" },
-  { href: "/conversations", label: "Conversations" },
-];
+import SubMenu from "./SubMenu";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -35,6 +28,24 @@ const MainNav = () => {
 
   const handleSignOut = async () => {
     logout();
+  };
+
+  const PAGES = {
+    creator: [
+      {
+        href: "/",
+        label: "Dashboard",
+      },
+      { href: "/opportunities", label: "Opportunities" },
+      { href: "/conversations", label: "Conversations" },
+    ],
+    client: [
+      {
+        href: "/",
+        label: "Projects",
+      },
+      { href: "/conversations", label: "Conversations" },
+    ],
   };
 
   return (
@@ -58,7 +69,7 @@ const MainNav = () => {
             id="navbar-user"
           >
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
-              {PAGES.map(({ href, label }) => (
+              {PAGES[userProfile?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
@@ -105,44 +116,36 @@ const MainNav = () => {
           </div>
 
           {isUserClicked && (
-            <div
-              className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute top-16 right-8"
-              id="user-dropdown"
+            <SubMenu
+              heading={<SubMenu.Heading> {userProfile.email}</SubMenu.Heading>}
             >
-              <div className="px-4 py-3">
-                <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                  {userProfile.email}
-                </span>
-              </div>
-              <ul className="py-2" aria-labelledby="user-menu-button">
-                <li>
-                  <Link
-                    href="/profile"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline m-4 pb-4"
-                  >
-                    Profile
-                  </Link>
-                </li>
+              <SubMenu.Item>
+                <Link
+                  href="/profile"
+                  className="px-4 py-1 w-full text-left inline-block"
+                >
+                  Profile
+                </Link>
+              </SubMenu.Item>
 
-                <li>
-                  <Link
-                    href="/signup"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline m-4 pt-4"
-                  >
-                    Current user info
-                  </Link>
-                </li>
+              <SubMenu.Item>
+                <Link
+                  href="/settings"
+                  className="px-4 py-1 w-full text-left inline-block"
+                >
+                  Settings
+                </Link>
+              </SubMenu.Item>
 
-                <li>
-                  <button
-                    className="font-medium text-blue-600 m-4"
-                    onClick={handleSignOut}
-                  >
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
+              <SubMenu.Item>
+                <button
+                  onClick={handleSignOut}
+                  className="px-4 py-1 w-full text-left inline-block"
+                >
+                  Logout
+                </button>
+              </SubMenu.Item>
+            </SubMenu>
           )}
           <button
             data-collapse-toggle="navbar-user"

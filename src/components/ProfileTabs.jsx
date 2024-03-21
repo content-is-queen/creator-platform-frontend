@@ -8,7 +8,7 @@ import Tabs from "./Tabs";
 const OPTIONS = [
   {
     label: "Showcase",
-    id: "brand",
+    id: "showcase",
     children: <>External</>,
   },
   {
