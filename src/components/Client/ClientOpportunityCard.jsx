@@ -40,11 +40,11 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
   };
 
   return (
-    <Card className="inline-block space-y-7 w-full max-w-sm relative">
+    <Card className="inline-block space-y-4 w-full max-w-sm relative">
       <div className="flex content-start items-center">
-        <p className="text-xl mr-3 text-queen-black capitalize">{title}</p>
+        <p className="text-lg mr-3 text-queen-black capitalize">{title}</p>
         <Tag>{statusLabel}</Tag>
-        <button type="button" className="ml-auto" onClick={subMenuToggle}>
+        <button type="button" className="ml-auto pl-2" onClick={subMenuToggle}>
           <FontAwesomeIcon icon={faEllipsisV} />
         </button>
         {open && (
@@ -73,16 +73,20 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
 
       <div className="flex gap-6">
         <div className="flex flex-col">
-          <Text tag="span" color="muted" size="sm">
+          <Text tag="span" color="muted" size="xs">
             Budget
           </Text>
-          <Text tag="span">{budget}</Text>
+          <Text tag="span" size="sm">
+            {budget}
+          </Text>
         </div>
         <div className="flex flex-col">
-          <Text tag="span" color="muted" size="sm">
+          <Text tag="span" color="muted" size="xs">
             Deadline
           </Text>
-          <Text tag="span">{deadline}</Text>
+          <Text tag="span" size="sm">
+            {deadline}
+          </Text>
         </div>
       </div>
 

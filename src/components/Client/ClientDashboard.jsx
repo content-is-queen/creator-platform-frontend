@@ -43,7 +43,7 @@ const ClientDashboard = ({ userProfile }) => {
       <MainNav />
       <div className="bg-queen-white h-full py-12 md:py-20">
         <Container>
-          <div className="flex justify-between align-middle items-center">
+          <div className="flex justify-between align-middle items-center space-y-16">
             <Heading>Projects</Heading>
             <Button type="button" tag="button">
               Create Opportunity
