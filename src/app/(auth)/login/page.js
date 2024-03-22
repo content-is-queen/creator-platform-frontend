@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -43,9 +42,8 @@ const FIELDS = [
 ];
 
 const Login = () => {
-  const router = useRouter();
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const { login, userProfile } = useUserProfile();
+  const { login } = useUserProfile();
 
   const {
     handleSubmit,
@@ -62,8 +60,6 @@ const Login = () => {
           data.password
         );
 
-        const { email, photoURL } = user;
-
         login(user);
       }
     } catch (error) {
@@ -79,7 +75,6 @@ const Login = () => {
 
   return (
     <>
-      {" "}
       <Heading>Welcome back</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6">
@@ -99,7 +94,7 @@ const Login = () => {
           </Text>
         </div>
         <Button as="button" type="submit" className="mt-8">
-          {isSigningIn ? "SIGNING IN..." : "SIGN IN"}{" "}
+          Sign In
         </Button>
         <Text size="sm" className="mt-4">
           Don&apos;t have an account?{" "}
