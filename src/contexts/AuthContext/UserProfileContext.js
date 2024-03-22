@@ -8,9 +8,9 @@ const UserProfileContext = createContext();
 
 export const UserProfileProvider = ({ children }) => {
   const getInitialState = () => {
-    if (typeof sessionStorage !== "undefined") {
-      return sessionStorage?.getItem("user")
-        ? JSON.parse(sessionStorage.getItem("user"))
+    if (typeof localStorage !== "undefined") {
+      return localStorage?.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
         : {};
     }
   };
