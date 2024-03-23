@@ -28,7 +28,6 @@ const MainNav = () => {
   const { email, 
     displayName, 
     imageUrl } = isAuth();
-  const userData = isAuth();
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
