@@ -44,10 +44,10 @@ const SignUp = () => {
     confirm_password: "",
   });
 
-const handleBrandSignup =async (data) =>{
+const handleBrandSignup =async (formData) =>{
   try {
     setIsSigningIn(true);
-    await API.post("/auth/signup/brand", data );
+    await API.post("/auth/signup/brand", formData );
     router.push('/login');
 } catch (error) {
     console.error("Error:", error);
