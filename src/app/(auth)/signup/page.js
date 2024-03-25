@@ -170,8 +170,15 @@ const SignUp = () => {
           ))}
         </div>
 
-        <Button as="button" type="submit" className="mt-8">
-          {isSigningIn ? "Signing up..." : "Sign up"}
+        <Button
+          as="button"
+          type={active.id === "creator" ? "submit" : "button"}
+          className="mt-8"
+          {...(active.id === "brand"
+            ? { onClick: () => handleBrandSignup(formData) }
+            : {})}
+        >
+          Create Account
         </Button>
 
         <Text size="sm" className="mt-4">
