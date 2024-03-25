@@ -1,5 +1,7 @@
 import { UserProfileProvider } from "@/contexts/AuthContext/UserProfileContext";
 import "../styles/globals.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import localFont from "next/font/local";
 
@@ -28,6 +30,7 @@ export default function RootLayout({ children }) {
     >
       <body>
         <UserProfileProvider>{children}</UserProfileProvider>
+        <ToastContainer />
       </body>
     </html>
   );

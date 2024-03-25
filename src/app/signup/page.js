@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
@@ -17,8 +18,10 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Heading from "@/components/Heading";
 import Tabs from "@/components/Tabs";
+import Secure from "@/utils/SecureLs";
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     handleSubmit,
     control,
@@ -122,23 +125,49 @@ const SignUp = () => {
   useEffect(() => {}, [active, password]);
   const onSubmit = async (data) => {
     const { podcast_name } = data;
-    console.log(active.id, data, "Yoooooooooooooooooooooooooooooooo");
     if (active.id === "creator") {
-      try {
-        setIsSigningIn(true);
-        const { user } = await doCreateUserWithEmailAndPassword(
-          data.email,
-          data.password
-        );
-
-        const usersCollectionRef = collection(db, "users");
-        const brandDocRef = doc(usersCollectionRef, "creator");
-        const brandDocSnapshot = await getDoc(brandDocRef);
-        if (!brandDocSnapshot.exists()) {
-          await setDoc(brandDocRef, {});
+        try {
+            setIsSigningIn(true);
+            const { user } = await doCreateUserWithEmailAndPassword(
+                data.email,
+                data.password
+            );
+            const token = await user.getIdToken()
+            Secure.setToken(token);
+            const usersCollectionRef = collection(db, 'users');
+            const brandDocRef = doc(usersCollectionRef, 'creator');
+            const brandDocSnapshot = await getDoc(brandDocRef);
+            if (!brandDocSnapshot.exists()) {
+                await setDoc(brandDocRef, {});
+            }
+            const usersBrandCollectionRef = collection(brandDocRef, 'users');
+            await addDoc(usersBrandCollectionRef, { uid: user.uid, podcast_name });
+            
+            router.push('/editprofile');
+        } catch (error) {
+            console.error("Error:", error);
+            const errorMessageWithoutFirebase = error.message.replace(/firebase: /i, "");
+            toast.error(errorMessageWithoutFirebase || "Try again!");
+        } finally {
+            setIsSigningIn(false);
         }
-        const usersBrandCollectionRef = collection(brandDocRef, "users");
-        await addDoc(usersBrandCollectionRef, { uid: user.uid, podcast_name });
+    } else {
+        try {
+          setIsSigningIn(true);
+          const { user } = await doCreateUserWithEmailAndPassword(
+              data.email,
+              data.password
+          );
+
+          const usersCollectionRef = collection(db, 'users');
+          const brandDocRef = doc(usersCollectionRef, 'brand');
+          const brandDocSnapshot = await getDoc(brandDocRef);
+          if (!brandDocSnapshot.exists()) {
+              await setDoc(brandDocRef, {});
+          }
+          const usersBrandCollectionRef = collection(brandDocRef, 'users');
+          await addDoc(usersBrandCollectionRef, { uid: user.uid });
+          router.push('/login');
       } catch (error) {
         console.error("Error:", error);
         const errorMessageWithoutFirebase = error.message.replace(

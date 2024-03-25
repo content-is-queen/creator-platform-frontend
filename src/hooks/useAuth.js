@@ -1,10 +1,12 @@
 import isAuth from "@/helpers/isAuth";
+import { useRouter } from "next/navigation";
 
 const useAuth = () => {
+  const router = useRouter();
   const user = isAuth();
 
   const startAuth = () => {
-    window.location.href = "/login";
+    router.push("/login");
   };
 
   const handleLogout = () => {

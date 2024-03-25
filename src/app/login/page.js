@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
@@ -42,6 +44,7 @@ const FIELDS = [
 ];
 
 const Login = () => {
+  const router = useRouter();
   const [isSigningIn, setIsSigningIn] = useState(false);
   const { login, userProfile } = useUserProfile();
 
@@ -69,6 +72,7 @@ const Login = () => {
         /firebase: /i,
         ""
       );
+      toast.error(errorMessageWithoutFirebase || "Failled try again");
     } finally {
       setIsSigningIn(false);
     }
