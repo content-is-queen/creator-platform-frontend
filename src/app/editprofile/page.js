@@ -6,9 +6,11 @@ import Container from '@/components/Container';
 import isAuth from '@/helpers/isAuth';
 import FILEAPI from '@/api/fileApi';
 import { toast } from "react-toastify";
+import { useRouter } from 'next/navigation';
 
 const EditProfile = () => {
   const [isLoading, setIsloading] = useState(false);
+  const router = useRouter();
   const user = isAuth();
   const [profileData, setProfileData] = useState({
     username: '',
@@ -22,7 +24,6 @@ const EditProfile = () => {
       [name]: files ? files[0] : value,
     }));
   };
-console.log(profileData);
   const handleSubmit =async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -35,6 +36,7 @@ console.log(profileData);
         const response = await FILEAPI.patch("auth/profile",formData);
         setIsloading(false);
         toast.success(response.data.message);
+        router.push('/profile');
       } catch (error) {
         toast.error(error.message);
       }

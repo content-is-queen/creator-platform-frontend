@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
 import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
@@ -15,10 +16,11 @@ import { useForm, useWatch } from "react-hook-form";
 import AuthTemplate from "@/components/AuthTemplate";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
-import Input from "@/components/Input";
+import Input, { inputStyles } from "@/components/Input";
 import Heading from "@/components/Heading";
 import Tabs from "@/components/Tabs";
 import Secure from "@/utils/SecureLs";
+import clsx from "clsx";
 
 const SignUp = () => {
   const router = useRouter();
@@ -31,6 +33,42 @@ const SignUp = () => {
   } = useForm();
   const password = useWatch({ control, name: "password" });
 
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const handleBrandSignup = async (data) => {
+    try {
+      setIsSigningIn(true);
+      const { user } = await doCreateUserWithEmailAndPassword(
+        data.email,
+        data.password
+      );
+      const token = await user.getIdToken();
+      Secure.setToken(token);
+      const usersCollectionRef = collection(db, "users");
+      const brandDocRef = doc(usersCollectionRef, "brand");
+      const brandDocSnapshot = await getDoc(brandDocRef);
+      if (!brandDocSnapshot.exists()) {
+        await setDoc(brandDocRef, {});
+      }
+      const usersBrandCollectionRef = collection(brandDocRef, "users");
+      await addDoc(usersBrandCollectionRef, { uid: user.uid });
+
+      router.push("/editprofile");
+    } catch (error) {
+      console.error("Error:", error);
+      const errorMessageWithoutFirebase = error.message.replace(
+        /firebase: /i,
+        ""
+      );
+      toast.error(errorMessageWithoutFirebase || "Try again!");
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
   const OPTIONS = [
     {
       label: "Brand",
@@ -123,69 +161,18 @@ const SignUp = () => {
   }, [active]);
 
   useEffect(() => {}, [active, password]);
+
   const onSubmit = async (data) => {
     const { podcast_name } = data;
     if (active.id === "creator") {
-        try {
-            setIsSigningIn(true);
-            const { user } = await doCreateUserWithEmailAndPassword(
-                data.email,
-                data.password
-            );
-            const token = await user.getIdToken()
-            Secure.setToken(token);
-            const usersCollectionRef = collection(db, 'users');
-            const brandDocRef = doc(usersCollectionRef, 'creator');
-            const brandDocSnapshot = await getDoc(brandDocRef);
-            if (!brandDocSnapshot.exists()) {
-                await setDoc(brandDocRef, {});
-            }
-            const usersBrandCollectionRef = collection(brandDocRef, 'users');
-            await addDoc(usersBrandCollectionRef, { uid: user.uid, podcast_name });
-            
-            router.push('/editprofile');
-        } catch (error) {
-            console.error("Error:", error);
-            const errorMessageWithoutFirebase = error.message.replace(/firebase: /i, "");
-            toast.error(errorMessageWithoutFirebase || "Try again!");
-        } finally {
-            setIsSigningIn(false);
-        }
-    } else {
-        try {
-          setIsSigningIn(true);
-          const { user } = await doCreateUserWithEmailAndPassword(
-              data.email,
-              data.password
-          );
-
-          const usersCollectionRef = collection(db, 'users');
-          const brandDocRef = doc(usersCollectionRef, 'brand');
-          const brandDocSnapshot = await getDoc(brandDocRef);
-          if (!brandDocSnapshot.exists()) {
-              await setDoc(brandDocRef, {});
-          }
-          const usersBrandCollectionRef = collection(brandDocRef, 'users');
-          await addDoc(usersBrandCollectionRef, { uid: user.uid });
-          router.push('/login');
-      } catch (error) {
-        console.error("Error:", error);
-        const errorMessageWithoutFirebase = error.message.replace(
-          /firebase: /i,
-          ""
-        );
-        toast.error(errorMessageWithoutFirebase || "Try again!");
-      } finally {
-        setIsSigningIn(false);
-      }
-    } else {
       try {
         setIsSigningIn(true);
         const { user } = await doCreateUserWithEmailAndPassword(
           data.email,
           data.password
         );
-
+        const token = await user.getIdToken();
+        Secure.setToken(token);
         const usersCollectionRef = collection(db, "users");
         const brandDocRef = doc(usersCollectionRef, "creator");
         const brandDocSnapshot = await getDoc(brandDocRef);
@@ -194,6 +181,8 @@ const SignUp = () => {
         }
         const usersBrandCollectionRef = collection(brandDocRef, "users");
         await addDoc(usersBrandCollectionRef, { uid: user.uid, podcast_name });
+
+        router.push("/editprofile");
       } catch (error) {
         console.error("Error:", error);
         const errorMessageWithoutFirebase = error.message.replace(
@@ -229,9 +218,21 @@ const SignUp = () => {
           ))}
         </div>
 
-        <Button tag="button" type="submit" className="mt-8">
-          {isSigningIn ? "Signing up..." : "Sign up"}
-        </Button>
+        {active.id === "creator" && (
+          <Button tag="button" type="submit" className="mt-8">
+            {isSigningIn ? "Signing up..." : "Sign up"}
+          </Button>
+        )}
+        {active.id === "brand" && (
+          <Button
+            tag="button"
+            type="button"
+            className="mt-8"
+            onClick={() => handleBrandSignup(formData)}
+          >
+            {isSigningIn ? "Signing up..." : "Sign up"}
+          </Button>
+        )}
         <Text size="sm" className="mt-4">
           Already registered?{" "}
           <Link href="/login" className="font-medium text-queen-blue">
