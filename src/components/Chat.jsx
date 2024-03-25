@@ -5,11 +5,16 @@ import {
   faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-
+import { getFirestore, collection, query, where,orderBy, onSnapshot } from "firebase/firestore"
 import Button from "./Button";
+import { useEffect, useState } from "react";
+import API from "@/api/api";
+import { db } from "@/firebase/firebase";
+import isAuth from "@/helpers/isAuth";
 
-const Message = ({ currentUser, children }) => (
-  <div className={clsx("flex", currentUser && "justify-end")}>
+const Message = ({ currentUser, children }) => {
+     
+  return <div className={clsx("flex", currentUser && "justify-end")}>
     {!currentUser && (
       <img
         src="/images/keshe.jpg"
@@ -28,9 +33,73 @@ const Message = ({ currentUser, children }) => (
       {children}
     </div>
   </div>
-);
+};
 
-const Chat = () => {
+const Chat = ({getchatIds}) => {
+  const {user_id} = isAuth();
+  const [message, setMessage] = useState('');
+  const [roomMessages, setroomMessages] = useState([]);
+  const formatedConversationId = `${getchatIds.sender}_${getchatIds.receiver}`
+  const formatedConversationIdReverse = `${getchatIds.receiver}_${getchatIds.sender}`
+console.log(roomMessages,"kkkkklllllll");
+  const fetchSenderMessageList = async () => {
+    try {
+      const messagesRef = collection(db, "rooms", formatedConversationId, "messages");
+      const q = query(messagesRef, orderBy("createdAt", "asc"));
+    
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const newMessages = snapshot.docs.map((doc) => doc.data());
+  
+        setroomMessages((prevMessages) => [...prevMessages, ...newMessages]);
+      });
+    
+      return () => {
+        unsubscribe();
+      };
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  const fetchReceiverMessageList = async () => {
+    try {
+      const messagesRef = collection(db, "rooms", formatedConversationIdReverse, "messages");
+      const q = query(messagesRef, orderBy("createdAt", "asc"));
+    
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const newMessages = snapshot.docs.map((doc) => doc.data());
+        setroomMessages((prevMessages) => [...prevMessages, ...newMessages]);
+      });
+    
+      return () => {
+        unsubscribe();
+      };
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+  useEffect(() => {
+    fetchReceiverMessageList();
+    fetchSenderMessageList();
+  }, [getchatIds]);
+
+  const hangleSendMessage = async() =>{
+    if(message){
+        try {
+          const response = await API.post("messages", {...getchatIds, message});
+          // setUserList(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+    }
+  }
+
+
+  const handleChange = (event) => {
+    setMessage(event.target.value);
+  };
+
   return (
     <div
       className="relative col-span-4 bg-white px-8 rounded-3xl shadow-md overflow-y-auto"
@@ -53,21 +122,28 @@ const Chat = () => {
       </div>
       <div className="w-full flex flex-col justify-between">
         <div className="flex flex-col space-y-8 my-12">
-          <Message>
-            Hey, excited about working with you. Is there anything else I need
-            to know?
-          </Message>
-          <Message currentUser={true}>
-            I don’t think so, but I will let you know if anything changes
-          </Message>
-          <Message>Okay, awesome!</Message>
+        {roomMessages?.length > 0 &&
+  roomMessages
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // Sort by createdAt
+    .filter((message, index, self) => // Remove duplicates
+      index === self.findIndex(m => m.message === message.message)
+    )
+    .map(item => (
+      <Message key={item.id} currentUser={user_id === item.sender}>
+        {item.message}
+      </Message>
+    ))
+}
+
         </div>
         <div className="bg-gradient-to-t from-white from-40% to-transparent py-8 sticky bottom-0 w-full flex">
-          <input
-            type="text"
-            placeholder="Enter your message"
-            className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
-          />
+        <input
+      type="text"
+      placeholder="Enter your message"
+      className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
+      value={message}
+      onChange={handleChange}
+    />
           <div className="absolute right-0 pr-4 items-center inset-y-0 hidden sm:flex">
             <button
               type="button"
@@ -84,6 +160,7 @@ const Chat = () => {
             <Button
               tag="button"
               type="button"
+              onClick={hangleSendMessage}
               className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"
             >
               <span className="sr-only">Send</span>

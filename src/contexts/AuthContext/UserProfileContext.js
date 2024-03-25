@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 import Secure from "@/utils/SecureLs";
+import { doSignOut } from "@/firebase/auth";
 
 const UserProfileContext = createContext();
 
@@ -36,6 +37,7 @@ export const UserProfileProvider = ({ children }) => {
 
   const logout = () => {
     try {
+      await doSignOut();
       Secure.removeToken();
       setUserProfile(null);
       sessionStorage.removeItem("user");

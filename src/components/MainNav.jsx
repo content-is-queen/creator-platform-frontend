@@ -6,9 +6,10 @@ import { usePathname } from "next/navigation";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
-import Container from "@/components/Container";
 import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
-import SubMenu from "./SubMenu";
+
+import Container from "@/components/Container";
+import SubMenu from "@/components/SubMenu";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);

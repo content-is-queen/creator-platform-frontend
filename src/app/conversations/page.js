@@ -1,16 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import MainNav from "@/components/MainNav";
 import ConversationPreview from "@/components/ConversationPreview";
 import Chat from "@/components/Chat";
 import Container from "@/components/Container";
+import API from "@/api/api";
 
 const CONVERSATIONS = [1, 2, 3, 4];
 
 const Conversations = () => {
   const [active, setActive] = useState(null);
+  const [userList,setUserList] = useState([]);
+  const [senderReceiverId, setsSenderReceiverId] = useState({});
+
+  const fetchUserUsersList = async () => {
+    try {
+      const response = await API.get("messages/users");
+      setUserList(response.data);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  const handeGetIds = (ids) =>{
+    console.log(ids,"You can fetch from here >>>>>>>>>>>>");
+    setsSenderReceiverId(ids);
+  }
+
+  useEffect(() => {
+    fetchUserUsersList();
+  }, []);
+
 
   return (
     <div className="bg-queen-white message h-screen bg-dots bg-repeat-x bg-[center_bottom_-4rem]">
@@ -20,17 +42,19 @@ const Conversations = () => {
           className="bg-white rounded-3xl shadow-md col-span-2 overflow-y-auto"
           style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}
         >
-          {CONVERSATIONS?.map((user, index) => (
+          {userList?.map((user, index) => (
             <ConversationPreview
               active={active}
               index={index}
+              data={user}
               setActive={setActive}
-              key={user}
+              key={user.uid}
+              getIds={handeGetIds}
             />
           ))}
         </ul>
 
-        <Chat />
+        <Chat getchatIds={senderReceiverId} />
       </Container>
     </div>
   );
