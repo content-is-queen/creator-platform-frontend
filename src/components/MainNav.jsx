@@ -18,6 +18,10 @@ const MainNav = () => {
   const { userProfile, logout } = useUserProfile();
 
   const pathname = usePathname();
+  const { email, 
+    displayName, 
+    imageUrl } = isAuth();
+  const userData = isAuth();
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -108,7 +112,7 @@ const MainNav = () => {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="w-8 h-8 rounded-full"
-                    src="/images/keshe.jpg"
+                    src={imageUrl}
                     alt="Kaleshe"
                   />
                 </button>
@@ -117,15 +121,24 @@ const MainNav = () => {
           </div>
 
           {isUserClicked && (
-            <SubMenu
-              heading={<SubMenu.Heading> {userProfile.email}</SubMenu.Heading>}
+              <SubMenu
+              heading={<SubMenu.Heading>{displayName || userProfile?.podcast_name}</SubMenu.Heading>}
             >
               <SubMenu.Item>
-                <Link
+                <SubMenu.Item>
+              <Link
                   href="/profile"
                   className="px-4 py-1 w-full text-left inline-block"
                 >
                   Profile
+                </Link>
+              </SubMenu.Item>
+              <SubMenu.Item>
+              <Link
+                  href="/profile/edit"
+                  className="px-4 py-1 w-full text-left inline-block"
+                >
+                  Edit Profile
                 </Link>
               </SubMenu.Item>
 

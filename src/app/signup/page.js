@@ -8,7 +8,7 @@ import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
 import { db } from "@/firebase/firebase";
 import { doCreateUserWithEmailAndPassword } from "@/firebase/auth";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { useForm, useWatch } from "react-hook-form";
 
 import AuthTemplate from "@/components/AuthTemplate";
@@ -61,9 +61,6 @@ const SignUp = () => {
           name: "confirm_password",
           type: "password",
           children: "Confirm Password",
-          rules: {
-            validate: (value) => value === password || "Passwords do not match",
-          },
         },
       ],
     },
@@ -109,15 +106,12 @@ const SignUp = () => {
           name: "confirm_password",
           type: "password",
           children: "Confirm Password",
-          rules: {
-            validate: (value) => value === password || "Passwords do not match",
-          },
         },
       ],
     },
   ];
 
-  const [active, setActive] = useState(OPTIONS[0]);
+  const [active, setActive] = useState(OPTIONS[1]);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const { login } = useUserProfile();
 
@@ -126,41 +120,61 @@ const SignUp = () => {
   }, [active]);
 
   useEffect(() => {}, [active, password]);
-
   const onSubmit = async (data) => {
-    try {
-      setIsSigningIn(true);
-      const { user } = await doCreateUserWithEmailAndPassword(
-        data.email,
-        data.password
-      );
-      const brandDocRef = doc(db, "brand", user.uid);
+    const { podcast_name } = data;
+    console.log(active.id, data, "Yoooooooooooooooooooooooooooooooo");
+    if (active.id === "creator") {
+      try {
+        setIsSigningIn(true);
+        const { user } = await doCreateUserWithEmailAndPassword(
+          data.email,
+          data.password
+        );
 
-      console.log("Brand Doc Ref:", brandDocRef.path);
+        const usersCollectionRef = collection(db, "users");
+        const brandDocRef = doc(usersCollectionRef, "creator");
+        const brandDocSnapshot = await getDoc(brandDocRef);
+        if (!brandDocSnapshot.exists()) {
+          await setDoc(brandDocRef, {});
+        }
+        const usersBrandCollectionRef = collection(brandDocRef, "users");
+        await addDoc(usersBrandCollectionRef, { uid: user.uid, podcast_name });
+      } catch (error) {
+        console.error("Error:", error);
+        const errorMessageWithoutFirebase = error.message.replace(
+          /firebase: /i,
+          ""
+        );
+        toast.error(errorMessageWithoutFirebase || "Try again!");
+      } finally {
+        setIsSigningIn(false);
+      }
+    } else {
+      try {
+        setIsSigningIn(true);
+        const { user } = await doCreateUserWithEmailAndPassword(
+          data.email,
+          data.password
+        );
 
-      // Create a 'profile' subcollection within the 'brand' document
-      const profileCollectionRef = collection(brandDocRef, "profile");
-
-      // Add a document to the 'profile' subcollection with podcast_name field
-      const docRef = await addDoc(profileCollectionRef, {
-        podcast_name: data.podcast_name,
-      });
-
-      console.log("Profile added successfully. Document ID:", docRef.id);
-
-      login(user);
-
-      setIsSigningIn(false);
-      window.location.href = "/login";
-    } catch (error) {
-      const errorMessageWithoutFirebase = error.message.replace(
-        /firebase: /i,
-        ""
-      );
-      toast.error(errorMessageWithoutFirebase || "Try again!");
-      console.log(error);
-    } finally {
-      setIsSigningIn(false);
+        const usersCollectionRef = collection(db, "users");
+        const brandDocRef = doc(usersCollectionRef, "creator");
+        const brandDocSnapshot = await getDoc(brandDocRef);
+        if (!brandDocSnapshot.exists()) {
+          await setDoc(brandDocRef, {});
+        }
+        const usersBrandCollectionRef = collection(brandDocRef, "users");
+        await addDoc(usersBrandCollectionRef, { uid: user.uid, podcast_name });
+      } catch (error) {
+        console.error("Error:", error);
+        const errorMessageWithoutFirebase = error.message.replace(
+          /firebase: /i,
+          ""
+        );
+        toast.error(errorMessageWithoutFirebase || "Try again!");
+      } finally {
+        setIsSigningIn(false);
+      }
     }
   };
 
@@ -173,9 +187,9 @@ const SignUp = () => {
         </div>
 
         <div className="space-y-6">
-          {active.fields.map(({ children, name, ...otherProps }) => (
+          {active.fields.map(({ children, name, ...otherProps }, index) => (
             <Input
-              key={name}
+              key={`${name}-${index}`}
               name={name}
               control={control}
               errors={errors}
