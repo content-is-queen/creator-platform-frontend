@@ -18,18 +18,18 @@ const ProfileHero = ({ hero }) => {
         <div className="h-20 w-20">
           <img
             className="w-full h-full rounded-full object-cover"
-            src={hero[0].imageUrl}
+            src={hero?.imageUrl}
             alt=""
           />
         </div>
         <div className="space-y-2 max-w-96">
-          <h1 className="font-heading uppercase text-2xl">{hero[0]?.displayName}</h1>
+          <h1 className="font-heading uppercase text-2xl">{hero?.displayName}</h1>
           <div className="flex gap-2">
             {tags?.map((tag) => (
               <Tag key={tag}>{tag}</Tag>
             ))}
           </div>
-          <p className="text-sm">{hero[0]?.description}</p>
+          <p className="text-sm">{hero?.description}</p>
         </div>
       </Container>
       <Dots className="absolute -right-48 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />

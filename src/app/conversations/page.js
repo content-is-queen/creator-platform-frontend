@@ -25,7 +25,6 @@ const Conversations = () => {
   };
 
   const handeGetIds = (ids) =>{
-    console.log(ids,"You can fetch from here >>>>>>>>>>>>");
     setsSenderReceiverId(ids);
   }
 
