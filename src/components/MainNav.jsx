@@ -2,7 +2,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
+<<<<<<< HEAD
 import { usePathname } from "next/navigation";
+=======
+import { usePathname, useRouter } from "next/navigation";
+import isAuth from "@/helpers/isAuth.js";
+import API from "@/api/api.js";
+>>>>>>> aaf53e7 (Update user with descriptions)
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
@@ -12,6 +18,7 @@ import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 
 const MainNav = () => {
+  const router = useRouter();
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
 
@@ -125,7 +132,6 @@ const MainNav = () => {
               heading={<SubMenu.Heading>{displayName || userProfile?.podcast_name}</SubMenu.Heading>}
             >
               <SubMenu.Item>
-                <SubMenu.Item>
               <Link
                   href="/profile"
                   className="px-4 py-1 w-full text-left inline-block"
