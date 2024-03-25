@@ -73,18 +73,18 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
 
       <div className="flex gap-6">
         <div className="flex flex-col">
-          <Text tag="span" color="muted" size="xs">
+          <Text as="span" color="muted" size="xs">
             Budget
           </Text>
-          <Text tag="span" size="sm">
+          <Text as="span" size="sm">
             {budget}
           </Text>
         </div>
         <div className="flex flex-col">
-          <Text tag="span" color="muted" size="xs">
+          <Text as="span" color="muted" size="xs">
             Deadline
           </Text>
-          <Text tag="span" size="sm">
+          <Text as="span" size="sm">
             {deadline}
           </Text>
         </div>
@@ -99,7 +99,7 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
         </p>
       </div>
 
-      <Button variant="white" type="button" tag="button">
+      <Button variant="white" type="button" as="button">
         View Applications
       </Button>
     </Card>

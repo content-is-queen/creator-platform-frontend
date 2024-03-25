@@ -7,9 +7,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
-import AuthTemplate from "@/components/AuthTemplate";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
@@ -26,7 +25,6 @@ const SignUp = () => {
     formState: { errors },
     clearErrors,
   } = useForm();
-  const password = useWatch({ control, name: "password" });
 
   const [formData, setFormData] = useState({
     email: "",
@@ -140,7 +138,7 @@ const SignUp = () => {
   };
 
   return (
-    <AuthTemplate>
+    <>
       <Heading>Sign up</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-6">
@@ -172,14 +170,14 @@ const SignUp = () => {
         </div>
 
         <Button
-          tag="button"
+          as="button"
           type={active.id === "creator" ? "submit" : "button"}
           className="mt-8"
           {...(active.id === "brand"
             ? { onClick: () => handleBrandSignup(formData) }
             : {})}
         >
-          Sign Up
+          Create Account
         </Button>
 
         <Text size="sm" className="mt-4">
@@ -189,7 +187,7 @@ const SignUp = () => {
           </Link>
         </Text>
       </form>
-    </AuthTemplate>
+    </>
   );
 };
 

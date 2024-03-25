@@ -22,17 +22,17 @@ const ButtonVariants = cva(
   }
 );
 
-const Button = ({ variant, tag, children, className, ...otherProps }) => {
-  const Tag = tag || Link;
+const Button = ({ variant, as, children, className, ...otherProps }) => {
+  const Element = as || Link;
 
   return (
-    <Tag
+    <Element
       className={clsx(twMerge(ButtonVariants({ variant }), className))}
       {...otherProps}
     >
       {children}
       {variant === "text" && <>&rarr;</>}
-    </Tag>
+    </Element>
   );
 };
 

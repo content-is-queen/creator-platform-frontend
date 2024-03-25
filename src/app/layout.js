@@ -1,4 +1,3 @@
-import { UserProfileProvider } from "@/contexts/AuthContext/UserProfileContext";
 import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +28,7 @@ export default function RootLayout({ children }) {
       className={`${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
       <body>
-        <UserProfileProvider>{children}</UserProfileProvider>
+        {children}
         <ToastContainer />
       </body>
     </html>

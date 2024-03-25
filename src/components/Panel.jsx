@@ -1,12 +1,16 @@
 import Text from "@/components/Text";
-import Dots from "@/components/Patterns/Dots";
+import clsx from "clsx";
 
-const Panel = ({ title, children }) => (
-  <aside className="relative bg-queen-blue text-queen-white overflow-hidden rounded-3xl p-8">
+const Panel = ({ title, className, children }) => (
+  <div
+    className={clsx(
+      "relative bg-queen-blue text-queen-white overflow-hidden rounded-3xl p-8 bg-purple-dots-circle",
+      className
+    )}
+  >
     {title && <Text size="xl">{title}</Text>}
     {children}
-    <Dots className="text-queen-orange absolute -bottom-60 -right-36" />
-  </aside>
+  </div>
 );
 
 export default Panel;

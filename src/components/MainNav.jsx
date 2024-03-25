@@ -2,25 +2,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname, useRouter } from "next/navigation";
-import isAuth from "@/helpers/isAuth.js";
+import { usePathname } from "next/navigation";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
-import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
+import useAuth from "@/hooks/useAuth";
 
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 
 const MainNav = () => {
-  const router = useRouter();
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
 
-  const { userProfile, logout } = useUserProfile();
+  const { user, logout } = useAuth();
 
   const pathname = usePathname();
-  const { email, displayName, imageUrl } = isAuth();
+  const { displayName, imageUrl } = user;
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -34,7 +32,7 @@ const MainNav = () => {
     logout();
   };
 
-  const PAGES = {
+  const LINKS = {
     creator: [
       {
         href: "/",
@@ -73,7 +71,7 @@ const MainNav = () => {
             id="navbar-user"
           >
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
-              {PAGES[userProfile?.role]?.map(({ href, label }) => (
+              {LINKS[user?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
@@ -123,7 +121,7 @@ const MainNav = () => {
             <SubMenu
               heading={
                 <SubMenu.Heading>
-                  {displayName || userProfile?.podcast_name}
+                  {displayName || user?.podcast_name}
                 </SubMenu.Heading>
               }
             >
@@ -137,7 +135,7 @@ const MainNav = () => {
               </SubMenu.Item>
               <SubMenu.Item>
                 <Link
-                  href="/profile/edit"
+                  href="/settings/edit-profile"
                   className="px-4 py-1 w-full text-left inline-block"
                 >
                   Edit Profile

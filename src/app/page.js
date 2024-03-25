@@ -3,27 +3,30 @@
 import { useLayoutEffect } from "react";
 import { redirect } from "next/navigation";
 
-import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 import CreatorDashboard from "@/components/Creator/CreatorDashboard";
 import ClientDashboard from "@/components/Client/ClientDashboard";
+import isAuth from "@/helpers/isAuth";
 
 const Dashboard = () => {
-  const { userProfile } = useUserProfile();
+  const user = isAuth();
 
   const Component =
-    userProfile?.role === "creator" ? CreatorDashboard : ClientDashboard;
+    user?.role === "creator" ? CreatorDashboard : ClientDashboard;
 
   useLayoutEffect(() => {
-    if (!userProfile) {
+    if (!user) {
       redirect("/login");
     }
-  }, [userProfile]);
+  }, []);
 
-  return (
-    <main>
-      <Component userProfile={userProfile} />
-    </main>
-  );
+  if (user)
+    return (
+      <main>
+        <Component />
+      </main>
+    );
+
+  return null;
 };
 
 export default Dashboard;

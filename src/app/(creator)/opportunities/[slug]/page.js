@@ -9,6 +9,8 @@ import Container from "@/components/Container";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 
+// export const dynamicParams = false;
+
 async function getData() {
   // TODO: fetch opportunity data
 
@@ -94,7 +96,7 @@ export default async function Opportunity({ params }) {
 
           <div className="space-y-5">{data.description}</div>
 
-          <Button tag="button" type="button">
+          <Button as="button" type="button">
             Send Proposal
           </Button>
         </div>

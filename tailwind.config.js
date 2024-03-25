@@ -11,6 +11,8 @@ module.exports = {
       backgroundImage: {
         dots: "url('/images/CiQ_Pattern_02.svg')",
         purpleDots: "url('/images/CiQ_Pattern 4 lilac.svg')",
+        orangeDotsCircle: "url('/images/orange-dots-circle-panel.svg')",
+        purpleDotsCircle: "url('/images/purple-dots-circle-panel.svg')",
       },
       colors: {
         "queen-blue": "#3667ED",
