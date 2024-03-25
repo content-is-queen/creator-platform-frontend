@@ -3,17 +3,18 @@
 import { useLayoutEffect } from "react";
 import { redirect } from "next/navigation";
 
+import useAuth from "@/hooks/useAuth";
+
 import Dots from "@/components/Patterns/Dots";
-import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 
 const AuthTemplate = ({ children }) => {
-  const { userProfile } = useUserProfile();
+  const { user } = useAuth();
 
   useLayoutEffect(() => {
-    if (userProfile?.role) {
+    if (user) {
       redirect("/");
     }
-  }, [userProfile]);
+  }, [user]);
 
   return (
     <div className="grid h-screen md:grid-cols-2">

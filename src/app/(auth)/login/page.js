@@ -5,9 +5,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
-
 import { doSignInWithEmailAndPassword } from "@/firebase/auth";
+import useAuth from "@/hooks/useAuth";
 
 import Heading from "@/components/Heading";
 import Text from "@/components/Text";
@@ -43,7 +42,7 @@ const FIELDS = [
 
 const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const { login } = useUserProfile();
+  const { login } = useAuth();
 
   const {
     handleSubmit,

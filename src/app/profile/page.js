@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
+import useAuth from "@/hooks/useAuth";
 
 import MainNav from "@/components/MainNav";
 import ProfileHero from "@/components/ProfileHero";
@@ -8,18 +8,14 @@ import ProfileTabs from "@/components/ProfileTabs";
 import ProfileOpportunities from "@/components/ProfileOpportunities";
 
 const Profile = () => {
-  const { userProfile } = useUserProfile();
+  const { user } = useAuth();
 
   return (
     <div>
       <MainNav />
-      <ProfileHero user={userProfile} />
+      <ProfileHero user={user} />
 
-      {userProfile.role === "creator" ? (
-        <ProfileTabs />
-      ) : (
-        <ProfileOpportunities />
-      )}
+      {user.role === "creator" ? <ProfileTabs /> : <ProfileOpportunities />}
     </div>
   );
 };

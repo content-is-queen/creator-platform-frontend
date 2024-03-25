@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -25,7 +25,6 @@ const SignUp = () => {
     formState: { errors },
     clearErrors,
   } = useForm();
-  const password = useWatch({ control, name: "password" });
 
   const [formData, setFormData] = useState({
     email: "",
