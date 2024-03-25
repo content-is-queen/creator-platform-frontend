@@ -17,7 +17,7 @@ const Dashboard = () => {
     if (!userProfile) {
       redirect("/login");
     }
-  }, [userProfile]);
+  }, []);
 
   return (
     <main>

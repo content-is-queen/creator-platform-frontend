@@ -11,7 +11,7 @@ export const UserProfileProvider = ({ children }) => {
     if (typeof sessionStorage !== "undefined") {
       return sessionStorage?.getItem("user")
         ? JSON.parse(sessionStorage.getItem("user"))
-        : null;
+        : {};
     }
   };
 

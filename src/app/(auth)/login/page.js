@@ -11,7 +11,6 @@ import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 import { doSignInWithEmailAndPassword } from "@/firebase/auth";
 
 import Heading from "@/components/Heading";
-import AuthTemplate from "@/components/AuthTemplate";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
@@ -79,7 +78,8 @@ const Login = () => {
   };
 
   return (
-    <AuthTemplate>
+    <>
+      {" "}
       <Heading>Welcome back</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6">
@@ -98,7 +98,7 @@ const Login = () => {
             <Link href="#">Forgot password?</Link>
           </Text>
         </div>
-        <Button tag="button" type="submit" className="mt-8">
+        <Button as="button" type="submit" className="mt-8">
           {isSigningIn ? "SIGNING IN..." : "SIGN IN"}{" "}
         </Button>
         <Text size="sm" className="mt-4">
@@ -108,7 +108,7 @@ const Login = () => {
           </Link>
         </Text>
       </form>
-    </AuthTemplate>
+    </>
   );
 };
 

@@ -157,7 +157,7 @@ const Chat = ({getchatIds}) => {
               <FontAwesomeIcon className="h-6 w-6" icon={faPaperclip} />
             </button>
             <Button
-              tag="button"
+              as="button"
               type="button"
               onClick={hangleSendMessage}
               className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"

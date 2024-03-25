@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 const SIZES = {
+  "2xl": "md:text-2xl",
   "3xl": "md:text-3xl",
   "4xl": "md:text-4xl",
 };

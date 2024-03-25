@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useForm, useWatch } from "react-hook-form";
 
-import AuthTemplate from "@/components/AuthTemplate";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
@@ -140,7 +139,7 @@ const SignUp = () => {
   };
 
   return (
-    <AuthTemplate>
+    <>
       <Heading>Sign up</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-6">
@@ -171,15 +170,8 @@ const SignUp = () => {
           ))}
         </div>
 
-        <Button
-          tag="button"
-          type={active.id === "creator" ? "submit" : "button"}
-          className="mt-8"
-          {...(active.id === "brand"
-            ? { onClick: () => handleBrandSignup(formData) }
-            : {})}
-        >
-          Sign Up
+        <Button as="button" type="submit" className="mt-8">
+          {isSigningIn ? "Signing up..." : "Sign up"}
         </Button>
 
         <Text size="sm" className="mt-4">
@@ -189,7 +181,7 @@ const SignUp = () => {
           </Link>
         </Text>
       </form>
-    </AuthTemplate>
+    </>
   );
 };
 

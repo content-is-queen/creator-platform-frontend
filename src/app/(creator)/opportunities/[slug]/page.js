@@ -94,7 +94,7 @@ export default async function Opportunity({ params }) {
 
           <div className="space-y-5">{data.description}</div>
 
-          <Button tag="button" type="button">
+          <Button as="button" type="button">
             Send Proposal
           </Button>
         </div>

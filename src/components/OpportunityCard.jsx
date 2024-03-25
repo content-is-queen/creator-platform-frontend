@@ -30,19 +30,19 @@ const OpportunityCard = ({
       </Link>
       <div className="flex gap-y-2 gap-x-6 item-center">
         <div className="flex gap-x-2">
-          <Text tag="span" size="sm">
+          <Text as="span" size="sm">
             Budget
           </Text>
-          <Text tag="span" size="sm" color="muted">
+          <Text as="span" size="sm" color="muted">
             {budget}
           </Text>
         </div>
 
         <div className="flex gap-x-2">
-          <Text tag="span" size="sm">
+          <Text as="span" size="sm">
             Deadline
           </Text>
-          <Text tag="span" size="sm" color="muted">
+          <Text as="span" size="sm" color="muted">
             {deadline}
           </Text>
         </div>
