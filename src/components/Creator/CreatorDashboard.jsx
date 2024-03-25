@@ -33,6 +33,7 @@ const CreatorDashboard = ({ userProfile }) => {
               </Button>
             </div>
             <div className="grid gap-8 md:col-span-2">
+              {/* TODO: Populate stats panel with creators stats  */}
               <StatsPanel />
               <Panel title="Most Recent Chat"></Panel>
             </div>

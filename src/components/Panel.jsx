@@ -4,7 +4,7 @@ import clsx from "clsx";
 const Panel = ({ title, className, children }) => (
   <div
     className={clsx(
-      "relative bg-queen-blue text-queen-white overflow-hidden rounded-3xl px-8 pt-8 pb-16 bg-purple-dots-circle leading-none",
+      "relative bg-queen-blue text-queen-white overflow-hidden rounded-3xl px-10 pt-10 pb-16 bg-purple-dots-circle leading-none",
       className
     )}
   >
