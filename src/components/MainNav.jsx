@@ -4,6 +4,8 @@ import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 import useAuth from "@/hooks/useAuth";
@@ -41,7 +43,7 @@ const MainNav = () => {
       { href: "/opportunities", label: "Opportunities" },
       { href: "/conversations", label: "Conversations" },
     ],
-    client: [
+    brand: [
       {
         href: "/",
         label: "Projects",
@@ -71,7 +73,7 @@ const MainNav = () => {
             id="navbar-user"
           >
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
-              {LINKS[user?.role]?.map(({ href, label }) => (
+              {LINKS[user.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
@@ -82,7 +84,7 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              <li className="text-queen-yellow flex items-center">
+              <li>
                 <button
                   type="button"
                   onClick={handleIsUserClicked}
@@ -96,22 +98,29 @@ const MainNav = () => {
                   <IoNotificationsOutline className="w-6 h-6" />
                 </button>
               </li>
-              <li className="flex items-center justify-start">
+              <li>
                 <button
                   type="button"
                   onClick={handleIsUserClicked}
-                  className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                  className="flex justify-center items-center text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8"
                   id="user-menu-button"
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
                   data-dropdown-placement="bottom"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src={imageUrl}
-                    alt="Kaleshe"
-                  />
+                  {user?.photoUrl ? (
+                    <img
+                      className="rounded-full w-full h-full"
+                      src={user.photoUrl}
+                      alt={user?.displayName}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      className="text-queen-white"
+                      icon={faUser}
+                    />
+                  )}
                 </button>
               </li>
             </ul>
@@ -120,9 +129,7 @@ const MainNav = () => {
           {isUserClicked && (
             <SubMenu
               heading={
-                <SubMenu.Heading>
-                  {displayName || user?.podcast_name}
-                </SubMenu.Heading>
+                <SubMenu.Heading>{displayName || user?.email}</SubMenu.Heading>
               }
             >
               <SubMenu.Item>

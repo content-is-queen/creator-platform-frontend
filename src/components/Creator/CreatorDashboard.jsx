@@ -5,6 +5,7 @@ import OpportunityCard from "@/components/OpportunityCard";
 import Button from "@/components/Button";
 import Panel from "@/components/Panel";
 import Heading from "@/components/Heading";
+import StatsPanel from "../StatsPanel";
 
 const CreatorDashboard = ({ userProfile }) => {
   const opportunities = [];
@@ -32,8 +33,12 @@ const CreatorDashboard = ({ userProfile }) => {
               </Button>
             </div>
             <div className="grid gap-8 md:col-span-2">
-              <Panel title="Overview"></Panel>
-              <Panel title="Most Recent Chat"></Panel>
+              {/* TODO: Populate stats panel with creators stats  */}
+              <StatsPanel />
+              <Panel
+                title="Most Recent Chat"
+                className="text-white bg-orange-dots-circle bg-queen-blue"
+              ></Panel>
             </div>
           </div>
         </Container>

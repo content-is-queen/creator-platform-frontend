@@ -10,8 +10,7 @@ import isAuth from "@/helpers/isAuth";
 const Dashboard = () => {
   const user = isAuth();
 
-  const Component =
-    user?.role === "creator" ? CreatorDashboard : ClientDashboard;
+  const Component = user.role === "brand" ? ClientDashboard : CreatorDashboard;
 
   useLayoutEffect(() => {
     if (!user) {

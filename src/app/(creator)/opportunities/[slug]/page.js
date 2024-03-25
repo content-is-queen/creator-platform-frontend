@@ -67,7 +67,7 @@ export default async function Opportunity({ params }) {
   const data = await getData();
 
   return (
-    <div className="bg-purpleDots bg-repeat-x bg-[center_bottom]">
+    <div className="bg-purple-dots bg-repeat-x bg-[center_bottom]">
       <MainNav />
       <Container size="2xl">
         <div className="mt-20 pb-60 space-y-8">
