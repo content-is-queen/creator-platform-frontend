@@ -7,6 +7,8 @@ import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
 import CreatorDashboard from "@/components/Creator/CreatorDashboard";
 import ClientDashboard from "@/components/Client/ClientDashboard";
 
+export const dynamicParams = false;
+
 const Dashboard = () => {
   const { userProfile } = useUserProfile();
 
@@ -14,7 +16,7 @@ const Dashboard = () => {
     userProfile?.role === "creator" ? CreatorDashboard : ClientDashboard;
 
   useLayoutEffect(() => {
-    if (!userProfile) {
+    if (!userProfile?.role) {
       redirect("/login");
     }
   }, []);

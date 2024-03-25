@@ -9,6 +9,8 @@ import Container from "@/components/Container";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 
+// export const dynamicParams = false;
+
 async function getData() {
   // TODO: fetch opportunity data
 

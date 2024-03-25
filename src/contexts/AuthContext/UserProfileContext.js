@@ -11,7 +11,7 @@ export const UserProfileProvider = ({ children }) => {
     if (typeof localStorage !== "undefined") {
       return localStorage?.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))
-        : {};
+        : null;
     }
   };
 
@@ -25,10 +25,24 @@ export const UserProfileProvider = ({ children }) => {
 
       Secure.setToken(token);
       window.location.href = "/";
-      setUserProfile({ email: email, photoUrl: photoUrl, role: "creator" });
+      setUserProfile({
+        email: email,
+        photoUrl: photoUrl,
+        role: "client",
+        bio: "About me",
+        profileImage: "/images/keshe.jpg",
+        company: "Kaneko",
+      });
       localStorage.setItem(
         "user",
-        JSON.stringify({ email: email, photoUrl: photoUrl, role: "creator" })
+        JSON.stringify({
+          email: email,
+          photoUrl: photoUrl,
+          role: "client",
+          bio: "About me",
+          profileImage: "/images/keshe.jpg",
+          company: "Kaneko",
+        })
       );
     } catch (error) {
       console.error("Login error:", error);

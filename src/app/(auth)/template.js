@@ -10,7 +10,7 @@ const AuthTemplate = ({ children }) => {
   const { userProfile } = useUserProfile();
 
   useLayoutEffect(() => {
-    if (userProfile) {
+    if (userProfile?.role) {
       redirect("/");
     }
   }, [userProfile]);

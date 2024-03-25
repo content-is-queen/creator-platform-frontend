@@ -12,7 +12,7 @@ import Panel from "../Panel";
 import Link from "next/link";
 
 const ClientDashboard = ({ userProfile }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   // TODO: get opportunites from API
 
   const opportunityTypes = [
@@ -109,8 +109,7 @@ const ClientDashboard = ({ userProfile }) => {
                         </div>
                         <Link
                           href={{
-                            pathname: "/opportunities/create",
-                            query: { type: opp.type },
+                            pathname: `/opportunities/create/${opp.type}`,
                           }}
                           className="bg-white h-7 w-7 self-end justify-self-end flex items-center justify-center rounded-full mt-16"
                         >

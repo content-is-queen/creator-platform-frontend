@@ -1,0 +1,80 @@
+{
+  "job": {
+    "fields": [
+      {
+        "name": "title",
+        "type": "select",
+        "options": [
+          "Host",
+          "Audio Editor",
+          "Producer",
+          "Voiceover Artist",
+          "Sound Designer",
+          "Production Assistant",
+          "Audience Development",
+          "Executive Producer",
+          "Other"
+        ],
+        "children": "Title/Role"
+      },
+      {
+        "name": "company",
+        "type": "text",
+        "children": "Company/Organisation Name"
+      },
+      {
+        "name": "description",
+        "type": "textarea",
+        "children": "Description"
+      },
+      { "name": "skills", "type": "radio", "children": "Skills Required" },
+      {
+        "name": "experience",
+        "type": "select",
+        "children": "Experience Level"
+      },
+      { "name": "duration", "type": "select", "children": "Duration" },
+      { "name": "location", "type": "select", "children": "Location" },
+      { "name": "compensation", "type": "select", "children": "Compensation" }
+    ]
+  },
+  "pitch": {
+    "fields": [
+      { "name": "project", "type": "text", "children": "Project Title" },
+      {
+        "name": "description",
+        "type": "textarea",
+        "children": "Description"
+      },
+      { "name": "target", "type": "select", "children": "Target Audience" },
+      {
+        "name": "format",
+        "type": "select",
+        "children": "Audio Format"
+      },
+      { "name": "duration", "type": "text", "children": "Length/Duration" },
+      { "name": "budget", "type": "select", "children": "Budget" },
+      {
+        "name": "submission",
+        "type": "radio",
+        "children": "Submission Details"
+      }
+    ]
+  },
+  "campaign": {
+    "fields": [
+      { "name": "name", "type": "text", "children": "Campaign Name" },
+      { "name": "brand", "type": "text", "children": "Brand/Product" },
+      { "name": "goals", "type": "select", "children": "Campaign Goals" },
+      { "name": "target", "type": "select", "children": "Target Demographic" },
+      { "name": "budget", "type": "select", "children": "Budget" },
+      { "name": "duration", "type": "date", "children": "Duration" },
+      { "name": "format", "type": "select", "children": "Ad Format" },
+      {
+        "name": "requirements",
+        "type": "textarea",
+        "children": "Creative Requirements"
+      }
+    ]
+  }
+}

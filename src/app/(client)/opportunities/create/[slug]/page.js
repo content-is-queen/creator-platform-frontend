@@ -6,13 +6,23 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Heading from "@/components/Heading";
 import MainNav from "@/components/MainNav";
 import Container from "@/components/Container";
-import Text from "@/components/Text";
 import Button from "@/components/Button";
+import Form from "@/components/Form";
 
-const Create = ({ searchParams }) => {
-  // TODO: render form fields based on param
+import opportunities from "@/data/opportunities.json";
 
-  console.log(searchParams);
+export async function generateStaticParams() {
+  const types = Object.keys(opportunities).map((opp) => {
+    return { slug: opp };
+  });
+
+  return types;
+}
+
+export const dynamicParams = false;
+
+const Page = async ({ params }) => {
+  const { slug } = params;
 
   return (
     <div className="bg-purpleDots bg-repeat-x bg-[center_bottom]">
@@ -28,9 +38,11 @@ const Create = ({ searchParams }) => {
               <span>Go back</span>
             </Link>
             <Heading size="3xl" className="mb-1">
-              Create a new
+              Create a new {slug}
             </Heading>
           </div>
+
+          <Form fields={opportunities[slug].fields} />
 
           <Button as="button" type="button">
             Submit
@@ -41,4 +53,4 @@ const Create = ({ searchParams }) => {
   );
 };
 
-export default Create;
+export default Page;
