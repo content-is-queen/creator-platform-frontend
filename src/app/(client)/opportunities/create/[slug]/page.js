@@ -25,7 +25,7 @@ const Page = async ({ params }) => {
   const { slug } = params;
 
   return (
-    <div className="bg-purpleDots bg-repeat-x bg-[center_bottom]">
+    <div className="bg-purple-dots bg-repeat-x bg-[center_bottom]">
       <MainNav />
       <Container size="2xl">
         <div className="mt-20 pb-96 space-y-8">

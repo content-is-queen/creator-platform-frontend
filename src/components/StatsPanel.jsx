@@ -24,7 +24,10 @@ const Stat = ({ value, label }) => (
 );
 
 const StatsPanel = () => (
-  <Panel title="Overview">
+  <Panel
+    title="Overview"
+    className="text-white bg-orange-dots-circle bg-queen-blue"
+  >
     {STATS.map((stat) => (
       <Stat
         key={stat.name}
