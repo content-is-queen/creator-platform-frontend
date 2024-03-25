@@ -2,13 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-<<<<<<< HEAD
-import { usePathname } from "next/navigation";
-=======
 import { usePathname, useRouter } from "next/navigation";
 import isAuth from "@/helpers/isAuth.js";
-import API from "@/api/api.js";
->>>>>>> aaf53e7 (Update user with descriptions)
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
@@ -25,9 +20,7 @@ const MainNav = () => {
   const { userProfile, logout } = useUserProfile();
 
   const pathname = usePathname();
-  const { email, 
-    displayName, 
-    imageUrl } = isAuth();
+  const { email, displayName, imageUrl } = isAuth();
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -127,11 +120,15 @@ const MainNav = () => {
           </div>
 
           {isUserClicked && (
-              <SubMenu
-              heading={<SubMenu.Heading>{displayName || userProfile?.podcast_name}</SubMenu.Heading>}
+            <SubMenu
+              heading={
+                <SubMenu.Heading>
+                  {displayName || userProfile?.podcast_name}
+                </SubMenu.Heading>
+              }
             >
               <SubMenu.Item>
-              <Link
+                <Link
                   href="/profile"
                   className="px-4 py-1 w-full text-left inline-block"
                 >
@@ -139,7 +136,7 @@ const MainNav = () => {
                 </Link>
               </SubMenu.Item>
               <SubMenu.Item>
-              <Link
+                <Link
                   href="/profile/edit"
                   className="px-4 py-1 w-full text-left inline-block"
                 >

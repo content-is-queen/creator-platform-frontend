@@ -62,17 +62,10 @@ const Login = () => {
           data.email,
           data.password
         );
-<<<<<<< HEAD
 
         const { email, photoURL } = user;
 
         login(user);
-=======
-        const token = await user.getIdToken();
-        console.log(user, token, "______________");
-        Secure.setToken(token);
-        router.push('/dashboard');
->>>>>>> aea4a1c (ft(Profile):)
       }
     } catch (error) {
       const errorMessageWithoutFirebase = error.message.replace(
