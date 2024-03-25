@@ -35,7 +35,7 @@ const MainNav = () => {
   };
 
   const LINKS = {
-    brand: [
+    creator: [
       {
         href: "/",
         label: "Dashboard",
@@ -43,7 +43,7 @@ const MainNav = () => {
       { href: "/opportunities", label: "Opportunities" },
       { href: "/conversations", label: "Conversations" },
     ],
-    client: [
+    brand: [
       {
         href: "/",
         label: "Projects",
