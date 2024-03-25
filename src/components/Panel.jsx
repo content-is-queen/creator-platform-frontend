@@ -4,11 +4,15 @@ import clsx from "clsx";
 const Panel = ({ title, className, children }) => (
   <div
     className={clsx(
-      "relative bg-queen-blue text-queen-white overflow-hidden rounded-3xl p-8 bg-purple-dots-circle",
+      "relative bg-queen-blue text-queen-white overflow-hidden rounded-3xl px-8 pt-8 pb-16 bg-purple-dots-circle leading-none",
       className
     )}
   >
-    {title && <Text size="xl">{title}</Text>}
+    {title && (
+      <Text size="xl" className="mb-4">
+        {title}
+      </Text>
+    )}
     {children}
   </div>
 );

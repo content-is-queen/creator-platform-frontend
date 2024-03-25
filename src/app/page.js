@@ -12,8 +12,6 @@ const Dashboard = () => {
 
   const Component = user.role === "brand" ? ClientDashboard : CreatorDashboard;
 
-  console.log(user.role);
-
   useLayoutEffect(() => {
     if (!user) {
       redirect("/login");
