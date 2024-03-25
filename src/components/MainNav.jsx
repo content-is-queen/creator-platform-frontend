@@ -2,21 +2,25 @@
 import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import isAuth from "@/helpers/isAuth.js";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
-import Container from "@/components/Container";
 import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
-import SubMenu from "./SubMenu";
+
+import Container from "@/components/Container";
+import SubMenu from "@/components/SubMenu";
 
 const MainNav = () => {
+  const router = useRouter();
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
 
   const { userProfile, logout } = useUserProfile();
 
   const pathname = usePathname();
+  const { email, displayName, imageUrl } = isAuth();
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -107,7 +111,7 @@ const MainNav = () => {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="w-8 h-8 rounded-full"
-                    src="/images/keshe.jpg"
+                    src={imageUrl}
                     alt="Kaleshe"
                   />
                 </button>
@@ -117,7 +121,11 @@ const MainNav = () => {
 
           {isUserClicked && (
             <SubMenu
-              heading={<SubMenu.Heading> {userProfile.email}</SubMenu.Heading>}
+              heading={
+                <SubMenu.Heading>
+                  {displayName || userProfile?.podcast_name}
+                </SubMenu.Heading>
+              }
             >
               <SubMenu.Item>
                 <Link
@@ -125,6 +133,14 @@ const MainNav = () => {
                   className="px-4 py-1 w-full text-left inline-block"
                 >
                   Profile
+                </Link>
+              </SubMenu.Item>
+              <SubMenu.Item>
+                <Link
+                  href="/profile/edit"
+                  className="px-4 py-1 w-full text-left inline-block"
+                >
+                  Edit Profile
                 </Link>
               </SubMenu.Item>
 

@@ -21,34 +21,55 @@ const Input = ({
   ...otherProps
 }) => (
   <div className="relative z-0 w-full group">
-    <Controller
-      name={name}
-      control={control}
-      defaultValue=""
-      rules={rules}
-      render={({ field }) => (
-        <>
-          <input
-            className={clsx(
-              twMerge(
-                inputStyles.input,
-                "py-3.5",
-                errors[name] ? "border-red-500" : "border-queen-black",
-                className
-              )
-            )}
-            placeholder=" "
-            id={name}
-            {...field}
-            {...otherProps}
-          />
-          <label htmlFor={name} className={inputStyles.label}>
-            {children}
-          </label>
-          {icon && icon}
-        </>
-      )}
-    />
+    {control ? (
+      <Controller
+        name={name}
+        control={control}
+        defaultValue=""
+        rules={rules}
+        render={({ field }) => (
+          <>
+            <input
+              className={clsx(
+                twMerge(
+                  inputStyles.input,
+                  errors[name] ? "border-red-500" : "border-queen-black",
+                  className
+                )
+              )}
+              placeholder=""
+              id={name}
+              {...field}
+              {...otherProps}
+            />
+            <label htmlFor={name} className={inputStyles.label}>
+              {children}
+            </label>
+            {icon && icon}
+          </>
+        )}
+      />
+    ) : (
+      <>
+        <input
+          className={clsx(
+            twMerge(
+              inputStyles.input,
+              errors[name] ? "border-red-500" : "border-queen-black",
+              className
+            )
+          )}
+          name={name}
+          placeholder=""
+          id={name}
+          {...otherProps}
+        />
+        <label htmlFor={name} className={inputStyles.label}>
+          {children}
+        </label>
+        {icon && icon}
+      </>
+    )}
     {errors[name] && (
       <p className="text-red-500 text-sm">{errors[name].message}</p>
     )}

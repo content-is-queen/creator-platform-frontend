@@ -1,11 +1,29 @@
 "use client";
 
+import API from "@/api/api";
+import isAuth from "@/helpers/isAuth";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
 
-const ConversationPreview = ({ active, setActive, index }) => {
+const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
+  const [messageList,setMessageList] = useState([]);
   const clickHandler = () => {
+    const {user_id} = isAuth();
+    getIds({sender: user_id, receiver: data.uid});
     setActive(index);
+
   };
+  const fetchUserMessageList = async () => {
+    try {
+      const response = await API.get("messages/users");
+      setMessageList(response.data.message);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserMessageList();
+  }, []);
 
   return (
     <li className="first:rounded-t-3xl overflow-hidden">
@@ -27,7 +45,7 @@ const ConversationPreview = ({ active, setActive, index }) => {
           <div className="py-3 flex-1">
             <div className="flex gap-4 items-center">
               <p className="text-sm font-medium text-queen-black truncate">
-                Kaleshe Alleyne-Vassel
+                {data.email}
               </p>
               <div className="text-xs text-queen-black/60 justify-self-end">
                 Jan 26

@@ -1,14 +1,12 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Link from "next/link";
 
-import { useUserProfile } from "@/contexts/AuthContext/UserProfileContext";
-
-import { db } from "@/firebase/firebase";
-import { doCreateUserWithEmailAndPassword } from "@/firebase/auth";
-import { addDoc, collection, doc } from "firebase/firestore";
 import { useForm, useWatch } from "react-hook-form";
 
 import AuthTemplate from "@/components/AuthTemplate";
@@ -17,8 +15,10 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Heading from "@/components/Heading";
 import Tabs from "@/components/Tabs";
+import API from "@/api/api";
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     handleSubmit,
     control,
@@ -28,45 +28,22 @@ const SignUp = () => {
   } = useForm();
   const password = useWatch({ control, name: "password" });
 
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const handleBrandSignup = async (formData) => {
+    try {
+      await API.post("/auth/signup/brand", formData);
+      router.push("/login");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error.response.data.message || error.message || "Try again");
+    }
+  };
   const OPTIONS = [
-    {
-      label: "Brand",
-      id: "brand",
-      fields: [
-        {
-          name: "email",
-          type: "email",
-          children: "Email Address",
-          rules: {
-            required: "Email address is required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Invalid email address",
-            },
-          },
-        },
-        {
-          name: "password",
-          type: "password",
-          children: "Password",
-          rules: {
-            required: "Password is required",
-            minLength: {
-              value: 6,
-              message: "Password must be at least 6 characters",
-            },
-          },
-        },
-        {
-          name: "confirm_password",
-          type: "password",
-          children: "Confirm Password",
-          rules: {
-            validate: (value) => value === password || "Passwords do not match",
-          },
-        },
-      ],
-    },
     {
       label: "Creator",
       id: "creator",
@@ -109,58 +86,56 @@ const SignUp = () => {
           name: "confirm_password",
           type: "password",
           children: "Confirm Password",
+        },
+      ],
+    },
+    {
+      label: "Brand",
+      id: "brand",
+      fields: [
+        {
+          name: "email",
+          type: "email",
+          children: "Email Address",
+        },
+        {
+          name: "password",
+          type: "password",
+          children: "Password",
           rules: {
-            validate: (value) => value === password || "Passwords do not match",
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Password must be at least 6 characters",
+            },
           },
+        },
+        {
+          name: "confirm_password",
+          type: "password",
+          children: "Confirm Password",
         },
       ],
     },
   ];
 
-  const [active, setActive] = useState(OPTIONS[0]);
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const { login } = useUserProfile();
-
   useEffect(() => {
     clearErrors();
   }, [active]);
 
-  useEffect(() => {}, [active, password]);
+  const [active, setActive] = useState(OPTIONS[0]);
 
   const onSubmit = async (data) => {
-    try {
-      setIsSigningIn(true);
-      const { user } = await doCreateUserWithEmailAndPassword(
-        data.email,
-        data.password
-      );
-      const brandDocRef = doc(db, "brand", user.uid);
-
-      console.log("Brand Doc Ref:", brandDocRef.path);
-
-      // Create a 'profile' subcollection within the 'brand' document
-      const profileCollectionRef = collection(brandDocRef, "profile");
-
-      // Add a document to the 'profile' subcollection with podcast_name field
-      const docRef = await addDoc(profileCollectionRef, {
-        podcast_name: data.podcast_name,
-      });
-
-      console.log("Profile added successfully. Document ID:", docRef.id);
-
-      login(user);
-
-      setIsSigningIn(false);
-      window.location.href = "/login";
-    } catch (error) {
-      const errorMessageWithoutFirebase = error.message.replace(
-        /firebase: /i,
-        ""
-      );
-      toast.error(errorMessageWithoutFirebase || "Try again!");
-      console.log(error);
-    } finally {
-      setIsSigningIn(false);
+    if (active.id === "creator") {
+      try {
+        await API.post("/auth/signup/creator", data);
+        router.push("/login");
+      } catch (error) {
+        console.error("Error:", error);
+        toast.error(
+          error.response.data.message || error.message || "Try again"
+        );
+      }
     }
   };
 
@@ -179,6 +154,16 @@ const SignUp = () => {
               name={name}
               control={control}
               errors={errors}
+              {...(active.id === "creator"
+                ? { control: control }
+                : {
+                    value: formData[name],
+                    onChange: (e) =>
+                      setFormData({
+                        ...formData,
+                        [name]: e.target.value,
+                      }),
+                  })}
               {...otherProps}
             >
               {children}
@@ -186,9 +171,17 @@ const SignUp = () => {
           ))}
         </div>
 
-        <Button tag="button" type="submit" className="mt-8">
-          {isSigningIn ? "Signing up..." : "Sign up"}
+        <Button
+          tag="button"
+          type={active.id === "creator" ? "submit" : "button"}
+          className="mt-8"
+          {...(active.id === "brand"
+            ? { onClick: () => handleBrandSignup(formData) }
+            : {})}
+        >
+          Sign Up
         </Button>
+
         <Text size="sm" className="mt-4">
           Already registered?{" "}
           <Link href="/login" className="font-medium text-queen-blue">

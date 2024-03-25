@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 import Secure from "@/utils/SecureLs";
+import { doSignOut } from "@/firebase/auth";
 
 const UserProfileContext = createContext();
 
@@ -25,7 +26,7 @@ export const UserProfileProvider = ({ children }) => {
       Secure.setToken(token);
       window.location.href = "/";
       setUserProfile({ email: email, photoUrl: photoUrl, role: "creator" });
-      sessionStorage.setItem(
+      localStorage.setItem(
         "user",
         JSON.stringify({ email: email, photoUrl: photoUrl, role: "creator" })
       );
@@ -34,11 +35,12 @@ export const UserProfileProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     try {
+      await doSignOut();
       Secure.removeToken();
       setUserProfile(null);
-      sessionStorage.removeItem("user");
+      localStorage.removeItem("user");
       window.location.href = "/login";
     } catch (error) {
       console.error("Sign out error:", error);
