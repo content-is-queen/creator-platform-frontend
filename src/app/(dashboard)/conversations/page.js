@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import MainNav from "@/components/MainNav";
 import ConversationPreview from "@/components/ConversationPreview";
 import Chat from "@/components/Chat";
 import Container from "@/components/Container";
@@ -12,7 +11,7 @@ const CONVERSATIONS = [1, 2, 3, 4];
 
 const Conversations = () => {
   const [active, setActive] = useState(null);
-  const [userList,setUserList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const [senderReceiverId, setsSenderReceiverId] = useState({});
 
   const fetchUserUsersList = async () => {
@@ -24,18 +23,16 @@ const Conversations = () => {
     }
   };
 
-  const handeGetIds = (ids) =>{
+  const handeGetIds = (ids) => {
     setsSenderReceiverId(ids);
-  }
+  };
 
   useEffect(() => {
     fetchUserUsersList();
   }, []);
 
-
   return (
-    <div className="bg-queen-white message h-screen bg-dots bg-repeat-x bg-[center_bottom_-4rem]">
-      <MainNav />
+    <div className="message h-screen bg-dots bg-repeat-x bg-[center_bottom_-4rem]">
       <Container className="my-8 grid gap-6 grid-cols-6">
         <ul
           className="bg-white rounded-3xl shadow-md col-span-2 overflow-y-auto"

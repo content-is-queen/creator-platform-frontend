@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useLayoutEffect } from "react";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
@@ -32,6 +34,12 @@ const MainNav = () => {
   const handleSignOut = async () => {
     logout();
   };
+
+  useLayoutEffect(() => {
+    if (!user) {
+      redirect("/login");
+    }
+  }, []);
 
   const LINKS = {
     creator: [

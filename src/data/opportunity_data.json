@@ -1,5 +1,7 @@
 {
   "job": {
+    "label": "Job",
+    "description": "A piece of work, especially a specific task done as part of the routine of one's occupation or for an agreed price",
     "fields": [
       {
         "name": "title",
@@ -39,6 +41,8 @@
     ]
   },
   "pitch": {
+    "label": "Pitch",
+    "description": "An introductory presentation that provides a quick summary of yourself.",
     "fields": [
       { "name": "project", "type": "text", "children": "Project Title" },
       {
@@ -62,6 +66,8 @@
     ]
   },
   "campaign": {
+    "label": "Advertising Campaign",
+    "description": "An advertising campaign is a series of advertisement messages that share a single idea",
     "fields": [
       { "name": "name", "type": "text", "children": "Campaign Name" },
       { "name": "brand", "type": "text", "children": "Brand/Product" },

@@ -6,15 +6,12 @@ import Search from "@/components/Search";
 const TAGS = ["pitch", "broadcasting", "business", "publishing"];
 
 const Opportunities = () => (
-  <div>
-    <MainNav />
-    <Container size="2xl">
-      <div className="text-center mt-20 mb-16">
-        <Heading>Opportunities</Heading>
-      </div>
-      <Search tags={TAGS} />
-    </Container>
-  </div>
+  <Container size="2xl">
+    <div className="text-center mt-20 mb-16">
+      <Heading>Opportunities</Heading>
+    </div>
+    <Search tags={TAGS} />
+  </Container>
 );
 
 export default Opportunities;
