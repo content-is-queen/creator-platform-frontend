@@ -17,7 +17,6 @@ import Tabs from "@/components/Tabs";
 import API from "@/api/api";
 
 const SignUp = () => {
-  const router = useRouter();
   const {
     handleSubmit,
     control,
@@ -26,21 +25,6 @@ const SignUp = () => {
     clearErrors,
   } = useForm();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirm_password: "",
-  });
-
-  const handleBrandSignup = async (formData) => {
-    try {
-      await API.post("/auth/signup/brand", formData);
-      router.push("/login");
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error(error.response.data.message || error.message || "Try again");
-    }
-  };
   const OPTIONS = [
     {
       label: "Creator",
@@ -117,11 +101,28 @@ const SignUp = () => {
     },
   ];
 
+  const router = useRouter();
+
+  const [active, setActive] = useState(OPTIONS[0]);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+
   useEffect(() => {
     clearErrors();
   }, [active]);
 
-  const [active, setActive] = useState(OPTIONS[0]);
+  const handleBrandSignup = async (formData) => {
+    try {
+      await API.post("/auth/signup/brand", formData);
+      router.push("/login");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error.response.data.message || error.message || "Try again");
+    }
+  };
 
   const onSubmit = async (data) => {
     if (active.id === "creator") {
