@@ -36,7 +36,7 @@ const CreatorDashboard = ({ userProfile }) => {
         href="/opportunities"
         button={<Button href="/opportunities">View all opportunities</Button>}
       >
-        Get started by checking out the latest opportunites.
+        Get started by checking out the latest opportunities.
       </Empty>
     );
   }
