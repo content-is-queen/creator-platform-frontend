@@ -12,7 +12,7 @@ import Button from "@/components/Button";
 import Panel from "../Panel";
 import Link from "next/link";
 
-const ClientDashboard = ({ userProfile }) => {
+const ClientDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   // TODO: get opportunites from API
 
