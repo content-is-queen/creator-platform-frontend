@@ -28,10 +28,17 @@ const OpportunitiesList = ({ opportunities }) => (
 const CreatorDashboard = ({ userProfile }) => {
   const opportunities = [];
 
-  const applications = [""];
+  const applications = [];
 
   if (applications.length < 1) {
-    return;
+    return (
+      <Empty
+        href="/opportunities"
+        button={<Button href="/opportunities">View all opportunities</Button>}
+      >
+        Get started by checking out the latest opportunites.
+      </Empty>
+    );
   }
 
   return (
@@ -40,7 +47,6 @@ const CreatorDashboard = ({ userProfile }) => {
         <Heading>Welcome back, {userProfile?.name || "Add name..."}</Heading>
         <div className="grid gap-8 md:grid-cols-6">
           <div className="pt-2 pl-0 md:col-span-4">
-            {/* TODO: Add panel to complete profile if not filled out */}
             {opportunities.length > 0 ? (
               <OpportunitiesList opportunities={opportunities} />
             ) : (
@@ -49,7 +55,6 @@ const CreatorDashboard = ({ userProfile }) => {
           </div>
 
           <div className="grid gap-8 md:col-span-2">
-            {/* TODO: Populate stats panel with creators stats  */}
             <StatsPanel />
             <Panel
               title="Most Recent Chat"

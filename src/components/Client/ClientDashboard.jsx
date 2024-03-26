@@ -9,6 +9,7 @@ import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import ProjectsTabs from "@/components/Client/ProjectsTabs";
 import Button from "@/components/Button";
+import Empty from "@/components/Empty";
 import Panel from "@/components/Panel";
 
 import data from "@/data/opportunity_data.json";
@@ -65,40 +66,49 @@ const OpportunityPanels = () => (
   </div>
 );
 
+const OpportunityModal = ({ isOpen, setIsOpen }) => (
+  <Dialog
+    open={isOpen}
+    onClose={() => setIsOpen(false)}
+    className="relative z-50"
+  >
+    <div className="fixed inset-0 bg-queen-black/75" aria-hidden="true" />
+    <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+      <Dialog.Panel className="mx-auto w-full max-w-5xl rounded-3xl bg-white py-16 px-10">
+        <Dialog.Title>
+          <Heading size="2xl" className="text-center mb-12">
+            Select an opportunity type
+          </Heading>
+        </Dialog.Title>
+
+        <OpportunityPanels />
+      </Dialog.Panel>
+    </div>
+  </Dialog>
+);
+
 const ClientDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // TODO: get opportunites from API
+  const opportunities = [];
 
-  const opportunities = [
-    {
-      status: "in_progress",
-      title: "Email Marketing",
-      type: "Pitch",
-      budget: "less than £500",
-      deadline: "2 Mar 2024",
-    },
-    {
-      status: "live",
-      title: "Podcast Editor",
-      type: "Job",
-      budget: "2k",
-      deadline: "5 Mar 2024",
-    },
-    {
-      status: "in_progress",
-      title: "Manager",
-      type: "Job",
-      budget: "Under 5k",
-      deadline: "6 April 2024",
-    },
-    {
-      status: "completed",
-      title: "Drop in guest",
-      type: "Pitch",
-      budget: "£200",
-      deadline: "5 June 2024",
-    },
-  ];
+  if (opportunities.length < 1) {
+    return (
+      <Container>
+        {" "}
+        <Empty
+          href="/opportunities"
+          button={
+            <Button type="button" as="button" onClick={() => setIsOpen(true)}>
+              Create Opportunity
+            </Button>
+          }
+        >
+          Looks like you haven't listed any opportunities yet.
+        </Empty>
+        <OpportunityModal setIsOpen={setIsOpen} isOpen={isOpen} />
+      </Container>
+    );
+  }
 
   return (
     <div className="h-full py-12 md:py-20">
@@ -108,29 +118,9 @@ const ClientDashboard = () => {
           <Button type="button" as="button" onClick={() => setIsOpen(true)}>
             Create Opportunity
           </Button>
-          <Dialog
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-            className="relative z-50"
-          >
-            <div
-              className="fixed inset-0 bg-queen-black/75"
-              aria-hidden="true"
-            />
-            <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-              <Dialog.Panel className="mx-auto w-full max-w-5xl rounded-3xl bg-white py-16 px-10">
-                <Dialog.Title>
-                  <Heading size="2xl" className="text-center mb-12">
-                    Select an opportunity type
-                  </Heading>
-                </Dialog.Title>
-
-                <OpportunityPanels />
-              </Dialog.Panel>
-            </div>
-          </Dialog>
         </div>
         <ProjectsTabs opportunities={opportunities} />
+        <OpportunityModal setIsOpen={setIsOpen} isOpen={isOpen} />
       </Container>
     </div>
   );
