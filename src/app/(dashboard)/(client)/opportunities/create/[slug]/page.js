@@ -4,15 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import Heading from "@/components/Heading";
-import MainNav from "@/components/MainNav";
 import Container from "@/components/Container";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 
-import opportunities from "@/data/opportunities.json";
+import data from "@/data/opportunity_data.json";
 
 export async function generateStaticParams() {
-  const types = Object.keys(opportunities).map((opp) => {
+  const types = Object.keys(data).map((opp) => {
     return { slug: opp };
   });
 
@@ -26,7 +25,6 @@ const Page = async ({ params }) => {
 
   return (
     <div className="bg-purple-dots bg-repeat-x bg-[center_bottom]">
-      <MainNav />
       <Container size="2xl">
         <div className="mt-20 pb-96 space-y-8">
           <div>
@@ -42,7 +40,7 @@ const Page = async ({ params }) => {
             </Heading>
           </div>
 
-          <Form fields={opportunities[slug].fields} />
+          <Form fields={data[slug].fields} />
 
           <Button as="button" type="button">
             Submit

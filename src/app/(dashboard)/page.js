@@ -1,22 +1,14 @@
 "use client";
 
-import { useLayoutEffect } from "react";
-import { redirect } from "next/navigation";
-
 import CreatorDashboard from "@/components/Creator/CreatorDashboard";
 import ClientDashboard from "@/components/Client/ClientDashboard";
-import isAuth from "@/helpers/isAuth";
+
+import useAuth from "@/hooks/useAuth";
 
 const Dashboard = () => {
-  const user = isAuth();
+  const { user } = useAuth();
 
   const Component = user.role === "brand" ? ClientDashboard : CreatorDashboard;
-
-  useLayoutEffect(() => {
-    if (!user) {
-      redirect("/login");
-    }
-  }, []);
 
   if (user)
     return (

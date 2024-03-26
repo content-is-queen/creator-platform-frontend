@@ -1,15 +1,16 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useLayoutEffect } from "react";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 import useAuth from "@/hooks/useAuth";
 
+import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 
@@ -33,6 +34,12 @@ const MainNav = () => {
   const handleSignOut = async () => {
     logout();
   };
+
+  useLayoutEffect(() => {
+    if (!user) {
+      redirect("/login");
+    }
+  }, []);
 
   const LINKS = {
     creator: [
@@ -72,7 +79,7 @@ const MainNav = () => {
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
-            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0 ">
+            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0">
               {LINKS[user.role]?.map(({ href, label }) => (
                 <li
                   key={href}
@@ -99,29 +106,19 @@ const MainNav = () => {
                 </button>
               </li>
               <li>
-                <button
+                <ProfileIcon
+                  className="md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8"
                   type="button"
+                  as="button"
                   onClick={handleIsUserClicked}
-                  className="flex justify-center items-center text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8"
                   id="user-menu-button"
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
                   data-dropdown-placement="bottom"
+                  photoUrl={user?.photoUrl}
                 >
                   <span className="sr-only">Open user menu</span>
-                  {user?.photoUrl ? (
-                    <img
-                      className="rounded-full w-full h-full"
-                      src={user.photoUrl}
-                      alt={user?.displayName}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      className="text-queen-white"
-                      icon={faUser}
-                    />
-                  )}
-                </button>
+                </ProfileIcon>
               </li>
             </ul>
           </div>

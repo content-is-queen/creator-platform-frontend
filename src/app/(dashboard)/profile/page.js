@@ -11,12 +11,11 @@ const Profile = () => {
   const { user } = useAuth();
 
   return (
-    <div>
-      <MainNav />
+    <>
       <ProfileHero user={user} />
 
       {user.role === "creator" ? <ProfileTabs /> : <ProfileOpportunities />}
-    </div>
+    </>
   );
 };
 
