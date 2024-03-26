@@ -117,78 +117,7 @@ const SignUp = () => {
     },
   ];
 
-  useEffect(() => {
-    clearErrors();
-  }, [active]);
-
-  const [active, setActive] = useState(OPTIONS[0]);
-
-  const onSubmit = async (data) => {
-    if (active.id === "creator") {
-      try {
-        await API.post("/auth/signup/creator", data);
-        router.push("/login");
-      } catch (error) {
-        console.error("Error:", error);
-        toast.error(
-          error.response.data.message || error.message || "Try again"
-        );
-      }
-    }
-  };
-
-  return (
-    <>
-      <Heading>Sign up</Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-6">
-          <Tabs options={OPTIONS} active={active} setActive={setActive} />
-        </div>
-
-        <div className="space-y-6">
-          {active.fields.map(({ children, name, ...otherProps }) => (
-            <Input
-              key={name}
-              name={name}
-              control={control}
-              errors={errors}
-              {...(active.id === "creator"
-                ? { control: control }
-                : {
-                    value: formData[name],
-                    onChange: (e) =>
-                      setFormData({
-                        ...formData,
-                        [name]: e.target.value,
-                      }),
-                  })}
-              {...otherProps}
-            >
-              {children}
-            </Input>
-          ))}
-        </div>
-
-        <Button
-          as="button"
-          type={active.id === "creator" ? "submit" : "button"}
-          className="mt-8"
-          {...(active.id === "brand"
-            ? { onClick: () => handleBrandSignup(formData) }
-            : {})}
-        >
-          Create Account
-        </Button>
-
-        <Text size="sm" className="mt-4">
-          Already registered?{" "}
-          <Link href="/login" className="font-medium text-queen-blue">
-            Login
-          </Link>
-        </Text>
-      </form>
-    </>
-  );
+  return <></>;
 };
 
 export default SignUp;
