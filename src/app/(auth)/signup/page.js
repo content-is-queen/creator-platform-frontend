@@ -106,7 +106,7 @@ const SignUp = () => {
   const [active, setActive] = useState(OPTIONS[0]);
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
+    password: "',
     confirm_password: "",
   });
 
