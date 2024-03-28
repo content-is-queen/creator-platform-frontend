@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install || true",
-    "format": "npx prettier . --write"
+    "format": "npx prettier ./src --check"
   },
   "husky": {
     "hooks": {
