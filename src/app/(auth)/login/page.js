@@ -56,7 +56,7 @@ const Login = () => {
         setIsSigningIn(true);
         const { user } = await doSignInWithEmailAndPassword(
           data.email,
-          data.password
+          data.password,
         );
 
         login(user);
@@ -64,7 +64,7 @@ const Login = () => {
     } catch (error) {
       const errorMessageWithoutFirebase = error.message.replace(
         /firebase: /i,
-        ""
+        "",
       );
       toast.error(errorMessageWithoutFirebase || "Failled try again");
     } finally {

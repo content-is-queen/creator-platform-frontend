@@ -21,7 +21,7 @@ const FilterTag = ({ children }) => {
         "uppercase font-medium rounded-full text-xs px-3 py-0.5",
         selected
           ? "bg-queen-yellow text-queen-black"
-          : "border border-queen-black/60 text-queen-black/60"
+          : "border border-queen-black/60 text-queen-black/60",
       )}
     >
       {children} {selected && <FontAwesomeIcon icon={faXmark} />}

@@ -14,7 +14,7 @@ const Heading = ({ tag = "p", size = "4xl", className, children }) => {
       className={clsx(
         "uppercase text-queen-black font-heading text-lg",
         className,
-        SIZES[size]
+        SIZES[size],
       )}
     >
       {children}

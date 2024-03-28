@@ -29,7 +29,11 @@
         "type": "textarea",
         "children": "Description"
       },
-      { "name": "skills", "type": "radio", "children": "Skills Required" },
+      {
+        "name": "skills",
+        "type": "radio",
+        "children": "Skills Required"
+      },
       {
         "name": "experience",
         "type": "select",
@@ -37,7 +41,11 @@
       },
       { "name": "duration", "type": "select", "children": "Duration" },
       { "name": "location", "type": "select", "children": "Location" },
-      { "name": "compensation", "type": "select", "children": "Compensation" }
+      {
+        "name": "compensation",
+        "type": "select",
+        "children": "Compensation"
+      }
     ]
   },
   "pitch": {
@@ -50,13 +58,21 @@
         "type": "textarea",
         "children": "Description"
       },
-      { "name": "target", "type": "select", "children": "Target Audience" },
+      {
+        "name": "target",
+        "type": "select",
+        "children": "Target Audience"
+      },
       {
         "name": "format",
         "type": "select",
         "children": "Audio Format"
       },
-      { "name": "duration", "type": "text", "children": "Length/Duration" },
+      {
+        "name": "duration",
+        "type": "text",
+        "children": "Length/Duration"
+      },
       { "name": "budget", "type": "select", "children": "Budget" },
       {
         "name": "submission",
@@ -72,7 +88,11 @@
       { "name": "name", "type": "text", "children": "Campaign Name" },
       { "name": "brand", "type": "text", "children": "Brand/Product" },
       { "name": "goals", "type": "select", "children": "Campaign Goals" },
-      { "name": "target", "type": "select", "children": "Target Demographic" },
+      {
+        "name": "target",
+        "type": "select",
+        "children": "Target Demographic"
+      },
       { "name": "budget", "type": "select", "children": "Budget" },
       { "name": "duration", "type": "date", "children": "Duration" },
       { "name": "format", "type": "select", "children": "Ad Format" },

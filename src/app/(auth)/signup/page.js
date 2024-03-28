@@ -132,7 +132,7 @@ const SignUp = () => {
       } catch (error) {
         console.error("Error:", error);
         toast.error(
-          error.response.data.message || error.message || "Try again"
+          error.response.data.message || error.message || "Try again",
         );
       }
     }

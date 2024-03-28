@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install || true"
+    "prepare": "husky install || true",
+    "format": "npx prettier ./src --check"
   },
   "husky": {
     "hooks": {
@@ -85,6 +86,7 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "postcss": "^8.4.35",
+    "prettier": "^3.2.5",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^21.0.0",
     "stylelint-csstree-validator": "^1.9.0",

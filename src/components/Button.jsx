@@ -19,7 +19,7 @@ const ButtonVariants = cva(
     defaultVariants: {
       variant: "orange",
     },
-  }
+  },
 );
 
 const Button = ({ variant, as, children, className, ...otherProps }) => {

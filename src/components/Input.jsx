@@ -34,8 +34,8 @@ const Input = ({
                 twMerge(
                   inputStyles.input,
                   errors[name] ? "border-red-500" : "border-queen-black",
-                  className
-                )
+                  className,
+                ),
               )}
               placeholder=""
               id={name}
@@ -56,8 +56,8 @@ const Input = ({
             twMerge(
               inputStyles.input,
               errors[name] ? "border-red-500" : "border-queen-black",
-              className
-            )
+              className,
+            ),
           )}
           name={name}
           placeholder=""

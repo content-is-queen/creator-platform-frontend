@@ -6,12 +6,11 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
-  const [messageList,setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState([]);
   const clickHandler = () => {
-    const {user_id} = isAuth();
-    getIds({sender: user_id, receiver: data.uid});
+    const { user_id } = isAuth();
+    getIds({ sender: user_id, receiver: data.uid });
     setActive(index);
-
   };
   const fetchUserMessageList = async () => {
     try {
@@ -31,7 +30,7 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
         <div
           className={clsx(
             "flex items-center gap-x-4 px-6 py-1 hover:bg-queen-gray/80 border-t-0 border-b last:border-b-0 border-gray-200 border-solid",
-            active === index && "bg-queen-gray/40"
+            active === index && "bg-queen-gray/40",
           )}
         >
           <div className="shrink-0">

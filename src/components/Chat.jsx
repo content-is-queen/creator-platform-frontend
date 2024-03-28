@@ -34,7 +34,7 @@ const Message = ({ currentUser, children }) => {
           "ml-2 py-3 px-4 text-queen-black",
           !currentUser
             ? "bg-queen-white rounded-br-3xl rounded-tr-3xl rounded-tl-xl"
-            : "bg-queen-gray rounded-bl-3xl rounded-tl-3xl rounded-tr-xl"
+            : "bg-queen-gray rounded-bl-3xl rounded-tl-3xl rounded-tr-xl",
         )}
       >
         {children}
@@ -55,7 +55,7 @@ const Chat = ({ getchatIds }) => {
         db,
         "rooms",
         formatedConversationId,
-        "messages"
+        "messages",
       );
       const q = query(messagesRef, orderBy("createdAt", "asc"));
 
@@ -79,7 +79,7 @@ const Chat = ({ getchatIds }) => {
         db,
         "rooms",
         formatedConversationIdReverse,
-        "messages"
+        "messages",
       );
       const q = query(messagesRef, orderBy("createdAt", "asc"));
 
@@ -103,7 +103,10 @@ const Chat = ({ getchatIds }) => {
   const hangleSendMessage = async () => {
     if (message) {
       try {
-        const response = await API.post("messages", { ...getchatIds, message });
+        const response = await API.post("messages", {
+          ...getchatIds,
+          message,
+        });
         // setUserList(response.data);
         console.log(response.data);
       } catch (error) {
@@ -145,9 +148,10 @@ const Chat = ({ getchatIds }) => {
                 (
                   message,
                   index,
-                  self // Remove duplicates
+                  self, // Remove duplicates
                 ) =>
-                  index === self.findIndex((m) => m.message === message.message)
+                  index ===
+                  self.findIndex((m) => m.message === message.message),
               )
               .map((item) => (
                 <Message key={item.id} currentUser={user_id === item.sender}>

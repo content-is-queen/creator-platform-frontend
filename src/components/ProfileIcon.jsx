@@ -15,7 +15,7 @@ const ProfileIcon = ({
     <Element
       className={twMerge(
         "h-8 w-8 bg-queen-black rounded-full overflow-hidden flex justify-center items-center",
-        className
+        className,
       )}
       {...otherProps}
     >
