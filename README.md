@@ -2,7 +2,7 @@
 
 ## Built With
 
-- Next.js
+-   Next.js
 
 ## Getting Started
 

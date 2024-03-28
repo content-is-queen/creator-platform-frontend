@@ -17,179 +17,185 @@ import Tabs from "@/components/Tabs";
 import API from "@/api/api";
 
 const SignUp = () => {
-  const {
-    handleSubmit,
-    control,
-    register,
-    formState: { errors },
-    clearErrors,
-  } = useForm();
+    const {
+        handleSubmit,
+        control,
+        register,
+        formState: { errors },
+        clearErrors,
+    } = useForm();
 
-  const OPTIONS = [
-    {
-      label: "Creator",
-      id: "creator",
-      fields: [
+    const OPTIONS = [
         {
-          name: "podcast_name",
-          type: "text",
-          children: "Podcast Name",
-          other: {
-            ...register("podcast_name", {
-              required: "Podcast name is required",
-            }),
-          },
+            label: "Creator",
+            id: "creator",
+            fields: [
+                {
+                    name: "podcast_name",
+                    type: "text",
+                    children: "Podcast Name",
+                    other: {
+                        ...register("podcast_name", {
+                            required: "Podcast name is required",
+                        }),
+                    },
+                },
+                {
+                    name: "email",
+                    type: "email",
+                    children: "Email Address",
+                    rules: {
+                        required: "Email address is required",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                            message: "Invalid email address",
+                        },
+                    },
+                },
+                {
+                    name: "password",
+                    type: "password",
+                    children: "Password",
+                    rules: {
+                        required: "Password is required",
+                        minLength: {
+                            value: 6,
+                            message: "Password must be at least 6 characters",
+                        },
+                    },
+                },
+                {
+                    name: "confirm_password",
+                    type: "password",
+                    children: "Confirm Password",
+                },
+            ],
         },
         {
-          name: "email",
-          type: "email",
-          children: "Email Address",
-          rules: {
-            required: "Email address is required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Invalid email address",
-            },
-          },
+            label: "Brand",
+            id: "brand",
+            fields: [
+                {
+                    name: "email",
+                    type: "email",
+                    children: "Email Address",
+                },
+                {
+                    name: "password",
+                    type: "password",
+                    children: "Password",
+                    rules: {
+                        required: "Password is required",
+                        minLength: {
+                            value: 6,
+                            message: "Password must be at least 6 characters",
+                        },
+                    },
+                },
+                {
+                    name: "confirm_password",
+                    type: "password",
+                    children: "Confirm Password",
+                },
+            ],
         },
-        {
-          name: "password",
-          type: "password",
-          children: "Password",
-          rules: {
-            required: "Password is required",
-            minLength: {
-              value: 6,
-              message: "Password must be at least 6 characters",
-            },
-          },
-        },
-        {
-          name: "confirm_password",
-          type: "password",
-          children: "Confirm Password",
-        },
-      ],
-    },
-    {
-      label: "Brand",
-      id: "brand",
-      fields: [
-        {
-          name: "email",
-          type: "email",
-          children: "Email Address",
-        },
-        {
-          name: "password",
-          type: "password",
-          children: "Password",
-          rules: {
-            required: "Password is required",
-            minLength: {
-              value: 6,
-              message: "Password must be at least 6 characters",
-            },
-          },
-        },
-        {
-          name: "confirm_password",
-          type: "password",
-          children: "Confirm Password",
-        },
-      ],
-    },
-  ];
+    ];
 
-  const router = useRouter();
+    const router = useRouter();
 
-  const [active, setActive] = useState(OPTIONS[0]);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirm_password: "",
-  });
+    const [active, setActive] = useState(OPTIONS[0]);
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+        confirm_password: "",
+    });
 
-  useEffect(() => {
-    clearErrors();
-  }, [active]);
+    useEffect(() => {
+        clearErrors();
+    }, [active]);
 
-  const handleBrandSignup = async (formData) => {
-    try {
-      await API.post("/auth/signup/brand", formData);
-      router.push("/login");
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error(error.response.data.message || error.message || "Try again");
-    }
-  };
+    const handleBrandSignup = async (formData) => {
+        try {
+            await API.post("/auth/signup/brand", formData);
+            router.push("/login");
+        } catch (error) {
+            console.error("Error:", error);
+            toast.error(
+                error.response.data.message || error.message || "Try again",
+            );
+        }
+    };
 
-  const onSubmit = async (data) => {
-    if (active.id === "creator") {
-      try {
-        await API.post("/auth/signup/creator", data);
-        router.push("/login");
-      } catch (error) {
-        console.error("Error:", error);
-        toast.error(
-          error.response.data.message || error.message || "Try again"
-        );
-      }
-    }
-  };
+    const onSubmit = async (data) => {
+        if (active.id === "creator") {
+            try {
+                await API.post("/auth/signup/creator", data);
+                router.push("/login");
+            } catch (error) {
+                console.error("Error:", error);
+                toast.error(
+                    error.response.data.message || error.message || "Try again",
+                );
+            }
+        }
+    };
 
-  return (
-    <>
-      <Heading>Sign up</Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-6">
-          <Tabs options={OPTIONS} active={active} setActive={setActive} />
-        </div>
+    return (
+        <>
+            <Heading>Sign up</Heading>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="mb-6">
+                    <Tabs
+                        options={OPTIONS}
+                        active={active}
+                        setActive={setActive}
+                    />
+                </div>
 
-        <div className="space-y-6">
-          {active.fields.map(({ children, name, ...otherProps }) => (
-            <Input
-              key={name}
-              name={name}
-              control={control}
-              errors={errors}
-              {...(active.id === "creator"
-                ? { control: control }
-                : {
-                    value: formData[name],
-                    onChange: (e) =>
-                      setFormData({
-                        ...formData,
-                        [name]: e.target.value,
-                      }),
-                  })}
-              {...otherProps}
-            >
-              {children}
-            </Input>
-          ))}
-        </div>
+                <div className="space-y-6">
+                    {active.fields.map(({ children, name, ...otherProps }) => (
+                        <Input
+                            key={name}
+                            name={name}
+                            control={control}
+                            errors={errors}
+                            {...(active.id === "creator"
+                                ? { control: control }
+                                : {
+                                      value: formData[name],
+                                      onChange: (e) =>
+                                          setFormData({
+                                              ...formData,
+                                              [name]: e.target.value,
+                                          }),
+                                  })}
+                            {...otherProps}
+                        >
+                            {children}
+                        </Input>
+                    ))}
+                </div>
 
-        <Button
-          as="button"
-          type={active.id === "creator" ? "submit" : "button"}
-          className="mt-8"
-          {...(active.id === "brand"
-            ? { onClick: () => handleBrandSignup(formData) }
-            : {})}
-        >
-          Create Account
-        </Button>
+                <Button
+                    as="button"
+                    type={active.id === "creator" ? "submit" : "button"}
+                    className="mt-8"
+                    {...(active.id === "brand"
+                        ? { onClick: () => handleBrandSignup(formData) }
+                        : {})}
+                >
+                    Create Account
+                </Button>
 
-        <Text size="sm" className="mt-4">
-          Already registered?{" "}
-          <Link href="/login" className="font-medium text-queen-blue">
-            Login
-          </Link>
-        </Text>
-      </form>
-    </>
-  );
+                <Text size="sm" className="mt-4">
+                    Already registered?{" "}
+                    <Link href="/login" className="font-medium text-queen-blue">
+                        Login
+                    </Link>
+                </Text>
+            </form>
+        </>
+    );
 };
 
 export default SignUp;

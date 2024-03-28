@@ -1,5 +1,5 @@
 const PageTemplate = () => {
-  return <></>;
+    return <></>;
 };
 
 export default PageTemplate;
