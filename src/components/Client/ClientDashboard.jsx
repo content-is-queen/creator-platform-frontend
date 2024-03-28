@@ -93,8 +93,7 @@ const ClientDashboard = () => {
 
   if (opportunities.length < 1) {
     return (
-      <Container>
-        {" "}
+      <>
         <Empty
           href="/opportunities"
           button={
@@ -106,7 +105,7 @@ const ClientDashboard = () => {
           Looks like you haven't listed any opportunities yet.
         </Empty>
         <OpportunityModal setIsOpen={setIsOpen} isOpen={isOpen} />
-      </Container>
+      </>
     );
   }
 
