@@ -112,7 +112,7 @@ const SignUp = () => {
 
   useEffect(() => {
     clearErrors();
-  }, []);
+  }, [active]);
 
   const handleBrandSignup = async (formData) => {
     try {
