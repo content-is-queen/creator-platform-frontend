@@ -1,0 +1,2 @@
+- name: Action Lint
+uses: panda0603/lint-action@1.6.3

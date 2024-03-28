@@ -4,6 +4,6 @@
     // Other rules
     "@next/next/no-img-element": "off",
     "react-hooks/exhaustive-deps": "off",
-    "rules": { "react/no-unescaped-entities": 0 }
+    "react/no-unescaped-entities": 0
   }
 }
