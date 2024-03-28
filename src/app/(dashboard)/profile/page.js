@@ -8,19 +8,15 @@ import ProfileTabs from "@/components/ProfileTabs";
 import ProfileOpportunities from "@/components/ProfileOpportunities";
 
 const Profile = () => {
-    const { user } = useAuth();
+  const { user } = useAuth();
 
-    return (
-        <>
-            <ProfileHero user={user} />
+  return (
+    <>
+      <ProfileHero user={user} />
 
-            {user.role === "creator" ? (
-                <ProfileTabs />
-            ) : (
-                <ProfileOpportunities />
-            )}
-        </>
-    );
+      {user.role === "creator" ? <ProfileTabs /> : <ProfileOpportunities />}
+    </>
+  );
 };
 
 export default Profile;
