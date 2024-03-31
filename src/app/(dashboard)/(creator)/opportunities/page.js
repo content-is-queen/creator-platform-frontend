@@ -1,5 +1,5 @@
 import Heading from "@/components/Heading";
-import MainNav from "@/components/MainNav";
+
 import Container from "@/components/Container";
 import Search from "@/components/Search";
 

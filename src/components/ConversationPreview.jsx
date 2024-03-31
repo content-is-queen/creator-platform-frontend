@@ -1,6 +1,7 @@
 "use client";
 
 import API from "@/api/api";
+import formatDate from "@/helpers/dateFormatter";
 import isAuth from "@/helpers/isAuth";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
@@ -9,9 +10,11 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   const [messageList, setMessageList] = useState([]);
   const clickHandler = () => {
     const { user_id } = isAuth();
-    getIds({ sender: user_id, receiver: data.uid });
+    getIds({ sender: user_id, receiver: data.uid, id: data.id });
     setActive(index);
   };
+
+
   const fetchUserMessageList = async () => {
     try {
       const response = await API.get("messages/users");
@@ -23,7 +26,7 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   useEffect(() => {
     fetchUserMessageList();
   }, []);
-
+console.log(data, "data from preview ....");
   return (
     <li className="first:rounded-t-3xl overflow-hidden">
       <button type="button" className="w-full" onClick={clickHandler}>
@@ -37,17 +40,17 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
             <img
               alt=""
               className="w-14 h-14 rounded-full object-cover"
-              src="/images/keshe.jpg"
+              src={data.imageUrl}
             />
           </div>
 
           <div className="py-3 flex-1">
             <div className="flex gap-4 items-center">
               <p className="text-sm font-medium text-queen-black truncate">
-                {data.email}
+                {data.receiver_name}
               </p>
               <div className="text-xs text-queen-black/60 justify-self-end">
-                Jan 26
+                {/* {formatDate(data.createdAt)} */}hh
               </div>
             </div>
 
@@ -56,8 +59,7 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
                 Email Marketing
               </p>
               <p className="text-sm text-queen-black/60 truncate">
-                Hey, excited about working with you. Is there anything else I
-                need to know?
+                {/* {data.lastMessage || "No message"} */}
               </p>
             </div>
           </div>

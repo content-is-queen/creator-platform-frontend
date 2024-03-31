@@ -44,6 +44,7 @@ const Message = ({ currentUser, children }) => {
 };
 
 const Chat = ({ getchatIds }) => {
+  console.log(getchatIds, "___--------___-----__________--------");
   const { user_id } = isAuth();
   const [message, setMessage] = useState("");
   const [roomMessages, setroomMessages] = useState([]);
@@ -128,15 +129,15 @@ const Chat = ({ getchatIds }) => {
         <div className="flex-shrink-0">
           <img
             className="w-12 h-12 flex-shrink-0 lg:w-16 lg:h-16 object-cover rounded-full"
-            src="/images/keshe.jpg"
+            src="{getchatIds?.profile.profileImage}"
             alt="Kaleshe"
           />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-medium text-gray-900 truncate">
-            Kaleshe Alleyne-Vassel
+            getchatIds.profile.names
           </p>
-          <p className="text-sm text-gray-500 truncate">Email Marketing</p>
+          <p className="text-sm text-gray-500 truncate">getchatIds.profile.title</p>
         </div>
       </div>
       <div className="w-full flex flex-col justify-between">

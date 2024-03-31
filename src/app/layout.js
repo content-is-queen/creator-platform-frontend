@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-tailwindcss-select/dist/index.css";
+
 
 import localFont from "next/font/local";
 
