@@ -48,22 +48,24 @@ const Chat = ({ getchatIds }) => {
   const { user_id } = isAuth();
   const [message, setMessage] = useState("");
   const [roomMessages, setroomMessages] = useState([]);
-  const formatedConversationId = `${getchatIds.sender}_${getchatIds.receiver}`;
-  const formatedConversationIdReverse = `${getchatIds.receiver}_${getchatIds.sender}`;
-  const fetchSenderMessageList = async () => {
+  const fetchMessageList = async () => {
     try {
       const messagesRef = collection(
         db,
         "rooms",
-        formatedConversationId,
+        getchatIds.id,
         "messages",
       );
       const q = query(messagesRef, orderBy("createdAt", "asc"));
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newMessages = snapshot.docs.map((doc) => doc.data());
+        const newMessages = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        console.log(newMessages, "new messages");
 
-        setroomMessages((prevMessages) => [...prevMessages, ...newMessages]);
+        setroomMessages(newMessages);
       });
 
       return () => {
@@ -74,31 +76,8 @@ const Chat = ({ getchatIds }) => {
     }
   };
 
-  const fetchReceiverMessageList = async () => {
-    try {
-      const messagesRef = collection(
-        db,
-        "rooms",
-        formatedConversationIdReverse,
-        "messages",
-      );
-      const q = query(messagesRef, orderBy("createdAt", "asc"));
-
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newMessages = snapshot.docs.map((doc) => doc.data());
-        setroomMessages((prevMessages) => [...prevMessages, ...newMessages]);
-      });
-
-      return () => {
-        unsubscribe();
-      };
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
   useEffect(() => {
-    fetchReceiverMessageList();
-    fetchSenderMessageList();
+    fetchMessageList();
   }, [getchatIds]);
 
   const hangleSendMessage = async () => {

@@ -10,7 +10,7 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   const [messageList, setMessageList] = useState([]);
   const { user_id } = isAuth();
   const clickHandler = () => {
-    getIds({ sender: user_id, receiver: data.uid, id: data.id, fullName: data.receiver_name, profile_image: data.receiver_image_url });
+    getIds({ sender: user_id, receiver: data.receiver, id: data.id, fullName: data.receiver_name, profile_image: data.receiver_image_url });
     setActive(index);
   };
 
