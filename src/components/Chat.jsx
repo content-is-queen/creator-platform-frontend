@@ -19,12 +19,12 @@ import API from "@/api/api";
 import { db } from "@/firebase/firebase";
 import isAuth from "@/helpers/isAuth";
 
-const Message = ({ currentUser, children }) => {
+const Message = ({ currentUser, children, profile }) => {
   return (
     <div className={clsx("flex", currentUser && "justify-end")}>
       {!currentUser && (
         <img
-          src="/images/keshe.jpg"
+          src={profile}
           alt=""
           className="object-cover flex-shrink-0 h-10 w-10 rounded-full"
         />
@@ -123,18 +123,9 @@ const Chat = ({ getchatIds }) => {
         <div className="flex flex-col space-y-8 my-12">
           {roomMessages?.length > 0 &&
             roomMessages
-              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // Sort by createdAt
-              .filter(
-                (
-                  message,
-                  index,
-                  self, // Remove duplicates
-                ) =>
-                  index ===
-                  self.findIndex((m) => m.message === message.message),
-              )
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
               .map((item) => (
-                <Message key={item.id} currentUser={user_id === item.sender}>
+                <Message key={item.id} currentUser={user_id === item.sender} profile={getchatIds?.profile_image}>
                   {item.message}
                 </Message>
               ))}
