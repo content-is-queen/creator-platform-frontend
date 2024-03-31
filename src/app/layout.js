@@ -27,7 +27,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
       <html
         lang="en"
         className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
@@ -37,6 +37,6 @@ export default function RootLayout({ children }) {
           <ToastContainer />
         </body>
       </html>
-    </Provider>
+    // </Provider>
   );
 }
