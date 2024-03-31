@@ -129,15 +129,15 @@ const Chat = ({ getchatIds }) => {
         <div className="flex-shrink-0">
           <img
             className="w-12 h-12 flex-shrink-0 lg:w-16 lg:h-16 object-cover rounded-full"
-            src="{getchatIds?.profile.profileImage}"
+            src={getchatIds?.profile_image}
             alt="Kaleshe"
           />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-medium text-gray-900 truncate">
-            getchatIds.profile.names
+            {getchatIds.fullName}
           </p>
-          <p className="text-sm text-gray-500 truncate">getchatIds.profile.title</p>
+          <p className="text-sm text-gray-500 truncate">Email Marketing</p>
         </div>
       </div>
       <div className="w-full flex flex-col justify-between">

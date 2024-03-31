@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 
 const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   const [messageList, setMessageList] = useState([]);
+  const { user_id } = isAuth();
   const clickHandler = () => {
-    const { user_id } = isAuth();
-    getIds({ sender: user_id, receiver: data.uid, id: data.id });
+    getIds({ sender: user_id, receiver: data.uid, id: data.id, fullName: data.receiver_name, profile_image: data.receiver_image_url });
     setActive(index);
   };
 
@@ -26,7 +26,7 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   useEffect(() => {
     fetchUserMessageList();
   }, []);
-console.log(data, "data from preview ....");
+    console.log(data, "data from preview ....");
   return (
     <li className="first:rounded-t-3xl overflow-hidden">
       <button type="button" className="w-full" onClick={clickHandler}>
@@ -40,7 +40,7 @@ console.log(data, "data from preview ....");
             <img
               alt=""
               className="w-14 h-14 rounded-full object-cover"
-              src={data.imageUrl}
+              src={data.sender === user_id ? data.receiver_image_url : data.sender_image_url}
             />
           </div>
 
@@ -50,7 +50,7 @@ console.log(data, "data from preview ....");
                 {data.receiver_name}
               </p>
               <div className="text-xs text-queen-black/60 justify-self-end">
-                {/* {formatDate(data.createdAt)} */}hh
+                {formatDate(data.createdAt)}
               </div>
             </div>
 
@@ -59,7 +59,7 @@ console.log(data, "data from preview ....");
                 Email Marketing
               </p>
               <p className="text-sm text-queen-black/60 truncate">
-                {/* {data.lastMessage || "No message"} */}
+                {data.lastMessage || "No message"}
               </p>
             </div>
           </div>
