@@ -13,7 +13,9 @@ const Form = ({ fields }) => {
             <div key={name}>
               <label for={name}>{children}</label>
               <select className="w-full" name={name} id={name}>
-                <option>Select</option>
+                <option value="" selected disabled>
+                  Select
+                </option>
                 {options.map((option, index) => (
                   <option key={`${option}-${index}`}>{option}</option>
                 ))}

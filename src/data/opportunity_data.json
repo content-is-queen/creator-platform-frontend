@@ -132,10 +132,15 @@
         "children": "Budget",
         "options": ["Fixed", "Range", "To be discussed"]
       },
-      { "name": "duration", "options": ["1 month", "3 months", "Custom"] },
+      {
+        "name": "duration",
+        "as": "select",
+        "children": "Duration",
+        "options": ["1 month", "3 months", "Custom"]
+      },
       {
         "name": "format",
-        "type": "select",
+        "as": "select",
         "children": "Ad Format",
         "options": []
       },
