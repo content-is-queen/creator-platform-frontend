@@ -30,3 +30,29 @@ html {
 nav {
   height: var(--nav-height);
 }
+
+input:not(input[type="checkbox"]),
+textarea {
+  display: block;
+  width: 100%;
+}
+
+input[type="checkbox"] {
+  @apply border-queen-black border-2;
+}
+
+input[type="checkbox"]:checked {
+  @apply bg-queen-blue;
+}
+
+select {
+  background-color: transparent;
+  border-style: none none solid none;
+  border-bottom-width: 2px;
+  @apply border-queen-black;
+}
+
+select:focus {
+  box-shadow: none;
+  outline-width: 4px;
+}

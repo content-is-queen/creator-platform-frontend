@@ -5,7 +5,7 @@
     "fields": [
       {
         "name": "title",
-        "type": "select",
+        "as": "select",
         "options": [
           "Host",
           "Audio Editor",
@@ -26,25 +26,38 @@
       },
       {
         "name": "description",
-        "type": "textarea",
+        "as": "textarea",
         "children": "Description"
       },
       {
         "name": "skills",
-        "type": "radio",
-        "children": "Skills Required"
+        "type": "checkbox",
+        "children": "Skills Required",
+        "options": ["Editing", "Scriptwriting", "Mixing"]
       },
       {
         "name": "experience",
-        "type": "select",
-        "children": "Experience Level"
+        "as": "select",
+        "children": "Experience Level",
+        "options": ["Entry-level", "Mid-level", "Senior", "Expert"]
       },
-      { "name": "duration", "type": "select", "children": "Duration" },
-      { "name": "location", "type": "select", "children": "Location" },
+      {
+        "name": "duration",
+        "as": "select",
+        "children": "Duration",
+        "options": ["One-off", "Fixed-term", "Ongoing"]
+      },
+      {
+        "name": "location",
+        "as": "select",
+        "children": "Location",
+        "options": ["Remote", "Specific Location(s)", "Flexible"]
+      },
       {
         "name": "compensation",
-        "type": "select",
-        "children": "Compensation"
+        "as": "select",
+        "children": "Compensation",
+        "options": ["Fixed Rate", "Range", "To be discussed"]
       }
     ]
   },
@@ -55,29 +68,38 @@
       { "name": "project", "type": "text", "children": "Project Title" },
       {
         "name": "description",
-        "type": "textarea",
+        "as": "textarea",
         "children": "Description"
       },
       {
         "name": "target",
-        "type": "select",
-        "children": "Target Audience"
+        "as": "select",
+        "children": "Target Audience",
+        "options": ["Women", "Millenials", "Sports Fans", "Other"]
       },
       {
         "name": "format",
-        "type": "select",
-        "children": "Audio Format"
+        "as": "select",
+        "children": "Audio Format",
+        "options": ["Podcast", "Audiobook", "Radio Show", "Other"]
       },
       {
         "name": "duration",
         "type": "text",
-        "children": "Length/Duration"
+        "children": "Length/Duration",
+        "options": ["30 min episodes", "2-hour audiobook"]
       },
-      { "name": "budget", "type": "select", "children": "Budget" },
+      {
+        "name": "budget",
+        "as": "select",
+        "children": "Budget",
+        "options": ["Fixed", "Range", "To be discussed"]
+      },
       {
         "name": "submission",
-        "type": "radio",
-        "children": "Submission Details"
+        "type": "checkbox",
+        "children": "Submission Details",
+        "options": ["Summary", "Script Sample", "Audio Sample"]
       }
     ]
   },
@@ -87,18 +109,44 @@
     "fields": [
       { "name": "name", "type": "text", "children": "Campaign Name" },
       { "name": "brand", "type": "text", "children": "Brand/Product" },
-      { "name": "goals", "type": "select", "children": "Campaign Goals" },
+      {
+        "name": "goals",
+        "as": "select",
+        "children": "Campaign Goals",
+        "options": [
+          "Brand Awareness",
+          "Product Sales",
+          "Event Promotion",
+          "Other"
+        ]
+      },
       {
         "name": "target",
-        "type": "select",
-        "children": "Target Demographic"
+        "as": "select",
+        "children": "Target Demographic",
+        "options": []
       },
-      { "name": "budget", "type": "select", "children": "Budget" },
-      { "name": "duration", "type": "date", "children": "Duration" },
-      { "name": "format", "type": "select", "children": "Ad Format" },
+      {
+        "name": "budget",
+        "as": "select",
+        "children": "Budget",
+        "options": ["Fixed", "Range", "To be discussed"]
+      },
+      {
+        "name": "duration",
+        "as": "select",
+        "children": "Duration",
+        "options": ["1 month", "3 months", "Custom"]
+      },
+      {
+        "name": "format",
+        "as": "select",
+        "children": "Ad Format",
+        "options": []
+      },
       {
         "name": "requirements",
-        "type": "textarea",
+        "as": "textarea",
         "children": "Creative Requirements"
       }
     ]
