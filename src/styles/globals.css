@@ -31,7 +31,8 @@ nav {
   height: var(--nav-height);
 }
 
-input:not(input[type="checkbox"]) {
+input:not(input[type="checkbox"]),
+textarea {
   display: block;
   width: 100%;
 }

@@ -24,6 +24,15 @@ const Form = ({ fields }) => {
           );
         }
 
+        if (as === "textarea") {
+          return (
+            <div key={name}>
+              <label for={name}>{children}</label>
+              <textarea className={twMerge(inputStyles.input)} />
+            </div>
+          );
+        }
+
         if (type === "checkbox") {
           return (
             <div key={name}>
