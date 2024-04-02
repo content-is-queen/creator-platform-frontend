@@ -31,10 +31,9 @@
       },
       {
         "name": "skills",
-        "as": "select",
+        "type": "checkbox",
         "children": "Skills Required",
-        "options": ["Editing", "Scriptwriting", "Mixing"],
-        "multiple": true
+        "options": ["Editing", "Scriptwriting", "Mixing"]
       },
       {
         "name": "experience",
@@ -52,7 +51,7 @@
         "name": "location",
         "as": "select",
         "children": "Location",
-        "options": ["Remote", "Specific Location(s", "Flexible"]
+        "options": ["Remote", "Specific Location(s)", "Flexible"]
       },
       {
         "name": "compensation",
@@ -94,14 +93,13 @@
         "name": "budget",
         "as": "select",
         "children": "Budget",
-        "options": ["Fixed, Range, To be discussed"]
+        "options": ["Fixed", "Range", "To be discussed"]
       },
       {
         "name": "submission",
-        "as": "select",
+        "type": "checkbox",
         "children": "Submission Details",
-        "options": ["Summary", "Script Sample", "Audio Sample"],
-        "multiple": true
+        "options": ["Summary", "Script Sample", "Audio Sample"]
       }
     ]
   },
@@ -132,7 +130,7 @@
         "name": "budget",
         "as": "select",
         "children": "Budget",
-        "options": ["Fixed, Range, To be discussed"]
+        "options": ["Fixed", "Range", "To be discussed"]
       },
       { "name": "duration", "options": ["1 month", "3 months", "Custom"] },
       {
