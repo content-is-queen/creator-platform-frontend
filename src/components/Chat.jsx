@@ -5,14 +5,7 @@ import {
   faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import Button from "./Button";
 import { useEffect, useState } from "react";
 import API from "@/api/api";

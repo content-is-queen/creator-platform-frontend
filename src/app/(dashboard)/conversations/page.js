@@ -117,7 +117,7 @@ const Conversations = () => {
                   receiver_image_url: nestedDocData.imageUrl,
                   receiver: value.uid,
                 },
-                { merge: true },
+                { merge: true }
               );
             } else {
               toast.error("Invalid data for setDoc.");
@@ -138,7 +138,7 @@ const Conversations = () => {
       const updatedRoomsList = snapshot.docs
         .filter(
           (doc) =>
-            doc.data().receiver === user_id || doc.data().sender === user_id,
+            doc.data().receiver === user_id || doc.data().sender === user_id
         )
         .map((doc) => ({ id: doc.id, ...doc.data() }));
       setRoomsList(updatedRoomsList);
