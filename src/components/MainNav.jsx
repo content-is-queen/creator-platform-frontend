@@ -85,7 +85,7 @@ const MainNav = () => {
                   key={href}
                   className={clsx(
                     pathname === href &&
-                      "relative after:absolute after:h-0.5 after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1.5",
+                      "relative after:absolute after:h-0.5 after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1.5"
                   )}
                 >
                   <Link href={href}>{label}</Link>

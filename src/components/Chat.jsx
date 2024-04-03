@@ -5,14 +5,7 @@ import {
   faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import Button from "./Button";
 import { useEffect, useState } from "react";
 import API from "@/api/api";
@@ -34,7 +27,7 @@ const Message = ({ currentUser, children, profile }) => {
           "ml-2 py-3 px-4 text-queen-black",
           !currentUser
             ? "bg-queen-white rounded-br-3xl rounded-tr-3xl rounded-tl-xl"
-            : "bg-queen-gray rounded-bl-3xl rounded-tl-3xl rounded-tr-xl",
+            : "bg-queen-gray rounded-bl-3xl rounded-tl-3xl rounded-tr-xl"
         )}
       >
         {children}

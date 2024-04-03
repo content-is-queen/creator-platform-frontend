@@ -20,7 +20,6 @@ const SignUp = () => {
   const {
     handleSubmit,
     control,
-    register,
     formState: { errors },
     clearErrors,
   } = useForm();
@@ -31,14 +30,14 @@ const SignUp = () => {
       id: "creator",
       fields: [
         {
-          name: "podcast_name",
+          name: "first_name",
           type: "text",
-          children: "Podcast Name",
-          other: {
-            ...register("podcast_name", {
-              required: "Podcast name is required",
-            }),
-          },
+          children: "First Name",
+        },
+        {
+          name: "last_name",
+          type: "text",
+          children: "Last Name",
         },
         {
           name: "email",
@@ -64,17 +63,27 @@ const SignUp = () => {
             },
           },
         },
-        {
-          name: "confirm_password",
-          type: "password",
-          children: "Confirm Password",
-        },
       ],
     },
     {
       label: "Brand",
       id: "brand",
       fields: [
+        {
+          name: "first_name",
+          type: "text",
+          children: "First Name",
+        },
+        {
+          name: "last_name",
+          type: "text",
+          children: "Last Name",
+        },
+        {
+          name: "organization_name",
+          type: "text",
+          children: "Organization",
+        },
         {
           name: "email",
           type: "email",
@@ -92,11 +101,6 @@ const SignUp = () => {
             },
           },
         },
-        {
-          name: "confirm_password",
-          type: "password",
-          children: "Confirm Password",
-        },
       ],
     },
   ];
@@ -107,7 +111,6 @@ const SignUp = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirm_password: "",
   });
 
   useEffect(() => {
@@ -132,7 +135,7 @@ const SignUp = () => {
       } catch (error) {
         console.error("Error:", error);
         toast.error(
-          error.response.data.message || error.message || "Try again",
+          error.response.data.message || error.message || "Try again"
         );
       }
     }
