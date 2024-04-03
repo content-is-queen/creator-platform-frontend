@@ -19,12 +19,12 @@ import API from "@/api/api";
 import { db } from "@/firebase/firebase";
 import isAuth from "@/helpers/isAuth";
 
-const Message = ({ currentUser, children }) => {
+const Message = ({ currentUser, children, profile }) => {
   return (
     <div className={clsx("flex", currentUser && "justify-end")}>
       {!currentUser && (
         <img
-          src="/images/keshe.jpg"
+          src={profile}
           alt=""
           className="object-cover flex-shrink-0 h-10 w-10 rounded-full"
         />
@@ -44,25 +44,23 @@ const Message = ({ currentUser, children }) => {
 };
 
 const Chat = ({ getchatIds }) => {
+  console.log(getchatIds, "___--------___-----__________--------");
   const { user_id } = isAuth();
   const [message, setMessage] = useState("");
   const [roomMessages, setroomMessages] = useState([]);
-  const formatedConversationId = `${getchatIds.sender}_${getchatIds.receiver}`;
-  const formatedConversationIdReverse = `${getchatIds.receiver}_${getchatIds.sender}`;
-  const fetchSenderMessageList = async () => {
+  const fetchMessageList = async () => {
     try {
-      const messagesRef = collection(
-        db,
-        "rooms",
-        formatedConversationId,
-        "messages",
-      );
+      const messagesRef = collection(db, "rooms", getchatIds.id, "messages");
       const q = query(messagesRef, orderBy("createdAt", "asc"));
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newMessages = snapshot.docs.map((doc) => doc.data());
+        const newMessages = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log(newMessages, "new messages");
 
-        setroomMessages((prevMessages) => [...prevMessages, ...newMessages]);
+        setroomMessages(newMessages);
       });
 
       return () => {
@@ -73,31 +71,8 @@ const Chat = ({ getchatIds }) => {
     }
   };
 
-  const fetchReceiverMessageList = async () => {
-    try {
-      const messagesRef = collection(
-        db,
-        "rooms",
-        formatedConversationIdReverse,
-        "messages",
-      );
-      const q = query(messagesRef, orderBy("createdAt", "asc"));
-
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newMessages = snapshot.docs.map((doc) => doc.data());
-        setroomMessages((prevMessages) => [...prevMessages, ...newMessages]);
-      });
-
-      return () => {
-        unsubscribe();
-      };
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
   useEffect(() => {
-    fetchReceiverMessageList();
-    fetchSenderMessageList();
+    fetchMessageList();
   }, [getchatIds]);
 
   const hangleSendMessage = async () => {
@@ -128,13 +103,13 @@ const Chat = ({ getchatIds }) => {
         <div className="flex-shrink-0">
           <img
             className="w-12 h-12 flex-shrink-0 lg:w-16 lg:h-16 object-cover rounded-full"
-            src="/images/keshe.jpg"
+            src={getchatIds?.profile_image}
             alt="Kaleshe"
           />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-medium text-gray-900 truncate">
-            Kaleshe Alleyne-Vassel
+            {getchatIds.fullName}
           </p>
           <p className="text-sm text-gray-500 truncate">Email Marketing</p>
         </div>
@@ -143,18 +118,13 @@ const Chat = ({ getchatIds }) => {
         <div className="flex flex-col space-y-8 my-12">
           {roomMessages?.length > 0 &&
             roomMessages
-              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // Sort by createdAt
-              .filter(
-                (
-                  message,
-                  index,
-                  self, // Remove duplicates
-                ) =>
-                  index ===
-                  self.findIndex((m) => m.message === message.message),
-              )
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
               .map((item) => (
-                <Message key={item.id} currentUser={user_id === item.sender}>
+                <Message
+                  key={item.id}
+                  currentUser={user_id === item.sender}
+                  profile={getchatIds?.profile_image}
+                >
                   {item.message}
                 </Message>
               ))}
