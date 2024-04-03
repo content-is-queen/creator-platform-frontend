@@ -50,18 +50,13 @@ const Chat = ({ getchatIds }) => {
   const [roomMessages, setroomMessages] = useState([]);
   const fetchMessageList = async () => {
     try {
-      const messagesRef = collection(
-        db,
-        "rooms",
-        getchatIds.id,
-        "messages",
-      );
+      const messagesRef = collection(db, "rooms", getchatIds.id, "messages");
       const q = query(messagesRef, orderBy("createdAt", "asc"));
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const newMessages = snapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
         console.log(newMessages, "new messages");
 
@@ -125,7 +120,11 @@ const Chat = ({ getchatIds }) => {
             roomMessages
               .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
               .map((item) => (
-                <Message key={item.id} currentUser={user_id === item.sender} profile={getchatIds?.profile_image}>
+                <Message
+                  key={item.id}
+                  currentUser={user_id === item.sender}
+                  profile={getchatIds?.profile_image}
+                >
                   {item.message}
                 </Message>
               ))}

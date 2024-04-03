@@ -10,10 +10,15 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   const [messageList, setMessageList] = useState([]);
   const { user_id } = isAuth();
   const clickHandler = () => {
-    getIds({ sender: user_id, receiver: data.receiver, id: data.id, fullName: data.receiver_name, profile_image: data.receiver_image_url });
+    getIds({
+      sender: user_id,
+      receiver: data.receiver,
+      id: data.id,
+      fullName: data.receiver_name,
+      profile_image: data.receiver_image_url,
+    });
     setActive(index);
   };
-
 
   const fetchUserMessageList = async () => {
     try {
@@ -26,7 +31,7 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   useEffect(() => {
     fetchUserMessageList();
   }, []);
-    console.log(data, "data from preview ....");
+  console.log(data, "data from preview ....");
   return (
     <li className="first:rounded-t-3xl overflow-hidden">
       <button type="button" className="w-full" onClick={clickHandler}>
@@ -40,7 +45,11 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
             <img
               alt=""
               className="w-14 h-14 rounded-full object-cover"
-              src={data.sender === user_id ? data.receiver_image_url : data.sender_image_url}
+              src={
+                data.sender === user_id
+                  ? data.receiver_image_url
+                  : data.sender_image_url
+              }
             />
           </div>
 

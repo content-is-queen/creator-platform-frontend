@@ -1,6 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { collection, doc, getDocs, setDoc, onSnapshot, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  onSnapshot,
+  getDoc,
+} from "firebase/firestore";
 import Select from "react-tailwindcss-select";
 import ConversationPreview from "@/components/ConversationPreview";
 import Chat from "@/components/Chat";
@@ -22,8 +29,8 @@ const Conversations = () => {
       const response = await API.get("messages/users");
       if (response && response.data && response.data.message) {
         const formattedOptions = response.data.message
-          .filter(item => item && item.firstName)
-          .map(item => ({
+          .filter((item) => item && item.firstName)
+          .map((item) => ({
             label: item.firstName,
             value: item,
           }));
@@ -42,8 +49,11 @@ const Conversations = () => {
 
   const fetchLoomsList = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'rooms'));
-      const roomsListArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const querySnapshot = await getDocs(collection(db, "rooms"));
+      const roomsListArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setRoomsList(roomsListArray);
     } catch (error) {
       console.error("Error fetching rooms list:", error);
@@ -71,7 +81,7 @@ const Conversations = () => {
           return;
         }
 
-        const usersCollectionRef = collection(db, 'users');
+        const usersCollectionRef = collection(db, "users");
         const usersQuerySnapshot = await getDocs(usersCollectionRef);
         usersQuerySnapshot.forEach(async (userDoc) => {
           const userId = userDoc.id;
@@ -94,17 +104,21 @@ const Conversations = () => {
             ) {
               const ids = [user.user_id, value.uid];
               ids.sort();
-              const combinedIds = ids.join('_');
+              const combinedIds = ids.join("_");
               const roomsRef = doc(db, "rooms", combinedIds);
-              await setDoc(roomsRef, {
-                createdAt: new Date().toString(),
-                sender: user.user_id,
-                sender_name: senderDocSnapshot.data().firstName,
-                sender_image_url: senderDocSnapshot.data().imageUrl,
-                receiver_name: nestedDocData.firstName,
-                receiver_image_url: nestedDocData.imageUrl,
-                receiver: value.uid,
-              }, { merge: true });
+              await setDoc(
+                roomsRef,
+                {
+                  createdAt: new Date().toString(),
+                  sender: user.user_id,
+                  sender_name: senderDocSnapshot.data().firstName,
+                  sender_image_url: senderDocSnapshot.data().imageUrl,
+                  receiver_name: nestedDocData.firstName,
+                  receiver_image_url: nestedDocData.imageUrl,
+                  receiver: value.uid,
+                },
+                { merge: true },
+              );
             } else {
               toast.error("Invalid data for setDoc.");
             }
@@ -119,11 +133,14 @@ const Conversations = () => {
   useEffect(() => {
     fetchUserUsersList();
     fetchLoomsList();
-    const {user_id} = isAuth();
-    const unsubscribe = onSnapshot(collection(db, 'rooms'), (snapshot) => {
+    const { user_id } = isAuth();
+    const unsubscribe = onSnapshot(collection(db, "rooms"), (snapshot) => {
       const updatedRoomsList = snapshot.docs
-        .filter(doc => doc.data().receiver === user_id || doc.data().sender === user_id)
-        .map(doc => ({ id: doc.id, ...doc.data() }));
+        .filter(
+          (doc) =>
+            doc.data().receiver === user_id || doc.data().sender === user_id,
+        )
+        .map((doc) => ({ id: doc.id, ...doc.data() }));
       setRoomsList(updatedRoomsList);
     });
 
@@ -135,9 +152,15 @@ const Conversations = () => {
   console.log(roomsList, "Rooms list:");
 
   return (
-    <div className="bg-dots bg-repeat-x bg-[center_bottom_-4rem]" style={{ height: "calc(100vh - var(--nav-height)" }}>
+    <div
+      className="bg-dots bg-repeat-x bg-[center_bottom_-4rem]"
+      style={{ height: "calc(100vh - var(--nav-height)" }}
+    >
       <Container className="my-8 grid gap-6 grid-cols-6">
-        <ul className="bg-white rounded-3xl shadow-md col-span-2 overflow-y-auto" style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}>
+        <ul
+          className="bg-white rounded-3xl shadow-md col-span-2 overflow-y-auto"
+          style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}
+        >
           <li className="p-8 pb-4">
             <Select
               value={animal}
@@ -147,16 +170,17 @@ const Conversations = () => {
               isClearable={true}
             />
           </li>
-          {roomsList?.length > 0 && roomsList?.map((user, index) => (
-            <ConversationPreview
-              active={active}
-              index={index}
-              data={user}
-              setActive={setActive}
-              key={user.uid}
-              getIds={handeGetIds}
-            />
-          ))}
+          {roomsList?.length > 0 &&
+            roomsList?.map((user, index) => (
+              <ConversationPreview
+                active={active}
+                index={index}
+                data={user}
+                setActive={setActive}
+                key={user.uid}
+                getIds={handeGetIds}
+              />
+            ))}
         </ul>
         {Object.keys(senderReceiverId).length > 0 && (
           <Chat getchatIds={senderReceiverId} />
