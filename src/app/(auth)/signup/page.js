@@ -108,36 +108,18 @@ const SignUp = () => {
   const router = useRouter();
 
   const [active, setActive] = useState(OPTIONS[0]);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
 
   useEffect(() => {
     clearErrors();
   }, [active]);
 
-  const handleBrandSignup = async (formData) => {
+  const onSubmit = async (data) => {
     try {
-      await API.post("/auth/signup/brand", formData);
-      router.push("/login");
+      await API.post(`/auth/signup/${active.id}`, data);
+      router.push("/verify");
     } catch (error) {
       console.error("Error:", error);
       toast.error(error.response.data.message || error.message || "Try again");
-    }
-  };
-
-  const onSubmit = async (data) => {
-    if (active.id === "creator") {
-      try {
-        await API.post("/auth/signup/creator", data);
-        router.push("/login");
-      } catch (error) {
-        console.error("Error:", error);
-        toast.error(
-          error.response.data.message || error.message || "Try again"
-        );
-      }
     }
   };
 
@@ -156,16 +138,6 @@ const SignUp = () => {
               name={name}
               control={control}
               errors={errors}
-              {...(active.id === "creator"
-                ? { control: control }
-                : {
-                    value: formData[name],
-                    onChange: (e) =>
-                      setFormData({
-                        ...formData,
-                        [name]: e.target.value,
-                      }),
-                  })}
               {...otherProps}
             >
               {children}
@@ -173,14 +145,7 @@ const SignUp = () => {
           ))}
         </div>
 
-        <Button
-          as="button"
-          type={active.id === "creator" ? "submit" : "button"}
-          className="mt-8"
-          {...(active.id === "brand"
-            ? { onClick: () => handleBrandSignup(formData) }
-            : {})}
-        >
+        <Button as="button" type="submit" className="mt-8">
           Create Account
         </Button>
 
