@@ -16,6 +16,22 @@ import API from "@/api/api";
 import { toast } from "react-toastify";
 import { db } from "@/firebase/firebase";
 import isAuth from "@/helpers/isAuth";
+import Text from "@/components/Text";
+
+const Empty = () => (
+  <div
+    className="relative col-span-4 bg-white px-8 rounded-3xl shadow-md overflow-y-auto flex text-center flex-col items-center justify-center"
+    style={{ maxHeight: "calc(100vh - var(--nav-height) - 54px)" }}
+  >
+    <div className="max-w-sm">
+      <p className="text-subheading text-xl mb-2">Nothing to see here</p>
+      <p className="text-queen-black/80">
+        You currently have no conversations. A conversation is created once you
+        accept an open application.
+      </p>
+    </div>
+  </div>
+);
 
 const Conversations = () => {
   const [active, setActive] = useState(null);
@@ -182,8 +198,11 @@ const Conversations = () => {
               />
             ))}
         </ul>
-        {Object.keys(senderReceiverId).length > 0 && (
+
+        {Object.keys(senderReceiverId).length > 0 ? (
           <Chat getchatIds={senderReceiverId} />
+        ) : (
+          <Empty />
         )}
       </Container>
     </div>
