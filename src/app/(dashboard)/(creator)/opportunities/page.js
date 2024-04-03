@@ -6,18 +6,18 @@ import Search from "@/components/Search";
 
 const TAGS = ["pitch", "broadcasting", "business", "publishing"];
 
-async function getData() {
-  const res = await API.get("/opportunities");
+// async function getData() {
+//   const res = await API.get("/opportunities");
 
-  if (!res.status === 200) {
-    throw new Error("Failed to fetch data");
-  }
+//   if (!res.status === 200) {
+//     throw new Error("Failed to fetch data");
+//   }
 
-  return res.data.message;
-}
+//   return res.data.message;
+// }
 
 const Opportunities = async () => {
-  const data = await getData();
+  // const data = await getData();
 
   return (
     <Container size="2xl">
