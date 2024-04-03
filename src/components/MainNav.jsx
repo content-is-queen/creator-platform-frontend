@@ -137,14 +137,6 @@ const MainNav = () => {
                   Profile
                 </Link>
               </SubMenu.Item>
-              <SubMenu.Item>
-                <Link
-                  href="/settings/edit-profile"
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Edit Profile
-                </Link>
-              </SubMenu.Item>
 
               <SubMenu.Item>
                 <Link

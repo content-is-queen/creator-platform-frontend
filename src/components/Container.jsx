@@ -6,9 +6,10 @@ const SIZES = {
   "3xl": "max-w-3xl",
   "4xl": "max-w-4xl",
   "6xl": "max-w-6xl",
+  "7xl": "max-w-7xl",
 };
 
-const Container = ({ size = "6xl", className, children }) => (
+const Container = ({ size = "7xl", className, children }) => (
   <div className={clsx(SIZES[size], "mx-auto px-8", className)}>{children}</div>
 );
 
