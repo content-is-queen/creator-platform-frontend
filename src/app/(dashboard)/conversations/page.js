@@ -172,7 +172,7 @@ const Conversations = () => {
       className="bg-dots bg-repeat-x bg-[center_bottom_-4rem]"
       style={{ height: "calc(100vh - var(--nav-height)" }}
     >
-      <Container className="my-8 grid gap-6 grid-cols-6">
+      <Container className="pt-8 grid gap-6 grid-cols-6">
         <ul
           className="bg-white rounded-3xl shadow-md col-span-2 overflow-y-auto"
           style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}
