@@ -42,7 +42,7 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-  @apply bg-queen-blue;
+  @apply !bg-queen-blue;
 }
 
 select {

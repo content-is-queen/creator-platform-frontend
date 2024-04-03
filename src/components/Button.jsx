@@ -9,7 +9,7 @@ const ButtonVariants = cva(
     variants: {
       variant: {
         orange: "text-white bg-queen-orange px-6 py-1 font-bold",
-        yellow: "text-white bg-queen-yellow px-6 py-1 font-bold",
+        yellow: "text-queen-black bg-queen-yellow px-6 py-1 font-bold",
         brown: "text-white bg-queen-brown px-6 py-1 font-bold",
         blue: "text-white bg-queen-blue px-6 py-1 font-bold",
         white: "border border-queen-black/40 px-6 py-1 hover:bg-gray-50",

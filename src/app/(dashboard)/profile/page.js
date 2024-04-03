@@ -2,7 +2,6 @@
 
 import useAuth from "@/hooks/useAuth";
 
-import MainNav from "@/components/MainNav";
 import ProfileHero from "@/components/ProfileHero";
 import ProfileTabs from "@/components/ProfileTabs";
 import ProfileOpportunities from "@/components/ProfileOpportunities";
@@ -12,7 +11,7 @@ const Profile = () => {
 
   return (
     <>
-      <ProfileHero user={user} />
+      <ProfileHero {...user} />
 
       {user.role === "creator" ? <ProfileTabs /> : <ProfileOpportunities />}
     </>

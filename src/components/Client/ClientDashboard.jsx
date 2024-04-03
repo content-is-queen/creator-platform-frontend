@@ -13,6 +13,7 @@ import Empty from "@/components/Empty";
 import Panel from "@/components/Panel";
 
 import data from "@/data/opportunity_data.json";
+import Modal from "../Modal";
 
 const OpportunityPanels = () => (
   <div className="flex gap-3 text-black">
@@ -67,24 +68,13 @@ const OpportunityPanels = () => (
 );
 
 const OpportunityModal = ({ isOpen, setIsOpen }) => (
-  <Dialog
-    open={isOpen}
-    onClose={() => setIsOpen(false)}
-    className="relative z-50"
+  <Modal
+    isOpen={isOpen}
+    setIsOpen={setIsOpen}
+    title="Select an opportunity type"
   >
-    <div className="fixed inset-0 bg-queen-black/75" aria-hidden="true" />
-    <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-      <Dialog.Panel className="mx-auto w-full max-w-5xl rounded-3xl bg-white py-16 px-10">
-        <Dialog.Title>
-          <Heading size="2xl" className="text-center mb-12">
-            Select an opportunity type
-          </Heading>
-        </Dialog.Title>
-
-        <OpportunityPanels />
-      </Dialog.Panel>
-    </div>
-  </Dialog>
+    <OpportunityPanels />
+  </Modal>
 );
 
 const ClientDashboard = () => {
