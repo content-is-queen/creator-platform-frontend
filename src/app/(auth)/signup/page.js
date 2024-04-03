@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import { useForm } from "react-hook-form";
 
@@ -16,14 +18,26 @@ import Heading from "@/components/Heading";
 import Tabs from "@/components/Tabs";
 import API from "@/api/api";
 
+const EyeButton = ({ icon, ...otherProps }) => (
+  <button
+    type="button"
+    className="absolute right-0 h-4 w-4 -translate-y-1/2 top-1/2"
+    {...otherProps}
+  >
+    <FontAwesomeIcon className="pointer-events-none" icon={icon} />
+  </button>
+);
+
 const SignUp = () => {
   const {
     handleSubmit,
     control,
-    register,
     formState: { errors },
     clearErrors,
   } = useForm();
+
+  const [icon, setIcon] = useState(faEye);
+  const [type, setType] = useState("password");
 
   const OPTIONS = [
     {
@@ -54,8 +68,9 @@ const SignUp = () => {
         },
         {
           name: "password",
-          type: "password",
+          type: type,
           children: "Password",
+          icon: <EyeButton icon={icon} onClick={togglePassword} />,
           rules: {
             required: "Password is required",
             minLength: {
@@ -92,8 +107,9 @@ const SignUp = () => {
         },
         {
           name: "password",
-          type: "password",
+          type: type,
           children: "Password",
+          icon: <EyeButton icon={icon} onClick={togglePassword} />,
           rules: {
             required: "Password is required",
             minLength: {
@@ -113,6 +129,21 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+
+  const togglePassword = () => {
+    if (type === "password") {
+      setType("text");
+      setIcon(faEyeSlash);
+      console.log("changed");
+      setActive({ ...active, password: { type: type } });
+      console.log(active);
+    } else {
+      setType("password");
+      setIcon(faEye);
+      setActive({ ...active, password: { type: type } });
+      console.log(active);
+    }
+  };
 
   useEffect(() => {
     clearErrors();
@@ -136,7 +167,7 @@ const SignUp = () => {
       } catch (error) {
         console.error("Error:", error);
         toast.error(
-          error.response.data.message || error.message || "Try again",
+          error.response.data.message || error.message || "Try again"
         );
       }
     }

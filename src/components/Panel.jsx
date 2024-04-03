@@ -6,7 +6,7 @@ const Panel = ({ title, className, children }) => (
   <div
     className={clsx(
       "relative overflow-hidden rounded-3xl px-10 pt-10 pb-16 bg-no-repeat bg-right-bottom leading-none",
-      className,
+      className
     )}
   >
     {title && (

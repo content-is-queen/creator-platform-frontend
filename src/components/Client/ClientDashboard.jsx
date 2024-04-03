@@ -43,7 +43,7 @@ const OpportunityPanels = () => (
           key={name}
           className={clsx(
             "flex flex-col justify-between basis-1/3",
-            classes.panel,
+            classes.panel
           )}
         >
           <div>

@@ -38,18 +38,18 @@ const Input = ({
                   twMerge(
                     inputStyles.input,
                     errors[name] ? "border-red-500" : "border-queen-black",
-                    className,
-                  ),
+                    className
+                  )
                 )}
                 placeholder=""
                 id={name}
                 {...field}
                 {...otherProps}
               />
+              {icon && icon}
               <label htmlFor={name} className={inputStyles.label}>
                 {children}
               </label>
-              {icon && icon}
             </>
           )}
         />
