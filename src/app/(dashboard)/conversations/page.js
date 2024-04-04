@@ -24,7 +24,9 @@ const Empty = () => (
     style={{ maxHeight: "calc(100vh - var(--nav-height) - 54px)" }}
   >
     <div className="max-w-sm">
-      <p className="text-subheading text-xl mb-2">Nothing to see here</p>
+      <p className="text-subheading text-queen-black font-bold text-lg mb-2">
+        Nothing to see here
+      </p>
       <p className="text-queen-black/80">
         You currently have no conversations. A conversation is created once you
         accept an open application.
