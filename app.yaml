@@ -1,0 +1,8 @@
+env: standard
+runtime: nodejs20
+service: default
+
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
