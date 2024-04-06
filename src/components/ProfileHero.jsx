@@ -14,41 +14,44 @@ import Text from "@/components/Text";
 import { inputStyles } from "./Input";
 
 const EditProfileForm = () => {
+  const formData = new FormData();
   const [isLoading, setIsloading] = useState(false);
   const router = useRouter();
 
   const [profileData, setProfileData] = useState({
-    displayName: "",
+    first_name:"",
+    last_name: "",
     profilePicture: null,
-    description: "",
+    bio: "",
   });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setProfileData((prevFormData) => ({
-      ...prevFormData,
-      [name]: files ? files[0] : value,
+    const newValue = files ? files[0] : value;
+    setProfileData((prevProfileData) => ({
+      ...prevProfileData,
+      [name]: newValue,
     }));
+    console.log(profileData, "debugging >>>..................."); // Add this line
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    const { displayName, profilePicture, description, role } = profileData;
-    formData.append("displayName", displayName);
-    formData.append("profilePicture", profilePicture);
-    formData.append("description", description);
-    formData.append("role", role);
-
-    try {
-      setIsloading(true);
-      const response = await FILEAPI.patch("auth/profile", formData);
-      setIsloading(false);
-      toast.success(response.data.message);
-      router.push("/profile");
-    } catch (error) {
-      toast.error(error.message);
-    }
+    Object.entries(profileData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    console.log(formData, "LLLLLKKKKKKKKkkkkkkkkkkkkkLLLLLLLLLl");
+    console.log(Object.fromEntries(formData.entries()));
+    // try {
+    //   setIsloading(true);
+    //   const response = await FILEAPI.patch("auth/profile", formData);
+    //   setIsloading(false);
+    //   toast.success(response.data.message);
+    //   router.push("/profile");
+    // } catch (error) {
+    //   toast.error(error.message);
+    // }
   };
 
   return (
@@ -62,9 +65,10 @@ const EditProfileForm = () => {
           <label for="displayName">First name</label>
           <input
             type="text"
-            name="firstName"
-            id="firstName"
-            value={profileData?.firstName}
+            name="first_name"
+            id="first_name"
+            value={profileData?.first_name}
+            onChange={handleChange}
             className={twMerge(inputStyles.input, "p-1")}
           />
         </div>
@@ -72,9 +76,10 @@ const EditProfileForm = () => {
           <label for="displayName">Last name</label>
           <input
             type="text"
-            name="lastName"
-            id="lastName"
-            value={profileData?.lastName}
+            name="last_name"
+            id="last_name"
+            value={profileData?.last_name}
+            onChange={handleChange}
             className={twMerge(inputStyles.input, "p-1")}
           />
         </div>
@@ -97,7 +102,7 @@ const EditProfileForm = () => {
             id="bio"
             name="bio"
             rows={5}
-            value={profileData?.description}
+            value={profileData?.bio}
           />
         </div>
         <Button type="submit" as="button">
