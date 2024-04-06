@@ -1,9 +1,13 @@
 "use client";
 
+import API from "@/api/api";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import Secure from "@/utils/SecureLs";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 
 const Input = ({ value, onChange }) => (
   <input
@@ -15,7 +19,8 @@ const Input = ({ value, onChange }) => (
 );
 
 const Verify = () => {
-  const [userInfo, setUserInfo] = useState(null);
+  const router = useRouter();
+  const [userInfo, setUserInfo] = useState({});
   const [formData, setFormData] = useState({
     input1: "",
     input2: "",
@@ -23,7 +28,6 @@ const Verify = () => {
     input4: "",
     input5: "",
   });
-
   const handleChange = (e, inputName) => {
     const { value } = e.target;
     setFormData((prevFormData) => ({
@@ -32,9 +36,18 @@ const Verify = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const otp= Object.values(formData).join("");
-    console.log(otp,"LLLLLLLLLLL");
+    try {
+      const response = await API.post(`/auth/verify`, {...userInfo, otp});
+      const {message} = response.data;
+      router.push("/login");
+      toast.success(message);
+    } catch (error) {
+      const {message} = error.response.data;
+      toast.error(message || "Try again");
+      console.log(error);
+    }
   };
 
   useEffect(()=>{
