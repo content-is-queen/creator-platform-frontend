@@ -1,19 +1,11 @@
-# Sample workflow for building and deploying a Next.js site to GitHub Pages
-#
-# To get started with Next.js see: https://nextjs.org/docs/getting-started
-#
-name: Deploy to Google Cloud
+name: Deploy to Live Channel
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches:
 
 jobs:
-  build-and-deploy:
+  deploy_live_website:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,15 +24,9 @@ jobs:
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
 
-      - name: Google Cloud Auth
-        uses: "google-github-actions/auth@v2"
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          credentials_json: "${{ secrets.GCP_SA_KEY }}"
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-
-      - name: Set up Cloud SDK
-        uses: "google-github-actions/setup-gcloud@v2"
-
-      - name: Deploy to Google App Engine
-        run: |
-          gcloud app deploy app.yaml --quiet
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          projectId: creator-platform-419218
+          channelId: live

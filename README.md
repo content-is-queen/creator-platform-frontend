@@ -22,6 +22,14 @@ npm install
 npm run dev
 ```
 
+### Deployment
+
+Install the [Firebase CLI](https://firebase.google.com/docs/cli#install_the_firebase_cli) if you haven't already
+
+```
+npm run deploy
+```
+
 ## 📝 License
 
 This project is [MIT](./MIT.md) licensed.
