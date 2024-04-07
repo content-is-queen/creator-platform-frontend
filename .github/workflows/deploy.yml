@@ -1,11 +1,11 @@
-name: Deploy to Live Channel
+name: Deploy to Firebase
 
 on:
   push:
-    branches:
+    branches: ["main"]
 
 jobs:
-  deploy_live_website:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
