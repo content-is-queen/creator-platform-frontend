@@ -5,8 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
-import Button from "@/components/Button";
-import Form from "@/components/Form";
+import OpportunityForm from "@/components/OpportunityForm";
 
 import data from "@/data/opportunity_data.json";
 
@@ -40,11 +39,7 @@ const Page = async ({ params }) => {
             </Heading>
           </div>
 
-          <Form fields={data[slug].fields} />
-
-          <Button as="button" type="button">
-            Submit
-          </Button>
+          <OpportunityForm type={slug} />
         </div>
       </Container>
     </div>
