@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+
+import API from "@/api/api";
 
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
@@ -11,9 +12,9 @@ import ProjectsTabs from "@/components/Client/ProjectsTabs";
 import Button from "@/components/Button";
 import Empty from "@/components/Empty";
 import Panel from "@/components/Panel";
+import Modal from "@/components/Modal";
 
 import data from "@/data/opportunity_data.json";
-import Modal from "../Modal";
 
 const OpportunityPanels = () => (
   <div className="flex gap-3 text-black">
@@ -77,9 +78,23 @@ const OpportunityModal = ({ isOpen, setIsOpen }) => (
   </Modal>
 );
 
-const ClientDashboard = () => {
+const ClientDashboard = async (id) => {
   const [isOpen, setIsOpen] = useState(false);
-  const opportunities = [];
+  const [opportunities, setOpportunities] = useState([]);
+
+  const getOpportunities = async (id) => {
+    try {
+      const response = await API.get(`/opportunities/`);
+      setOpportunities(response.data.message);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    // TODO: get users opportunities using their id
+    getOpportunities();
+  }, []);
 
   if (opportunities.length < 1) {
     return (

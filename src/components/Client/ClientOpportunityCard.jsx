@@ -9,17 +9,18 @@ import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import SubMenu from "../SubMenu";
+import API from "@/api/api";
 
 const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
   const [open, setOpen] = useState(false);
 
-  // TODO: get applications count - cache value
+  // TODO: get applications and count
 
   const plurise = (word, value) => {
     return value === 1 ? word : word + "s";
   };
 
-  const statusLabel = status.replace("_", " ");
+  const statusLabel = "Live" || status.replace("_", " ");
   const viewCount = 100;
   const viewLabel = plurise("view", viewCount);
 
@@ -31,8 +32,13 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
     // TODO: open modal with form to update
   };
 
-  const deleteOpportunity = () => {
-    // TODO: delete confirm delete modal, then remove
+  const deleteOpportunity = ({ id }) => {
+    // TODO: confirm delete
+    try {
+      API.delete("/");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const subMenuToggle = () => {
@@ -91,12 +97,12 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
       </div>
 
       <div className="uppercase text-xs">
-        <p>
+        {/* <p>
           {viewCount} {viewLabel}
         </p>
         <p>
           {applicationCount} {applicationLabel}
-        </p>
+        </p> */}
       </div>
 
       <Button variant="white" type="button" as="button">

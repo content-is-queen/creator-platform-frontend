@@ -13,7 +13,7 @@ const Dashboard = () => {
   if (user)
     return (
       <main>
-        <Component />
+        <Component id={user.user_id} />
       </main>
     );
 

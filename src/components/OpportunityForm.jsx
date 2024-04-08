@@ -62,7 +62,7 @@ const OpportunityForm = ({ type }) => {
             return (
               <div key={name}>
                 <label for={name}>{children}</label>
-                <select className="w-full" name={name} id={name} required>
+                <select className="w-full" name={name} id={name}>
                   <option value="" selected disabled>
                     Select
                   </option>
@@ -102,7 +102,6 @@ const OpportunityForm = ({ type }) => {
                         className={twMerge(inputStyles.input, "p-1")}
                         name={option}
                         id={option}
-                        required
                       />
                       <label for={name} className="text-sm">
                         {option}

@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense, useMemo } from "react";
 
 import { register } from "swiper/element/bundle";
 
 import Tabs from "@/components/Tabs";
 import ClientOpportunityCard from "./ClientOpportunityCard";
-import { set } from "react-hook-form";
 
 register();
 
@@ -31,34 +30,42 @@ const ProjectsTabs = ({ opportunities }) => {
   ];
 
   const [active, setActive] = useState(OPTIONS[0]);
+  const [filteredOpportunities, setFilteredOpportunities] = useState([]);
 
   const swiperElRef = useRef(null);
 
-  const filteredOpportunities =
-    active.id === "all"
-      ? opportunities
-      : opportunities.filter((i) => i.status === active.id);
-
   // TODO: on change update swiper to start at the index of the first slide
+  useMemo(() => {
+    // const filterOpportunities = (opportunities) => {
+    //   active.id === "all"
+    //     ? opportunities
+    //     : opportunities.filter((i) => i.status === active.id);
+    // };
+
+    if (opportunities) setFilteredOpportunities(opportunities);
+  }, [opportunities]);
 
   useEffect(() => {}, [active]);
 
   return (
     <section>
-      <Tabs options={OPTIONS} active={active} setActive={setActive} />
-      <swiper-container
-        ref={swiperElRef}
-        space-between="25"
-        slides-per-view="3"
-        navigation="true"
-        class="my-6"
-      >
-        {filteredOpportunities?.map((opportunity, index) => (
-          <swiper-slide key={index} class="m-1">
-            <ClientOpportunityCard {...opportunity} />
-          </swiper-slide>
-        ))}
-      </swiper-container>
+      <Suspense>
+        <Tabs options={OPTIONS} active={active} setActive={setActive} />
+        <swiper-container
+          ref={swiperElRef}
+          space-between="25"
+          slides-per-view="3"
+          navigation="true"
+          class="my-6"
+        >
+          {filteredOpportunities.length > 0 &&
+            filteredOpportunities.map((opportunity, index) => (
+              <swiper-slide key={index} class="m-1">
+                <ClientOpportunityCard {...opportunity} />
+              </swiper-slide>
+            ))}
+        </swiper-container>
+      </Suspense>
     </section>
   );
 };
