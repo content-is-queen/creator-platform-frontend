@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -78,14 +80,15 @@ const OpportunityModal = ({ isOpen, setIsOpen }) => (
   </Modal>
 );
 
-const ClientDashboard = async (id) => {
+const ClientDashboard = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [opportunities, setOpportunities] = useState([]);
 
   const getOpportunities = async (id) => {
     try {
-      const response = await API.get(`/opportunities/`);
-      setOpportunities(response.data.message);
+      const response = await API.get(`/opportunities/id/${id}`);
+      setOpportunities(response.data);
+      console.log(response);
     } catch (e) {
       console.error(e);
     }
@@ -93,10 +96,10 @@ const ClientDashboard = async (id) => {
 
   useEffect(() => {
     // TODO: get users opportunities using their id
-    getOpportunities();
+    getOpportunities(id);
   }, []);
 
-  if (opportunities.length < 1) {
+  if (!opportunities || opportunities.length < 1) {
     return (
       <>
         <Empty

@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, Suspense, useMemo } from "react";
 import { register } from "swiper/element/bundle";
 
 import Tabs from "@/components/Tabs";
-import ClientOpportunityCard from "./ClientOpportunityCard";
+import ClientOpportunityCard from "@/components/Client/ClientOpportunityCard";
 
 register();
 
@@ -30,26 +30,20 @@ const ProjectsTabs = ({ opportunities }) => {
   ];
 
   const [active, setActive] = useState(OPTIONS[0]);
-  const [filteredOpportunities, setFilteredOpportunities] = useState([]);
 
   const swiperElRef = useRef(null);
 
+  const filterOpportunities = (opportunities) => {
+    active.id === "all"
+      ? opportunities
+      : opportunities.filter((i) => i.status === active.id);
+  };
+
   // TODO: on change update swiper to start at the index of the first slide
-  useMemo(() => {
-    // const filterOpportunities = (opportunities) => {
-    //   active.id === "all"
-    //     ? opportunities
-    //     : opportunities.filter((i) => i.status === active.id);
-    // };
-
-    if (opportunities) setFilteredOpportunities(opportunities);
-  }, [opportunities]);
-
-  useEffect(() => {}, [active]);
 
   return (
     <section>
-      <Suspense>
+      <Suspense fallback={<p>Loading...</p>}>
         <Tabs options={OPTIONS} active={active} setActive={setActive} />
         <swiper-container
           ref={swiperElRef}
@@ -58,8 +52,8 @@ const ProjectsTabs = ({ opportunities }) => {
           navigation="true"
           class="my-6"
         >
-          {filteredOpportunities.length > 0 &&
-            filteredOpportunities.map((opportunity, index) => (
+          {opportunities.length > 0 &&
+            opportunities.map((opportunity, index) => (
               <swiper-slide key={index} class="m-1">
                 <ClientOpportunityCard {...opportunity} />
               </swiper-slide>

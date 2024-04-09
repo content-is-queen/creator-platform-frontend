@@ -3,21 +3,22 @@ import API from "@/api/api";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import Search from "@/components/Search";
+import OpportunityCard from "@/components/OpportunityCard";
 
-const TAGS = ["pitch", "broadcasting", "business", "publishing"];
+const TAGS = ["pitch", "campaign", "job"];
 
-// async function getData() {
-//   const res = await API.get("/opportunities");
+async function getData() {
+  const res = await API.get("/opportunities");
 
-//   if (!res.status === 200) {
-//     throw new Error("Failed to fetch data");
-//   }
+  if (!res.status === 200) {
+    throw new Error("Failed to fetch data");
+  }
 
-//   return res.data.message;
-// }
+  return res.data.message;
+}
 
 const Opportunities = async () => {
-  // const data = await getData();
+  const data = await getData();
 
   return (
     <Container size="2xl">
@@ -25,6 +26,12 @@ const Opportunities = async () => {
         <Heading>Opportunities</Heading>
       </div>
       <Search tags={TAGS} />
+
+      <div className="my-12 space-y-6">
+        {data.map((opportunity) => (
+          <OpportunityCard key={opportunity.opportunity_id} {...opportunity} />
+        ))}
+      </div>
     </Container>
   );
 };

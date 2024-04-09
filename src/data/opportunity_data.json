@@ -65,7 +65,7 @@
     "label": "Pitch",
     "description": "An introductory presentation that provides a quick summary of yourself.",
     "fields": [
-      { "name": "project", "type": "text", "children": "Project Title" },
+      { "name": "title", "type": "text", "children": "Project Title" },
       {
         "name": "description",
         "as": "textarea",
@@ -110,7 +110,7 @@
       { "name": "name", "type": "text", "children": "Campaign Name" },
       { "name": "brand", "type": "text", "children": "Brand/Product" },
       {
-        "name": "goals",
+        "name": "description",
         "as": "select",
         "children": "Campaign Goals",
         "options": [

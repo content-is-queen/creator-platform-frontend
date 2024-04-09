@@ -1,7 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import Heading from "@/components/Heading";
 
-const Modal = ({ heading, isOpen, setIsOpen, children }) => (
+const Modal = ({ title, isOpen, setIsOpen, children }) => (
   <Dialog
     open={isOpen}
     onClose={() => setIsOpen(false)}
@@ -12,7 +12,7 @@ const Modal = ({ heading, isOpen, setIsOpen, children }) => (
       <Dialog.Panel className="mx-auto w-full max-w-5xl rounded-3xl bg-white py-16 px-10 overflow-y-scroll">
         <Dialog.Title>
           <Heading size="2xl" className="text-center mb-12">
-            {heading}
+            {title}
           </Heading>
         </Dialog.Title>
 

@@ -11,21 +11,24 @@ const OpportunityCard = ({
   deadline,
   type,
   title,
-  excerpt,
-  href,
+  description,
+  project,
+  name,
+  goals,
+  opportunity_id,
 }) => (
   <Card>
     <div className="flex items-center gap-2.5 justify-between mb-4">
-      <Link href={company.profileUrl} className="flex items-center">
+      <Link href="" className="flex items-center">
         <img
           className="rounded-full mr-2"
           height={28}
           width={28}
           alt=""
-          {...company.image}
+          src="/images/guardian.png"
         />
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
-          {company.name}
+          {company?.name}
         </span>
       </Link>
       <div className="flex gap-y-2 gap-x-6 item-center">
@@ -49,18 +52,20 @@ const OpportunityCard = ({
       </div>
     </div>
     <div className="flex content-start items-center mb-2">
-      <p className="text-xl mr-3 text-queen-black capitalize">{title}</p>
+      <p className="text-xl mr-3 text-queen-black capitalize">
+        {title || project || name}
+      </p>
       <Tag>{type}</Tag>
     </div>
 
     <div className="flex justify-between items-center">
-      <div className="max-w-lg">
+      <div className="max-w-md">
         <Text color="muted" className="truncate">
-          {excerpt}
+          {description || goals}
         </Text>
       </div>
 
-      <Button variant="white" href={href}>
+      <Button variant="white" href={`/opportunities/${opportunity_id}`}>
         View
       </Button>
     </div>

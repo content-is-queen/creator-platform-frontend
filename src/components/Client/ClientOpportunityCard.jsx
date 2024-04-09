@@ -11,7 +11,15 @@ import Tag from "@/components/Tag";
 import SubMenu from "../SubMenu";
 import API from "@/api/api";
 
-const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
+const ClientOpportunityCard = ({
+  budget,
+  deadline,
+  status,
+  title,
+  project,
+  name,
+  opportunity_id,
+}) => {
   const [open, setOpen] = useState(false);
 
   // TODO: get applications and count
@@ -32,10 +40,10 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
     // TODO: open modal with form to update
   };
 
-  const deleteOpportunity = ({ id }) => {
+  const deleteOpportunity = (id) => {
     // TODO: confirm delete
     try {
-      API.delete("/");
+      API.delete(`/opportunities/${id}`);
     } catch (e) {
       console.error(e);
     }
@@ -48,7 +56,9 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
   return (
     <Card className="inline-block space-y-4 w-full max-w-sm relative">
       <div className="flex content-start items-center">
-        <p className="text-lg mr-3 text-queen-black capitalize">{title}</p>
+        <p className="text-lg mr-3 text-queen-black capitalize">
+          {title || project || name}
+        </p>
         <Tag>{statusLabel}</Tag>
         <button type="button" className="ml-auto pl-2" onClick={subMenuToggle}>
           <FontAwesomeIcon icon={faEllipsisV} />
@@ -67,7 +77,7 @@ const ClientOpportunityCard = ({ budget, deadline, status, title }) => {
             <SubMenu.Item>
               <button
                 type="button"
-                onClick={deleteOpportunity}
+                onClick={() => deleteOpportunity(opportunity_id)}
                 className="px-4 py-1 w-full text-left inline-block"
               >
                 Delete
