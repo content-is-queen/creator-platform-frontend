@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 
@@ -14,19 +13,22 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import Text from "@/components/Text";
 import { inputStyles } from "./Input";
-import { getUserProfile, updateProfile } from "../app/GrobalRedux/features/profile/profileSlice";
+import {
+  getUserProfile,
+  updateProfile,
+} from "../app/GrobalRedux/features/profile/profileSlice";
 
-const EditProfileForm = ({data, setIsOpen }) => {
+const EditProfileForm = ({ data, setIsOpen }) => {
   const [isLoading, setIsloading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const [profileData, setProfileData] = useState({
     first_name: data?.first_name || "",
-    last_name:data?.last_name || "",
-    profilePicture:data?.profilePicture || null,
-    bio:data?.bio || "",
-    role:data?.role
+    last_name: data?.last_name || "",
+    profilePicture: data?.profilePicture || null,
+    bio: data?.bio || "",
+    role: data?.role,
   });
 
   const handleChange = (e) => {
@@ -38,7 +40,6 @@ const EditProfileForm = ({data, setIsOpen }) => {
     }));
   };
 
-
   const handleSubmit = async (e) => {
     const formData = new FormData();
     e.preventDefault();
@@ -47,13 +48,12 @@ const EditProfileForm = ({data, setIsOpen }) => {
     });
     await dispatch(updateProfile(formData));
     dispatch(getUserProfile());
-    setIsOpen(false)
-
-    };
+    setIsOpen(false);
+  };
 
   return (
     <form
-    className="max-w-md mx-auto"
+      className="max-w-md mx-auto"
       onSubmit={handleSubmit}
       encType="multipart/form-data"
     >
@@ -114,16 +114,19 @@ const ProfileHero = (user) => {
   const [currentUser, setCurrentUser] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const {userProfileData} = useSelector((state) => state.auth);
+  const { userProfileData } = useSelector((state) => state.auth);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getUserProfile());
-  },[]);
+  }, []);
 
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
       <Container size="4xl" className="space-y-4">
-        <ProfileIcon photoUrl={userProfileData?.message?.imageUrl } className="h-20 w-20" />
+        <ProfileIcon
+          photoUrl={userProfileData?.message?.imageUrl}
+          className="h-20 w-20"
+        />
         {currentUser && (
           <>
             <Button
@@ -136,7 +139,10 @@ const ProfileHero = (user) => {
             </Button>
 
             <Modal isOpen={isOpen} setIsOpen={setIsOpen} heading="Edit profile">
-              <EditProfileForm data={userProfileData?.message} setIsOpen={setIsOpen} />
+              <EditProfileForm
+                data={userProfileData?.message}
+                setIsOpen={setIsOpen}
+              />
             </Modal>
           </>
         )}

@@ -118,7 +118,7 @@ const SignUp = () => {
     try {
       const response = await API.post(`/auth/signup/${active.id}`, data);
       console.log(response, "Current response");
-      Secure.set("userInfo", response.data.data );
+      Secure.set("userInfo", response.data.data);
       router.push("/verify");
     } catch (error) {
       console.error("Error:", error);

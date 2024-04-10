@@ -1,14 +1,13 @@
-import API from '@/api/api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import API from "@/api/api";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 // import Secure from '@/utils/secureLs';
 
-
-export const verify1 = createAsyncThunk('verify', async data => {
+export const verify1 = createAsyncThunk("verify", async (data) => {
   try {
     const response = await API.post(`/auth/verify`, data);
-   console.log(response.data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -24,12 +23,12 @@ const initialState = {
 };
 
 const verifySlice = createSlice({
-  name: 'verify',
+  name: "verify",
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(verify1.pending, state => {
+      .addCase(verify1.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -40,8 +39,7 @@ const verifySlice = createSlice({
       })
       .addCase(verify1.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          action.payload || 'An error occurred during login.';
+        state.error = action.payload || "An error occurred during login.";
       });
   },
 });

@@ -31,9 +31,7 @@ export default function RootLayout({ children }) {
       className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
       <body>
-      <Providers>
-        {children}
-      </Providers>
+        <Providers>{children}</Providers>
         <ToastContainer />
       </body>
     </html>

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import FILEAPI from '../../../../api/fileApi';
+import FILEAPI from "../../../../api/fileApi";
 import API from "../../../../api/api";
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 // import Secure from '@/utils/secureLs';
-export const updateProfile = createAsyncThunk('editprofile', async data => {
+export const updateProfile = createAsyncThunk("editprofile", async (data) => {
   try {
     const response = await FILEAPI.patch(`/auth/profile`, data);
-    const {message} = response?.data;
-   toast.success(message || "Success!");
-  console.log(response.data,"response");
+    const { message } = response?.data;
+    toast.success(message || "Success!");
+    console.log(response.data, "response");
     return response.data;
   } catch (error) {
     console.log(error);
@@ -20,7 +20,7 @@ export const updateProfile = createAsyncThunk('editprofile', async data => {
   }
 });
 
-export const getUserProfile = createAsyncThunk('getUserProfile', async ()=> {
+export const getUserProfile = createAsyncThunk("getUserProfile", async () => {
   try {
     const response = await API.get(`/auth/profile`);
     return response.data;
@@ -41,12 +41,12 @@ const initialState = {
 };
 
 const verifySlice = createSlice({
-  name: 'editprofile',
+  name: "editprofile",
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(updateProfile.pending, state => {
+      .addCase(updateProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -57,10 +57,9 @@ const verifySlice = createSlice({
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          action.payload || 'An error occurred during login.';
+        state.error = action.payload || "An error occurred during login.";
       })
-      .addCase(getUserProfile.pending, state => {
+      .addCase(getUserProfile.pending, (state) => {
         state.isGettingUserProfile = true;
         state.errorOnGettingProfile = null;
       })
@@ -72,7 +71,7 @@ const verifySlice = createSlice({
       .addCase(getUserProfile.rejected, (state, action) => {
         state.isGettingUserProfile = false;
         state.errorOnGettingProfile =
-          action.payload || 'An error occurred during login.';
+          action.payload || "An error occurred during login.";
       });
   },
 });

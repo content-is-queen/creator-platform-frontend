@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-
 const Input = ({ value, onChange }) => (
   <input
     type="text"
@@ -37,42 +36,57 @@ const Verify = () => {
   };
 
   const handleSubmit = async () => {
-    const otp= Object.values(formData).join("");
+    const otp = Object.values(formData).join("");
     try {
-      const response = await API.post(`/auth/verify`, {...userInfo, otp});
-      const {message} = response.data;
+      const response = await API.post(`/auth/verify`, { ...userInfo, otp });
+      const { message } = response.data;
       router.push("/login");
       toast.success(message);
     } catch (error) {
-      const {message} = error.response.data;
+      const { message } = error.response.data;
       toast.error(message || "Try again");
       console.log(error);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const data = Secure.get("userInfo");
     setUserInfo(data);
-  },[]);
-  return <div className="text-center">
-    <Heading size="3xl" className="mb-2">
-      Verify your email address
-    </Heading>
-    <p className="mb-6">
-      We're sure you're you, but we still need to verify that.
-    </p>
-    <div className="flex gap-2 justify-center">
-        <Input value={formData.input1} onChange={(e) => handleChange(e, "input1")} />
-        <Input value={formData.input2} onChange={(e) => handleChange(e, "input2")} />
-        <Input value={formData.input3} onChange={(e) => handleChange(e, "input3")} />
-        <Input value={formData.input4} onChange={(e) => handleChange(e, "input4")} />
-        <Input value={formData.input5} onChange={(e) => handleChange(e, "input5")} />
+  }, []);
+  return (
+    <div className="text-center">
+      <Heading size="3xl" className="mb-2">
+        Verify your email address
+      </Heading>
+      <p className="mb-6">
+        We're sure you're you, but we still need to verify that.
+      </p>
+      <div className="flex gap-2 justify-center">
+        <Input
+          value={formData.input1}
+          onChange={(e) => handleChange(e, "input1")}
+        />
+        <Input
+          value={formData.input2}
+          onChange={(e) => handleChange(e, "input2")}
+        />
+        <Input
+          value={formData.input3}
+          onChange={(e) => handleChange(e, "input3")}
+        />
+        <Input
+          value={formData.input4}
+          onChange={(e) => handleChange(e, "input4")}
+        />
+        <Input
+          value={formData.input5}
+          onChange={(e) => handleChange(e, "input5")}
+        />
+      </div>
+      <Button type="button" onClick={handleSubmit} as="button" className="mt-8">
+        Verify
+      </Button>
     </div>
-    <Button type="button" onClick={handleSubmit} as="button" className="mt-8">
-      Verify
-    </Button>
-  </div>
-}
-;
-
+  );
+};
 export default Verify;
