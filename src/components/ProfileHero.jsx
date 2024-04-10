@@ -142,7 +142,7 @@ const ProfileHero = (user) => {
         )}
         <div className="max-w-96">
           <h1 className="font-heading uppercase text-2xl">
-            {`${userProfileData?.message.first_name} ${userProfileData?.message.last_name}`}
+            {`${userProfileData?.message?.first_name} ${userProfileData?.message?.last_name}`}
           </h1>
           {user.tags != undefined && (
             <div className="flex gap-2 my-2">
