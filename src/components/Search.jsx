@@ -11,15 +11,24 @@ import { inputStyles } from "@/components/Input";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const Search = ({ tags }) => {
+const TAGS = ["pitch", "campaign", "job"];
+
+const Search = ({ opportunities, setFilteredOpportunities }) => {
   const [query, setQuery] = useState(null);
+  const [selected, setSelected] = useState([]);
 
   const changeHandler = (e) => {
     const debouncedSearch = debounce(() => setQuery(e.target.value), 500);
     debouncedSearch();
   };
 
-  useEffect(() => {}, [query]);
+  useEffect(() => {
+    setFilteredOpportunities(
+      selected.length > 0
+        ? opportunities.filter((i) => selected.includes(i.type))
+        : opportunities
+    );
+  }, [selected]);
 
   return (
     <section>
@@ -41,8 +50,10 @@ const Search = ({ tags }) => {
         Search
       </label>
       <div className="flex gap-2 mt-6">
-        {tags?.map((tag) => (
-          <FilterTag key={tag}>{tag}</FilterTag>
+        {TAGS.map((tag) => (
+          <FilterTag selected={selected} setSelected={setSelected} key={tag}>
+            {tag}
+          </FilterTag>
         ))}
       </div>
     </section>

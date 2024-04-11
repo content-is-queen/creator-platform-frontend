@@ -1,11 +1,8 @@
 import API from "@/api/api";
 
+import OpportunitiesList from "@/components/Creator/OpportunitiesList";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
-import Search from "@/components/Search";
-import OpportunityCard from "@/components/OpportunityCard";
-
-const TAGS = ["pitch", "campaign", "job"];
 
 async function getData() {
   // Prevent build failing during workflows build test
@@ -30,13 +27,8 @@ const Opportunities = async () => {
       <div className="text-center mt-20 mb-16">
         <Heading>Opportunities</Heading>
       </div>
-      <Search tags={TAGS} />
 
-      <div className="my-12 space-y-6">
-        {data.map((opportunity) => (
-          <OpportunityCard key={opportunity.opportunity_id} {...opportunity} />
-        ))}
-      </div>
+      <OpportunitiesList opportunities={data} />
     </Container>
   );
 };
