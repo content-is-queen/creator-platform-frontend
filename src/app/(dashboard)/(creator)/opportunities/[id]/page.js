@@ -11,9 +11,16 @@ import Text from "@/components/Text";
 import ProposalForm from "@/components/ProposalForm";
 
 export async function generateStaticParams() {
+  // Prevent build failing during workflows build test
+  if (process.env.APP_ENV === "development") {
+    return [];
+  }
+
+  const res = await API.get(`/opportunities`);
+
   const {
     data: { message },
-  } = await API.get(`/opportunities`);
+  } = res;
 
   return message.map(({ opportunity_id }) => ({ id: opportunity_id }));
 }

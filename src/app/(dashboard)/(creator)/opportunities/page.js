@@ -8,6 +8,11 @@ import OpportunityCard from "@/components/OpportunityCard";
 const TAGS = ["pitch", "campaign", "job"];
 
 async function getData() {
+  // Prevent build failing during workflows build test
+  if (process.env.APP_ENV === "development") {
+    return [];
+  }
+
   const res = await API.get("/opportunities");
 
   if (!res.status === 200) {
