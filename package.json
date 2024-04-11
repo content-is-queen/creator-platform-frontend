@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:actions": "APP_ENV=development next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install || true",
