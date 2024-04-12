@@ -8,7 +8,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
-import ProposalForm from "@/components/ProposalForm";
+import ProposalForm from "@/components/Creator/ProposalForm";
 
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test

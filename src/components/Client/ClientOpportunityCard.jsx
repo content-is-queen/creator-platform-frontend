@@ -1,5 +1,6 @@
+"use client";
+
 import { useState } from "react";
-import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -8,117 +9,130 @@ import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
-import SubMenu from "../SubMenu";
+import Modal from "@/components/Modal";
+import SubMenu from "@/components/SubMenu";
+
+import plurise from "@/helpers/plurise";
 import API from "@/api/api";
+import EditOpportunityForm from "./EditOpportunityForm";
 
-const ClientOpportunityCard = ({
-  budget,
-  deadline,
-  status,
-  title,
-  project,
-  name,
-  opportunity_id,
-}) => {
-  const [open, setOpen] = useState(false);
+const ClientOpportunityCard = (props) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // TODO: get applications and count
+  const {
+    budget,
+    deadline,
+    status,
+    title,
+    project,
+    type,
+    name,
+    opportunity_id,
+  } = props;
 
-  const plurise = (word, value) => {
-    return value === 1 ? word : word + "s";
-  };
+  const statusLabel = status.replace("_", " ");
 
-  const statusLabel = "Live" || status.replace("_", " ");
+  // TODO: update counts with api data
   const viewCount = 100;
-  const viewLabel = plurise("view", viewCount);
-
-  // TODO: replace with calculation from db
   const applicationCount = 1;
+
+  const viewLabel = plurise("view", viewCount);
   const applicationLabel = plurise("application", applicationCount);
 
   const editOpportunity = () => {
-    // TODO: open modal with form to update
+    setIsOpen(true);
   };
 
   const deleteOpportunity = (id) => {
-    // TODO: confirm delete
     try {
-      API.delete(`/opportunities/${id}`);
+      if (confirm("Are you sure you want to delete this opportunity?")) {
+        API.delete(`/opportunities/opportunityid/${id}`);
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
   const subMenuToggle = () => {
-    setOpen((prev) => !prev);
+    setMenuOpen((prev) => !prev);
   };
 
   return (
-    <Card className="inline-block space-y-4 w-full max-w-sm relative">
-      <div className="flex content-start items-center">
-        <p className="text-lg mr-3 text-queen-black capitalize">
-          {title || project || name}
-        </p>
-        <Tag>{statusLabel}</Tag>
-        <button type="button" className="ml-auto pl-2" onClick={subMenuToggle}>
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </button>
-        {open && (
-          <SubMenu>
-            <SubMenu.Item>
-              <button
-                type="button"
-                onClick={editOpportunity}
-                className="px-4 py-1 w-full text-left inline-block"
-              >
-                Edit
-              </button>
-            </SubMenu.Item>
-            <SubMenu.Item>
-              <button
-                type="button"
-                onClick={() => deleteOpportunity(opportunity_id)}
-                className="px-4 py-1 w-full text-left inline-block"
-              >
-                Delete
-              </button>
-            </SubMenu.Item>
-          </SubMenu>
-        )}
-      </div>
-
-      <div className="flex gap-6">
-        <div className="flex flex-col">
-          <Text as="span" color="muted" size="xs">
-            Budget
-          </Text>
-          <Text as="span" size="sm">
-            {budget}
-          </Text>
+    <>
+      <Card className="inline-block space-y-4 w-full max-w-sm relative">
+        <div className="flex content-start items-center">
+          <p className="text-lg mr-3 text-queen-black capitalize">
+            {title || project || name}
+          </p>
+          <Tag>{statusLabel}</Tag>
+          <button
+            type="button"
+            className="ml-auto pl-2"
+            onClick={subMenuToggle}
+          >
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </button>
+          {menuOpen && (
+            <SubMenu>
+              <SubMenu.Item>
+                <button
+                  type="button"
+                  onClick={() => editOpportunity(opportunity_id)}
+                  className="px-4 py-1 w-full text-left inline-block"
+                >
+                  Edit
+                </button>
+              </SubMenu.Item>
+              <SubMenu.Item>
+                <button
+                  type="button"
+                  onClick={() => deleteOpportunity(opportunity_id)}
+                  className="px-4 py-1 w-full text-left inline-block"
+                >
+                  Delete
+                </button>
+              </SubMenu.Item>
+            </SubMenu>
+          )}
         </div>
-        <div className="flex flex-col">
-          <Text as="span" color="muted" size="xs">
-            Deadline
-          </Text>
-          <Text as="span" size="sm">
-            {deadline}
-          </Text>
-        </div>
-      </div>
 
-      <div className="uppercase text-xs">
-        {/* <p>
+        <div className="flex gap-6">
+          <div className="flex flex-col">
+            <Text as="span" color="muted" size="xs">
+              Budget
+            </Text>
+            <Text as="span" size="sm">
+              {budget}
+            </Text>
+          </div>
+          <div className="flex flex-col">
+            <Text as="span" color="muted" size="xs">
+              Deadline
+            </Text>
+            <Text as="span" size="sm">
+              {deadline}
+            </Text>
+          </div>
+        </div>
+
+        {/* <div className="uppercase text-xs">
+        <p>
           {viewCount} {viewLabel}
         </p>
         <p>
           {applicationCount} {applicationLabel}
-        </p> */}
-      </div>
+        </p>
+      </div> */}
 
-      <Button variant="white" type="button" as="button">
-        View Applications
-      </Button>
-    </Card>
+        <Button variant="white" type="button" as="button">
+          View Applications
+        </Button>
+      </Card>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Update">
+        <EditOpportunityForm {...props} />
+      </Modal>
+    </>
   );
 };
 

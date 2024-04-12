@@ -9,12 +9,6 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { inputStyles } from "@/components/Input";
 
-const ProposalModal = ({ isOpen, setIsOpen, children }) => (
-  <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Apply">
-    {children}
-  </Modal>
-);
-
 const ProposalForm = ({ opportunityId }) => {
   const {
     user: { user_id },
@@ -45,7 +39,7 @@ const ProposalForm = ({ opportunityId }) => {
         Send Proposal
       </Button>
 
-      <ProposalModal setIsOpen={setIsOpen} isOpen={isOpen}>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Apply">
         <form onSubmit={(e) => handleSubmit(e, opportunityId, user_id)}>
           <div className="space-y-10">
             <label for="proposal">Proposal</label>
@@ -61,7 +55,7 @@ const ProposalForm = ({ opportunityId }) => {
             Submit
           </Button>
         </form>
-      </ProposalModal>
+      </Modal>
     </>
   );
 };

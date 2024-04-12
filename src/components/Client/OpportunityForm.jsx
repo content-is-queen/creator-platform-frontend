@@ -16,7 +16,6 @@ const OpportunityForm = ({ type }) => {
   const {
     user: { user_id },
   } = useAuth();
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e, fields, userId) => {
     e.preventDefault();
