@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:test": "APP_ENV=development next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install || true",
-    "deploy": "firebase deploy",
+    "deploy": "firebase deploy --only hosting:ciq-creator-platform",
     "format": "npx prettier ./src --check"
   },
   "husky": {

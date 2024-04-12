@@ -1,30 +1,34 @@
 import API from "@/api/api";
 
+import OpportunitiesList from "@/components/Creator/OpportunitiesList";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
-import Search from "@/components/Search";
 
-const TAGS = ["pitch", "broadcasting", "business", "publishing"];
+async function getData() {
+  // Prevent build failing during workflows build test
+  if (process.env.APP_ENV === "development") {
+    return [];
+  }
 
-// async function getData() {
-//   const res = await API.get("/opportunities");
+  const res = await API.get("/opportunities");
 
-//   if (!res.status === 200) {
-//     throw new Error("Failed to fetch data");
-//   }
+  if (!res.status === 200) {
+    throw new Error("Failed to fetch data");
+  }
 
-//   return res.data.message;
-// }
+  return res.data.message;
+}
 
 const Opportunities = async () => {
-  // const data = await getData();
+  const data = await getData();
 
   return (
     <Container size="2xl">
       <div className="text-center mt-20 mb-16">
         <Heading>Opportunities</Heading>
       </div>
-      <Search tags={TAGS} />
+
+      <OpportunitiesList opportunities={data} />
     </Container>
   );
 };

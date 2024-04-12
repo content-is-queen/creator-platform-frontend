@@ -3,7 +3,7 @@ import Keys from "../utils/keys";
 import Secure from "../utils/SecureLs";
 
 const API = axios.create({
-  baseURL: `${Keys.DEFAULT_API}/api/v1`,
+  baseURL: `${Keys.DEFAULT_API}`,
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${Secure.getToken()}`,

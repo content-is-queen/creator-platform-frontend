@@ -127,7 +127,7 @@ const ProfileHero = (user) => {
               Edit Profile
             </Button>
 
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} heading="Edit profile">
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Edit profile">
               <EditProfileForm />
             </Modal>
           </>

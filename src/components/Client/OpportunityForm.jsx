@@ -1,6 +1,8 @@
 "use client";
 
 import API from "@/api/api";
+import useAuth from "@/hooks/useAuth";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import Text from "@/components/Text";
@@ -11,8 +13,11 @@ import data from "@/data/opportunity_data.json";
 
 const OpportunityForm = ({ type }) => {
   const fields = data[type].fields;
+  const {
+    user: { user_id },
+  } = useAuth();
 
-  const handleSubmit = async (e, fields) => {
+  const handleSubmit = async (e, fields, userId) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -27,7 +32,7 @@ const OpportunityForm = ({ type }) => {
       return [...acc, name];
     }, "");
 
-    const postData = { type: type };
+    const postData = { type: type, user_id: userId };
 
     keys.forEach((key) => {
       if (typeof key === "object") {
@@ -48,21 +53,21 @@ const OpportunityForm = ({ type }) => {
 
     try {
       await API.post("/opportunities", postData);
-      e.target.reset();
+      window.location = "/";
     } catch (error) {
       console.error(error.message);
     }
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, fields)}>
+    <form onSubmit={(e) => handleSubmit(e, fields, user_id)}>
       <div className="space-y-10">
         {fields.map(({ children, as, type, name, options }) => {
           if (as === "select") {
             return (
               <div key={name}>
                 <label for={name}>{children}</label>
-                <select className="w-full" name={name} id={name} required>
+                <select className="w-full" name={name} id={name}>
                   <option value="" selected disabled>
                     Select
                   </option>
@@ -102,7 +107,6 @@ const OpportunityForm = ({ type }) => {
                         className={twMerge(inputStyles.input, "p-1")}
                         name={option}
                         id={option}
-                        required
                       />
                       <label for={name} className="text-sm">
                         {option}
