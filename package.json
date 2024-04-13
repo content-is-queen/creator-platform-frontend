@@ -8,14 +8,8 @@
     "build:test": "APP_ENV=development next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install || true",
     "deploy": "firebase deploy --only hosting:ciq-creator-platform",
     "format": "npx prettier ./src --check"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*": "npm run lint"
@@ -36,7 +30,6 @@
     "firebase": "^10.10.0",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
-    "husky": "^4.3.8",
     "jwt-decode": "^4.0.0",
     "lint-staged": "^15.2.2",
     "moment": "^2.29.4",
