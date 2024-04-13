@@ -6,10 +6,8 @@ name: Deploy to Firebase Hosting
       - main
 jobs:
   build_and_deploy:
-    environment: production
-    env:
-      NEXT_PUBLIC_FIREBASE_API_KEY: ${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY }}
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v4
 
