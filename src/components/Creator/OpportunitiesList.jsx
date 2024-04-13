@@ -46,7 +46,7 @@ const OpportunitiesList = ({ opportunities }) => {
       />
 
       <div className="my-12 space-y-6">
-        {filteredOpportunities.map((opportunity) => (
+        {filteredOpportunities?.map((opportunity) => (
           <div key={opportunity.opportunity_id} ref={ref}>
             <OpportunityCard {...opportunity} />
           </div>
