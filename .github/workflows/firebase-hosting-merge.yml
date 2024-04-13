@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
         env:
-          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ env.development.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ env.NEXT_PUBLIC_FIREBASE_API_KEY }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
