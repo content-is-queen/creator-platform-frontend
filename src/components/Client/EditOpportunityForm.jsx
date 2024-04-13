@@ -1,7 +1,6 @@
 "use client";
 
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -27,7 +26,7 @@ const EditOpportunityForm = (props) => {
     const postData = { type: type, opportunity_id: opportunityId, ...fields };
 
     try {
-      // await API.put(`/opportunities/id/${opportunityId}`, postData);
+      await API.put(`/opportunities/id/${opportunityId}`, postData);
     } catch (error) {
       console.error(error.message);
     }
@@ -86,6 +85,9 @@ const EditOpportunityForm = (props) => {
                 <Text className="mb-4">{children}</Text>
                 <div className="space-y">
                   {options.map((option) => {
+                    const selectedFields =
+                      name in updatedFields ? updatedFields[name] : value;
+
                     return (
                       <div
                         className="inline-flex items-center gap-3 w-full"
@@ -120,7 +122,7 @@ const EditOpportunityForm = (props) => {
                               });
                             }
                           }}
-                          {...(updatedFields[name]?.includes(option) && {
+                          {...(selectedFields?.includes(option) && {
                             checked: true,
                           })}
                         />
