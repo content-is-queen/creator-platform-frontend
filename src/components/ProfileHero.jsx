@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { useDispatch, useSelector } from 'react-redux';
+
 
 import { toast } from "react-toastify";
 
@@ -12,17 +14,19 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import Text from "@/components/Text";
 import { inputStyles } from "./Input";
+import { getUserProfile, updateProfile } from "../app/GrobalRedux/features/profile/profileSlice";
 
-const EditProfileForm = () => {
-  const formData = new FormData();
+const EditProfileForm = ({data, setIsOpen }) => {
   const [isLoading, setIsloading] = useState(false);
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const [profileData, setProfileData] = useState({
-    first_name:"",
-    last_name: "",
-    profilePicture: null,
-    bio: "",
+    first_name: data?.first_name || "",
+    last_name:data?.last_name || "",
+    profilePicture:data?.profilePicture || null,
+    bio:data?.bio || "",
+    role:data?.role
   });
 
   const handleChange = (e) => {
@@ -32,31 +36,24 @@ const EditProfileForm = () => {
       ...prevProfileData,
       [name]: newValue,
     }));
-    console.log(profileData, "debugging >>>..................."); // Add this line
   };
 
 
   const handleSubmit = async (e) => {
+    const formData = new FormData();
     e.preventDefault();
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    console.log(formData, "LLLLLKKKKKKKKkkkkkkkkkkkkkLLLLLLLLLl");
-    console.log(Object.fromEntries(formData.entries()));
-    // try {
-    //   setIsloading(true);
-    //   const response = await FILEAPI.patch("auth/profile", formData);
-    //   setIsloading(false);
-    //   toast.success(response.data.message);
-    //   router.push("/profile");
-    // } catch (error) {
-    //   toast.error(error.message);
-    // }
-  };
+    await dispatch(updateProfile(formData));
+    dispatch(getUserProfile());
+    setIsOpen(false)
+
+    };
 
   return (
     <form
-      className="max-w-md mx-auto"
+    className="max-w-md mx-auto"
       onSubmit={handleSubmit}
       encType="multipart/form-data"
     >
@@ -116,11 +113,17 @@ const EditProfileForm = () => {
 const ProfileHero = (user) => {
   const [currentUser, setCurrentUser] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const {userProfileData} = useSelector((state) => state.auth);
+
+  useEffect(()=>{
+    dispatch(getUserProfile());
+  },[]);
 
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
       <Container size="4xl" className="space-y-4">
-        <ProfileIcon photoUrl={user?.photoUrl} className="h-20 w-20" />
+        <ProfileIcon photoUrl={userProfileData?.message?.imageUrl } className="h-20 w-20" />
         {currentUser && (
           <>
             <Button
@@ -132,14 +135,14 @@ const ProfileHero = (user) => {
               Edit Profile
             </Button>
 
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Edit profile">
-              <EditProfileForm />
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} heading="Edit profile">
+              <EditProfileForm data={userProfileData?.message} setIsOpen={setIsOpen} />
             </Modal>
           </>
         )}
         <div className="max-w-96">
           <h1 className="font-heading uppercase text-2xl">
-            {user?.name || user?.company}
+            {`${userProfileData?.message.first_name} ${userProfileData?.message.last_name}`}
           </h1>
           {user.tags != undefined && (
             <div className="flex gap-2 my-2">
@@ -148,7 +151,7 @@ const ProfileHero = (user) => {
               ))}
             </div>
           )}
-          <p className="text-sm mt-1">{user?.bio}</p>
+          <p className="text-sm mt-1">{userProfileData?.message?.bio}</p>
         </div>
       </Container>
       <Dots className="absolute -right-48 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />

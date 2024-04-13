@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 // import Secure from '@/utils/secureLs';
 
 
-export const verify = createAsyncThunk('verify', async data => {
+export const verify1 = createAsyncThunk('verify', async data => {
   try {
     const response = await API.post(`/auth/verify`, data);
    console.log(response.data);
@@ -29,16 +29,16 @@ const verifySlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(verify.pending, state => {
+      .addCase(verify1.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(verify.fulfilled, (state, action) => {
+      .addCase(verify1.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
         state.error = null;
       })
-      .addCase(verify.rejected, (state, action) => {
+      .addCase(verify1.rejected, (state, action) => {
         state.loading = false;
         state.error =
           action.payload || 'An error occurred during login.';

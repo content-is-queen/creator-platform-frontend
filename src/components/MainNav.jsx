@@ -13,12 +13,14 @@ import useAuth from "@/hooks/useAuth";
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
+import isAuth from "@/helpers/isAuth";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
 
   const { user, logout } = useAuth();
+  console.log(user, "Useeeerrrrrr");
 
   const pathname = usePathname();
   const { displayName, imageUrl } = user;
