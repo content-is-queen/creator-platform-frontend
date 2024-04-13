@@ -8,7 +8,7 @@
     "build:test": "APP_ENV=development next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "firebase deploy --only hosting:ciq-creator-platform",
+    "deploy": "firebase deploy",
     "format": "npx prettier ./src --check"
   },
   "lint-staged": {
