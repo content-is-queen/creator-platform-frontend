@@ -117,7 +117,6 @@ const ProfileHero = (user) => {
   const { userProfileData } = useSelector((state) => state.auth);
   const { isGettingUserProfile } = useSelector((state) => state.auth);
 
-
   useEffect(() => {
     dispatch(getUserProfile());
   }, []);
@@ -149,9 +148,13 @@ const ProfileHero = (user) => {
           </>
         )}
         <div className="max-w-96">
-        {isGettingUserProfile && <p className="font-heading uppercase text-xl">Loading ...</p>}
+          {isGettingUserProfile && (
+            <p className="font-heading uppercase text-xl">Loading ...</p>
+          )}
           <h1 className="font-heading uppercase text-2xl">
-            {!isGettingUserProfile && userProfileData?.message?.first_name && `${userProfileData?.message?.first_name} ${userProfileData?.message?.last_name}`}
+            {!isGettingUserProfile &&
+              userProfileData?.message?.first_name &&
+              `${userProfileData?.message?.first_name} ${userProfileData?.message?.last_name}`}
           </h1>
           {user.tags != undefined && (
             <div className="flex gap-2 my-2">

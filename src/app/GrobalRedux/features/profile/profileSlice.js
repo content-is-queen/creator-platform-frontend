@@ -22,7 +22,6 @@ export const getUserProfile = createAsyncThunk("getUserProfile", async () => {
     return response.data;
   } catch (error) {
     return error.response?.data;
-    // throw error?.response?.data;
   }
 });
 
