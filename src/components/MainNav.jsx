@@ -20,8 +20,6 @@ const MainNav = () => {
   const [isToggleClicked, setIsToggleClicked] = useState(false);
 
   const { user, logout } = useAuth();
-  console.log(user, "Useeeerrrrrr");
-
   const pathname = usePathname();
   const { displayName, imageUrl } = user;
 

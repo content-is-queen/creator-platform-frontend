@@ -58,7 +58,6 @@ const Login = () => {
           data.email,
           data.password
         );
-        console.log(user, "User from sign in ...................");
 
         login(user);
       }

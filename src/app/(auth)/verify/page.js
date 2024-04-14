@@ -45,7 +45,6 @@ const Verify = () => {
     } catch (error) {
       const { message } = error.response.data;
       toast.error(message || "Try again");
-      console.log(error);
     }
   };
 

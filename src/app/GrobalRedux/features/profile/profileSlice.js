@@ -5,18 +5,14 @@ import API from "../../../../api/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
-// import Secure from '@/utils/secureLs';
 export const updateProfile = createAsyncThunk("editprofile", async (data) => {
   try {
     const response = await FILEAPI.patch(`/auth/profile`, data);
     const { message } = response?.data;
     toast.success(message || "Success!");
-    console.log(response.data, "response");
     return response.data;
   } catch (error) {
-    console.log(error);
     return error.response?.data;
-    // throw error?.response?.data;
   }
 });
 
@@ -25,7 +21,6 @@ export const getUserProfile = createAsyncThunk("getUserProfile", async () => {
     const response = await API.get(`/auth/profile`);
     return response.data;
   } catch (error) {
-    console.log(error);
     return error.response?.data;
     // throw error?.response?.data;
   }
