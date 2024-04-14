@@ -5,7 +5,6 @@ import "react-tailwindcss-select/dist/index.css";
 import { Providers } from "./GrobalRedux/provider";
 
 import localFont from "next/font/local";
-import store from "@/redux/store";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
