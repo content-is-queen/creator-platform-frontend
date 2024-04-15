@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { useDispatch, useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 
@@ -12,43 +13,42 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import Text from "@/components/Text";
 import { inputStyles } from "./Input";
+import {
+  getUserProfile,
+  updateProfile,
+} from "../app/GrobalRedux/features/profile/profileSlice";
 
-const EditProfileForm = () => {
+const EditProfileForm = ({ data, setIsOpen }) => {
   const [isLoading, setIsloading] = useState(false);
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const [profileData, setProfileData] = useState({
-    displayName: "",
-    profilePicture: null,
-    description: "",
+    first_name: data?.first_name || "",
+    last_name: data?.last_name || "",
+    profilePicture: data?.profilePicture || null,
+    bio: data?.bio || "",
+    role: data?.role,
   });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setProfileData((prevFormData) => ({
-      ...prevFormData,
-      [name]: files ? files[0] : value,
+    const newValue = files ? files[0] : value;
+    setProfileData((prevProfileData) => ({
+      ...prevProfileData,
+      [name]: newValue,
     }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const formData = new FormData();
-    const { displayName, profilePicture, description, role } = profileData;
-    formData.append("displayName", displayName);
-    formData.append("profilePicture", profilePicture);
-    formData.append("description", description);
-    formData.append("role", role);
-
-    try {
-      setIsloading(true);
-      const response = await FILEAPI.patch("auth/profile", formData);
-      setIsloading(false);
-      toast.success(response.data.message);
-      router.push("/profile");
-    } catch (error) {
-      toast.error(error.message);
-    }
+    e.preventDefault();
+    Object.entries(profileData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    await dispatch(updateProfile(formData));
+    dispatch(getUserProfile());
+    setIsOpen(false);
   };
 
   return (
@@ -62,9 +62,10 @@ const EditProfileForm = () => {
           <label for="displayName">First name</label>
           <input
             type="text"
-            name="firstName"
-            id="firstName"
-            value={profileData?.firstName}
+            name="first_name"
+            id="first_name"
+            value={profileData?.first_name}
+            onChange={handleChange}
             className={twMerge(inputStyles.input, "p-1")}
           />
         </div>
@@ -72,9 +73,10 @@ const EditProfileForm = () => {
           <label for="displayName">Last name</label>
           <input
             type="text"
-            name="lastName"
-            id="lastName"
-            value={profileData?.lastName}
+            name="last_name"
+            id="last_name"
+            value={profileData?.last_name}
+            onChange={handleChange}
             className={twMerge(inputStyles.input, "p-1")}
           />
         </div>
@@ -97,7 +99,7 @@ const EditProfileForm = () => {
             id="bio"
             name="bio"
             rows={5}
-            value={profileData?.description}
+            value={profileData?.bio}
           />
         </div>
         <Button type="submit" as="button">
@@ -111,11 +113,21 @@ const EditProfileForm = () => {
 const ProfileHero = (user) => {
   const [currentUser, setCurrentUser] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { userProfileData } = useSelector((state) => state.auth);
+  const { isGettingUserProfile } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, []);
 
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
       <Container size="4xl" className="space-y-4">
-        <ProfileIcon photoUrl={user?.photoUrl} className="h-20 w-20" />
+        <ProfileIcon
+          photoUrl={userProfileData?.message?.imageUrl}
+          className="h-20 w-20"
+        />
         {currentUser && (
           <>
             <Button
@@ -127,14 +139,22 @@ const ProfileHero = (user) => {
               Edit Profile
             </Button>
 
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Edit profile">
-              <EditProfileForm />
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} heading="Edit profile">
+              <EditProfileForm
+                data={userProfileData?.message}
+                setIsOpen={setIsOpen}
+              />
             </Modal>
           </>
         )}
         <div className="max-w-96">
+          {isGettingUserProfile && (
+            <p className="font-heading uppercase text-xl">Loading ...</p>
+          )}
           <h1 className="font-heading uppercase text-2xl">
-            {user?.name || user?.company}
+            {!isGettingUserProfile &&
+              userProfileData?.message?.first_name &&
+              `${userProfileData?.message?.first_name} ${userProfileData?.message?.last_name}`}
           </h1>
           {user.tags != undefined && (
             <div className="flex gap-2 my-2">
@@ -143,7 +163,7 @@ const ProfileHero = (user) => {
               ))}
             </div>
           )}
-          <p className="text-sm mt-1">{user?.bio}</p>
+          <p className="text-sm mt-1">{userProfileData?.message?.bio}</p>
         </div>
       </Container>
       <Dots className="absolute -right-48 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />

@@ -167,8 +167,6 @@ const Conversations = () => {
     };
   }, []);
 
-  console.log(roomsList, "Rooms list:");
-
   return (
     <div
       className="bg-dots bg-repeat-x bg-[center_bottom_-4rem]"

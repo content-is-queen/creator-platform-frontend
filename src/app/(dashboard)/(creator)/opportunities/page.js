@@ -10,13 +10,13 @@ async function getData() {
     return [];
   }
 
-  const res = await API.get("/opportunities");
+  // const res = await API.get("/opportunities");
 
-  if (!res.status === 200) {
-    throw new Error("Failed to fetch data");
-  }
+  // if (!res.status === 200) {
+  //   throw new Error("Failed to fetch data");
+  // }
 
-  return res.data.message;
+  // return res.data.message;
 }
 
 const Opportunities = async () => {

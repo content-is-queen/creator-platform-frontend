@@ -31,7 +31,6 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   useEffect(() => {
     fetchUserMessageList();
   }, []);
-  console.log(data, "data from preview ....");
   return (
     <li className="first:rounded-t-3xl overflow-hidden">
       <button type="button" className="w-full" onClick={clickHandler}>

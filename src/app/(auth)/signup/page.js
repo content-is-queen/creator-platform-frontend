@@ -15,6 +15,7 @@ import Input from "@/components/Input";
 import Heading from "@/components/Heading";
 import Tabs from "@/components/Tabs";
 import API from "@/api/api";
+import Secure from "@/utils/SecureLs";
 
 const SignUp = () => {
   const {
@@ -115,7 +116,8 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      await API.post(`/auth/signup/${active.id}`, data);
+      const response = await API.post(`/auth/signup/${active.id}`, data);
+      Secure.set("userInfo", response.data.data);
       router.push("/verify");
     } catch (error) {
       console.error("Error:", error);

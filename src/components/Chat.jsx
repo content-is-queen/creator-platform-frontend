@@ -37,7 +37,6 @@ const Message = ({ currentUser, children, profile }) => {
 };
 
 const Chat = ({ getchatIds }) => {
-  console.log(getchatIds, "___--------___-----__________--------");
   const { user_id } = isAuth();
   const [message, setMessage] = useState("");
   const [roomMessages, setroomMessages] = useState([]);
@@ -51,7 +50,6 @@ const Chat = ({ getchatIds }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(newMessages, "new messages");
 
         setroomMessages(newMessages);
       });
@@ -76,7 +74,6 @@ const Chat = ({ getchatIds }) => {
           message,
         });
         // setUserList(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }

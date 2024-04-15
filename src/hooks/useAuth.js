@@ -9,8 +9,7 @@ const useAuth = () => {
 
   const login = async (user) => {
     try {
-      const token = await user.getIdToken();
-
+      const token = await user.getIdToken(/* forceRefresh */ true);
       Secure.setToken(token);
       router.push("/");
     } catch (error) {

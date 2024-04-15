@@ -2,10 +2,9 @@ import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-tailwindcss-select/dist/index.css";
-import { Provider } from "react-redux";
+import { Providers } from "./GrobalRedux/provider";
 
 import localFont from "next/font/local";
-import store from "@/redux/store";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
@@ -26,16 +25,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    // <Provider store={store}>
     <html
       lang="en"
       className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
       <body>
-        {children}
+        <Providers>{children}</Providers>
         <ToastContainer />
       </body>
     </html>
-    // </Provider>
   );
 }
