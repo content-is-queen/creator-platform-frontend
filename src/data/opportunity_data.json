@@ -42,9 +42,9 @@
         "options": ["Entry-level", "Mid-level", "Senior", "Expert"]
       },
       {
-        "name": "duration",
+        "name": "contract_type",
         "as": "select",
-        "children": "Duration",
+        "children": "Contract Type",
         "options": ["One-off", "Fixed-term", "Ongoing"]
       },
       {
@@ -84,15 +84,15 @@
         "options": ["Podcast", "Audiobook", "Radio Show", "Other"]
       },
       {
-        "name": "duration",
+        "name": "contract_type",
         "type": "text",
-        "children": "Length/Duration",
+        "children": "Contract Type",
         "options": ["30 min episodes", "2-hour audiobook"]
       },
       {
-        "name": "budget",
+        "name": "compensation",
         "as": "select",
-        "children": "Budget",
+        "children": "Compensation",
         "options": ["Fixed", "Range", "To be discussed"]
       },
       {
@@ -127,15 +127,15 @@
         "options": []
       },
       {
-        "name": "budget",
+        "name": "compensation",
         "as": "select",
-        "children": "Budget",
+        "children": "Compensation",
         "options": ["Fixed", "Range", "To be discussed"]
       },
       {
-        "name": "duration",
+        "name": "contract_type",
         "as": "select",
-        "children": "Duration",
+        "children": "Contract Type",
         "options": ["1 month", "3 months", "Custom"]
       },
       {

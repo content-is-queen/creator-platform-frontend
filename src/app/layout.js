@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-tailwindcss-select/dist/index.css";
-import { Providers } from "./GrobalRedux/provider";
+import { Provider } from "./redux/provider";
 
 import localFont from "next/font/local";
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
       <body>
-        <Providers>{children}</Providers>
+        <Provider>{children}</Provider>
         <ToastContainer />
       </body>
     </html>

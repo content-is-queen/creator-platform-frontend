@@ -16,7 +16,7 @@ import { inputStyles } from "./Input";
 import {
   getUserProfile,
   updateProfile,
-} from "../app/GrobalRedux/features/profile/profileSlice";
+} from "../app/redux/features/profile/profileSlice";
 
 const EditProfileForm = ({ data, setIsOpen }) => {
   const [isLoading, setIsloading] = useState(false);
