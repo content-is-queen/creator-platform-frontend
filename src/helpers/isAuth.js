@@ -2,6 +2,8 @@ import Secure from "@/utils/SecureLs";
 import { jwtDecode } from "jwt-decode";
 
 const isAuth = (token = Secure.getToken()) => {
+  const istoken = Secure.getToken();
+  if (!istoken) return false;
   try {
     const jwt = jwtDecode(token);
     const now = new Date();
