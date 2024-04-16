@@ -29,7 +29,7 @@ export const dynamicParams = false;
 async function getApplicationsById(id) {
   try {
     const res = await API.get(`/applications/${id}`);
-    return res.data;
+    return res.data.filter((i) => i.status === "pending");
   } catch (error) {
     throw new Error("Something went wrong when trying to get the applications");
   }
@@ -48,7 +48,7 @@ async function getOpportunity(id) {
 
 export default async function Applications({ params: { id } }) {
   const applications = await getApplicationsById(id);
-  const { title } = await getOpportunity(id);
+  const { title, opportunity_id } = await getOpportunity(id);
 
   return (
     <div className="bg-purple-dots bg-repeat-x bg-[center_bottom]">
@@ -69,7 +69,11 @@ export default async function Applications({ params: { id } }) {
 
           {applications.length > 0 ? (
             applications.map((application, index) => (
-              <ApplicationCard key={`application-${index}`} {...application} />
+              <ApplicationCard
+                key={`application-${index}`}
+                opportunity_id={opportunity_id}
+                {...application}
+              />
             ))
           ) : (
             <>There are currently no applications for this opportunity</>

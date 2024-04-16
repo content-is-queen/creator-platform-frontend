@@ -105,6 +105,7 @@ const OpportunityForm = ({ type }) => {
                 <textarea
                   name={name}
                   className={twMerge(inputStyles.input)}
+                  rows={8}
                   required
                 />
               </div>

@@ -82,6 +82,7 @@ const EditOpportunityForm = (props) => {
                 <label for={name}>{children}</label>
                 <textarea
                   name={name}
+                  rows={6}
                   className={twMerge(inputStyles.input)}
                   value={updatedFields[name] || value}
                   onChange={(e) => changeHandler(name, e.target.value)}

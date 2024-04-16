@@ -7,9 +7,25 @@ import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
 import { useState } from "react";
 import ProfileIcon from "../ProfileIcon";
+import API from "@/api/api";
 
 const ApplicationCard = ({ application_id, proposal }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const rejectApplication = async (id) => {
+    try {
+      await API.put(`/applications/${id}`, { status: "rejected" });
+    } catch (error) {
+      throw new Error("Rejecting application error");
+    }
+  };
+  const acceptApplication = async (id) => {
+    try {
+      await API.put(`/applications/${id}`, { status: "accepted" });
+    } catch (error) {
+      throw new Error("Accepting application error");
+    }
+  };
 
   const user = {
     name: "Kaleshe Alleyne-Vassel",
@@ -28,10 +44,21 @@ const ApplicationCard = ({ application_id, proposal }) => {
       </div>
 
       <div className="flex gap-2 ml-auto">
-        <Button type="button" as="button" variant="white" size="sm">
+        <Button
+          type="button"
+          as="button"
+          variant="white"
+          size="sm"
+          onClick={() => rejectApplication(application_id)}
+        >
           Reject
         </Button>
-        <Button type="button" as="button" size="sm">
+        <Button
+          type="button"
+          as="button"
+          size="sm"
+          onClick={() => acceptApplication(application_id)}
+        >
           Accept
         </Button>
         <Button
