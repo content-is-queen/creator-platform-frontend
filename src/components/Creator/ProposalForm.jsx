@@ -30,6 +30,7 @@ const ProposalForm = ({ opportunityId }) => {
 
     try {
       await API.post("/applications", postData);
+      window.location.reload();
     } catch (error) {
       setErrors({
         message: "Something went wrong...",
@@ -47,6 +48,7 @@ const ProposalForm = ({ opportunityId }) => {
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Apply">
         <Form
           errors={errors}
+          setErrors={setErrors}
           handleSubmit={() => handleSubmit(opportunityId, user_id)}
         >
           <div className="space-y-10">
