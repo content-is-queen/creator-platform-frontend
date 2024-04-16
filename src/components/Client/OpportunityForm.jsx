@@ -2,11 +2,12 @@
 
 import API from "@/api/api";
 import useAuth from "@/hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
+import Form from "@/components/Form";
 import { inputStyles } from "@/components/Input";
 
 import data from "@/data/opportunity_data.json";
@@ -17,10 +18,15 @@ const OpportunityForm = ({ type }) => {
     user: { user_id },
   } = useAuth();
 
-  const handleSubmit = async (e, fields, userId) => {
-    e.preventDefault();
+  const [errors, setErrors] = useState({});
+  const form = useRef();
 
-    const formData = new FormData(e.target);
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
+
+  const handleSubmit = async (fields, userId) => {
+    const formData = new FormData(form.current);
 
     const keys = fields.reduce((acc, current) => {
       const { name, type, options } = current;
@@ -55,12 +61,21 @@ const OpportunityForm = ({ type }) => {
       await API.post("/opportunities", postData);
       window.location = "/";
     } catch (error) {
+      setErrors({
+        message: "Something went wrong...",
+      });
+
       console.error(error.message);
     }
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, fields, user_id)}>
+    <Form
+      ref={form}
+      errors={errors}
+      setErrors={setErrors}
+      handleSubmit={() => handleSubmit(fields, user_id)}
+    >
       <div className="space-y-10">
         {fields.map(({ children, as, type, name, options }) => {
           if (as === "select") {
@@ -134,7 +149,7 @@ const OpportunityForm = ({ type }) => {
       <Button as="button" type="submit" className="mt-8">
         Submit
       </Button>
-    </form>
+    </Form>
   );
 };
 

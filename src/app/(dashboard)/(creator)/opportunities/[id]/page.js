@@ -38,7 +38,7 @@ async function getData(id) {
 }
 
 export default async function Opportunity({ params: { id } }) {
-  const data = await getData(id);
+  const { title, description, company, type, compensation } = await getData(id);
 
   return (
     <div className="bg-purple-dots bg-repeat-x bg-[center_bottom]">
@@ -59,14 +59,14 @@ export default async function Opportunity({ params: { id } }) {
               width={54}
             />
             <Heading size="3xl" className="mt-4 mb-1">
-              Wait
+              {title}
             </Heading>
-            <Text size="sm">
-              {data.company} &bull; {data.type} &bull; {data.compensation}
+            <Text size="sm" className="capitalize">
+              {company} &bull; {type} &bull; {compensation}
             </Text>
           </div>
 
-          <div className="space-y-5">{data.description}</div>
+          <div className="space-y-5">{description}</div>
 
           <ProposalForm opportunityId={id} />
         </div>

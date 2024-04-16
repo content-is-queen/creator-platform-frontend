@@ -58,7 +58,8 @@
         "as": "select",
         "children": "Compensation",
         "options": ["Fixed Rate", "Range", "To be discussed"]
-      }
+      },
+      { "name": "deadline", "type": "date", "children": "Deadline" }
     ]
   },
   "pitch": {
@@ -85,7 +86,7 @@
       },
       {
         "name": "contract_type",
-        "type": "text",
+        "as": "select",
         "children": "Contract Type",
         "options": ["30 min episodes", "2-hour audiobook"]
       },
@@ -100,7 +101,8 @@
         "type": "checkbox",
         "children": "Submission Details",
         "options": ["Summary", "Script Sample", "Audio Sample"]
-      }
+      },
+      { "name": "deadline", "type": "date", "children": "Deadline" }
     ]
   },
   "campaign": {
@@ -148,7 +150,8 @@
         "name": "requirements",
         "as": "textarea",
         "children": "Creative Requirements"
-      }
+      },
+      { "name": "deadline", "type": "date", "children": "Deadline" }
     ]
   }
 }
