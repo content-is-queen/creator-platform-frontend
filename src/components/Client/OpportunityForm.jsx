@@ -7,6 +7,7 @@ import { twMerge } from "tailwind-merge";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
+import Form from "@/components/Form";
 import { inputStyles } from "@/components/Input";
 
 import data from "@/data/opportunity_data.json";
@@ -17,9 +18,9 @@ const OpportunityForm = ({ type }) => {
     user: { user_id },
   } = useAuth();
 
-  const handleSubmit = async (e, fields, userId) => {
-    e.preventDefault();
+  const [errors, setErrors] = useState({});
 
+  const handleSubmit = async (fields, userId) => {
     const formData = new FormData(e.target);
 
     const keys = fields.reduce((acc, current) => {
@@ -55,12 +56,16 @@ const OpportunityForm = ({ type }) => {
       await API.post("/opportunities", postData);
       window.location = "/";
     } catch (error) {
+      setErrors({
+        message: "Something went wrong...",
+      });
+
       console.error(error.message);
     }
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, fields, user_id)}>
+    <Form errors={errors} onSubmit={() => handleSubmit(fields, user_id)}>
       <div className="space-y-10">
         {fields.map(({ children, as, type, name, options }) => {
           if (as === "select") {
@@ -134,7 +139,7 @@ const OpportunityForm = ({ type }) => {
       <Button as="button" type="submit" className="mt-8">
         Submit
       </Button>
-    </form>
+    </Form>
   );
 };
 

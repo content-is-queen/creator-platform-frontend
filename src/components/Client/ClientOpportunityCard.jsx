@@ -20,16 +20,7 @@ const ClientOpportunityCard = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const {
-    budget,
-    deadline,
-    status,
-    title,
-    project,
-    type,
-    name,
-    opportunity_id,
-  } = props;
+  const { compensation, deadline, status, title, name, opportunity_id } = props;
 
   const statusLabel = status.replace("_", " ");
 
@@ -100,10 +91,10 @@ const ClientOpportunityCard = (props) => {
         <div className="flex gap-6">
           <div className="flex flex-col">
             <Text as="span" color="muted" size="xs">
-              Budget
+              Compensation
             </Text>
             <Text as="span" size="sm">
-              {budget}
+              {compensation}
             </Text>
           </div>
           <div className="flex flex-col">

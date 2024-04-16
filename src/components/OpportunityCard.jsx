@@ -7,14 +7,11 @@ import Tag from "@/components/Tag";
 
 const OpportunityCard = ({
   company,
-  budget,
+  compensation,
   deadline,
   type,
   title,
   description,
-  project,
-  name,
-  goals,
   opportunity_id,
 }) => (
   <Card>
@@ -34,10 +31,10 @@ const OpportunityCard = ({
       <div className="flex gap-y-2 gap-x-6 item-center">
         <div className="flex gap-x-2">
           <Text as="span" size="sm">
-            Budget
+            Compensation
           </Text>
           <Text as="span" size="sm" color="muted">
-            {budget}
+            {compensation}
           </Text>
         </div>
 
@@ -52,16 +49,14 @@ const OpportunityCard = ({
       </div>
     </div>
     <div className="flex content-start items-center mb-2">
-      <p className="text-xl mr-3 text-queen-black capitalize">
-        {title || project || name}
-      </p>
+      <p className="text-xl mr-3 text-queen-black capitalize">{title}</p>
       <Tag>{type}</Tag>
     </div>
 
     <div className="flex justify-between items-center">
-      <div className="max-w-md">
+      <div className="max-w-sm">
         <Text color="muted" className="truncate">
-          {description || goals}
+          {description}
         </Text>
       </div>
 

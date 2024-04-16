@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
+import Form from "@/components/Form";
 import { inputStyles } from "@/components/Input";
 
 import opportunityData from "@/data/opportunity_data.json";
@@ -15,25 +16,31 @@ const EditOpportunityForm = (props) => {
   const data = opportunityData[type];
 
   const [updatedFields, setUpdatedFields] = useState({});
+  const [errors, setErrors] = useState({});
 
   const changeHandler = (fieldName, value) => {
     setUpdatedFields({ ...updatedFields, [fieldName]: value });
   };
 
-  const handleSubmit = async (e, fields, opportunityId) => {
-    e.preventDefault();
-
+  const handleSubmit = async (fields, opportunityId) => {
     const postData = { type: type, opportunity_id: opportunityId, ...fields };
 
     try {
       await API.put(`/opportunities/id/${opportunityId}`, postData);
     } catch (error) {
-      console.error(error.message);
+      setErrors({
+        message: "There was a problem updating your opportunity.",
+      });
+      console.error(error);
     }
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, updatedFields, opportunity_id)}>
+    <Form
+      errors={errors}
+      setErrors={setErrors}
+      onSubmit={() => handleSubmit(updatedFields, opportunity_id)}
+    >
       <div className="space-y-10">
         {data.fields.map(({ children, name, type, options, as }) => {
           const value = props[name];
@@ -155,7 +162,7 @@ const EditOpportunityForm = (props) => {
       <Button as="button" type="submit" className="mt-8">
         Update
       </Button>
-    </form>
+    </Form>
   );
 };
 
