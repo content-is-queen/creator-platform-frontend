@@ -9,7 +9,7 @@ const OpportunityCard = dynamic(() => import("@/components/OpportunityCard"), {
   ssr: false,
 });
 
-const OpportunitiesList = ({ opportunities }) => {
+const OpportunitiesSearch = ({ opportunities }) => {
   const ref = useRef();
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
 
@@ -56,4 +56,4 @@ const OpportunitiesList = ({ opportunities }) => {
   );
 };
 
-export default OpportunitiesList;
+export default OpportunitiesSearch;

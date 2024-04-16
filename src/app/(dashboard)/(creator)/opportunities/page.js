@@ -1,6 +1,6 @@
 import API from "@/api/api";
 
-import OpportunitiesList from "@/components/Creator/OpportunitiesList";
+import OpportunitiesSearch from "@/components/Creator/OpportunitiesSearch";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 
@@ -27,7 +27,7 @@ const Opportunities = async () => {
         <Heading>Opportunities</Heading>
       </div>
 
-      <OpportunitiesList opportunities={opportunities} />
+      <OpportunitiesSearch opportunities={opportunities} />
     </Container>
   );
 };
