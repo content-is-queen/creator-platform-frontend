@@ -119,7 +119,7 @@ const ProfileHero = (user) => {
 
   useEffect(() => {
     dispatch(getUserProfile());
-  }, []);
+  }, [currentUser, userProfileData]);
 
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">

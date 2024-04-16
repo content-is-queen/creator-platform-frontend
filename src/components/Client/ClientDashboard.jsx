@@ -56,6 +56,7 @@ const ClientDashboard = ({ id }) => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           title="Select an opportunity type"
+          size="6xl"
         >
           <CreateOpportunityPanels />
         </Modal>
@@ -77,6 +78,7 @@ const ClientDashboard = ({ id }) => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           title="Select an opportunity type"
+          size="6xl"
         >
           <CreateOpportunityPanels />
         </Modal>

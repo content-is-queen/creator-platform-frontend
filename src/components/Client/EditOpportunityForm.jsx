@@ -28,11 +28,15 @@ const EditOpportunityForm = (props) => {
     try {
       await API.put(`/opportunities/${opportunityId}`, postData);
       window.location.reload();
-    } catch (error) {
+    } catch ({
+      response: {
+        data: { message },
+      },
+    }) {
       setErrors({
         message: "There was a problem updating your opportunity.",
       });
-      console.error(error);
+      console.error(message);
     }
   };
 
@@ -78,6 +82,7 @@ const EditOpportunityForm = (props) => {
                 <label for={name}>{children}</label>
                 <textarea
                   name={name}
+                  rows={6}
                   className={twMerge(inputStyles.input)}
                   value={updatedFields[name] || value}
                   onChange={(e) => changeHandler(name, e.target.value)}
