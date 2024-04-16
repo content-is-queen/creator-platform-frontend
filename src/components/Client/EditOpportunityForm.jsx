@@ -27,6 +27,7 @@ const EditOpportunityForm = (props) => {
 
     try {
       await API.put(`/opportunities/${opportunityId}`, postData);
+      window.location.reload();
     } catch (error) {
       setErrors({
         message: "There was a problem updating your opportunity.",
@@ -39,7 +40,7 @@ const EditOpportunityForm = (props) => {
     <Form
       errors={errors}
       setErrors={setErrors}
-      onSubmit={() => handleSubmit(updatedFields, opportunity_id)}
+      handleSubmit={() => handleSubmit(updatedFields, opportunity_id)}
     >
       <div className="space-y-10">
         {data.fields.map(({ children, name, type, options, as }) => {

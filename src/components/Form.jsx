@@ -1,12 +1,20 @@
-const Form = ({ errors, setErrors, children, onSubmit, ...otherProps }) => {
-  const handleSubmit = (e) => {
-    setErrors({});
-    e.preventDefault();
-    onSubmit();
-  };
+import { forwardRef } from "react";
+
+const Form = forwardRef(function Form(
+  { errors, setErrors, children, handleSubmit, ...otherProps },
+  ref
+) {
   return (
     <>
-      <form onSubmit={handleSubmit} {...otherProps}>
+      <form
+        ref={ref}
+        onSubmit={(e) => {
+          e.preventDefault();
+          setErrors({});
+          handleSubmit();
+        }}
+        {...otherProps}
+      >
         {children}
       </form>
       {errors?.message && (
@@ -16,6 +24,6 @@ const Form = ({ errors, setErrors, children, onSubmit, ...otherProps }) => {
       )}
     </>
   );
-};
+});
 
 export default Form;

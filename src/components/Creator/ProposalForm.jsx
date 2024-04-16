@@ -47,7 +47,7 @@ const ProposalForm = ({ opportunityId }) => {
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Apply">
         <Form
           errors={errors}
-          onSubmit={() => handleSubmit(opportunityId, user_id)}
+          handleSubmit={() => handleSubmit(opportunityId, user_id)}
         >
           <div className="space-y-10">
             <label for="proposal">Proposal</label>

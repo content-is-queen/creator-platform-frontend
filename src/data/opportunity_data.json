@@ -86,7 +86,7 @@
       },
       {
         "name": "contract_type",
-        "type": "text",
+        "as": "select",
         "children": "Contract Type",
         "options": ["30 min episodes", "2-hour audiobook"]
       },

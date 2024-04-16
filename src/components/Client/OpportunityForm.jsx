@@ -2,7 +2,7 @@
 
 import API from "@/api/api";
 import useAuth from "@/hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import Text from "@/components/Text";
@@ -19,9 +19,14 @@ const OpportunityForm = ({ type }) => {
   } = useAuth();
 
   const [errors, setErrors] = useState({});
+  const form = useRef();
+
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
 
   const handleSubmit = async (fields, userId) => {
-    const formData = new FormData(e.target);
+    const formData = new FormData(form.current);
 
     const keys = fields.reduce((acc, current) => {
       const { name, type, options } = current;
@@ -65,7 +70,12 @@ const OpportunityForm = ({ type }) => {
   };
 
   return (
-    <Form errors={errors} onSubmit={() => handleSubmit(fields, user_id)}>
+    <Form
+      ref={form}
+      errors={errors}
+      setErrors={setErrors}
+      handleSubmit={() => handleSubmit(fields, user_id)}
+    >
       <div className="space-y-10">
         {fields.map(({ children, as, type, name, options }) => {
           if (as === "select") {
