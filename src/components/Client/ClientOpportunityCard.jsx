@@ -39,6 +39,7 @@ const ClientOpportunityCard = (props) => {
     try {
       if (confirm("Are you sure you want to delete this opportunity?")) {
         API.delete(`/opportunities/opportunityid/${id}`);
+        window.location.reload();
       }
     } catch (e) {
       console.error(e);
