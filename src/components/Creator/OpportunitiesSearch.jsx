@@ -46,11 +46,15 @@ const OpportunitiesSearch = ({ opportunities }) => {
       />
 
       <div className="my-12 space-y-6">
-        {filteredOpportunities?.map((opportunity) => (
-          <div key={opportunity.opportunity_id} ref={ref}>
-            <OpportunityCard {...opportunity} />
-          </div>
-        ))}
+        {opportunities.length > 0 ? (
+          filteredOpportunities?.map((opportunity) => (
+            <div key={opportunity.opportunity_id} ref={ref}>
+              <OpportunityCard {...opportunity} />
+            </div>
+          ))
+        ) : (
+          <div className="text-center">No opportunities found</div>
+        )}
       </div>
     </>
   );
