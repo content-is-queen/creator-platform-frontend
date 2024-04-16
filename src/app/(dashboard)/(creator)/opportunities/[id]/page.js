@@ -27,18 +27,18 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
-async function getData(id) {
-  const res = await API.get(`/opportunities/opportunityid/${id}`);
-
-  if (!res.status === 200) {
-    throw new Error("Failed to fetch data");
+async function getOpportunitiesById(id) {
+  try {
+    const res = await API.get(`/opportunities/opportunityid/${id}`);
+    return res.data;
+  } catch (error) {
+    throw new Error("Something went wrong when getting the opportunity");
   }
-
-  return res.data;
 }
 
 export default async function Opportunity({ params: { id } }) {
-  const { title, description, company, type, compensation } = await getData(id);
+  const { title, description, company, type, compensation } =
+    await getOpportunitiesById(id);
 
   return (
     <div className="bg-purple-dots bg-repeat-x bg-[center_bottom]">

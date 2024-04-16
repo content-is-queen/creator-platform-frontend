@@ -31,11 +31,15 @@ const ProposalForm = ({ opportunityId }) => {
     try {
       await API.post("/applications", postData);
       window.location.reload();
-    } catch (error) {
+    } catch ({
+      response: {
+        data: { message },
+      },
+    }) {
       setErrors({
         message: "Something went wrong...",
       });
-      console.error(error.message);
+      console.error(message);
     }
   };
 
@@ -45,7 +49,7 @@ const ProposalForm = ({ opportunityId }) => {
         Send Proposal
       </Button>
 
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Apply">
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Apply now">
         <Form
           errors={errors}
           setErrors={setErrors}

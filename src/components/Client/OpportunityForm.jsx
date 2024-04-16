@@ -60,12 +60,16 @@ const OpportunityForm = ({ type }) => {
     try {
       await API.post("/opportunities", postData);
       window.location = "/";
-    } catch (error) {
+    } catch ({
+      response: {
+        data: { message },
+      },
+    }) {
       setErrors({
         message: "Something went wrong...",
       });
 
-      console.error(error.message);
+      console.error(message);
     }
   };
 

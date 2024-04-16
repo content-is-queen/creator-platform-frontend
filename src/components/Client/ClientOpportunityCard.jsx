@@ -117,11 +117,11 @@ const ClientOpportunityCard = (props) => {
         </p>
       </div> */}
 
-        <Button variant="white" type="button" as="button">
+        <Button variant="white" href={`/applications/${opportunity_id}`}>
           View Applications
         </Button>
       </Card>
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Update">
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <EditOpportunityForm {...props} />
       </Modal>
     </>

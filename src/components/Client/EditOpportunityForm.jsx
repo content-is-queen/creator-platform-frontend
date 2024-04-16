@@ -28,11 +28,15 @@ const EditOpportunityForm = (props) => {
     try {
       await API.put(`/opportunities/${opportunityId}`, postData);
       window.location.reload();
-    } catch (error) {
+    } catch ({
+      response: {
+        data: { message },
+      },
+    }) {
       setErrors({
         message: "There was a problem updating your opportunity.",
       });
-      console.error(error);
+      console.error(message);
     }
   };
 
