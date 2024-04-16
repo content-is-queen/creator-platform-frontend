@@ -11,16 +11,43 @@ import { inputStyles } from "@/components/Input";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const TAGS = ["pitch", "campaign", "job"];
-
 const Search = ({ opportunities, setFilteredOpportunities }) => {
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState("");
   const [selected, setSelected] = useState([]);
+  const [tags, setTags] = useState([]);
 
   const changeHandler = (e) => {
     const debouncedSearch = debounce(() => setQuery(e.target.value), 500);
     debouncedSearch();
   };
+
+  const getTags = (opportunities) => {
+    const tags = [];
+    opportunities.map(({ type }) => {
+      if (!tags.includes(type)) tags.push(type);
+    });
+
+    return tags;
+  };
+
+  useEffect(() => {
+    setFilteredOpportunities(() => {
+      if (query.trim() === "") {
+        return opportunities;
+      } else {
+        return opportunities.filter(
+          (i) =>
+            i.title?.toLowerCase().includes(query.toLowerCase()) ||
+            i.project?.toLowerCase().includes(query.toLowerCase()) ||
+            i.name?.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+    });
+  }, [query]);
+
+  useEffect(() => {
+    setTags(getTags(opportunities));
+  }, []);
 
   useEffect(() => {
     setFilteredOpportunities(
@@ -50,7 +77,7 @@ const Search = ({ opportunities, setFilteredOpportunities }) => {
         Search
       </label>
       <div className="flex gap-2 mt-6">
-        {TAGS.map((tag) => (
+        {tags.map((tag) => (
           <FilterTag selected={selected} setSelected={setSelected} key={tag}>
             {tag}
           </FilterTag>
