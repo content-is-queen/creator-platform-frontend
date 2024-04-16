@@ -15,6 +15,7 @@ const ApplicationCard = ({ application_id, proposal }) => {
   const rejectApplication = async (id) => {
     try {
       await API.put(`/applications/${id}`, { status: "rejected" });
+      window.location.reload();
     } catch (error) {
       throw new Error("Rejecting application error");
     }
@@ -22,6 +23,7 @@ const ApplicationCard = ({ application_id, proposal }) => {
   const acceptApplication = async (id) => {
     try {
       await API.put(`/applications/${id}`, { status: "accepted" });
+      window.location.reload();
     } catch (error) {
       throw new Error("Accepting application error");
     }
