@@ -60,7 +60,7 @@ const MainNav = () => {
   };
 
   return (
-    <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
+    <nav className="bg-queen-blue text-queen-white border-gray-200 py-4">
       <Container className="flex flex-wrap items-center justify-between text-sm w-full">
         <Link
           href="/"
@@ -85,7 +85,7 @@ const MainNav = () => {
                   key={href}
                   className={clsx(
                     pathname === href &&
-                      "relative after:absolute after:h-0.5 after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1.5"
+                      "relative after:absolute after:h-[1px] after:w-full after:bg-queen-white after:left-0 after:-bottom-1"
                   )}
                 >
                   <Link href={href}>{label}</Link>

@@ -34,7 +34,7 @@ const Page = async ({ params }) => {
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
               <span>Go back</span>
             </Link>
-            <Heading size="3xl" className="mb-1">
+            <Heading size="3xl" className="mb-12">
               Create a new {slug}
             </Heading>
           </div>
