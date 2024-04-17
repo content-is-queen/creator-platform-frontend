@@ -26,7 +26,7 @@ const EditOpportunityForm = (props) => {
     const postData = { type: type, opportunity_id: opportunityId, ...fields };
 
     try {
-      await API.put(`/opportunities/${opportunityId}`, postData);
+      await API.put(`/opportunities/opportunityid/${opportunityId}`, postData);
       window.location.reload();
     } catch ({
       response: {

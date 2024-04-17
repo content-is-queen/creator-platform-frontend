@@ -85,8 +85,14 @@ const OpportunityForm = ({ type }) => {
           if (as === "select") {
             return (
               <div key={name}>
-                <label for={name}>{children}</label>
-                <select className="w-full" name={name} id={name}>
+                <label className="uppercase" for={name}>
+                  {children}
+                </label>
+                <select
+                  className="w-full border-b-[1.5px]"
+                  name={name}
+                  id={name}
+                >
                   <option value="" selected disabled>
                     Select
                   </option>
@@ -101,11 +107,13 @@ const OpportunityForm = ({ type }) => {
           if (as === "textarea") {
             return (
               <div key={name}>
-                <label for={name}>{children}</label>
+                <label className="uppercase" for={name}>
+                  {children}
+                </label>
                 <textarea
                   name={name}
                   className={twMerge(inputStyles.input)}
-                  rows={8}
+                  rows={4}
                   required
                 />
               </div>
@@ -115,7 +123,7 @@ const OpportunityForm = ({ type }) => {
           if (type === "checkbox") {
             return (
               <div key={name}>
-                <Text className="mb-4">{children}</Text>
+                <Text className="mb-4 uppercase ">{children}</Text>
                 <div className="space-y">
                   {options.map((option) => (
                     <div
@@ -139,10 +147,12 @@ const OpportunityForm = ({ type }) => {
           }
           return (
             <div key={name}>
-              <label for={name}>{children}</label>
+              <label className="uppercase" for={name}>
+                {children}
+              </label>
               <input
                 type={type}
-                className="py-3 placeholder:text-queen-black/40 block px-0 w-full text-queen-black bg-transparent border-0 border-b-2 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
+                className="py-3 placeholder:text-queen-black/40 block px-0 w-full text-queen-black bg-transparent border-0 border-b-[1.5px] border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
                 name={name}
                 id={name}
               />
