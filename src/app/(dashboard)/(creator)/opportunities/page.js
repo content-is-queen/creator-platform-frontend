@@ -22,7 +22,7 @@ const Opportunities = async () => {
   const opportunities = await getOpportunities();
 
   return (
-    <Container size="2xl">
+    <Container size="2xl" className="mb-32">
       <div className="text-center mt-20 mb-16">
         <Heading>Opportunities</Heading>
       </div>

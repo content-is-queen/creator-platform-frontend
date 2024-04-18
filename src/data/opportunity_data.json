@@ -57,7 +57,7 @@
         "name": "compensation",
         "as": "select",
         "children": "Compensation",
-        "options": ["Fixed Rate", "Range", "To be discussed"]
+        "options": ["Fixed", "Range", "To be discussed"]
       },
       { "name": "deadline", "type": "date", "children": "Deadline" }
     ]

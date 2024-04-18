@@ -49,21 +49,23 @@ const ProposalForm = ({ opportunityId }) => {
         Send Proposal
       </Button>
 
-      <Modal open={isOpen} onClose={() => setIsOpen(false)} title="Apply now">
+      <Modal open={isOpen} onClose={() => setIsOpen(false)} title="Apply">
         <Form
           errors={errors}
           setErrors={setErrors}
           handleSubmit={() => handleSubmit(opportunityId, user_id)}
         >
           <div className="space-y-10">
-            <label for="proposal" className="sr-only">
-              Proposal
+            <label for="proposal" className="uppercase">
+              Tell us your plan of action
             </label>
             <textarea
               onChange={(e) => setProposal(e.target.value)}
               name="proposal"
               className={twMerge(inputStyles.input)}
               rows={10}
+              maxlength="20"
+              minlength="5"
               required
             />
           </div>

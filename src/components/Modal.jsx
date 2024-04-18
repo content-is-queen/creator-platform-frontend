@@ -17,16 +17,14 @@ const Modal = ({ size = "3xl", title, children, ...otherProps }) => (
     <div className="fixed inset-0 flex w-screen justify-center p-4">
       <Dialog.Panel
         className={clsx(
-          "mx-auto w-full rounded-3xl bg-white py-16 px-10 overflow-y-auto",
+          "mx-auto w-full rounded-3xl bg-white pt-16 px-10 pb-10 overflow-y-auto",
           SIZES[size]
         )}
       >
         {title && (
-          <Dialog.Title>
-            <Heading size="2xl" className="text-center mb-12">
-              {title}
-            </Heading>
-          </Dialog.Title>
+          <Heading size="3xl" className="text-center mb-12">
+            {title}
+          </Heading>
         )}
 
         {children}

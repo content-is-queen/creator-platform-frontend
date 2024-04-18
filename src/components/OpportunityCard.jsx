@@ -4,6 +4,7 @@ import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
+import ProfileIcon from "./ProfileIcon";
 
 const OpportunityCard = ({
   company,
@@ -17,13 +18,7 @@ const OpportunityCard = ({
   <Card>
     <div className="flex items-center gap-2.5 justify-between mb-4">
       <Link href="" className="flex items-center">
-        <img
-          className="rounded-full mr-2"
-          height={28}
-          width={28}
-          alt=""
-          src="/images/guardian.png"
-        />
+        <ProfileIcon />
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
           {company?.name}
         </span>
