@@ -56,11 +56,14 @@ const ProposalForm = ({ opportunityId }) => {
           handleSubmit={() => handleSubmit(opportunityId, user_id)}
         >
           <div className="space-y-10">
-            <label for="proposal">Proposal</label>
+            <label for="proposal" className="sr-only">
+              Proposal
+            </label>
             <textarea
               onChange={(e) => setProposal(e.target.value)}
               name="proposal"
               className={twMerge(inputStyles.input)}
+              rows={10}
               required
             />
           </div>

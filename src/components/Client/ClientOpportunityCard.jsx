@@ -11,14 +11,15 @@ import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
 import SubMenu from "@/components/SubMenu";
+import ApplicationsModal from "@/components/Client/ApplicationsModal";
 
-import plurise from "@/helpers/plurise";
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
 
 const ClientOpportunityCard = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
 
   const { compensation, deadline, status, title, opportunity_id } = props;
 
@@ -99,9 +100,22 @@ const ClientOpportunityCard = (props) => {
           </div>
         </div>
 
-        <Button variant="white" href={`/applications/${opportunity_id}`}>
+        <Button
+          variant="white"
+          type="button"
+          as="button"
+          onClick={() => setIsApplicationsOpen(true)}
+        >
           View Applications
         </Button>
+        {isApplicationsOpen && (
+          <ApplicationsModal
+            isApplicationsOpen={isApplicationsOpen}
+            setIsApplicationsOpen={setIsApplicationsOpen}
+            opportunityId={opportunity_id}
+            opportunityTitle={title}
+          />
+        )}
       </Card>
       <Modal open={isEditOpen} onClose={() => setIsEditOpen(false)}>
         <EditOpportunityForm {...props} />

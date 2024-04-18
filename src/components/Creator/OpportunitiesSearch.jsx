@@ -1,42 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 
 import Search from "@/components/Search";
-
-const OpportunityCard = dynamic(() => import("@/components/OpportunityCard"), {
-  ssr: false,
-});
+import OpportunityCard from "@/components/OpportunityCard";
 
 const OpportunitiesSearch = ({ opportunities }) => {
-  const ref = useRef();
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
 
   useEffect(() => {
     setFilteredOpportunities(opportunities);
   }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(ref.current);
-          ref.current.load();
-        }
-      });
-
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-
-      return () => {
-        if (ref.current) {
-          observer.unobserve(ref.current);
-        }
-      };
-    });
-  }, [ref]);
 
   return (
     <>
@@ -48,7 +22,7 @@ const OpportunitiesSearch = ({ opportunities }) => {
       <div className="my-12 space-y-6">
         {opportunities.length > 0 ? (
           filteredOpportunities?.map((opportunity) => (
-            <div key={opportunity.opportunity_id} ref={ref}>
+            <div key={opportunity.opportunity_id}>
               <OpportunityCard {...opportunity} />
             </div>
           ))

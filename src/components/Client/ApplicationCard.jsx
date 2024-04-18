@@ -4,18 +4,23 @@ import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Tag from "@/components/Tag";
-import Modal from "@/components/Modal";
-import { useState } from "react";
-import ProfileIcon from "../ProfileIcon";
 import API from "@/api/api";
+import Heading from "../Heading";
 
-const ApplicationCard = ({ application_id, proposal }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const ApplicationCard = ({
+  setApplications,
+  applications,
+  application_id,
+  opportunityTitle,
+  proposal,
+  user_id,
+}) => {
   const rejectApplication = async (id) => {
     try {
       await API.put(`/applications/${id}`, { status: "rejected" });
-      window.location.reload();
+      setApplications(
+        applications.filter((i) => i.application_id !== application_id)
+      );
     } catch (error) {
       throw new Error("Rejecting application error");
     }
@@ -23,7 +28,10 @@ const ApplicationCard = ({ application_id, proposal }) => {
   const acceptApplication = async (id) => {
     try {
       await API.put(`/applications/${id}`, { status: "accepted" });
-      window.location.reload();
+      setApplications(
+        applications.filter((i) => i.application_id !== application_id)
+      );
+      // TODO: Add screen to take to conversation
     } catch (error) {
       throw new Error("Accepting application error");
     }
@@ -35,17 +43,24 @@ const ApplicationCard = ({ application_id, proposal }) => {
   };
 
   return (
-    <Card key={application_id}>
-      <div className="mb-8 flex items-center gap-4">
-        <Text size="md">{user.name}</Text>
-        <div className="flex gap-2">
+    <Card className="h-[488px] max-h-screen flex flex-col">
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div>
+          <Heading size="2xl">{user.name}</Heading>
+          <Text size="sm" className="capitalize">
+            {opportunityTitle} &bull; Application
+          </Text>
+        </div>
+        <div className="flex gap-2 mt-1">
           {user.skills.map((skill) => (
             <Tag key={skill}>{skill}</Tag>
           ))}
         </div>
       </div>
 
-      <div className="flex gap-2 ml-auto">
+      <Text> {proposal}</Text>
+
+      <div className="flex gap-2 mt-auto pt-12">
         <Button
           type="button"
           as="button"
@@ -65,21 +80,12 @@ const ApplicationCard = ({ application_id, proposal }) => {
         </Button>
         <Button
           type="button"
-          as="button"
           variant="blue"
           size="sm"
-          onClick={() => setIsOpen(true)}
+          href={`/profile/${user_id}`}
         >
-          View
+          View profile
         </Button>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-          <div className="flex items-start gap-6">
-            <div>
-              <ProfileIcon />
-            </div>
-            {proposal}
-          </div>
-        </Modal>
       </div>
     </Card>
   );
