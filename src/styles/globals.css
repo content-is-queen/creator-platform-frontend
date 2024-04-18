@@ -48,7 +48,6 @@ input[type="checkbox"]:checked {
 select {
   background-color: transparent;
   border-style: none none solid none;
-  border-bottom-width: 2px;
   @apply border-queen-black;
 }
 

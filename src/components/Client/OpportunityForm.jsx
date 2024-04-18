@@ -123,7 +123,7 @@ const OpportunityForm = ({ type }) => {
           if (type === "checkbox") {
             return (
               <div key={name}>
-                <Text className="mb-4 uppercase ">{children}</Text>
+                <Text className="mb-4 uppercase">{children}</Text>
                 <div className="space-y">
                   {options.map((option) => (
                     <div
@@ -152,7 +152,7 @@ const OpportunityForm = ({ type }) => {
               </label>
               <input
                 type={type}
-                className="py-3 placeholder:text-queen-black/40 block px-0 w-full text-queen-black bg-transparent border-0 border-b-[1.5px] border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
+                className="py-3 placeholder:text-queen-black/40 block px-0 w-full text-queen-black bg-transparent border-0 border-b border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
                 name={name}
                 id={name}
               />

@@ -9,6 +9,7 @@ import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
 import ProposalForm from "@/components/Creator/ProposalForm";
+import ProfileIcon from "@/components/ProfileIcon";
 
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test
@@ -41,24 +42,19 @@ export default async function Opportunity({ params: { id } }) {
     await getOpportunitiesById(id);
 
   return (
-    <div className="bg-purple-dots bg-repeat-x bg-[center_bottom]">
+    <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom]">
       <Container size="2xl">
-        <div className="mt-20 pb-60 space-y-8">
+        <div className="pt-20 pb-64 space-y-8">
           <div>
             <Link
               href="/opportunities"
-              className="text-sm inline-flex items-center gap-1.5 mb-7"
+              className="text-sm inline-flex items-center gap-1.5 mb-8"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
               <span>Back to Dashboard</span>
             </Link>{" "}
-            <img
-              src="/images/guardian.png"
-              alt="The Guardian"
-              height={54}
-              width={54}
-            />
-            <Heading size="3xl" className="mt-4 mb-1">
+            <ProfileIcon className="h-12 w-12" />
+            <Heading size="3xl" className="mt-6 mb-1">
               {title}
             </Heading>
             <Text size="sm" className="capitalize">
