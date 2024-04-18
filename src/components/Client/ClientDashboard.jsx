@@ -53,8 +53,8 @@ const ClientDashboard = ({ id }) => {
           Looks like you haven't listed any opportunities yet.
         </Empty>
         <Modal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
           title="Select an opportunity type"
           size="6xl"
         >
@@ -75,8 +75,8 @@ const ClientDashboard = ({ id }) => {
         </div>
         <ProjectsTabs opportunities={opportunities} />
         <Modal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
           title="Select an opportunity type"
           size="6xl"
         >

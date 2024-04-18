@@ -72,7 +72,7 @@ const ApplicationCard = ({ application_id, proposal }) => {
         >
           View
         </Button>
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           <div className="flex items-start gap-6">
             <div>
               <ProfileIcon />

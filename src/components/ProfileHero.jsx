@@ -139,7 +139,11 @@ const ProfileHero = (user) => {
               Edit Profile
             </Button>
 
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen} heading="Edit profile">
+            <Modal
+              open={isOpen}
+              onClose={() => setIsOpen(false)}
+              heading="Edit profile"
+            >
               <EditProfileForm
                 data={userProfileData?.message}
                 setIsOpen={setIsOpen}
