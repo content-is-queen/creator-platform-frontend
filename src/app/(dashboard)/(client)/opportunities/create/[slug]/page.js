@@ -5,7 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
-import CreateOpportunityForm from "@/components/Client/CreateCreateOpportunityForm";
+import CreateOpportunityForm from "@/components/Client/CreateOpportunityForm";
 
 import data from "@/data/opportunity_data.json";
 
