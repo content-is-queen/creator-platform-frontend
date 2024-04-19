@@ -29,6 +29,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
+      <link rel="icon" href="/images/favicon.svg" />
+      <link rel="apple-touch-icon" href="/images/touch-icon.png" />
+      <meta name="theme-color" content="#ffffff" />
+
       <body>
         <Provider>{children}</Provider>
         <ToastContainer />

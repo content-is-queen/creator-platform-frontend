@@ -13,7 +13,7 @@ import CreateOpportunityPanels from "@/components/Client/CreateOpportunityPanels
 
 import API from "@/api/api";
 
-const ClientDashboard = ({ id }) => {
+const ClientDashboard = ({ user: { user_id } }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [opportunities, setOpportunities] = useState([]);
@@ -30,7 +30,7 @@ const ClientDashboard = ({ id }) => {
   };
 
   useEffect(() => {
-    getOpportunities(id);
+    getOpportunities(user_id);
   }, []);
 
   useEffect(() => {}, [isLoading]);

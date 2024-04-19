@@ -1,69 +1,81 @@
-import Container from "@/components/Container";
-import Text from "@/components/Text";
-import OpportunityCard from "@/components/OpportunityCard";
+import { Suspense } from "react";
+
+import API from "@/api/api";
+
 import Button from "@/components/Button";
-import Panel from "@/components/Panel";
+import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import StatsPanel from "@/components/StatsPanel";
-import Empty from "@/components/Empty";
+import Spinner from "@/components/Spinner";
+import Section from "@/components/Section";
+import Text from "@/components/Text";
+import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 
-const OpportunitiesList = ({ opportunities }) => (
-  <>
-    <Text size="xl" className="mb-4">
-      Recommended opportunities for you
-    </Text>
-    <ul className="grid gap-2">
-      {opportunities.map((opportunity, index) => (
-        <li key={`${opportunity.title}-${index}`} className="pt-4">
-          <OpportunityCard {...opportunity} />
-        </li>
-      ))}
-    </ul>
-    <Button href="/opportunities" className="mt-16">
-      View all opportunities
-    </Button>
-  </>
-);
-
-const CreatorDashboard = ({ userProfile }) => {
-  const opportunities = [];
-
-  const applications = [];
-
-  if (applications.length < 1) {
-    return (
-      <Empty
-        href="/opportunities"
-        button={<Button href="/opportunities">View all opportunities</Button>}
-      >
-        Get started by checking out the latest opportunities.
-      </Empty>
-    );
+const getApplicationsByUserId = async (id) => {
+  try {
+    const res = await API.get("/applications");
+    return res.data.message.filter((i) => i.user_id === id);
+  } catch (error) {
+    throw new Error("Something went wrong when trying to get the applications");
   }
+};
+
+const CreatorDashboard = async ({ user: { user_id, name } }) => {
+  const applications = await getApplicationsByUserId(user_id);
+
+  // Application stats
+  const proposals = applications.length;
+  const inProgress = applications.filter((i) => i.status === "accepted").length;
+
+  const STATS = [
+    { name: "proposals", value: proposals },
+    { name: "in_progress", value: inProgress },
+    { name: "in_review", value: 0 },
+    { name: "completed", value: 0 },
+  ];
 
   return (
-    <div className="h-full py-12 md:py-20">
-      <Container>
-        <Heading>Welcome back, {userProfile?.name || "Add name..."}</Heading>
-        <div className="grid gap-8 md:grid-cols-6">
-          <div className="pt-2 pl-0 md:col-span-4">
-            {opportunities.length > 0 ? (
-              <OpportunitiesList opportunities={opportunities} />
+    <>
+      <div
+        style={{ minHeight: "calc(100vh - var(--nav-height))" }}
+        className="flex justify-center items-center py-12 text-center md:py-20 bg-queen-blue bg-orange-dots bg-repeat-x bg-[center_bottom_-4rem]"
+      >
+        <Container className="space-y-4 pb-20">
+          <Heading className="text-queen-white mb-12">Welcome</Heading>
+          <Suspense fallback={<Spinner />}>
+            {applications.length > 0 ? (
+              <StatsPanel stats={STATS} />
             ) : (
-              <Empty />
+              <div className="space-y-6 max-w-lg text-queen-white">
+                <p>
+                  It looks like you haven’t applied for any opportunities yet.
+                  Why don’t you check out the latest opportunities.{" "}
+                </p>
+                <Button variant="yellow" href="/opportunities">
+                  View opportunities
+                </Button>{" "}
+              </div>
             )}
-          </div>
+          </Suspense>
+        </Container>
+      </div>
+      {applications.length > 0 && (
+        <Section size="4xl">
+          <Text size="xl" className="mb-8">
+            Applications
+          </Text>
 
-          <div className="grid gap-8 md:col-span-2">
-            <StatsPanel />
-            <Panel
-              title="Most Recent Chat"
-              className="text-white bg-orange-dots-circle bg-queen-blue"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            {applications.map((application) => (
+              <CreatorApplicationCard
+                key={application.application_id}
+                {...application}
+              />
+            ))}
           </div>
-        </div>
-      </Container>
-    </div>
+        </Section>
+      )}
+    </>
   );
 };
 

@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
-async function getOpportunitiesById(id) {
+async function getOpportunityById(id) {
   try {
     const res = await API.get(`/opportunities/opportunityid/${id}`);
     return res.data;
@@ -39,7 +39,7 @@ async function getOpportunitiesById(id) {
 
 export default async function Opportunity({ params: { id } }) {
   const { title, description, company, type, compensation } =
-    await getOpportunitiesById(id);
+    await getOpportunityById(id);
 
   return (
     <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom]">
