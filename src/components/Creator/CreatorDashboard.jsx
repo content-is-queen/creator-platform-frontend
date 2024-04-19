@@ -42,21 +42,19 @@ const CreatorDashboard = async ({ user: { user_id, name } }) => {
       >
         <Container className="space-y-4 pb-20">
           <Heading className="text-queen-white mb-12">Welcome</Heading>
-          <Suspense fallback={<Spinner />}>
-            {applications.length > 0 ? (
-              <StatsPanel stats={STATS} />
-            ) : (
-              <div className="space-y-6 max-w-lg text-queen-white">
-                <p>
-                  It looks like you haven’t applied for any opportunities yet.
-                  Why don’t you check out the latest opportunities.{" "}
-                </p>
-                <Button variant="yellow" href="/opportunities">
-                  View opportunities
-                </Button>{" "}
-              </div>
-            )}
-          </Suspense>
+          {!applications || applications.length > 0 ? (
+            <StatsPanel stats={STATS} />
+          ) : (
+            <div className="space-y-6 max-w-lg text-queen-white">
+              <p>
+                It looks like you haven’t applied for any opportunities yet. Why
+                don’t you check out the latest opportunities.
+              </p>
+              <Button variant="yellow" href="/opportunities">
+                View opportunities
+              </Button>
+            </div>
+          )}
         </Container>
       </div>
       {applications.length > 0 && (
