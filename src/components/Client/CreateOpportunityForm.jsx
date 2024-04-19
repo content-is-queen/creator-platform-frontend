@@ -12,7 +12,7 @@ import { inputStyles } from "@/components/Input";
 
 import data from "@/data/opportunity_data.json";
 
-const OpportunityForm = ({ type }) => {
+const CreateOpportunityForm = ({ type }) => {
   const fields = data[type].fields;
   const {
     user: { user_id },
@@ -21,9 +21,7 @@ const OpportunityForm = ({ type }) => {
   const [errors, setErrors] = useState({});
   const form = useRef();
 
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
+  useEffect(() => {}, [form]);
 
   const handleSubmit = async (fields, userId) => {
     const formData = new FormData(form.current);
@@ -168,4 +166,4 @@ const OpportunityForm = ({ type }) => {
   );
 };
 
-export default OpportunityForm;
+export default CreateOpportunityForm;
