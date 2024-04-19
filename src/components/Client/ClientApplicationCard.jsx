@@ -7,7 +7,7 @@ import Tag from "@/components/Tag";
 import API from "@/api/api";
 import Heading from "../Heading";
 
-const ApplicationCard = ({
+const ClientApplicationCard = ({
   setApplications,
   applications,
   application_id,
@@ -91,4 +91,4 @@ const ApplicationCard = ({
   );
 };
 
-export default ApplicationCard;
+export default ClientApplicationCard;

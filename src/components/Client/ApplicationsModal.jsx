@@ -9,7 +9,7 @@ import { Dialog } from "@headlessui/react";
 
 import API from "@/api/api";
 
-import ApplicationCard from "@/components/Client/ApplicationCard";
+import ClientApplicationCard from "@/components/Client/ClientApplicationCard";
 import Spinner from "@/components/Spinner";
 import Text from "@/components/Text";
 import clsx from "clsx";
@@ -57,6 +57,15 @@ const ApplicationsModal = ({
 
   useEffect(() => {}, [applications]);
 
+  useEffect(() => {
+    if (swiperElRef.current) {
+      console.log(swiperElRef);
+      swiperElRef.current.addEventListener("swiperslidechange", (e) => {
+        console.log("slide changed");
+      });
+    }
+  }, [swiperElRef]);
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -80,7 +89,7 @@ const ApplicationsModal = ({
               >
                 {applications.map((application, index) => (
                   <swiper-slide key={index} class="p-1">
-                    <ApplicationCard
+                    <ClientApplicationCard
                       key={`application-${index}`}
                       setApplications={setApplications}
                       applications={applications}

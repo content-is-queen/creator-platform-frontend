@@ -1,6 +1,5 @@
 import Text from "@/components/Text";
 import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
 
 const Panel = ({ title, className, children }) => (
   <div

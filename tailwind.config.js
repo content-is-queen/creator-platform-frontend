@@ -9,6 +9,7 @@ module.exports = {
       backgroundImage: {
         dots: "url('/images/CiQ_Pattern_02.svg')",
         "purple-dots": "url('/images/CiQ_Pattern 4 lilac.svg')",
+        "orange-dots": "url('/images/CiQ_Pattern 4 orange.svg')",
         "orange-dots-circle": "url('/images/orange-dots-circle-panel.svg')",
         "purple-dots-circle": "url('/images/purple-dots-circle-panel.svg')",
       },
