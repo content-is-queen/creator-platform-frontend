@@ -1,12 +1,9 @@
-import { Suspense } from "react";
-
 import API from "@/api/api";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import StatsPanel from "@/components/StatsPanel";
-import Spinner from "@/components/Spinner";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
@@ -26,11 +23,12 @@ const CreatorDashboard = async ({ user: { user_id, name } }) => {
   // Application stats
   const proposals = applications.length;
   const inProgress = applications.filter((i) => i.status === "accepted").length;
+  const inReview = applications.filter((i) => i.status === "pending").length;
 
   const STATS = [
     { name: "proposals", value: proposals },
+    { name: "in_review", value: inReview },
     { name: "in_progress", value: inProgress },
-    { name: "in_review", value: 0 },
     { name: "completed", value: 0 },
   ];
 

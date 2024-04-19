@@ -1,7 +1,7 @@
 const LABELS = [
   { name: "proposals", label: "Proposals" },
-  { name: "in_progress", label: "In Progress" },
   { name: "in_review", label: "In Review" },
+  { name: "in_progress", label: "In Progress" },
   { name: "completed", label: "Completed" },
 ];
 

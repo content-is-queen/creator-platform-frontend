@@ -42,7 +42,7 @@ export default async function Opportunity({ params: { id } }) {
     await getOpportunityById(id);
 
   return (
-    <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom]">
+    <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
         <div className="pt-20 pb-64 space-y-8">
           <div>
@@ -62,7 +62,7 @@ export default async function Opportunity({ params: { id } }) {
             </Text>
           </div>
 
-          <div className="space-y-5">{description}</div>
+          <div className="space-y-5 min-h-24">{description}</div>
 
           <ProposalForm opportunityId={id} />
         </div>
