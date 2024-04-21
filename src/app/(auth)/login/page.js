@@ -6,12 +6,17 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { doSignInWithEmailAndPassword } from "@/firebase/auth";
-import useAuth from "@/hooks/useAuth";
+// import useAuth from "@/hooks/useAuth";
 
 import Heading from "@/components/Heading";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import Secure from "@/utils/SecureLs";
+import isAuth from "@/helpers/isAuth";
+import { useDispatch } from "react-redux";
+import { login } from "@/app/redux/features/profile/authSlice";
+import { useRouter } from "next/navigation";
 
 const FIELDS = [
   {
@@ -42,25 +47,29 @@ const FIELDS = [
 
 const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const { login } = useAuth();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
-
   const onSubmit = async (data) => {
     try {
-      if (!isSigningIn) {
         setIsSigningIn(true);
         const { user } = await doSignInWithEmailAndPassword(
           data.email,
           data.password
         );
 
-        login(user);
-      }
+        const token = await user.getIdToken(/* forceRefresh */ true);
+        await Secure.setToken(token);
+        const loggedUser = isAuth();
+        if(loggedUser){
+          await dispatch(login({loggedUser, token}))
+          router.push("/");
+        }
     } catch (error) {
       const errorMessageWithoutFirebase = error.message.replace(
         /firebase: /i,
@@ -93,7 +102,7 @@ const Login = () => {
           </Text>
         </div>
         <Button as="button" type="submit" className="mt-8">
-          Sign In
+          {isSigningIn ? " Loading ... " : " Sign In "}
         </Button>
         <Text size="sm" className="mt-4">
           Don&apos;t have an account?{" "}

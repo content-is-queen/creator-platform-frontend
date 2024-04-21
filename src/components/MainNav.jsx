@@ -14,10 +14,13 @@ import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 import isAuth from "@/helpers/isAuth";
+import { useDispatch } from "react-redux";
+import { userLogout } from "@/app/redux/features/profile/authSlice";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
+  const dispatch = useDispatch();
 
   const { user, logout } = useAuth();
   const pathname = usePathname();
@@ -32,6 +35,7 @@ const MainNav = () => {
   };
 
   const handleSignOut = async () => {
+    await dispatch(userLogout());
     logout();
   };
 
