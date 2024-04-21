@@ -17,9 +17,13 @@ import {
   getUserProfile,
   updateProfile,
 } from "../app/redux/features/profile/profileSlice";
+import useAuth from "@/hooks/useAuth";
+import { selectAuth } from "@/app/redux/features/profile/authSlice";
 
 const EditProfileForm = ({ data, setIsOpen }) => {
   const [isLoading, setIsloading] = useState(false);
+  const { isAuthenticated, user, token } = useSelector(selectAuth);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -46,8 +50,8 @@ const EditProfileForm = ({ data, setIsOpen }) => {
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    await dispatch(updateProfile(formData));
-    dispatch(getUserProfile());
+    await dispatch(updateProfile({ token, formData }))
+    dispatch(getUserProfile(token));
     setIsOpen(false);
   };
 
@@ -110,24 +114,16 @@ const EditProfileForm = ({ data, setIsOpen }) => {
   );
 };
 
-const ProfileHero = (user) => {
+const ProfileHero = ({ userInfo }) => {
+  console.log(userInfo, "From child components ......");
   const [currentUser, setCurrentUser] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
-  const { userProfileData } = useSelector((state) => state.auth);
-  const { isGettingUserProfile } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getUserProfile());
-  }, [currentUser, userProfileData]);
+  const { user } = useAuth();
 
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
       <Container size="4xl" className="space-y-4">
-        <ProfileIcon
-          photoUrl={userProfileData?.message?.imageUrl}
-          className="h-20 w-20"
-        />
+        <ProfileIcon photoUrl={userInfo?.imageUrl} className="h-20 w-20" />
         {currentUser && (
           <>
             <Button
@@ -144,21 +140,13 @@ const ProfileHero = (user) => {
               onClose={() => setIsOpen(false)}
               heading="Edit profile"
             >
-              <EditProfileForm
-                data={userProfileData?.message}
-                setIsOpen={setIsOpen}
-              />
+              <EditProfileForm data={userInfo} setIsOpen={setIsOpen} />
             </Modal>
           </>
         )}
         <div className="max-w-96">
-          {isGettingUserProfile && (
-            <p className="font-heading uppercase text-xl">Loading ...</p>
-          )}
           <h1 className="font-heading uppercase text-2xl">
-            {!isGettingUserProfile &&
-              userProfileData?.message?.first_name &&
-              `${userProfileData?.message?.first_name} ${userProfileData?.message?.last_name}`}
+            {`${userInfo?.first_name} ${userInfo?.last_name}`}
           </h1>
           {user.tags != undefined && (
             <div className="flex gap-2 my-2">
@@ -167,7 +155,7 @@ const ProfileHero = (user) => {
               ))}
             </div>
           )}
-          <p className="text-sm mt-1">{userProfileData?.message?.bio}</p>
+          <p className="text-sm mt-1">{userInfo?.bio}</p>
         </div>
       </Container>
       <Dots className="absolute -right-48 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />

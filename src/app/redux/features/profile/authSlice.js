@@ -1,9 +1,10 @@
+import Secure from "@/utils/SecureLs";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuthenticated: false,
   user: null,
-  token: null,
+  token: Secure.getToken() || null,
 };
 
 const authSlice = createSlice({
@@ -13,6 +14,7 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.isAuthenticated = true;
       state.user = action.payload.loggedUser;
+      Secure.setToken(action.payload.token);
       state.token = action.payload.token;
     },
     userLogout: (state) => {
