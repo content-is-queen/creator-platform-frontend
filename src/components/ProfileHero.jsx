@@ -50,7 +50,7 @@ const EditProfileForm = ({ data, setIsOpen }) => {
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    await dispatch(updateProfile({ token, formData }))
+    await dispatch(updateProfile({ token, formData }));
     dispatch(getUserProfile(token));
     setIsOpen(false);
   };
