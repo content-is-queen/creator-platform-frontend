@@ -57,19 +57,19 @@ const Login = () => {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-        setIsSigningIn(true);
-        const { user } = await doSignInWithEmailAndPassword(
-          data.email,
-          data.password
-        );
+      setIsSigningIn(true);
+      const { user } = await doSignInWithEmailAndPassword(
+        data.email,
+        data.password
+      );
 
-        const token = await user.getIdToken(/* forceRefresh */ true);
-        await Secure.setToken(token);
-        const loggedUser = isAuth();
-        if(loggedUser){
-          await dispatch(login({loggedUser, token}))
-          router.push("/");
-        }
+      const token = await user.getIdToken(/* forceRefresh */ true);
+      await Secure.setToken(token);
+      const loggedUser = isAuth();
+      if (loggedUser) {
+        await dispatch(login({ loggedUser, token }));
+        router.push("/");
+      }
     } catch (error) {
       const errorMessageWithoutFirebase = error.message.replace(
         /firebase: /i,
