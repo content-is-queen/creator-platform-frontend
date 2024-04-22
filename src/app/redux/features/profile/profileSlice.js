@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import Keys from "@/utils/keys";
@@ -9,24 +9,27 @@ const saveUserProfileInLocalStorage = (data) => {
   localStorage.setItem("userProfileData", JSON.stringify(data));
 };
 
-export const updateProfile = createAsyncThunk("editprofile", async ({ token, formData }) => {
-  try {
-    const FILEAPI = axios.create({
-      baseURL: Keys.DEFAULT_API,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`
-      }
-    });
+export const updateProfile = createAsyncThunk(
+  "editprofile",
+  async ({ token, formData }) => {
+    try {
+      const FILEAPI = axios.create({
+        baseURL: Keys.DEFAULT_API,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const response = await FILEAPI.patch(`/auth/profile`, formData);
-    const { message } = response?.data;
-    toast.success(message || "Success!");
-    return response.data;
-  } catch (error) {
-    return error.response?.data;
+      const response = await FILEAPI.patch(`/auth/profile`, formData);
+      const { message } = response?.data;
+      toast.success(message || "Success!");
+      return response.data;
+    } catch (error) {
+      return error.response?.data;
+    }
   }
-});
+);
 
 export const getUserProfile = createAsyncThunk("getProfile", async (token) => {
   try {
@@ -37,8 +40,8 @@ export const getUserProfile = createAsyncThunk("getProfile", async (token) => {
     } else {
       const response = await axios.get(`${Keys.DEFAULT_API}/auth/profile`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       // Save user profile data in local storage
       saveUserProfileInLocalStorage(response.data);
