@@ -19,6 +19,7 @@ import {
 } from "../app/redux/features/profile/profileSlice";
 import useAuth from "@/hooks/useAuth";
 import { selectAuth } from "@/app/redux/features/profile/authSlice";
+import Secure from "@/utils/SecureLs";
 
 const EditProfileForm = ({ data, setIsOpen }) => {
   const [isLoading, setIsloading] = useState(false);
@@ -46,11 +47,12 @@ const EditProfileForm = ({ data, setIsOpen }) => {
 
   const handleSubmit = async (e) => {
     const formData = new FormData();
+    localStorage.removeItem("userProfileData");
     e.preventDefault();
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    await dispatch(updateProfile({ token, formData }));
+    await dispatch(updateProfile({ token, formData }))
     dispatch(getUserProfile(token));
     setIsOpen(false);
   };
@@ -115,7 +117,6 @@ const EditProfileForm = ({ data, setIsOpen }) => {
 };
 
 const ProfileHero = ({ userInfo }) => {
-  console.log(userInfo, "From child components ......");
   const [currentUser, setCurrentUser] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();

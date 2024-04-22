@@ -16,6 +16,7 @@ import SubMenu from "@/components/SubMenu";
 import isAuth from "@/helpers/isAuth";
 import { useDispatch } from "react-redux";
 import { userLogout } from "@/app/redux/features/profile/authSlice";
+import Secure from "@/utils/SecureLs";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -35,6 +36,7 @@ const MainNav = () => {
   };
 
   const handleSignOut = async () => {
+    localStorage.removeItem("userProfileData");
     await dispatch(userLogout());
     logout();
   };
