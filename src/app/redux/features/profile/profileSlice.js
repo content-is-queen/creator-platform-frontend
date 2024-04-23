@@ -1,25 +1,52 @@
 "use client";
-
-import FILEAPI from "../../../../api/fileApi";
-import API from "../../../../api/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import Keys from "@/utils/keys";
+import axios from "axios";
 
-export const updateProfile = createAsyncThunk("editprofile", async (data) => {
-  try {
-    const response = await FILEAPI.patch(`/auth/profile`, data);
-    const { message } = response?.data;
-    toast.success(message || "Success!");
-    return response.data;
-  } catch (error) {
-    return error.response?.data;
+// Helper function to save user profile data in local storage
+const saveUserProfileInLocalStorage = (data) => {
+  localStorage.setItem("userProfileData", JSON.stringify(data));
+};
+
+export const updateProfile = createAsyncThunk(
+  "editprofile",
+  async ({ token, formData }) => {
+    try {
+      const FILEAPI = axios.create({
+        baseURL: Keys.DEFAULT_API,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const response = await FILEAPI.patch(`/auth/profile`, formData);
+      const { message } = response?.data;
+      toast.success(message || "Success!");
+      return response.data;
+    } catch (error) {
+      return error.response?.data;
+    }
   }
-});
+);
 
-export const getUserProfile = createAsyncThunk("getUserProfile", async () => {
+export const getUserProfile = createAsyncThunk("getProfile", async (token) => {
   try {
-    const response = await API.get(`/auth/profile`);
-    return response.data;
+    // Check if user profile data exists in local storage
+    const userProfileDataFromStorage = localStorage.getItem("userProfileData");
+    if (userProfileDataFromStorage) {
+      return JSON.parse(userProfileDataFromStorage);
+    } else {
+      const response = await axios.get(`${Keys.DEFAULT_API}/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // Save user profile data in local storage
+      saveUserProfileInLocalStorage(response.data);
+      return response.data;
+    }
   } catch (error) {
     return error.response?.data;
   }

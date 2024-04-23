@@ -14,14 +14,18 @@ import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 import isAuth from "@/helpers/isAuth";
+import { useDispatch } from "react-redux";
+import { userLogout } from "@/app/redux/features/profile/authSlice";
+import Secure from "@/utils/SecureLs";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
+  const dispatch = useDispatch();
 
   const { user, logout } = useAuth();
   const pathname = usePathname();
-  const { displayName, imageUrl } = user;
+  const { first_name, imageUrl } = user;
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -32,6 +36,8 @@ const MainNav = () => {
   };
 
   const handleSignOut = async () => {
+    localStorage.removeItem("userProfileData");
+    await dispatch(userLogout());
     logout();
   };
 
@@ -124,11 +130,7 @@ const MainNav = () => {
           </div>
 
           {isUserClicked && (
-            <SubMenu
-              heading={
-                <SubMenu.Heading>{displayName || user?.email}</SubMenu.Heading>
-              }
-            >
+            <SubMenu heading={<SubMenu.Heading>{user?.email}</SubMenu.Heading>}>
               <SubMenu.Item>
                 <Link
                   href="/profile"
