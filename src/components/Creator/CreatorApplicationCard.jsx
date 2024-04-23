@@ -10,12 +10,15 @@ import ProfileIcon from "../ProfileIcon";
 // async function getOpportunityById(id) {
 //   try {
 //     const res = await API.get(`/opportunities/opportunityid/${id}`);
-//     return res.data;
+//     const {
+//       data: { message },
+//     } = res;
+//     return message;
 //   } catch (error) {
 //     throw new Error("Something went wrong when getting the opportunity");
 //   }
 // }
-const CreatorApplicationCard = async ({ status }) => {
+const CreatorApplicationCard = async ({ status, opportunity_id }) => {
   // const { title, type, deadline } = getOpportunityById(opportunity_id);
 
   return (

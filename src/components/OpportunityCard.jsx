@@ -14,10 +14,11 @@ const OpportunityCard = ({
   title,
   description,
   opportunity_id,
+  user_id,
 }) => (
   <Card>
     <div className="flex items-center gap-2.5 justify-between mb-4">
-      <Link href="" className="flex items-center">
+      <Link href={`/profile/${user_id}`} className="flex items-center">
         <ProfileIcon />
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
           {company?.name}

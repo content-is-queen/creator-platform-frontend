@@ -21,7 +21,7 @@ export const updateProfile = createAsyncThunk(
         },
       });
 
-      const response = await FILEAPI.patch(`/auth/profile`, formData);
+      const response = await FILEAPI.patch(`/auth/user`, formData);
       const { message } = response?.data;
       toast.success(message || "Success!");
       return response.data;
@@ -38,7 +38,7 @@ export const getUserProfile = createAsyncThunk("getProfile", async (token) => {
     if (userProfileDataFromStorage) {
       return JSON.parse(userProfileDataFromStorage);
     } else {
-      const response = await axios.get(`${Keys.DEFAULT_API}/auth/profile`, {
+      const response = await axios.get(`${Keys.DEFAULT_API}/auth/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
