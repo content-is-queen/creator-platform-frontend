@@ -25,7 +25,7 @@ const MainNav = () => {
 
   const { user, logout } = useAuth();
   const pathname = usePathname();
-  const { displayName, imageUrl } = user;
+  const { first_name, imageUrl } = user;
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -130,11 +130,7 @@ const MainNav = () => {
           </div>
 
           {isUserClicked && (
-            <SubMenu
-              heading={
-                <SubMenu.Heading>{displayName || user?.email}</SubMenu.Heading>
-              }
-            >
+            <SubMenu heading={<SubMenu.Heading>{user?.email}</SubMenu.Heading>}>
               <SubMenu.Item>
                 <Link
                   href="/profile"

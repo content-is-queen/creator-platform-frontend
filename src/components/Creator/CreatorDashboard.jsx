@@ -17,7 +17,7 @@ const getApplicationsByUserId = async (id) => {
   }
 };
 
-const CreatorDashboard = async ({ user: { user_id, name } }) => {
+const CreatorDashboard = async ({ user: { user_id } }) => {
   const applications = await getApplicationsByUserId(user_id);
 
   // Application stats
