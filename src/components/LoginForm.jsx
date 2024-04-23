@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-
 import isAuth from "@/helpers/isAuth";
 import { doSignInWithEmailAndPassword } from "@/firebase/auth";
+import { useDispatch } from "react-redux";
+import { login } from "@/app/redux/features/profile/authSlice";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -45,6 +47,10 @@ const LoginForm = () => {
     control,
     formState: { errors },
   } = useForm();
+
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const onSubmit = async (data) => {
     try {
       const { user } = await doSignInWithEmailAndPassword(
