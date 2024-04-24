@@ -11,7 +11,7 @@ import Text from "@/components/Text";
 import ProposalForm from "@/components/Creator/ProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
 
-import { getOpportunityById } from "@/helpers/getData";
+import { getOpportunityById } from "@/helpers/getServerComponentData";
 
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test

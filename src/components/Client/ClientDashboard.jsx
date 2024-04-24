@@ -4,7 +4,7 @@ import ProjectsTabs from "@/components/Client/ProjectsTabs";
 import Empty from "@/components/Empty";
 import CreateOpportunityModal from "@/components/Client/CreateOpportunityModal";
 
-import { getOpportunitiesByUserId } from "@/helpers/getData";
+import { getOpportunitiesByUserId } from "@/helpers/getServerComponentData";
 
 const ClientDashboard = async ({ user: { user_id } }) => {
   const opportunities = await getOpportunitiesByUserId(user_id);

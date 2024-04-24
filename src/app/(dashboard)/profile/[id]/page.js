@@ -37,7 +37,11 @@ export default async function Profile({ params: { id } }) {
   return (
     <>
       <ProfileHero userInfo={user} />
-      {user.role === "creator" ? <ProfileTabs /> : <ProfileOpportunities />}
+      {user.role === "creator" ? (
+        <ProfileTabs />
+      ) : (
+        <ProfileOpportunities id={id} />
+      )}
     </>
   );
 }

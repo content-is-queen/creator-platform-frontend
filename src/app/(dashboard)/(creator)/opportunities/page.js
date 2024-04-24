@@ -2,7 +2,7 @@ import OpportunitiesSearch from "@/components/Creator/OpportunitiesSearch";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 
-import { getOpportunities } from "@/helpers/getData";
+import { getOpportunities } from "@/helpers/getServerComponentData";
 
 const Opportunities = async () => {
   const opportunities = await getOpportunities();
