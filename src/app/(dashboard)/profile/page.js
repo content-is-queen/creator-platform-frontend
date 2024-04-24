@@ -1,13 +1,15 @@
 "use client";
 
-import ProfileTabs from "@/components/ProfileTabs";
-import ProfileOpportunities from "@/components/ProfileOpportunities";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { getUserProfile } from "@/app/redux/features/profile/profileSlice";
 import { selectAuth } from "@/app/redux/features/profile/authSlice";
-import { useEffect } from "react";
+
+import ProfileTabs from "@/components/ProfileTabs";
 import ProfileHero from "@/components/ProfileHero";
 import EditProfileModal from "@/components/EditProfileModal";
+import ProfileOpportunities from "@/components/ProfileOpportunities";
 
 const Profile = () => {
   const { token } = useSelector(selectAuth);

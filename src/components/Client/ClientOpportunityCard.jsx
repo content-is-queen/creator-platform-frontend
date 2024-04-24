@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,7 @@ import ApplicationsModal from "@/components/Client/ApplicationsModal";
 
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
+import Spinner from "../Spinner";
 
 const ClientOpportunityCard = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -108,14 +109,16 @@ const ClientOpportunityCard = (props) => {
         >
           View Applications
         </Button>
-        {isApplicationsOpen && (
-          <ApplicationsModal
-            isApplicationsOpen={isApplicationsOpen}
-            setIsApplicationsOpen={setIsApplicationsOpen}
-            opportunityId={opportunity_id}
-            opportunityTitle={title}
-          />
-        )}
+        <Suspense fallback={<Spinner />}>
+          {isApplicationsOpen && (
+            <ApplicationsModal
+              isApplicationsOpen={isApplicationsOpen}
+              setIsApplicationsOpen={setIsApplicationsOpen}
+              opportunityId={opportunity_id}
+              opportunityTitle={title}
+            />
+          )}
+        </Suspense>
       </Card>
       <Modal open={isEditOpen} onClose={() => setIsEditOpen(false)}>
         <EditOpportunityForm {...props} />

@@ -45,22 +45,20 @@ const ProjectsTabs = ({ opportunities }) => {
   return (
     <section>
       <Tabs options={OPTIONS} active={active} setActive={setActive} />
-      <Suspense fallback={<Spinner />}>
-        <swiper-container
-          ref={swiperElRef}
-          space-between="25"
-          slides-per-view="3"
-          navigation="true"
-          class="my-6"
-        >
-          {opportunities.length > 0 &&
-            opportunities.map((opportunity, index) => (
-              <swiper-slide key={index} class="m-1">
-                <ClientOpportunityCard {...opportunity} />
-              </swiper-slide>
-            ))}
-        </swiper-container>
-      </Suspense>
+      <swiper-container
+        ref={swiperElRef}
+        space-between="25"
+        slides-per-view="3"
+        navigation="true"
+        class="my-6"
+      >
+        {opportunities.length > 0 &&
+          opportunities.map((opportunity, index) => (
+            <swiper-slide key={index} class="m-1">
+              <ClientOpportunityCard {...opportunity} />
+            </swiper-slide>
+          ))}
+      </swiper-container>
     </section>
   );
 };
