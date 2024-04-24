@@ -1,5 +1,3 @@
-"use client";
-
 import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -7,7 +5,20 @@ import Tag from "@/components/Tag";
 import API from "@/api/api";
 import Heading from "../Heading";
 
-const ClientApplicationCard = ({
+async function getUser(id) {
+  try {
+    const res = await API.get(`/auth/user/${id}`);
+
+    const {
+      data: { message },
+    } = res;
+    return message;
+  } catch (error) {
+    throw new Error("Something went wrong when getting the user");
+  }
+}
+
+const ClientApplicationCard = async ({
   setApplications,
   applications,
   application_id,
@@ -15,6 +26,7 @@ const ClientApplicationCard = ({
   proposal,
   user_id,
 }) => {
+  const { first_name, last_name } = await getUser(user_id);
   const rejectApplication = async (id) => {
     try {
       await API.put(`/applications/${id}`, { status: "rejected" });
@@ -37,24 +49,21 @@ const ClientApplicationCard = ({
     }
   };
 
-  const user = {
-    name: "Kaleshe Alleyne-Vassel",
-    skills: ["Editor", "Research", "Marketing"],
-  };
-
   return (
     <Card className="h-[488px] max-h-screen flex flex-col">
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
-          <Heading size="2xl">{user.name}</Heading>
+          <Heading size="2xl">
+            {first_name} {last_name}
+          </Heading>
           <Text size="sm" className="capitalize">
             {opportunityTitle} &bull; Application
           </Text>
         </div>
         <div className="flex gap-2 mt-1">
-          {user.skills.map((skill) => (
+          {/* {skills.map((skill) => (
             <Tag key={skill}>{skill}</Tag>
-          ))}
+          ))} */}
         </div>
       </div>
 

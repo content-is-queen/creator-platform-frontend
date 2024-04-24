@@ -11,6 +11,8 @@ import Text from "@/components/Text";
 import ProposalForm from "@/components/Creator/ProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
 
+import { getOpportunityById } from "@/helpers/getServerComponentData";
+
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test
   if (process.env.APP_ENV === "development") {
@@ -27,15 +29,6 @@ export async function generateStaticParams() {
 }
 
 export const dynamicParams = false;
-
-async function getOpportunityById(id) {
-  try {
-    const res = await API.get(`/opportunities/opportunityid/${id}`);
-    return res.data;
-  } catch (error) {
-    throw new Error("Something went wrong when getting the opportunity");
-  }
-}
 
 export default async function Opportunity({ params: { id } }) {
   const { title, description, company, type, compensation } =

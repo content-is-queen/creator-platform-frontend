@@ -7,6 +7,7 @@ const API = axios.create({
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${Secure.getToken()}`,
+    "Cache-Control": "max-age=1800",
   },
 });
 export default API;

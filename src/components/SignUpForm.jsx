@@ -115,7 +115,10 @@ const SignUpForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await API.post(`/auth/signup/${active.id}`, data);
+      const response = await API.post("/auth/signup", {
+        ...data,
+        role: active.id,
+      });
       Secure.set("userInfo", response.data.data);
       router.push("/verify");
     } catch (error) {

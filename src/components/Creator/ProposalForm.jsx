@@ -64,7 +64,6 @@ const ProposalForm = ({ opportunityId }) => {
               name="proposal"
               className={twMerge(inputStyles.input)}
               rows={10}
-              maxlength="20"
               minlength="5"
               required
             />
