@@ -1,26 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { inputStyles } from "./Input";
 
 import { selectAuth } from "@/app/redux/features/profile/authSlice";
 import { twMerge } from "tailwind-merge";
 import { useDispatch, useSelector } from "react-redux";
+import { getUserProfile } from "@/app/redux/features/profile/profileSlice";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 
-const EditProfileForm = ({ data, setIsOpen }) => {
-  const { token } = useSelector(selectAuth);
-
-  const dispatch = useDispatch();
+const EditProfileForm = () => {
+  const { userProfileData } = useSelector((state) => state.profile);
 
   const [profileData, setProfileData] = useState({
-    first_name: data?.first_name || "",
-    last_name: data?.last_name || "",
-    profilePicture: data?.profilePicture || null,
-    bio: data?.bio || "",
-    role: data?.role,
+    first_name: userProfileData.message?.first_name || "",
+    last_name: userProfileData.message?.last_name || "",
+    profilePicture: userProfileData.message?.profilePicture || null,
+    bio: userProfileData.message?.bio || "",
+    role: userProfileData.message?.role,
   });
 
   const handleChange = (e) => {
@@ -39,15 +38,13 @@ const EditProfileForm = ({ data, setIsOpen }) => {
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    dispatch(updateProfile({ token, formData }));
-    dispatch(getUserProfile(token));
-    setIsOpen(false);
+    window.location.reload();
   };
 
   return (
     <Form
       className="max-w-md mx-auto"
-      onSubmit={handleSubmit}
+      onSubmit={() => handleSubmit}
       encType="multipart/form-data"
     >
       <div className="space-y-10">

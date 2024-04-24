@@ -22,7 +22,7 @@ const EditProfileModal = () => {
         onClose={() => setIsOpen(false)}
         heading="Edit profile"
       >
-        {/* <EditProfileForm data={userInfo} setIsOpen={setIsOpen} /> */}
+        <EditProfileForm />
       </Modal>
     </>
   );

@@ -2,16 +2,13 @@ import React from "react";
 
 export function Spinner(props) {
   return (
-    <div
-      className="flex items-center justify-center fixed w-full"
-      style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}
-    >
+    <div className="flex items-center justify-center fixed w-full h-screen bg-queen-white/50 top-0 left-0">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="10rem"
         height="10rem"
         viewBox="0 0 24 24"
-        className="text-queen-orange"
+        className="text-queen-orange absolute -translate-y-1/2 top-1/2"
         {...props}
       >
         <defs>

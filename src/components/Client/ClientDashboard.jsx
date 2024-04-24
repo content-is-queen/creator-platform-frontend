@@ -2,18 +2,9 @@ import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import ProjectsTabs from "@/components/Client/ProjectsTabs";
 import Empty from "@/components/Empty";
+import CreateOpportunityModal from "@/components/Client/CreateOpportunityModal";
 
-import API from "@/api/api";
-import CreateOpportunityModal from "./CreateOpportunityModal";
-
-const getOpportunitiesByUserId = async (id) => {
-  try {
-    const response = await API.get(`/opportunities/id/${id}`);
-    return response.data;
-  } catch (e) {
-    console.error(e);
-  }
-};
+import { getOpportunitiesByUserId } from "@/helpers/getData";
 
 const ClientDashboard = async ({ user: { user_id } }) => {
   const opportunities = await getOpportunitiesByUserId(user_id);

@@ -6,6 +6,7 @@ import { register } from "swiper/element/bundle";
 
 import Tabs from "@/components/Tabs";
 import ClientOpportunityCard from "@/components/Client/ClientOpportunityCard";
+import Spinner from "../Spinner";
 
 register();
 
@@ -43,8 +44,8 @@ const ProjectsTabs = ({ opportunities }) => {
 
   return (
     <section>
-      <Suspense fallback={<p>Loading...</p>}>
-        <Tabs options={OPTIONS} active={active} setActive={setActive} />
+      <Tabs options={OPTIONS} active={active} setActive={setActive} />
+      <Suspense fallback={<Spinner />}>
         <swiper-container
           ref={swiperElRef}
           space-between="25"

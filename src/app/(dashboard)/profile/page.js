@@ -13,13 +13,10 @@ const Profile = () => {
   const { token } = useSelector(selectAuth);
   const dispatch = useDispatch();
   const { userProfileData } = useSelector((state) => state.profile);
-  console.log(userProfileData);
 
   useEffect(() => {
-    if (token) {
-      dispatch(getUserProfile(token));
-    }
-  }, [dispatch]);
+    dispatch(getUserProfile(token));
+  }, []);
 
   return (
     <>

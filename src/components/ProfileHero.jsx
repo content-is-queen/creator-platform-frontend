@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import ProfileIcon from "@/components/ProfileIcon";
 import Dots from "@/components/Patterns/Dots";
 import Container from "@/components/Container";
@@ -10,7 +8,6 @@ import Tag from "@/components/Tag";
 import useAuth from "@/hooks/useAuth";
 
 const ProfileHero = ({ userInfo, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
 
   return (
@@ -21,7 +18,14 @@ const ProfileHero = ({ userInfo, children }) => {
 
         <div className="max-w-96">
           <h1 className="font-heading uppercase text-2xl">
-            {`${userInfo?.first_name} ${userInfo?.last_name}`}
+            {!user ? (
+              <div className="flex flex-col gap-2">
+                <div className="bg-queen-white animate-pulse h-2 w-40 rounded"></div>
+                <div className="bg-queen-white animate-pulse h-2 w-40 rounded"></div>
+              </div>
+            ) : (
+              `${userInfo?.first_name} ${userInfo?.last_name}`
+            )}
           </h1>
           {user.tags != undefined && (
             <div className="flex gap-2 my-2">
