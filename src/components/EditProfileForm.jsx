@@ -6,7 +6,10 @@ import { inputStyles } from "./Input";
 import { selectAuth } from "@/app/redux/features/profile/authSlice";
 import { twMerge } from "tailwind-merge";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile, updateProfile } from "@/app/redux/features/profile/profileSlice";
+import {
+  getUserProfile,
+  updateProfile,
+} from "@/app/redux/features/profile/profileSlice";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -37,9 +40,9 @@ const EditProfileForm = (props) => {
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-   await dispatch(updateProfile({token, formData }));
-   dispatch(getUserProfile(token));
-   props.isOpen(false);
+    await dispatch(updateProfile({ token, formData }));
+    dispatch(getUserProfile(token));
+    props.isOpen(false);
   };
 
   return (

@@ -6,9 +6,9 @@ import EditProfileForm from "@/components/EditProfileForm";
 
 const EditProfileModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const handleIsOpen = (e) =>{
+  const handleIsOpen = (e) => {
     setIsOpen(e);
-  }
+  };
 
   return (
     <>
