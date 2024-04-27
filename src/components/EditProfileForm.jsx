@@ -6,14 +6,14 @@ import { inputStyles } from "./Input";
 import { selectAuth } from "@/app/redux/features/profile/authSlice";
 import { twMerge } from "tailwind-merge";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile } from "@/app/redux/features/profile/profileSlice";
+import { getUserProfile, updateProfile } from "@/app/redux/features/profile/profileSlice";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 
-const EditProfileForm = () => {
-  const { userProfileData } = useSelector((state) => state.profile);
-
+const EditProfileForm = (props) => {
+  const { userProfileData, loading } = useSelector((state) => state.profile);
+  const { token } = useSelector(selectAuth);
   const [profileData, setProfileData] = useState({
     first_name: userProfileData.message?.first_name || "",
     last_name: userProfileData.message?.last_name || "",
@@ -21,7 +21,7 @@ const EditProfileForm = () => {
     bio: userProfileData.message?.bio || "",
     role: userProfileData.message?.role,
   });
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const newValue = files ? files[0] : value;
@@ -30,21 +30,22 @@ const EditProfileForm = () => {
       [name]: newValue,
     }));
   };
-
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
     localStorage.removeItem("userProfileData");
-    e.preventDefault();
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    window.location.reload();
+   await dispatch(updateProfile({token, formData }));
+   dispatch(getUserProfile(token));
+   props.isOpen(false);
   };
 
   return (
     <Form
       className="max-w-md mx-auto"
-      onSubmit={() => handleSubmit}
+      onSubmit={handleSubmit}
       encType="multipart/form-data"
     >
       <div className="space-y-10">
@@ -93,7 +94,7 @@ const EditProfileForm = () => {
           />
         </div>
         <Button type="submit" as="button">
-          Update
+          {loading ? "Updating ..." : "Update"}
         </Button>
       </div>
     </Form>

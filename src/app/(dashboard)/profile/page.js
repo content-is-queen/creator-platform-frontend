@@ -28,7 +28,7 @@ const Profile = () => {
       {userProfileData?.message?.role === "creator" ? (
         <ProfileTabs />
       ) : (
-        <ProfileOpportunities id={userProfileData?.message.uid} />
+        <ProfileOpportunities id={userProfileData?.message?.uid} />
       )}
     </>
   );
