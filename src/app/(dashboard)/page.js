@@ -17,14 +17,10 @@ const Dashboard = () => {
     }
   }, [user, router]);
 
-  const Component = user && user.role === "brand" ? ClientDashboard : CreatorDashboard;
+  const Component =
+    user && user.role === "brand" ? ClientDashboard : CreatorDashboard;
 
-  if (user)
-  return (
-    <main>
-      {user && <Component user={user} />}
-    </main>
-  );
+  if (user) return <main>{user && <Component user={user} />}</main>;
 
   return null;
 };

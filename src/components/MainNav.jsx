@@ -20,7 +20,7 @@ const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
   const dispatch = useDispatch();
-const router = useRouter();
+  const router = useRouter();
   const { user, logout } = useAuth();
   const pathname = usePathname();
   const { first_name, imageUrl } = user;

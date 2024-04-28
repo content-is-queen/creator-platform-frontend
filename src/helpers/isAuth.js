@@ -8,7 +8,7 @@ const isAuth = (token = Secure.getToken()) => {
     const now = new Date();
     if (now.getTime() > jwt.exp * 1000) {
       Secure.removeToken();
-     return false;
+      return false;
     }
     return jwtDecode(token);
   } catch (error) {

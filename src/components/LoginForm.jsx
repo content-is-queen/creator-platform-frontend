@@ -54,7 +54,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-      setLoading(true);
+    setLoading(true);
     try {
       const { user } = await doSignInWithEmailAndPassword(
         data.email,
