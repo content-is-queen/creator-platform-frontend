@@ -13,6 +13,7 @@ import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Secure from "@/utils/SecureLs";
+import { useState } from "react";
 
 const FIELDS = [
   {
@@ -42,6 +43,7 @@ const FIELDS = [
 ];
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
   const {
     handleSubmit,
     control,
@@ -52,6 +54,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
+      setLoading(true);
     try {
       const { user } = await doSignInWithEmailAndPassword(
         data.email,
@@ -72,6 +75,7 @@ const LoginForm = () => {
       );
       toast.error(errorMessageWithoutFirebase || "Failled try again");
     }
+    setLoading(false);
   };
 
   return (
@@ -93,7 +97,7 @@ const LoginForm = () => {
         </Text>
       </div>
       <Button as="button" type="submit" className="mt-8">
-        Sign in
+        {loading ? "Loading ..." : "Sign in"}
       </Button>
       <Text size="sm" className="mt-4">
         Don&apos;t have an account?{" "}
