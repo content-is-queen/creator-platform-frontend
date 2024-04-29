@@ -6,6 +6,10 @@ import EditProfileForm from "@/components/EditProfileForm";
 
 const EditProfileModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const handleIsOpen = (e) => {
+    setIsOpen(e);
+  };
+
   return (
     <>
       <Button
@@ -22,7 +26,7 @@ const EditProfileModal = () => {
         onClose={() => setIsOpen(false)}
         heading="Edit profile"
       >
-        <EditProfileForm />
+        <EditProfileForm isOpen={handleIsOpen} />
       </Modal>
     </>
   );
