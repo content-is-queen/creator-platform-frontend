@@ -35,7 +35,7 @@ const MainNav = () => {
 
   const handleSignOut = async () => {
     localStorage.removeItem("userProfileData");
-    await dispatch(userLogout());
+    dispatch(userLogout());
     logout();
   };
 

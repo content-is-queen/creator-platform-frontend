@@ -97,7 +97,7 @@ const LoginForm = () => {
         </Text>
       </div>
       <Button as="button" type="submit" className="mt-8">
-        {loading ? "Loading ..." : "Sign in"}
+        Sign in
       </Button>
       <Text size="sm" className="mt-4">
         Don&apos;t have an account?{" "}
