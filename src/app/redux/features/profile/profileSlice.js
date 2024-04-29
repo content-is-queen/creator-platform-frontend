@@ -21,7 +21,7 @@ export const updateProfile = createAsyncThunk(
         },
       });
 
-      const response = await FILEAPI.patch(`/auth/user`, formData);
+      const response = await FILEAPI.put(`/auth/user`, formData);
       const { message } = response?.data;
       toast.success(message || "Success!");
       return response.data;

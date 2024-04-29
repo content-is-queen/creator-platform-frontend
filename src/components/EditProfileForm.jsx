@@ -40,7 +40,7 @@ const EditProfileForm = (props) => {
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    await dispatch(updateProfile({ token, formData }));
+    dispatch(updateProfile({ token, formData }));
     dispatch(getUserProfile(token));
     props.isOpen(false);
   };
@@ -97,7 +97,7 @@ const EditProfileForm = (props) => {
           />
         </div>
         <Button type="submit" as="button">
-          {loading ? "Updating ..." : "Update"}
+          Update
         </Button>
       </div>
     </Form>
