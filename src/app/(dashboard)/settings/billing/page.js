@@ -3,13 +3,11 @@
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 
-const Password = () => {
+const Billing = () => {
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
-        <Form.Input name="old_password">Old Password</Form.Input>
-
-        <Form.Input name="password">Password</Form.Input>
+        <Form.Input name="payment_method">Payment Method</Form.Input>
 
         <Button type="submit" as="button">
           Save Changes
@@ -19,4 +17,4 @@ const Password = () => {
   );
 };
 
-export default Password;
+export default Billing;

@@ -8,7 +8,7 @@ import Text from "@/components/Text";
 
 const LINKS = [
   {
-    href: "/settings/general",
+    href: "/settings",
     label: "General",
   },
   {
@@ -19,6 +19,7 @@ const LINKS = [
     href: "/settings/password",
     label: "Password",
   },
+  { href: "/settings/billing", label: "Billing" },
 ];
 
 const Template = ({ children }) => {
@@ -28,28 +29,29 @@ const Template = ({ children }) => {
     <Container size="4xl">
       <div className="py-12 md:py-20">
         <div className="flex gap-12">
-          <div className="border-b border-queen-black/20 w-full max-w-40 pb-12">
-            <Text size="lg" className="font-subheading font-bold mb-2">
-              Settings
-            </Text>
-            <ul>
-              {/* {LINKS.map(() => (
-                <li>
-                  <Link href={li}></Link>
-                </li>
-              ))} */}
-              <li className="py-1 text-queen-black/80">
-                <Link href="/settings/general">General</Link>
-              </li>
-              <li className="py-1 text-queen-black/80">
-                <Link href="/settings/edit-profile">Edit Profile</Link>
-              </li>
-              <li className="py-1 text-queen-black/80">
-                <Link href="/settings/password">Password</Link>
-              </li>
-            </ul>
+          <div className="w-full max-w-40">
+            <div className="border-b border-queen-black/20 pb-4 mb-4">
+              <Text size="lg" className="font-subheading font-bold mb-2">
+                Settings
+              </Text>
+              <ul>
+                {LINKS.map(({ href, label }) => (
+                  <li key={href} className="py-1">
+                    <Link
+                      href={href}
+                      className={pathname != href && "opacity-70"}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <button type="button" className="text-red-600">
+              Delete account
+            </button>
           </div>
-          <div>{children}</div>
+          <div className="w-full">{children}</div>
         </div>
       </div>
     </Container>

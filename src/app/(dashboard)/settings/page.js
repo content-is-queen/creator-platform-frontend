@@ -1,9 +1,22 @@
-import Container from "@/components/Container";
-import Text from "@/components/Text";
-import Link from "next/link";
+"use client";
 
-const Settings = () => {
-  return <></>;
+import Form from "@/components/Form";
+import Button from "@/components/Button";
+
+const General = () => {
+  return (
+    <Form className="mx-auto">
+      <div className="space-y-10">
+        <Form.Input name="username">Username</Form.Input>
+
+        <Form.Input name="email">Email</Form.Input>
+
+        <Button type="submit" as="button">
+          Save Changes
+        </Button>
+      </div>
+    </Form>
+  );
 };
 
-export default Settings;
+export default General;

@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 import API from "@/api/api";
 
 import Button from "@/components/Button";
@@ -17,8 +21,16 @@ const getApplicationsByUserId = async (id) => {
   }
 };
 
-const CreatorDashboard = async ({ user: { user_id } }) => {
-  const applications = await getApplicationsByUserId(user_id);
+const CreatorDashboard = ({ user: { user_id } }) => {
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    if (user_id) {
+      (async () => {
+        setApplications(await getApplicationsByUserId(user_id));
+      })();
+    }
+  }, [user_id]);
 
   // Application stats
   const proposals = applications.length;
