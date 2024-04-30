@@ -7,6 +7,7 @@ import Secure from "@/utils/SecureLs";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const Input = ({ value, onChange }) => (
   <input
@@ -19,6 +20,8 @@ const Input = ({ value, onChange }) => (
 
 const Verify = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const parsedQuery = searchParams?.get("otp");
   const [userInfo, setUserInfo] = useState({});
   const [formData, setFormData] = useState({
     input1: "",
@@ -52,6 +55,21 @@ const Verify = () => {
     const data = Secure.get("userInfo");
     setUserInfo(data);
   }, []);
+
+  useEffect(() => {
+    // If otp has length of 5, update the form data with otp characters
+    if (typeof parsedQuery === "string" && parsedQuery?.length === 5) {
+      const otpCharacters = parsedQuery.split("");
+      setFormData((prevFormData) => {
+        const newFormData = { ...prevFormData };
+        otpCharacters.slice(0, 5).forEach((character, index) => {
+          newFormData[`input${index + 1}`] = character;
+        });
+        return newFormData;
+      });
+    }
+  }, []);
+
   return (
     <div className="text-center">
       <Heading size="3xl" className="mb-2">
@@ -61,26 +79,13 @@ const Verify = () => {
         We're sure you're you, but we still need to verify that.
       </p>
       <div className="flex gap-2 justify-center">
-        <Input
-          value={formData.input1}
-          onChange={(e) => handleChange(e, "input1")}
-        />
-        <Input
-          value={formData.input2}
-          onChange={(e) => handleChange(e, "input2")}
-        />
-        <Input
-          value={formData.input3}
-          onChange={(e) => handleChange(e, "input3")}
-        />
-        <Input
-          value={formData.input4}
-          onChange={(e) => handleChange(e, "input4")}
-        />
-        <Input
-          value={formData.input5}
-          onChange={(e) => handleChange(e, "input5")}
-        />
+        {[1, 2, 3, 4, 5].map((index) => (
+          <Input
+            key={index}
+            value={formData[`input${index}`]}
+            onChange={(e) => handleChange(e, `input${index}`)}
+          />
+        ))}
       </div>
       <Button type="button" onClick={handleSubmit} as="button" className="mt-8">
         Verify
