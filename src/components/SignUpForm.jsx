@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
-import Input from "@/components/Input";
+import AuthInput from "@/components/AuthInput";
 import Tabs from "@/components/Tabs";
 import API from "@/api/api";
 import Secure from "@/utils/SecureLs";
@@ -135,7 +135,7 @@ const SignUpForm = () => {
 
       <div className="space-y-6">
         {active.fields.map(({ children, name, ...otherProps }) => (
-          <Input
+          <AuthInput
             key={name}
             name={name}
             control={control}
@@ -143,7 +143,7 @@ const SignUpForm = () => {
             {...otherProps}
           >
             {children}
-          </Input>
+          </AuthInput>
         ))}
       </div>
 
