@@ -65,7 +65,7 @@ const Textarea = ({ name, children, ...otherProps }) => (
   </div>
 );
 
-const Input = ({ name, type, children, ...otherProps }) => (
+const Input = ({ name, type = "text", children, ...otherProps }) => (
   <div>
     <label className="uppercase" for={name}>
       {children}
@@ -106,8 +106,6 @@ const Form = forwardRef(function Form(
   );
 });
 
-export default Form;
-
 Form.Input = Input;
 
 Form.Textarea = Textarea;
@@ -115,3 +113,5 @@ Form.Textarea = Textarea;
 Form.Checkbox = Checkbox;
 
 Form.Select = Select;
+
+export default Form;

@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 import Section from "@/components/Section";
 import Text from "@/components/Text";
 import Card from "@/components/Card";
@@ -6,8 +10,17 @@ import Button from "@/components/Button";
 
 import { getOpportunitiesByUserId } from "@/helpers/getServerComponentData";
 
-const ProfileOpportunities = async ({ id }) => {
-  const opportunities = await getOpportunitiesByUserId(id);
+const ProfileOpportunities = ({ id }) => {
+  const [opportunities, setOpportunities] = useState([]);
+
+  useEffect(() => {
+    if (id) {
+      (async () => {
+        setOpportunities(await getOpportunitiesByUserId(id));
+      })();
+    }
+  }, [id]);
+
   return (
     <Section size="4xl">
       <Text size="xl" className="mb-8">

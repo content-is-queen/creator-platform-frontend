@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { inputStyles } from "@/components/Form";
+import { useState } from "react";
 
 import { selectAuth } from "@/app/redux/features/profile/authSlice";
-import { twMerge } from "tailwind-merge";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserProfile,
