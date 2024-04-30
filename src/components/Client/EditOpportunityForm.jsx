@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
-import { inputStyles } from "@/components/Input";
+import { inputStyles } from "@/components/Form";
 
 import opportunityData from "@/data/opportunity_data.json";
 
@@ -53,7 +53,9 @@ const EditOpportunityForm = (props) => {
           if (as === "select") {
             return (
               <div key={name}>
-                <label for={name}>{children}</label>
+                <label className="uppercase" for={name}>
+                  {children}
+                </label>
                 <select
                   className="w-full border-b"
                   name={name}
@@ -78,24 +80,22 @@ const EditOpportunityForm = (props) => {
 
           if (as === "textarea") {
             return (
-              <div key={name}>
-                <label for={name}>{children}</label>
-                <textarea
-                  name={name}
-                  rows={6}
-                  className={twMerge(inputStyles.input)}
-                  value={updatedFields[name] || value}
-                  onChange={(e) => changeHandler(name, e.target.value)}
-                  required
-                />
-              </div>
+              <Form.Textarea
+                key={name}
+                name={name}
+                value={updatedFields[name] || value}
+                onChange={(e) => changeHandler(name, e.target.value)}
+                required
+              >
+                {children}
+              </Form.Textarea>
             );
           }
 
           if (type === "checkbox") {
             return (
               <div key={name}>
-                <Text className="mb-4">{children}</Text>
+                <Text className="uppercase mb-4">{children}</Text>
                 <div className="space-y">
                   {options.map((option) => {
                     const selectedFields =
@@ -150,17 +150,15 @@ const EditOpportunityForm = (props) => {
             );
           }
           return (
-            <div key={name}>
-              <label for={name}>{children}</label>
-              <input
-                type={type}
-                className="py-3 placeholder:text-queen-black/40 block px-0 w-full text-queen-black bg-transparent border-0 border-b border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
-                name={name}
-                id={name}
-                value={updatedFields[name] || value}
-                onChange={(e) => changeHandler(name, e.target.value)}
-              />
-            </div>
+            <Form.Input
+              key={name}
+              name={name}
+              type={type}
+              value={updatedFields[name] || value}
+              onChange={(e) => changeHandler(name, e.target.value)}
+            >
+              {children}
+            </Form.Input>
           );
         })}
       </div>

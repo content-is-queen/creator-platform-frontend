@@ -6,7 +6,7 @@ import debounce from "debounce";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { inputStyles } from "@/components/Input";
+import { inputStyles } from "@/components/Form";
 
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";

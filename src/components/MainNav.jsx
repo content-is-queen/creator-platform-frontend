@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useLayoutEffect } from "react";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+
+import { useDispatch } from "react-redux";
+import { userLogout } from "@/app/redux/features/profile/authSlice";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
@@ -13,10 +15,6 @@ import useAuth from "@/hooks/useAuth";
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
-import isAuth from "@/helpers/isAuth";
-import { useDispatch } from "react-redux";
-import { userLogout } from "@/app/redux/features/profile/authSlice";
-import Secure from "@/utils/SecureLs";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -25,7 +23,6 @@ const MainNav = () => {
 
   const { user, logout } = useAuth();
   const pathname = usePathname();
-  const { first_name, imageUrl } = user;
 
   const handleIsUserClicked = () => {
     setIsUserClicked((prev) => !prev);
@@ -37,7 +34,7 @@ const MainNav = () => {
 
   const handleSignOut = async () => {
     localStorage.removeItem("userProfileData");
-    await dispatch(userLogout());
+    dispatch(userLogout());
     logout();
   };
 

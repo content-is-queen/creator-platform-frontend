@@ -3,12 +3,9 @@
 import API from "@/api/api";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
 
-import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
-import { inputStyles } from "@/components/Input";
 
 import data from "@/data/opportunity_data.json";
 
@@ -82,79 +79,31 @@ const CreateOpportunityForm = ({ type }) => {
         {fields.map(({ children, as, type, name, options }) => {
           if (as === "select") {
             return (
-              <div key={name}>
-                <label className="uppercase" for={name}>
-                  {children}
-                </label>
-                <select
-                  className="w-full border-b-[1.5px]"
-                  name={name}
-                  id={name}
-                >
-                  <option value="" selected disabled>
-                    Select
-                  </option>
-                  {options.map((option, index) => (
-                    <option key={`${option}-${index}`}>{option}</option>
-                  ))}
-                </select>
-              </div>
+              <Form.Select key={name} name={name} options={options}>
+                {children}
+              </Form.Select>
             );
           }
 
           if (as === "textarea") {
             return (
-              <div key={name}>
-                <label className="uppercase" for={name}>
-                  {children}
-                </label>
-                <textarea
-                  name={name}
-                  className={twMerge(inputStyles.input)}
-                  rows={4}
-                  required
-                />
-              </div>
+              <Form.Textarea key={name} name={name}>
+                {children}
+              </Form.Textarea>
             );
           }
 
           if (type === "checkbox") {
             return (
-              <div key={name}>
-                <Text className="mb-4 uppercase">{children}</Text>
-                <div className="space-y">
-                  {options.map((option) => (
-                    <div
-                      className="inline-flex items-center gap-3 w-full"
-                      key={option}
-                    >
-                      <input
-                        type={type}
-                        className={twMerge(inputStyles.input, "p-1")}
-                        name={option}
-                        id={option}
-                      />
-                      <label for={name} className="text-sm">
-                        {option}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <Form.Checkbox key={name} name={name} options={options}>
+                {children}
+              </Form.Checkbox>
             );
           }
           return (
-            <div key={name}>
-              <label className="uppercase" for={name}>
-                {children}
-              </label>
-              <input
-                type={type}
-                className="py-3 placeholder:text-queen-black/40 block px-0 w-full text-queen-black bg-transparent border-0 border-b border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer"
-                name={name}
-                id={name}
-              />
-            </div>
+            <Form.Input key={name} name={name} type={type}>
+              {children}
+            </Form.Input>
           );
         })}
       </div>
