@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { inputStyles } from "./Input";
+import { inputStyles } from "@/components/Form";
 
 import { selectAuth } from "@/app/redux/features/profile/authSlice";
 import { twMerge } from "tailwind-merge";
@@ -52,50 +52,34 @@ const EditProfileForm = (props) => {
       encType="multipart/form-data"
     >
       <div className="space-y-10">
-        <div className="relative z-0 w-full group">
-          <label for="displayName">First name</label>
-          <input
-            type="text"
-            name="first_name"
-            id="first_name"
-            value={profileData?.first_name}
-            onChange={handleChange}
-            className={twMerge(inputStyles.input, "p-1")}
-          />
-        </div>
-        <div className="relative z-0 w-full group">
-          <label for="displayName">Last name</label>
-          <input
-            type="text"
-            name="last_name"
-            id="last_name"
-            value={profileData?.last_name}
-            onChange={handleChange}
-            className={twMerge(inputStyles.input, "p-1")}
-          />
-        </div>
-        <div className="relative z-0 w-full group">
-          <label for="profilePicture">Profile picture</label>
-          <input
-            type="file"
-            id="profilePicture"
-            name="profilePicture"
-            onChange={handleChange}
-            className={twMerge(inputStyles.input, "p-1")}
-          />
-        </div>
+        <Form.Input
+          name="first_name"
+          value={profileData?.first_name}
+          onChange={handleChange}
+        >
+          First Name
+        </Form.Input>
 
-        <div className="relative z-0 w-full group">
-          <label for="bio">Bio</label>
-          <textarea
-            onChange={handleChange}
-            className={inputStyles.input}
-            id="bio"
-            name="bio"
-            rows={5}
-            value={profileData?.bio}
-          />
-        </div>
+        <Form.Input
+          name="last_name"
+          value={profileData?.last_name}
+          onChange={handleChange}
+        >
+          Last Name
+        </Form.Input>
+
+        <Form.Input name="profilePicture" type="file" onChange={handleChange}>
+          Profile Picture
+        </Form.Input>
+
+        <Form.Input
+          name="bio"
+          value={profileData?.bio}
+          onChange={handleChange}
+          rows={5}
+        >
+          Bio
+        </Form.Input>
         <Button type="submit" as="button">
           Update
         </Button>

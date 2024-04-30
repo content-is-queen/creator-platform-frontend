@@ -10,7 +10,7 @@ import useAuth from "@/hooks/useAuth";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
-import { inputStyles } from "@/components/Input";
+import { inputStyles } from "@/components/Form";
 
 const ProposalForm = ({ opportunityId }) => {
   const {
@@ -55,19 +55,15 @@ const ProposalForm = ({ opportunityId }) => {
           setErrors={setErrors}
           handleSubmit={() => handleSubmit(opportunityId, user_id)}
         >
-          <div className="space-y-10">
-            <label for="proposal" className="uppercase">
-              Tell us your plan of action
-            </label>
-            <textarea
-              onChange={(e) => setProposal(e.target.value)}
-              name="proposal"
-              className={twMerge(inputStyles.input)}
-              rows={10}
-              minlength="5"
-              required
-            />
-          </div>
+          <Form.Textarea
+            name="proposal"
+            onChange={(e) => setProposal(e.target.value)}
+            rows={10}
+            minlength="5"
+            required
+          >
+            Tell us your plan of action
+          </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
             Submit
