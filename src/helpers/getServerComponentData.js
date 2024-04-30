@@ -9,8 +9,8 @@ export const getOpportunitiesByUserId = async (id) => {
   }
 
   try {
-    const response = await API.get(`/opportunities/id/${id}`);
-    return response.data;
+    const res = await API.get(`/opportunities/id/${id}`);
+    return res.data.filter((i) => i.status != "archived");
   } catch (e) {
     console.error(e);
   }
