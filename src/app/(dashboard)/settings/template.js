@@ -8,7 +8,7 @@ import Text from "@/components/Text";
 
 const LINKS = [
   {
-    href: "/settings/general",
+    href: "/settings",
     label: "General",
   },
   {
@@ -39,7 +39,7 @@ const Template = ({ children }) => {
                 </li>
               ))} */}
               <li className="py-1 text-queen-black/80">
-                <Link href="/settings/general">General</Link>
+                <Link href="/settings">General</Link>
               </li>
               <li className="py-1 text-queen-black/80">
                 <Link href="/settings/edit-profile">Edit Profile</Link>
