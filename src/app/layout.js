@@ -1,10 +1,9 @@
 import "../styles/globals.css";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "react-tailwindcss-select/dist/index.css";
-import { Provider } from "./redux/provider";
 
 import localFont from "next/font/local";
+
+import AppLayout from "@/components/AppLayout";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
@@ -34,8 +33,7 @@ export default function RootLayout({ children }) {
       <meta name="theme-color" content="#ffffff" />
 
       <body>
-        <Provider>{children}</Provider>
-        <ToastContainer />
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   );

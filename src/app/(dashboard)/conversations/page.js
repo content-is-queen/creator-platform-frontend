@@ -14,7 +14,7 @@ import Chat from "@/components/Chat";
 import Container from "@/components/Container";
 import API from "@/api/api";
 import { toast } from "react-toastify";
-import { db } from "@/firebase/firebase";
+import { db } from "@/firebase";
 import isAuth from "@/helpers/isAuth";
 import Text from "@/components/Text";
 

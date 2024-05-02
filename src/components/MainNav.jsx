@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import { redirect, usePathname } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
-
-import { useDispatch } from "react-redux";
-import { userLogout } from "@/app/redux/features/profile/authSlice";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
@@ -19,9 +16,9 @@ import SubMenu from "@/components/SubMenu";
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
-  const dispatch = useDispatch();
 
   const { user, logout } = useAuth();
+
   const pathname = usePathname();
 
   const handleIsUserClicked = () => {
@@ -33,8 +30,6 @@ const MainNav = () => {
   };
 
   const handleSignOut = async () => {
-    localStorage.removeItem("userProfileData");
-    dispatch(userLogout());
     logout();
   };
 
@@ -83,7 +78,7 @@ const MainNav = () => {
             id="navbar-user"
           >
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0">
-              {LINKS[user.role]?.map(({ href, label }) => (
+              {/* {LINKS[user.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
@@ -93,7 +88,7 @@ const MainNav = () => {
                 >
                   <Link href={href}>{label}</Link>
                 </li>
-              ))}
+              ))} */}
               <li>
                 <button
                   type="button"

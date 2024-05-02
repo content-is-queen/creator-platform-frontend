@@ -1,7 +1,3 @@
-"use client";
-
-import { useState, useEffect } from "react";
-
 import API from "@/api/api";
 
 import Button from "@/components/Button";
@@ -11,26 +7,25 @@ import StatsPanel from "@/components/StatsPanel";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
-
-const getApplicationsByUserId = async (id) => {
-  try {
-    const res = await API.get("/applications");
-    return res.data.message.filter((i) => i.user_id === id);
-  } catch (error) {
-    throw new Error("Something went wrong when trying to get the applications");
-  }
-};
+import { useEffect, useState } from "react";
 
 const CreatorDashboard = ({ user: { user_id } }) => {
   const [applications, setApplications] = useState([]);
 
-  useEffect(() => {
-    if (user_id) {
-      (async () => {
-        setApplications(await getApplicationsByUserId(user_id));
-      })();
+  const getApplicationsByUserId = async (id) => {
+    try {
+      const res = await API.get("/applications");
+      setApplications(res.data.message.filter((i) => i.user_id === id));
+    } catch (error) {
+      throw new Error(
+        "Something went wrong when trying to get the applications"
+      );
     }
-  }, [user_id]);
+  };
+
+  useEffect(() => {
+    (async () => await getApplicationsByUserId(user_id))();
+  }, []);
 
   // Application stats
   const proposals = applications.length;

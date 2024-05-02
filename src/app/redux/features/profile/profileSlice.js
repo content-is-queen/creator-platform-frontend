@@ -1,7 +1,7 @@
 "use client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import Keys from "@/utils/keys";
+import config from "@/utils/config";
 import axios from "axios";
 
 // Helper function to save user profile data in local storage
@@ -14,7 +14,7 @@ export const updateProfile = createAsyncThunk(
   async ({ token, formData }) => {
     try {
       const FILEAPI = axios.create({
-        baseURL: Keys.DEFAULT_API,
+        baseURL: config.DEFAULT_API,
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ export const getUserProfile = createAsyncThunk("getProfile", async (token) => {
     if (userProfileDataFromStorage) {
       return JSON.parse(userProfileDataFromStorage);
     } else {
-      const response = await axios.get(`${Keys.DEFAULT_API}/auth/user`, {
+      const response = await axios.get(`${config.DEFAULT_API}/auth/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

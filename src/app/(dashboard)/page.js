@@ -11,15 +11,16 @@ const Dashboard = () => {
 
   useEffect(() => {}, [user]);
 
-  const Component = user.role === "brand" ? ClientDashboard : CreatorDashboard;
+  if (user) {
+    const Component =
+      user.role === "brand" ? ClientDashboard : CreatorDashboard;
 
-  if (user)
     return (
       <main>
         <Component user={user} />
       </main>
     );
-
+  }
   return null;
 };
 
