@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +24,7 @@ const SignUpForm = () => {
   } = useForm();
 
   const { signup } = useAuth();
+  const router = useRouter();
 
   const OPTIONS = [
     {
@@ -113,6 +115,7 @@ const SignUpForm = () => {
 
   const onSubmit = async (data, role) => {
     signup(data, role);
+    router.push("/verify");
   };
 
   return (

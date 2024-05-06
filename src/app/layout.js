@@ -1,9 +1,9 @@
 import "../styles/globals.css";
 import "react-tailwindcss-select/dist/index.css";
 
-import localFont from "next/font/local";
+import Providers from "@/components/Providers";
 
-import AppLayout from "@/components/AppLayout";
+import localFont from "next/font/local";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
       <meta name="theme-color" content="#ffffff" />
 
       <body>
-        <AppLayout>{children}</AppLayout>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

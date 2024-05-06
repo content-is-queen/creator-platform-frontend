@@ -1,23 +1,27 @@
 "use client";
 
-import { useState, useLayoutEffect, useEffect } from "react";
-import { redirect, usePathname } from "next/navigation";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
-import useAuth from "@/hooks/useAuth";
-
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
+
+import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
 
-  const { user, logout } = useAuth();
+  const router = useRouter();
+  const { logout } = useAuth();
+  const { user } = useUser();
 
   const pathname = usePathname();
 
@@ -31,13 +35,8 @@ const MainNav = () => {
 
   const handleSignOut = async () => {
     logout();
+    router.push("/login");
   };
-
-  useLayoutEffect(() => {
-    if (!user) {
-      redirect("/login");
-    }
-  }, []);
 
   const LINKS = {
     creator: [
@@ -78,7 +77,7 @@ const MainNav = () => {
             id="navbar-user"
           >
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0">
-              {/* {LINKS[user.role]?.map(({ href, label }) => (
+              {LINKS[user?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
@@ -88,7 +87,7 @@ const MainNav = () => {
                 >
                   <Link href={href}>{label}</Link>
                 </li>
-              ))} */}
+              ))}
               <li>
                 <button
                   type="button"

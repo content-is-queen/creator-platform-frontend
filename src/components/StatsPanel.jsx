@@ -14,16 +14,29 @@ const Stat = ({ value, label }) => (
   </div>
 );
 
-const StatsPanel = ({ stats }) => (
-  <div className="mx-auto w-72 flex items-center justify-center max-w-full">
-    {stats.map((stat) => (
-      <Stat
-        key={stat.name}
-        label={LABELS.find((i) => i.name === stat.name).label}
-        value={stat.value}
-      />
-    ))}
-  </div>
-);
+const StatsPanel = ({ applications }) => {
+  const proposals = applications.length;
+  const inProgress = applications.filter((i) => i.status === "accepted").length;
+  const inReview = applications.filter((i) => i.status === "pending").length;
+
+  const STATS = [
+    { name: "proposals", value: proposals },
+    { name: "in_review", value: inReview },
+    { name: "in_progress", value: inProgress },
+    { name: "completed", value: 0 },
+  ];
+
+  return (
+    <div className="mx-auto w-72 flex items-center justify-center max-w-full">
+      {STATS.map((stat) => (
+        <Stat
+          key={stat.name}
+          label={LABELS.find((i) => i.name === stat.name).label}
+          value={stat.value}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default StatsPanel;

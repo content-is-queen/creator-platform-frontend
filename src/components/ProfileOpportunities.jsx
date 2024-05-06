@@ -10,16 +10,14 @@ import Button from "@/components/Button";
 
 import { getOpportunitiesByUserId } from "@/helpers/getServerComponentData";
 
-const ProfileOpportunities = ({ id }) => {
+const ProfileOpportunities = ({ uid }) => {
   const [opportunities, setOpportunities] = useState([]);
 
   useEffect(() => {
-    if (id) {
-      (async () => {
-        setOpportunities(await getOpportunitiesByUserId(id));
-      })();
-    }
-  }, [id]);
+    (async () => {
+      setOpportunities(await getOpportunitiesByUserId(uid));
+    })();
+  }, [uid]);
 
   return (
     <Section size="4xl">

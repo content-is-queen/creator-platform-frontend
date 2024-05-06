@@ -2,20 +2,16 @@
 
 import API from "@/api/api";
 
-import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 
-import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
-import { inputStyles } from "@/components/Form";
 
 const ProposalForm = ({ opportunityId }) => {
-  const {
-    user: { user_id },
-  } = useAuth();
+  const { user } = useUser();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
@@ -24,7 +20,7 @@ const ProposalForm = ({ opportunityId }) => {
   const handleSubmit = async (opportunityId, userId) => {
     const postData = {
       opportunity_id: opportunityId,
-      user_id: userId,
+      user_id: user.uid,
       proposal: proposal,
     };
 
@@ -53,7 +49,7 @@ const ProposalForm = ({ opportunityId }) => {
         <Form
           errors={errors}
           setErrors={setErrors}
-          handleSubmit={() => handleSubmit(opportunityId, user_id)}
+          handleSubmit={() => handleSubmit(opportunityId, user.uid)}
         >
           <Form.Textarea
             name="proposal"

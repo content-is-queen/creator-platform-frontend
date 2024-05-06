@@ -11,28 +11,23 @@ import Text from "@/components/Text";
 import ProposalForm from "@/components/Creator/ProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
 
-import { getOpportunityById } from "@/helpers/getServerComponentData";
-
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test
   if (process.env.APP_ENV === "development") {
     return [];
   }
 
-  const res = await API.get(`/opportunities`);
+  const res = await API("/opportunities");
 
-  const {
-    data: { message },
-  } = res;
-
-  return message.map(({ opportunity_id }) => ({ id: opportunity_id }));
+  return res.message.map(({ opportunity_id }) => ({ id: opportunity_id }));
 }
 
 export const dynamicParams = false;
 
-export default async function Opportunity({ params: { id } }) {
-  const { title, description, company, type, compensation } =
-    await getOpportunityById(id);
+export default async function Opportunity({ params: { id: opportunity_id } }) {
+  const { title, description, company, type, compensation } = await API(
+    `/opportunities/opportunityid/${opportunity_id}`
+  );
 
   return (
     <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
@@ -57,7 +52,7 @@ export default async function Opportunity({ params: { id } }) {
 
           <div className="space-y-5 min-h-24">{description}</div>
 
-          <ProposalForm opportunityId={id} />
+          <ProposalForm opportunityId={opportunity_id} />
         </div>
       </Container>
     </div>

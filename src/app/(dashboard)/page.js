@@ -1,27 +1,16 @@
 "use client";
 
+import Dashboard from "@/components/Dashboard";
 import CreatorDashboard from "@/components/Creator/CreatorDashboard";
 import ClientDashboard from "@/components/Client/ClientDashboard";
 
-import useAuth from "@/hooks/useAuth";
-import { useEffect } from "react";
-
-const Dashboard = () => {
-  const { user } = useAuth();
-
-  useEffect(() => {}, [user]);
-
-  if (user) {
-    const Component =
-      user.role === "brand" ? ClientDashboard : CreatorDashboard;
-
-    return (
-      <main>
-        <Component user={user} />
-      </main>
-    );
-  }
-  return null;
+const Page = () => {
+  return (
+    <Dashboard>
+      <CreatorDashboard />
+      <ClientDashboard />
+    </Dashboard>
+  );
 };
 
-export default Dashboard;
+export default Page;

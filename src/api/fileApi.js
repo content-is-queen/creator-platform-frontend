@@ -1,5 +1,5 @@
 import axios from "axios";
-import config from "../utils/config";
+import config from "../config";
 import Secure from "../utils/SecureLs";
 
 const FILEAPI = axios.create({

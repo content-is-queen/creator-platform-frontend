@@ -1,20 +1,22 @@
 "use client";
 
 import { useLayoutEffect } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 
 import Dots from "@/components/Patterns/Dots";
 
 const AuthTemplate = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loaded, setLoaded } = useUser();
+  const router = useRouter();
 
   useLayoutEffect(() => {
-    if (user) {
-      redirect("/");
+    if (user?.first_name && loaded) {
+      router.push("/");
     }
-  }, [user]);
+    setLoaded(true);
+  }, [loaded, user]);
 
   return (
     <div className="grid min-h-screen md:grid-cols-2">

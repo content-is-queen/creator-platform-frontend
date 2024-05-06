@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
@@ -8,6 +9,7 @@ import Button from "@/components/Button";
 import AuthInput from "@/components/AuthInput";
 
 import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 
 const FIELDS = [
   {
@@ -43,11 +45,13 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
 
+  const router = useRouter();
   const { signin } = useAuth();
+  const { user } = useUser();
 
   const onSubmit = async (data) => {
     try {
-      signin(data.email, data.password);
+      await signin(data.email, data.password);
     } catch (error) {
       console.error(error);
     }

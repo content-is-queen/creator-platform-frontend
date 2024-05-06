@@ -2,15 +2,15 @@
 
 import API from "@/api/api";
 
-export const getOpportunitiesByUserId = async (id) => {
+export const getOpportunitiesByUserId = async (uid) => {
   // Prevent build failing during workflows build test
-  if (process.env.APP_ENV === "development") {
+  if (process.env.APP_ENV === "development" || !uid) {
     return [];
   }
 
   try {
-    const res = await API.get(`/opportunities/id/${id}`);
-    return res.data.filter((i) => i.status != "archived");
+    const res = await API(`/opportunities/id/${uid}`);
+    return res.filter((i) => i.status != "archived");
   } catch (e) {
     console.error(e);
   }
@@ -18,13 +18,13 @@ export const getOpportunitiesByUserId = async (id) => {
 
 export const getOpportunityById = async (id) => {
   // Prevent build failing during workflows build test
-  if (process.env.APP_ENV === "development") {
+  if (process.env.APP_ENV === "development" || !id) {
     return [];
   }
 
   try {
-    const res = await API.get(`/opportunities/opportunityid/${id}`);
-    return res.data;
+    const res = await API(`/opportunities/opportunityid/${id}`);
+    return res.message;
   } catch (error) {
     throw new Error("Something went wrong when getting the opportunity");
   }
@@ -37,8 +37,8 @@ export const getOpportunities = async () => {
   }
 
   try {
-    const res = await API.get("/opportunities");
-    return res.data.message;
+    const res = await API("/opportunities");
+    return res.message;
   } catch (error) {
     throw new Error("Something went wrong with getting opportunities");
   }
