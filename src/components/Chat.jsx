@@ -9,8 +9,7 @@ import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import Button from "./Button";
 import { useEffect, useState } from "react";
 import API from "@/api/api";
-import { db } from "@/firebase";
-import isAuth from "@/helpers/isAuth";
+import { db } from "@/firebase.config";
 
 const Message = ({ currentUser, children, profile }) => {
   return (
