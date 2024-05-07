@@ -25,9 +25,8 @@ export async function generateStaticParams() {
 export const dynamicParams = false;
 
 export default async function Opportunity({ params: { id: opportunity_id } }) {
-  const { title, description, company, type, compensation } = await API(
-    `/opportunities/opportunityid/${opportunity_id}`
-  );
+  const { title, description, company, type, compensation, user_id } =
+    await API(`/opportunities/opportunityid/${opportunity_id}`);
 
   return (
     <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
@@ -52,7 +51,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
 
           <div className="space-y-5 min-h-24">{description}</div>
 
-          <ProposalForm opportunityId={opportunity_id} />
+          <ProposalForm opportunityId={opportunity_id} clientId={user_id} />
         </div>
       </Container>
     </div>

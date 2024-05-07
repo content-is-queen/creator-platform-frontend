@@ -8,6 +8,7 @@ import Tabs from "@/components/Tabs";
 import Empty from "@/components/Empty";
 import CreateOpportunityModal from "@/components/Client/CreateOpportunityModal";
 import ClientOpportunityCard from "@/components/Client/ClientOpportunityCard";
+import Spinner from "@/components/Spinner";
 
 import { getOpportunitiesByUserId } from "@/utils";
 import { useUser } from "@/context/UserContext";
@@ -38,6 +39,7 @@ const ClientOpportunities = () => {
   const { user } = useUser();
 
   const [active, setActive] = useState(OPTIONS[0]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const swiperElRef = useRef(null);
 
@@ -50,10 +52,12 @@ const ClientOpportunities = () => {
   useEffect(() => {
     (async () => {
       setOpportunities(await getOpportunitiesByUserId(user.uid));
+      setIsLoading(false);
     })();
   }, []);
 
   // TODO: on change update swiper to start at the index of the first slide
+  if (isLoading) return <Spinner />;
 
   return (
     <>

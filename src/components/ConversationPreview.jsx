@@ -22,7 +22,7 @@ const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
 
   const fetchUserMessageList = async () => {
     try {
-      const response = await API.get("messages/users");
+      const response = await API("messages/users");
       setMessageList(response.data.message);
     } catch (error) {
       console.error("Error fetching user profile:", error);

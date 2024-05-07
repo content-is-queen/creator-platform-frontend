@@ -44,7 +44,7 @@ const Conversations = () => {
 
   const fetchUserUsersList = async () => {
     try {
-      const response = await API.get("messages/users");
+      const response = await API("messages/users");
       if (response && response.data && response.data.message) {
         const formattedOptions = response.data.message
           .filter((item) => item && item.firstName)

@@ -6,6 +6,7 @@ import Heading from "@/components/Heading";
 import StatsPanel from "@/components/StatsPanel";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
+import Spinner from "@/components/Spinner";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 
 import API from "@/api/api";
