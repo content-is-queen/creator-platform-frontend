@@ -1,7 +1,7 @@
 "use client";
 
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 import { useEffect, useRef, useState } from "react";
 
 import Button from "@/components/Button";
@@ -11,9 +11,7 @@ import data from "@/data/opportunity_data.json";
 
 const CreateOpportunityForm = ({ type }) => {
   const fields = data[type].fields;
-  const {
-    user: { user_id },
-  } = useAuth();
+  const { user } = useUser();
 
   const [errors, setErrors] = useState({});
   const form = useRef();
@@ -78,7 +76,7 @@ const CreateOpportunityForm = ({ type }) => {
       ref={form}
       errors={errors}
       setErrors={setErrors}
-      handleSubmit={() => handleSubmit(fields, user_id)}
+      handleSubmit={() => handleSubmit(fields, user.uid)}
     >
       <div className="space-y-10">
         {fields.map(({ children, as, type, name, options }) => {
