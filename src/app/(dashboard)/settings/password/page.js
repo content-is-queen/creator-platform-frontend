@@ -16,7 +16,7 @@ const Password = () => {
         </Form.Input>
 
         <Button type="submit" as="button">
-          Save Changes
+          Update Password
         </Button>
       </div>
     </Form>

@@ -1,4 +1,5 @@
 import plurise from "@/helpers/plurise";
+import clsx from "clsx";
 
 const Stat = ({ value, label }) => (
   <div className="bg-queen-white shadow-lg text-center rounded-full text-queen-black shrink-0 inline-flex w-1/2 pb-[50%] relative border-queen-blue border">
@@ -9,17 +10,10 @@ const Stat = ({ value, label }) => (
   </div>
 );
 
-const StatsPanel = ({ applications }) => {
+const StatsPanel = ({ applications, isLoading }) => {
   const proposals = applications.length;
   const inProgress = applications.filter((i) => i.status === "accepted").length;
   const inReview = applications.filter((i) => i.status === "pending").length;
-
-  const LABELS = [
-    { name: "proposals", label: "Proposals" },
-    { name: "in_review", label: "In Review" },
-    { name: "in_progress", label: "In Progress" },
-    { name: "completed", label: "Completed" },
-  ];
 
   const STATS = [
     {
@@ -33,7 +27,12 @@ const StatsPanel = ({ applications }) => {
   ];
 
   return (
-    <div className="mx-auto w-72 flex items-center justify-center max-w-full">
+    <div
+      className={clsx(
+        "mx-auto w-72 flex items-center justify-center max-w-full",
+        isLoading && "animate-pulse"
+      )}
+    >
       {STATS.map((stat) => {
         return <Stat key={stat.name} {...stat} />;
       })}

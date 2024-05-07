@@ -81,6 +81,7 @@ const MainNav = () => {
                 <li
                   key={href}
                   className={clsx(
+                    pathname !== href && "opacity-80",
                     pathname === href &&
                       "relative after:absolute after:h-[1px] after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1"
                   )}

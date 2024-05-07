@@ -6,20 +6,22 @@ import Heading from "@/components/Heading";
 import StatsPanel from "@/components/StatsPanel";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
-import Spinner from "@/components/Spinner";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
+import Spinner from "../Spinner";
 
 const CreatorDashboard = () => {
   const [applications, setApplications] = useState([]);
+  const [isLoading, setIsloading] = useState(true);
   const { user } = useUser();
 
   useEffect(() => {
     (async () => {
       const res = await API("/applications");
       setApplications(res.message.filter((i) => i.user_id === user.uid));
+      setIsloading(false);
     })();
   }, []);
 
@@ -31,24 +33,23 @@ const CreatorDashboard = () => {
       >
         <Container className="space-y-4 pb-20">
           <Heading className="text-queen-white mb-12">Overview</Heading>
-          <Suspense fallback={"Loading"}>
-            {applications && applications.length > 0 ? (
-              <StatsPanel applications={applications} />
-            ) : (
-              <div className="space-y-6 max-w-lg text-queen-white">
-                <p>
-                  It looks like you haven’t applied for any opportunities yet.
-                  Why don’t you check out the latest opportunities.
-                </p>
-                <Button variant="yellow" href="/opportunities">
-                  View opportunities
-                </Button>
-              </div>
-            )}
-          </Suspense>
+
+          <StatsPanel isLoading={isLoading} applications={applications} />
+
+          {!isLoading && applications.length < 1 && (
+            <div className="space-y-6 max-w-lg text-queen-white py-20">
+              <p>
+                It looks like you haven’t applied for any opportunities yet. Why
+                don’t you check out the latest opportunities.
+              </p>
+              <Button variant="yellow" href="/opportunities">
+                View opportunities
+              </Button>
+            </div>
+          )}
         </Container>
       </div>
-      <Suspense fallback={"Loading"}>
+      <Suspense fallback={<Spinner />}>
         {applications && applications.length > 0 && (
           <Section size="4xl">
             <Text size="xl" className="mb-8">

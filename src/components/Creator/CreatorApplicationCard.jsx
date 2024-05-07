@@ -1,3 +1,5 @@
+"use server";
+
 import API from "@/api/api";
 
 import Card from "@/components/Card";
@@ -7,23 +9,19 @@ import Tag from "@/components/Tag";
 import Heading from "../Heading";
 import ProfileIcon from "../ProfileIcon";
 
-// async function getOpportunityById(id) {
-//   try {
-//     const res = await API(`/opportunities/opportunityid/${id}`);
-//     const {
-//       data: { message },
-//     } = res;
-//     return message;
-//   } catch (error) {
-//     throw new Error("Something went wrong when getting the opportunity");
-//   }
-// }
+async function getOpportunityById(id) {
+  const response = await API(`/opportunities/opportunityid/${id}`);
+  return response;
+}
 const CreatorApplicationCard = async ({ status, opportunity_id }) => {
-  // const { title, type, deadline } = getOpportunityById(opportunity_id);
+  const { title } = await getOpportunityById(opportunity_id);
 
   return (
     <Card className="flex items-center justify-between">
-      <ProfileIcon />
+      <div className="flex gap-x-6 items-center">
+        <ProfileIcon />
+        {title}
+      </div>
 
       <Tag>{status}</Tag>
     </Card>
