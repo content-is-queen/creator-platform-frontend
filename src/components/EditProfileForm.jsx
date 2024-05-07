@@ -2,27 +2,21 @@
 
 import { useState } from "react";
 
-import { selectAuth } from "@/app/redux/features/profile/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getUserProfile,
-  updateProfile,
-} from "@/app/redux/features/profile/profileSlice";
-
 import Button from "@/components/Button";
 import Form from "@/components/Form";
+import { useUser } from "@/context/UserContext";
 
 const EditProfileForm = (props) => {
-  const { userProfileData, loading } = useSelector((state) => state.profile);
-  const { token } = useSelector(selectAuth);
+  const { user } = useUser();
+
   const [profileData, setProfileData] = useState({
-    first_name: userProfileData.message?.first_name || "",
-    last_name: userProfileData.message?.last_name || "",
-    profilePicture: userProfileData.message?.profilePicture || null,
-    bio: userProfileData.message?.bio || "",
-    role: userProfileData.message?.role,
+    first_name: user.first_name || "",
+    last_name: user.last_name || "",
+    profilePicture: user.profilePicture || null,
+    bio: user.bio || "",
+    role: user.role,
   });
-  const dispatch = useDispatch();
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const newValue = files ? files[0] : value;
@@ -31,6 +25,7 @@ const EditProfileForm = (props) => {
       [name]: newValue,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -38,8 +33,6 @@ const EditProfileForm = (props) => {
     Object.entries(profileData).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    dispatch(updateProfile({ token, formData }));
-    dispatch(getUserProfile(token));
     props.isOpen(false);
   };
 

@@ -7,11 +7,9 @@ import Heading from "../Heading";
 
 async function getUser(id) {
   try {
-    const res = await API.get(`/auth/user/${id}`);
+    const res = await API(`/auth/user/${id}`);
 
-    const {
-      data: { message },
-    } = res;
+    const { message } = res;
     return message;
   } catch (error) {
     throw new Error("Something went wrong when getting the user");

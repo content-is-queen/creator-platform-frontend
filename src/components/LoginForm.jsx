@@ -1,18 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import isAuth from "@/helpers/isAuth";
-import { doSignInWithEmailAndPassword } from "@/firebase/auth";
-import { useDispatch } from "react-redux";
-import { login } from "@/app/redux/features/profile/authSlice";
+import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInput from "@/components/AuthInput";
-import Secure from "@/utils/SecureLs";
+
+import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 
 const FIELDS = [
   {
@@ -49,28 +46,14 @@ const LoginForm = () => {
   } = useForm();
 
   const router = useRouter();
-  const dispatch = useDispatch();
+  const { signin } = useAuth();
+  const { user } = useUser();
 
   const onSubmit = async (data) => {
     try {
-      const { user } = await doSignInWithEmailAndPassword(
-        data.email,
-        data.password
-      );
-
-      const token = await user.getIdToken(/* forceRefresh */ true);
-      Secure.setToken(token);
-      const loggedUser = isAuth();
-      if (loggedUser) {
-        await dispatch(login({ loggedUser, token }));
-        router.push("/");
-      }
+      await signin(data.email, data.password);
     } catch (error) {
-      const errorMessageWithoutFirebase = error.message.replace(
-        /firebase: /i,
-        ""
-      );
-      toast.error(errorMessageWithoutFirebase || "Failled try again");
+      console.error(error);
     }
   };
 

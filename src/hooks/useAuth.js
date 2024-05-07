@@ -1,17 +1,36 @@
-import isAuth from "@/helpers/isAuth";
-import { useRouter } from "next/navigation";
-import { doSignOut } from "@/firebase/auth";
-import Secure from "@/utils/SecureLs";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase.config";
+import API from "@/api/api";
+import { useUser } from "@/context/UserContext";
+import { getUserProfile } from "@/context/UserContext";
 
 const useAuth = () => {
-  const router = useRouter();
-  const user = isAuth();
+  const { setUser } = useUser();
 
-  const login = async (user) => {
+  const signup = async (data, role) => {
     try {
-      const token = await user.getIdToken(/* forceRefresh */ true);
-      Secure.setToken(token);
-      router.push("/");
+      await API("/auth/signup", {
+        ...data,
+        role: role,
+      });
+    } catch (error) {
+      console.error("Sign up error:", error);
+    }
+  };
+
+  const signin = async (email, password) => {
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+
+      const userProfile = await getUserProfile();
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+
+      setUser({
+        email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        ...userProfile,
+      });
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -19,15 +38,16 @@ const useAuth = () => {
 
   const logout = async () => {
     try {
-      await doSignOut();
-      Secure.removeToken();
-      router.push("/login");
+      auth.signOut();
+      localStorage.removeItem("userProfile");
+
+      setUser(null);
     } catch (error) {
       console.error("Sign out error:", error);
     }
   };
 
-  return { user, logout, login };
+  return { logout, signin, signup, getUserProfile };
 };
 
 export default useAuth;

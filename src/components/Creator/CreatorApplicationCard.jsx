@@ -9,7 +9,7 @@ import ProfileIcon from "../ProfileIcon";
 
 // async function getOpportunityById(id) {
 //   try {
-//     const res = await API.get(`/opportunities/opportunityid/${id}`);
+//     const res = await API(`/opportunities/opportunityid/${id}`);
 //     const {
 //       data: { message },
 //     } = res;

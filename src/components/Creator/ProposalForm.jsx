@@ -2,46 +2,52 @@
 
 import API from "@/api/api";
 
-import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 
-import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
-import { inputStyles } from "@/components/Form";
 
 const ProposalForm = ({ opportunityId }) => {
-  const {
-    user: { user_id },
-  } = useAuth();
+  const { user } = useUser();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
   const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("");
 
-  const handleSubmit = async (opportunityId, userId) => {
+  const handleSubmit = async (opportunityId, clientId) => {
     const postData = {
       opportunity_id: opportunityId,
-      user_id: userId,
+      user_id: user.uid,
+      client_id: clientId,
       proposal: proposal,
     };
 
-    try {
-      await API.post("/applications", postData);
-      window.location.reload();
-    } catch ({
-      response: {
-        data: { message },
+    await API(
+      "/applications",
+      {
+        method: "POST",
       },
-    }) {
-      setErrors({
-        message: "Something went wrong...",
+      postData
+    )
+      .then((data) => {
+        setStatus("submitted");
+      })
+      .catch((err) => {
+        setErrors({
+          message: "Something went wrong...",
+        });
+
+        console.log("An error has occurred", err);
       });
-      console.error(message);
-    }
   };
+
+  if (status === "submitted" && Object.entries(errors).length < 1) {
+    return <>Thank you</>;
+  }
 
   return (
     <>
@@ -53,7 +59,7 @@ const ProposalForm = ({ opportunityId }) => {
         <Form
           errors={errors}
           setErrors={setErrors}
-          handleSubmit={() => handleSubmit(opportunityId, user_id)}
+          handleSubmit={() => handleSubmit(opportunityId, user.uid)}
         >
           <Form.Textarea
             name="proposal"
