@@ -2,7 +2,7 @@
 
 import ProfileTabs from "@/components/ProfileTabs";
 import ProfileHero from "@/components/ProfileHero";
-import EditProfileModal from "@/components/EditProfileModal";
+import Button from "@/components/Button";
 import ProfileOpportunities from "@/components/ProfileOpportunities";
 
 import { useUser } from "@/context/UserContext";
@@ -16,7 +16,9 @@ const Profile = () => {
   return (
     <>
       <ProfileHero user={user}>
-        <EditProfileModal />
+        <Button href="/settings/edit-profile" variant="yellow">
+          Edit Profile
+        </Button>
       </ProfileHero>
       {user?.role === "creator" ? (
         <ProfileTabs />

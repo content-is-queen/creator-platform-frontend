@@ -7,9 +7,13 @@ const Password = () => {
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
-        <Form.Input name="old_password">Old Password</Form.Input>
+        <Form.Input name="old_password" type="password">
+          Old Password
+        </Form.Input>
 
-        <Form.Input name="password">Password</Form.Input>
+        <Form.Input name="password" type="password">
+          Password
+        </Form.Input>
 
         <Button type="submit" as="button">
           Save Changes
