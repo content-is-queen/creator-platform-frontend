@@ -2,13 +2,11 @@
 
 import API from "@/api/api";
 import formatDate from "@/helpers/dateFormatter";
-import isAuth from "@/helpers/isAuth";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 const ConversationPreview = ({ active, setActive, index, data, getIds }) => {
   const [messageList, setMessageList] = useState([]);
-  const { user_id } = isAuth();
   const clickHandler = () => {
     getIds({
       sender: user_id,
