@@ -15,8 +15,6 @@ import Container from "@/components/Container";
 import API from "@/api/api";
 import { toast } from "react-toastify";
 import { db } from "@/firebase";
-import isAuth from "@/helpers/isAuth";
-import Text from "@/components/Text";
 
 const Empty = () => (
   <div
@@ -80,7 +78,6 @@ const Conversations = () => {
 
   const handleChange = async (data) => {
     setAnimal(data);
-    // const user_id = isAuth();
     try {
       if (data !== null) {
         const { value } = data;
@@ -89,7 +86,6 @@ const Conversations = () => {
           return;
         }
 
-        const user = isAuth();
         const senderDocPath = `users/${user.role}/users/${user.user_id}`;
         const senderDocRef = doc(db, senderDocPath);
         const senderDocSnapshot = await getDoc(senderDocRef);
@@ -151,7 +147,6 @@ const Conversations = () => {
   useEffect(() => {
     fetchUserUsersList();
     fetchLoomsList();
-    const { user_id } = isAuth();
     const unsubscribe = onSnapshot(collection(db, "rooms"), (snapshot) => {
       const updatedRoomsList = snapshot.docs
         .filter(
