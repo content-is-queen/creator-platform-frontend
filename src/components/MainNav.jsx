@@ -16,7 +16,7 @@ import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 
-const MainNav = () => {
+const MainNav = (userInfo) => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
   const dispatch = useDispatch();
@@ -118,7 +118,7 @@ const MainNav = () => {
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
                   data-dropdown-placement="bottom"
-                  photoUrl={user?.photoUrl}
+                  photoUrl={userInfo?.imageUrl}
                 >
                   <span className="sr-only">Open user menu</span>
                 </ProfileIcon>
