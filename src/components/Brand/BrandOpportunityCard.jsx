@@ -11,13 +11,13 @@ import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
 import SubMenu from "@/components/SubMenu";
-import ApplicationsModal from "@/components/Client/ApplicationsModal";
+import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
 import Spinner from "../Spinner";
 
-const ClientOpportunityCard = (props) => {
+const BrandOpportunityCard = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
@@ -127,4 +127,4 @@ const ClientOpportunityCard = (props) => {
   );
 };
 
-export default ClientOpportunityCard;
+export default BrandOpportunityCard;

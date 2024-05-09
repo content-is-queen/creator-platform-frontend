@@ -1,9 +1,9 @@
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
-import ClientOpportunities from "@/components/Client/ClientOpportunities";
-import CreateOpportunityModal from "@/components/Client/CreateOpportunityModal";
+import BrandOpportunities from "@/components/Brand/BrandOpportunities";
+import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
 
-const ClientDashboard = () => {
+const BrandDashboard = () => {
   return (
     <div className="h-full py-12 md:py-20">
       <Container>
@@ -11,12 +11,12 @@ const ClientDashboard = () => {
           <Heading>Projects</Heading>
           <CreateOpportunityModal />
         </div>
-        <ClientOpportunities />
+        <BrandOpportunities />
       </Container>
     </div>
   );
 };
 
-export default ClientDashboard;
+export default BrandDashboard;
 
-ClientDashboard.role = "brand";
+BrandDashboard.role = "brand";

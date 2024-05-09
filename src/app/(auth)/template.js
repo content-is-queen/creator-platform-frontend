@@ -20,10 +20,10 @@ const AuthTemplate = ({ children }) => {
 
   return (
     <div className="grid min-h-screen md:grid-cols-2">
-      <div className="bg-queen-blue flex items-center justify-center relative h-full overflow-hidden">
+      <div className="bg-queen-blue flex items-center justify-center relative h-full overflow-hidden py-10">
         <div className="h-20 md:h-auto flex justify-center items-center">
           <img
-            className="h-28 -translate-y-1/2 top-1/2 fixed md:h-auto"
+            className="h-28 relative z-10 md:-translate-y-1/2 md:top-1/2 md:fixed md:h-auto"
             src="/images/CiQ_Logo_Stacked.svg"
             alt="Content is queen"
           />

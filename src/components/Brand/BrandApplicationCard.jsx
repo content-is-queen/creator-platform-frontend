@@ -16,7 +16,7 @@ async function getUser(id) {
   }
 }
 
-const ClientApplicationCard = async ({
+const BrandApplicationCard = async ({
   setApplications,
   applications,
   application_id,
@@ -98,4 +98,4 @@ const ClientApplicationCard = async ({
   );
 };
 
-export default ClientApplicationCard;
+export default BrandApplicationCard;
