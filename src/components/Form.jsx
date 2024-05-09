@@ -81,7 +81,7 @@ const Input = ({ name, type = "text", children, ...otherProps }) => (
 );
 
 const Form = forwardRef(function Form(
-  { errors, setErrors, children, handleSubmit, ...otherProps },
+  { errors, setError, children, handleSubmit, ...otherProps },
   ref
 ) {
   return (
@@ -90,7 +90,7 @@ const Form = forwardRef(function Form(
         ref={ref}
         onSubmit={(e) => {
           e.preventDefault();
-          setErrors({});
+          setError({});
           handleSubmit();
         }}
         {...otherProps}
@@ -98,7 +98,7 @@ const Form = forwardRef(function Form(
         {children}
       </form>
       {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 mt-4 py-2 px-4">
+        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
           <p>{errors.message}</p>
         </div>
       )}

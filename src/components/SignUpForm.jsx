@@ -19,7 +19,7 @@ const SignUpForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors: inputErrors },
     clearErrors,
   } = useForm();
 
@@ -108,47 +108,64 @@ const SignUpForm = () => {
   ];
 
   const [active, setActive] = useState(OPTIONS[0]);
+  const [errors, setError] = useState({});
 
   useEffect(() => {
     clearErrors();
+    setError({});
   }, [active]);
 
   const onSubmit = async (data, role) => {
-    signup(data, role);
+    setError({});
+    const response = await signup(data, role);
+    if (response.status > 200) {
+      setError({
+        message: "Something went wrong. User sign up failed.",
+      });
+      return;
+    }
+
     router.push("/verify");
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-6">
-        <Tabs options={OPTIONS} active={active} setActive={setActive} />
-      </div>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-8">
+          <Tabs options={OPTIONS} active={active} setActive={setActive} />
+        </div>
 
-      <div className="space-y-6">
-        {active.fields.map(({ children, name, ...otherProps }) => (
-          <AuthInput
-            key={name}
-            name={name}
-            control={control}
-            errors={errors}
-            {...otherProps}
-          >
-            {children}
-          </AuthInput>
-        ))}
-      </div>
+        <div className="space-y-6">
+          {active.fields.map(({ children, name, ...otherProps }) => (
+            <AuthInput
+              key={name}
+              name={name}
+              control={control}
+              errors={inputErrors}
+              {...otherProps}
+            >
+              {children}
+            </AuthInput>
+          ))}
+        </div>
 
-      <Button as="button" type="submit" className="mt-8">
-        Create Account
-      </Button>
+        <Button as="button" type="submit" className="mt-8">
+          Create Account
+        </Button>
 
-      <Text size="sm" className="mt-4">
-        Already registered?{" "}
-        <Link href="/login" className="font-medium text-queen-blue">
-          Login
-        </Link>
-      </Text>
-    </form>
+        <Text size="sm" className="mt-4">
+          Already registered?{" "}
+          <Link href="/login" className="font-medium text-queen-blue">
+            Login
+          </Link>
+        </Text>
+      </form>
+      {errors?.message && (
+        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
+          <p>{errors.message}</p>
+        </div>
+      )}
+    </>
   );
 };
 
