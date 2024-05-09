@@ -15,7 +15,6 @@ export const getUserProfile = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-
     return response.message;
   } catch (error) {
     return error.response?.data;
