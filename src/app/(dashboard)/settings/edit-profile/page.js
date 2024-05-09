@@ -4,18 +4,20 @@ import { useEffect, useState } from "react";
 
 import API from "@/api/api";
 
-import { useUser } from "@/context/UserContext";
+import { getUserProfile, useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 const EditProfile = () => {
   const [errors, setError] = useState({});
-  const { user: userDefaults } = useUser();
-  const token = useToken();
+  const { user: userDefaults, setUser } = useUser();
+  const { token } = useToken();
+  const router = useRouter();
 
-  const [user, setUser] = useState({
+  const [user, setLocalUser] = useState({
     first_name: "",
     last_name: "",
     imageUrl: "",
@@ -25,14 +27,14 @@ const EditProfile = () => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const newValue = files ? files[0] : value;
-    setUser((prev) => ({
+    setLocalUser((prev) => ({
       ...prev,
       [name]: newValue,
     }));
   };
 
   useEffect(() => {
-    setUser({
+    setLocalUser({
       first_name: userDefaults?.first_name,
       last_name: userDefaults?.last_name,
       imageUrl: userDefaults?.imageUrl,
@@ -47,17 +49,32 @@ const EditProfile = () => {
     });
 
     try {
-      await API(
-        `/auth/user`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await API(`/auth/user`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        formData
-      );
+        body: formData,
+      });
+
+      if (res.status === 200) {
+        const userProfile = await getUserProfile();
+
+        if (!userProfile) {
+          setError({
+            message: "Something went wrong when updating your profile",
+          });
+          return;
+        }
+
+        localStorage.removeItem("userProfile");
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
+
+        setUser({ ...userDefaults, ...userProfile });
+        router.push("/profile");
+      } else {
+        setError(res.message);
+      }
     } catch (err) {
       console.error(err);
       setError(err.message);
