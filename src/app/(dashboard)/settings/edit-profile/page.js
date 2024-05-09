@@ -16,9 +16,8 @@ const EditProfile = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { user: userDefaults } = useUser();
-  const {token} = useToken();
+  const { token } = useToken();
   const router = useRouter();
-
 
   const [user, setUser] = useState({
     first_name: "",
@@ -51,33 +50,30 @@ const EditProfile = () => {
     Object.entries(user).forEach(([key, value]) => {
       formData.append(key, value);
     });
-// Log the data
-for (const [key, value] of formData.entries()) {
-  console.log(`${key}: ${value}`);
-}
-console.log(token);
+    // Log the data
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    console.log(token);
     try {
-     const res= await API(
-        `/auth/user`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-      if(res.status === 200){
+      const res = await API(`/auth/user`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      if (res.status === 200) {
         localStorage.removeItem("userProfile");
         await getUserProfile();
-        router.push('/profile');
-      }else{
+        router.push("/profile");
+      } else {
         setErrors(res.message);
       }
-      console.log(res,"res");
-    setLoading(false);
+      console.log(res, "res");
+      setLoading(false);
     } catch (err) {
-    setLoading(false);
+      setLoading(false);
       console.error(err);
       setErrors(err.message);
     }
@@ -121,7 +117,7 @@ console.log(token);
         </Form.Input>
 
         <Button type="submit" as="button">
-          {loading ? "Saving ...":"Save Changes"}
+          {loading ? "Saving ..." : "Save Changes"}
         </Button>
       </div>
     </Form>
