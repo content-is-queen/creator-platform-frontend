@@ -13,7 +13,7 @@ const CreateOpportunityForm = ({ type }) => {
   const fields = data[type].fields;
   const { user } = useUser();
 
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
   const form = useRef();
 
   useEffect(() => {}, [form]);
@@ -63,7 +63,7 @@ const CreateOpportunityForm = ({ type }) => {
         data: { message },
       },
     }) {
-      setErrors({
+      setError({
         message: "Something went wrong...",
       });
 
@@ -75,7 +75,7 @@ const CreateOpportunityForm = ({ type }) => {
     <Form
       ref={form}
       errors={errors}
-      setErrors={setErrors}
+      setError={setError}
       handleSubmit={() => handleSubmit(fields, user.uid)}
     >
       <div className="space-y-10">

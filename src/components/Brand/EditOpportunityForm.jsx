@@ -16,7 +16,7 @@ const EditOpportunityForm = (props) => {
   const data = opportunityData[type];
 
   const [updatedFields, setUpdatedFields] = useState({});
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
 
   const changeHandler = (fieldName, value) => {
     setUpdatedFields({ ...updatedFields, [fieldName]: value });
@@ -33,7 +33,7 @@ const EditOpportunityForm = (props) => {
         data: { message },
       },
     }) {
-      setErrors({
+      setError({
         message: "There was a problem updating your opportunity.",
       });
       console.error(message);
@@ -43,7 +43,7 @@ const EditOpportunityForm = (props) => {
   return (
     <Form
       errors={errors}
-      setErrors={setErrors}
+      setError={setError}
       handleSubmit={() => handleSubmit(updatedFields, opportunity_id)}
     >
       <div className="space-y-10">

@@ -11,7 +11,7 @@ import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const EditProfile = () => {
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
   const { user: userDefaults } = useUser();
   const token = useToken();
 
@@ -60,7 +60,7 @@ const EditProfile = () => {
       );
     } catch (err) {
       console.error(err);
-      setErrors(err.message);
+      setError(err.message);
     }
   };
 
@@ -68,7 +68,7 @@ const EditProfile = () => {
     <Form
       className="mx-auto"
       errors={errors}
-      setErrors={setErrors}
+      setError={setError}
       handleSubmit={handleSubmit}
     >
       <div className="space-y-10">

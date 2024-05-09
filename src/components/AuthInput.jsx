@@ -17,37 +17,38 @@ const AuthInput = ({
   errors,
   control,
   ...otherProps
-}) => {
-  return (
-    <div className="relative z-0 w-full group">
-      <Controller
-        name={name}
-        control={control}
-        defaultValue=""
-        rules={rules}
-        render={({ field }) => (
-          <>
-            <input
-              className={clsx(
-                twMerge(
-                  inputStyles.input,
-                  errors[name] ? "border-red-500" : "border-queen-black",
-                  className
-                )
-              )}
-              placeholder=""
-              id={name}
-              {...field}
-              {...otherProps}
-            />
-            <label htmlFor={name} className={inputStyles.label}>
-              {children}
-            </label>
-          </>
-        )}
-      />
-    </div>
-  );
-};
+}) => (
+  <div className="relative z-0 w-full group">
+    <Controller
+      name={name}
+      control={control}
+      defaultValue=""
+      rules={rules}
+      render={({ field }) => (
+        <>
+          <input
+            className={clsx(
+              twMerge(
+                inputStyles.input,
+                errors[name] ? "border-red-500" : "border-queen-black",
+                className
+              )
+            )}
+            placeholder=""
+            id={name}
+            {...field}
+            {...otherProps}
+          />
+          <label htmlFor={name} className={inputStyles.label}>
+            {children}
+          </label>
+          {errors[name] && (
+            <p className="text-sm text-red-500 mt-1">{errors[name].message}</p>
+          )}
+        </>
+      )}
+    />
+  </div>
+);
 
 export default AuthInput;
