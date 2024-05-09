@@ -6,8 +6,8 @@ import { register } from "swiper/element/bundle";
 
 import Tabs from "@/components/Tabs";
 import Empty from "@/components/Empty";
-import CreateOpportunityModal from "@/components/Client/CreateOpportunityModal";
-import ClientOpportunityCard from "@/components/Client/ClientOpportunityCard";
+import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
+import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
 import Spinner from "@/components/Spinner";
 
 import { getOpportunitiesByUserId } from "@/utils";
@@ -15,7 +15,7 @@ import { useUser } from "@/context/UserContext";
 
 register();
 
-const ClientOpportunities = () => {
+const BrandOpportunities = () => {
   const OPTIONS = [
     {
       label: "All",
@@ -39,7 +39,7 @@ const ClientOpportunities = () => {
   const { user } = useUser();
 
   const [active, setActive] = useState(OPTIONS[0]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setloading] = useState(true);
 
   const swiperElRef = useRef(null);
 
@@ -52,12 +52,12 @@ const ClientOpportunities = () => {
   useEffect(() => {
     (async () => {
       setOpportunities(await getOpportunitiesByUserId(user.uid));
-      setIsLoading(false);
+      setloading(false);
     })();
   }, []);
 
   // TODO: on change update swiper to start at the index of the first slide
-  if (isLoading) return <Spinner />;
+  if (loading) return <Spinner />;
 
   return (
     <>
@@ -74,7 +74,7 @@ const ClientOpportunities = () => {
             {opportunities.length > 0 &&
               opportunities.map((opportunity, index) => (
                 <swiper-slide key={index} class="m-1">
-                  <ClientOpportunityCard {...opportunity} />
+                  <BrandOpportunityCard {...opportunity} />
                 </swiper-slide>
               ))}
           </swiper-container>
@@ -88,4 +88,4 @@ const ClientOpportunities = () => {
   );
 };
 
-export default ClientOpportunities;
+export default BrandOpportunities;

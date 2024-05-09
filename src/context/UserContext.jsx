@@ -28,7 +28,6 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
-      console.log(user);
       if (user) {
         let userProfile;
 

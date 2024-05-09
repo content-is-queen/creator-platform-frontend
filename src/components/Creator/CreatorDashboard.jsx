@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
@@ -10,19 +10,26 @@ import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard"
 
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import Spinner from "../Spinner";
 
 const CreatorDashboard = () => {
   const [applications, setApplications] = useState([]);
-  const [isLoading, setIsloading] = useState(true);
+  const [loading, setloading] = useState(true);
+
   const { user } = useUser();
 
   useEffect(() => {
-    (async () => {
-      const res = await API("/applications");
-      setApplications(res.message.filter((i) => i.user_id === user.uid));
-      setIsloading(false);
-    })();
+    async function getOpportunities() {
+      try {
+        const response = await API("/applications");
+        setApplications(response.message.filter((i) => i.user_id === user.uid));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setloading(false);
+      }
+    }
+
+    getOpportunities();
   }, []);
 
   return (
@@ -34,10 +41,10 @@ const CreatorDashboard = () => {
         <Container className="space-y-4 pb-20">
           <Heading className="text-queen-white mb-12">Overview</Heading>
 
-          <StatsPanel isLoading={isLoading} applications={applications} />
+          <StatsPanel loading={loading} applications={applications} />
 
-          {!isLoading && applications.length < 1 && (
-            <div className="space-y-6 max-w-lg text-queen-white py-20">
+          {!loading && applications.length < 1 && (
+            <div className="space-y-6 max-w-lg text-queen-white pt-12 pb-20">
               <p>
                 It looks like you haven’t applied for any opportunities yet. Why
                 don’t you check out the latest opportunities.
@@ -49,24 +56,22 @@ const CreatorDashboard = () => {
           )}
         </Container>
       </div>
-      <Suspense fallback={<Spinner />}>
-        {applications && applications.length > 0 && (
-          <Section size="4xl">
-            <Text size="xl" className="mb-8">
-              Applications
-            </Text>
+      {applications && applications.length > 0 && (
+        <Section size="4xl">
+          <Text size="xl" className="mb-8">
+            Applications
+          </Text>
 
-            <div className="grid grid-cols-2 gap-4">
-              {applications.map((application) => (
-                <CreatorApplicationCard
-                  key={application.application_id}
-                  {...application}
-                />
-              ))}
-            </div>
-          </Section>
-        )}
-      </Suspense>
+          <div className="grid grid-cols-2 gap-4">
+            {applications.map((application) => (
+              <CreatorApplicationCard
+                key={application.application_id}
+                {...application}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
     </>
   );
 };

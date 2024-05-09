@@ -4,6 +4,7 @@ import ProfileIcon from "@/components/ProfileIcon";
 import Dots from "@/components/Patterns/Dots";
 import Container from "@/components/Container";
 import Tag from "@/components/Tag";
+import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 
 const ProfileHero = ({ user, children }) => {
   return (
@@ -15,10 +16,7 @@ const ProfileHero = ({ user, children }) => {
         <div className="max-w-96">
           <h1 className="font-heading uppercase text-2xl">
             {!user ? (
-              <div className="flex flex-col gap-2">
-                <div className="bg-queen-white animate-pulse h-2 w-40 rounded"></div>
-                <div className="bg-queen-white animate-pulse h-2 w-40 rounded"></div>
-              </div>
+              <LoadingPlaceholder />
             ) : (
               `${user?.first_name} ${user?.last_name}`
             )}

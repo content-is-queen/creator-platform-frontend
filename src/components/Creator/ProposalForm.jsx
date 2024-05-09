@@ -22,7 +22,7 @@ const ProposalForm = ({ opportunityId }) => {
     const postData = {
       opportunity_id: opportunityId,
       user_id: user.uid,
-      client_id: clientId,
+      brand_id: clientId,
       proposal: proposal,
     };
 
