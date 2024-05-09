@@ -15,6 +15,7 @@ export const getUserProfile = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
+
     return response.message;
   } catch (error) {
     return error.response?.data;
@@ -27,7 +28,6 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
-      console.log(user);
       if (user) {
         let userProfile;
 

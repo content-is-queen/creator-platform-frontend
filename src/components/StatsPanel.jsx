@@ -10,7 +10,7 @@ const Stat = ({ value, label }) => (
   </div>
 );
 
-const StatsPanel = ({ applications, isLoading }) => {
+const StatsPanel = ({ applications, loading }) => {
   const proposals = applications.length;
   const inProgress = applications.filter((i) => i.status === "accepted").length;
   const inReview = applications.filter((i) => i.status === "pending").length;
@@ -30,7 +30,7 @@ const StatsPanel = ({ applications, isLoading }) => {
     <div
       className={clsx(
         "mx-auto w-72 flex items-center justify-center max-w-full",
-        isLoading && "animate-pulse"
+        loading && "animate-pulse"
       )}
     >
       {STATS.map((stat) => {

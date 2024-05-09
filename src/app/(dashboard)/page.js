@@ -2,13 +2,13 @@
 
 import Dashboard from "@/components/Dashboard";
 import CreatorDashboard from "@/components/Creator/CreatorDashboard";
-import ClientDashboard from "@/components/Client/ClientDashboard";
+import BrandDashboard from "@/components/Brand/BrandDashboard";
 
 const Page = () => {
   return (
     <Dashboard>
       <CreatorDashboard />
-      <ClientDashboard />
+      <BrandDashboard />
     </Dashboard>
   );
 };

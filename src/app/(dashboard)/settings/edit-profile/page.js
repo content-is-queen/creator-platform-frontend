@@ -10,10 +10,9 @@ import useToken from "@/hooks/useToken";
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 
 const EditProfile = () => {
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
   const { user: userDefaults, setUser } = useUser();
   const { token } = useToken();
   const router = useRouter();
@@ -48,11 +47,7 @@ const EditProfile = () => {
     Object.entries(user).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    // Log the data
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-    console.log(token);
+
     try {
       const res = await API(`/auth/user`, {
         method: "PUT",
@@ -61,19 +56,28 @@ const EditProfile = () => {
         },
         body: formData,
       });
+
       if (res.status === 200) {
-        localStorage.removeItem("userProfile");
         const userProfile = await getUserProfile();
+
+        if (!userProfile) {
+          setError({
+            message: "Something went wrong when updating your profile",
+          });
+          return;
+        }
+
+        localStorage.removeItem("userProfile");
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
-        setUser(userProfile);
+
+        setUser({ ...userDefaults, ...userProfile });
         router.push("/profile");
       } else {
-        setErrors(res.message);
+        setError(res.message);
       }
-      console.log(res, "res");
     } catch (err) {
       console.error(err);
-      setErrors(err.message);
+      setError(err.message);
     }
   };
 
@@ -81,7 +85,7 @@ const EditProfile = () => {
     <Form
       className="mx-auto"
       errors={errors}
-      setErrors={setErrors}
+      setError={setError}
       handleSubmit={handleSubmit}
     >
       <div className="space-y-10">
@@ -115,7 +119,7 @@ const EditProfile = () => {
         </Form.Input>
 
         <Button type="submit" as="button">
-         Save Changes
+          Save Changes
         </Button>
       </div>
     </Form>

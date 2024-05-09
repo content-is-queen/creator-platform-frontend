@@ -9,10 +9,12 @@ const useAuth = () => {
 
   const signup = async (data, role) => {
     try {
-      await API("/auth/signup", {
+      const response = await API("/auth/signup", {
         ...data,
         role: role,
       });
+
+      return response;
     } catch (error) {
       console.error("Sign up error:", error);
     }

@@ -1,29 +1,45 @@
-"use server";
+import { useEffect, useState } from "react";
 
 import API from "@/api/api";
 
 import Card from "@/components/Card";
-import Text from "@/components/Text";
-import Button from "@/components/Button";
 import Tag from "@/components/Tag";
-import Heading from "../Heading";
-import ProfileIcon from "../ProfileIcon";
+import ProfileIcon from "@/components/ProfileIcon";
+import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 
-async function getOpportunityById(id) {
-  const response = await API(`/opportunities/opportunityid/${id}`);
-  return response;
-}
-const CreatorApplicationCard = async ({ status, opportunity_id }) => {
-  const { title } = await getOpportunityById(opportunity_id);
+const CreatorApplicationCard = ({ status, opportunity_id }) => {
+  const [opportunity, setOpportunity] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getOpportunityById(id) {
+      try {
+        const response = await API(`/opportunities/opportunityid/${id}`);
+        setOpportunity(response);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getOpportunityById(opportunity_id);
+  }, [opportunity_id]);
 
   return (
     <Card className="flex items-center justify-between">
-      <div className="flex gap-x-6 items-center">
-        <ProfileIcon />
-        {title}
-      </div>
+      {loading ? (
+        <LoadingPlaceholder />
+      ) : (
+        <>
+          <div className="flex gap-x-6 items-center">
+            <ProfileIcon />
+            {opportunity?.title}
+          </div>
 
-      <Tag>{status}</Tag>
+          <Tag>{status}</Tag>
+        </>
+      )}
     </Card>
   );
 };

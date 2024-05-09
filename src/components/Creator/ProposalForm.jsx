@@ -15,14 +15,14 @@ const ProposalForm = ({ opportunityId }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
   const [status, setStatus] = useState("");
 
   const handleSubmit = async (opportunityId, clientId) => {
     const postData = {
       opportunity_id: opportunityId,
       user_id: user.uid,
-      client_id: clientId,
+      brand_id: clientId,
       proposal: proposal,
     };
 
@@ -37,7 +37,7 @@ const ProposalForm = ({ opportunityId }) => {
         setStatus("submitted");
       })
       .catch((err) => {
-        setErrors({
+        setError({
           message: "Something went wrong...",
         });
 
@@ -58,7 +58,7 @@ const ProposalForm = ({ opportunityId }) => {
       <Modal open={isOpen} onClose={() => setIsOpen(false)} title="Apply">
         <Form
           errors={errors}
-          setErrors={setErrors}
+          setError={setError}
           handleSubmit={() => handleSubmit(opportunityId, user.uid)}
         >
           <Form.Textarea
