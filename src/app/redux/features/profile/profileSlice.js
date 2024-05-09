@@ -9,6 +9,7 @@ const saveUserProfileInLocalStorage = (data) => {
   localStorage.setItem("userProfileData", JSON.stringify(data));
 };
 
+
 export const updateProfile = createAsyncThunk(
   "editprofile",
   async ({ token, formData }) => {

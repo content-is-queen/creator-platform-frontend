@@ -1,46 +1,57 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "@/components/Search";
 import OpportunityCard from "@/components/OpportunityCard";
 
 const OpportunitiesSearch = ({ opportunities }) => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const loaderRef = useRef(null);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    setFilteredOpportunities(opportunities.slice(0, page * 10));
-  }, [opportunities, page]);
+    // Load initial opportunities
+    setFilteredOpportunities(opportunities);
+  }, [opportunities]);
 
+  // Function to load more opportunities
+  const loadMoreOpportunities = () => {
+    // Check if more opportunities can be loaded
+    if (!hasMore || loading) return;
+    setLoading(true);
+
+    // Simulated API call for fetching more opportunities
+    setTimeout(() => {
+      // Here, you can replace this with your actual API call to fetch more opportunities
+      const additionalOpportunities = []; // Replace this with your logic to fetch more opportunities
+      setFilteredOpportunities((prevOpportunities) => [
+        ...prevOpportunities,
+        ...additionalOpportunities,
+      ]);
+
+      // Set hasMore to false if there are no more opportunities
+      if (additionalOpportunities.length === 0) {
+        setHasMore(false);
+      }
+
+      setLoading(false);
+    }, 1000); // Simulated delay
+  };
+
+  // Function to handle scroll event
   const handleScroll = () => {
-    if (loaderRef.current && loaderRef.current.getBoundingClientRect().top < window.innerHeight) {
-      setPage((prevPage) => prevPage + 1);
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      loadMoreOpportunities();
     }
   };
 
+  // Attach scroll event listener when component mounts
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      // Simulated API call with setTimeout
-      setTimeout(() => {
-        setFilteredOpportunities((prevOpportunities) => [
-          ...prevOpportunities,
-          ...opportunities.slice((page - 1) * 10, page * 10),
-        ]);
-        setLoading(false);
-      }, 1000); // Adjust this timeout as needed
-    };
-
-    if (page > 1) {
-      fetchData();
-    }
-  }, [page]);
 
   return (
     <>
@@ -48,23 +59,24 @@ const OpportunitiesSearch = ({ opportunities }) => {
         opportunities={opportunities}
         setFilteredOpportunities={setFilteredOpportunities}
       />
+
       <div className="my-12 space-y-6">
         {filteredOpportunities.length > 0 ? (
-          <>
-            {filteredOpportunities.map((opportunity) => (
-              <div key={opportunity.opportunity_id}>
-                <OpportunityCard {...opportunity} />
-              </div>
-            ))}
-            {loading && (
-              <div className="text-center">
-                <div className="loader"></div>
-              </div>
-            )}
-            <div ref={loaderRef}></div>
-          </>
+          filteredOpportunities.map((opportunity) => (
+            <div key={opportunity.opportunity_id}>
+              <OpportunityCard {...opportunity} />
+            </div>
+          ))
         ) : (
           <div className="text-center">No opportunities found</div>
+        )}
+        {loading && (
+          <div className="text-center">
+            <div className="spinner"></div>
+          </div>
+        )}
+        {!loading && !hasMore && (
+          <div className="text-center">No more opportunities</div>
         )}
       </div>
     </>
