@@ -15,11 +15,11 @@ import { toast } from "react-toastify";
 const EditProfile = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { user: userDefaults } = useUser();
+  const { user: userDefaults, setUser } = useUser();
   const { token } = useToken();
   const router = useRouter();
 
-  const [user, setUser] = useState({
+  const [user, setLocalUser] = useState({
     first_name: "",
     last_name: "",
     imageUrl: "",
@@ -29,14 +29,14 @@ const EditProfile = () => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const newValue = files ? files[0] : value;
-    setUser((prev) => ({
+    setLocalUser((prev) => ({
       ...prev,
       [name]: newValue,
     }));
   };
 
   useEffect(() => {
-    setUser({
+    setLocalUser({
       first_name: userDefaults?.first_name,
       last_name: userDefaults?.last_name,
       imageUrl: userDefaults?.imageUrl,
@@ -65,7 +65,9 @@ const EditProfile = () => {
       });
       if (res.status === 200) {
         localStorage.removeItem("userProfile");
-        await getUserProfile();
+        const userProfile = await getUserProfile();
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
+        setUser(userProfile);
         router.push("/profile");
       } else {
         setErrors(res.message);
