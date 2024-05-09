@@ -41,7 +41,7 @@ export const UserProvider = ({ children }) => {
         setUser({
           email: user.email,
           displayName: user.displayName,
-          photoURL: user.photoURL,
+          imageUrl: user.imageUrl,
           ...userProfile,
         });
       } else {

@@ -30,7 +30,7 @@ const useAuth = () => {
       setUser({
         email,
         displayName: user.displayName,
-        photoURL: user.photoURL,
+        imageUrl: user.imageUrl,
         ...userProfile,
       });
     } catch (error) {

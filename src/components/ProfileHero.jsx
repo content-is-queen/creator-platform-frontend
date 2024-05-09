@@ -10,7 +10,7 @@ const ProfileHero = ({ user, children }) => {
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
       <Container size="4xl" className="space-y-4">
-        <ProfileIcon photoUrl={user?.imageUrl} className="h-20 w-20" />
+        <ProfileIcon imageUrl={user?.imageUrl} className="h-20 w-20" />
         {children}
 
         <div className="max-w-96">

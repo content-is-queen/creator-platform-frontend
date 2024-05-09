@@ -113,7 +113,7 @@ const MainNav = () => {
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
                   data-dropdown-placement="bottom"
-                  photoUrl={user?.photoUrl}
+                  imageUrl={user?.imageUrl}
                 >
                   <span className="sr-only">Open user menu</span>
                 </ProfileIcon>

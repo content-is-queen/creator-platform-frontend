@@ -73,11 +73,11 @@ const EditProfile = () => {
         setUser({ ...userDefaults, ...userProfile });
         router.push("/profile");
       } else {
-        setError(res.message);
+        setError({ message: res.message });
       }
     } catch (err) {
       console.error(err);
-      setError(err.message);
+      setError({ message: err.message });
     }
   };
 
