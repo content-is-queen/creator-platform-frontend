@@ -7,13 +7,15 @@ import { getUserProfile } from "@/context/UserContext";
 const useAuth = () => {
   const { setUser } = useUser();
 
-  const signup = async (data, role) => {
+  const signup = async (data, id) => {
     try {
       const response = await API("/auth/signup", {
-        ...data,
-        role: role,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data, role: id }),
       });
-
       return response;
     } catch (error) {
       console.error("Sign up error:", error);
