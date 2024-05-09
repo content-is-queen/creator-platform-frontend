@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
@@ -6,7 +6,6 @@ import Heading from "@/components/Heading";
 import StatsPanel from "@/components/StatsPanel";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
-import Spinner from "@/components/Spinner";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 
 import API from "@/api/api";
@@ -57,24 +56,22 @@ const CreatorDashboard = () => {
           )}
         </Container>
       </div>
-      <Suspense fallback={<Spinner />}>
-        {applications && applications.length > 0 && (
-          <Section size="4xl">
-            <Text size="xl" className="mb-8">
-              Applications
-            </Text>
+      {applications && applications.length > 0 && (
+        <Section size="4xl">
+          <Text size="xl" className="mb-8">
+            Applications
+          </Text>
 
-            <div className="grid grid-cols-2 gap-4">
-              {applications.map((application) => (
-                <CreatorApplicationCard
-                  key={application.application_id}
-                  {...application}
-                />
-              ))}
-            </div>
-          </Section>
-        )}
-      </Suspense>
+          <div className="grid grid-cols-2 gap-4">
+            {applications.map((application) => (
+              <CreatorApplicationCard
+                key={application.application_id}
+                {...application}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
     </>
   );
 };
