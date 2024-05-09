@@ -31,7 +31,7 @@ const AuthTemplate = ({ children }) => {
         <Dots className="absolute md:fixed -left-48 -bottom-60 md:-left-40 md:-bottom-52 text-queen-orange" />
       </div>
       <div className="flex justify-center py-20 items-center h-full">
-        <div className="w-full max-w-md mx-auto space-y-6 px-8 md:px-6">
+        <div className="w-full max-w-md mx-auto space-y-8 px-8 md:px-6">
           {children}
         </div>
       </div>
