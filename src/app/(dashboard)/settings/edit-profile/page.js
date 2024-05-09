@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 
 const EditProfile = () => {
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
   const { user: userDefaults, setUser } = useUser();
   const { token } = useToken();
   const router = useRouter();
@@ -45,7 +44,6 @@ const EditProfile = () => {
   }, [userDefaults]);
 
   const handleSubmit = async () => {
-    setLoading(true);
     const formData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
       formData.append(key, value);
@@ -73,9 +71,7 @@ const EditProfile = () => {
         setErrors(res.message);
       }
       console.log(res, "res");
-      setLoading(false);
     } catch (err) {
-      setLoading(false);
       console.error(err);
       setErrors(err.message);
     }
@@ -119,7 +115,7 @@ const EditProfile = () => {
         </Form.Input>
 
         <Button type="submit" as="button">
-          {loading ? "Saving ..." : "Save Changes"}
+         Save Changes
         </Button>
       </div>
     </Form>
