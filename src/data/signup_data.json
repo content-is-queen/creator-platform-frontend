@@ -1,0 +1,92 @@
+[
+  {
+    "label": "Creator",
+    "id": "creator",
+    "steps": {
+      "1": {
+        "fields": [
+          {
+            "name": "first_name",
+            "type": "text",
+            "children": "First Name"
+          },
+          {
+            "name": "last_name",
+            "type": "text",
+            "children": "Last Name"
+          },
+          {
+            "name": "email",
+            "type": "email",
+            "children": "Email Address",
+            "rules": {
+              "required": "Email address is required",
+              "pattern": {
+                "value": {},
+                "message": "Invalid email address"
+              }
+            }
+          }
+        ]
+      },
+      "2": {
+        "fields": [
+          {
+            "name": "password",
+            "type": "password",
+            "children": "Password",
+            "rules": {
+              "required": "Password is required",
+              "minLength": {
+                "value": 6,
+                "message": "Password must be at least 6 characters"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "label": "Brand",
+    "id": "brand",
+    "steps": {
+      "1": {
+        "fields": [
+          {
+            "name": "first_name",
+            "type": "text",
+            "children": "First Name"
+          },
+          {
+            "name": "last_name",
+            "type": "text",
+            "children": "Last Name"
+          },
+          {
+            "name": "organization_name",
+            "type": "text",
+            "children": "Organization"
+          },
+          {
+            "name": "email",
+            "type": "email",
+            "children": "Email Address"
+          },
+          {
+            "name": "password",
+            "type": "password",
+            "children": "Password",
+            "rules": {
+              "required": "Password is required",
+              "minLength": {
+                "value": 6,
+                "message": "Password must be at least 6 characters"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+]

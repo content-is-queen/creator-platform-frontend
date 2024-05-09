@@ -34,12 +34,13 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
-    setLocalUser({
-      first_name: userDefaults?.first_name,
-      last_name: userDefaults?.last_name,
-      imageUrl: userDefaults?.imageUrl,
-      bio: userDefaults?.bio,
-    });
+    if (userDefaults)
+      setLocalUser({
+        first_name: userDefaults?.first_name,
+        last_name: userDefaults?.last_name,
+        imageUrl: userDefaults?.imageUrl,
+        bio: userDefaults?.bio,
+      });
   }, [userDefaults]);
 
   const handleSubmit = async () => {
