@@ -24,9 +24,8 @@ const useAuth = () => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-      const userProfile = await getUserProfile();
+      const userProfile = await getUserProfile(user);
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
       setUser({
         email,
         displayName: user.displayName,
