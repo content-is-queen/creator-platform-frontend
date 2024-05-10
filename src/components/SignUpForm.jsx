@@ -116,15 +116,15 @@ const SignUpForm = () => {
   }, [active]);
 
   const onSubmit = async (data, role) => {
+    const { id } = active;
     setError({});
-    const response = await signup(data, role);
+    const response = await signup(data, id);
     if (response.status > 200) {
       setError({
         message: "Something went wrong. User sign up failed.",
       });
       return;
     }
-
     router.push("/verify");
   };
 
