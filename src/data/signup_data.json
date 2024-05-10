@@ -54,6 +54,20 @@
       "1": {
         "fields": [
           {
+            "name": "organization_name",
+            "type": "text",
+            "children": "Organization Name"
+          },
+          {
+            "name": "email",
+            "type": "email",
+            "children": "Email Address"
+          }
+        ]
+      },
+      "2": {
+        "fields": [
+          {
             "name": "first_name",
             "type": "text",
             "children": "First Name"
@@ -63,16 +77,7 @@
             "type": "text",
             "children": "Last Name"
           },
-          {
-            "name": "organization_name",
-            "type": "text",
-            "children": "Organization"
-          },
-          {
-            "name": "email",
-            "type": "email",
-            "children": "Email Address"
-          },
+
           {
             "name": "password",
             "type": "password",
