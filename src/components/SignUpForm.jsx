@@ -115,7 +115,7 @@ const SignUpForm = () => {
     setError({});
   }, [active]);
 
-  const onSubmit = async (data, role) => {
+  const onSubmit = async (data) => {
     const { id } = active;
     setError({});
     const response = await signup(data, id);
