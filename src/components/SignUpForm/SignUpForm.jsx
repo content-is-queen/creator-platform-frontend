@@ -44,20 +44,28 @@ const SignUpForm = () => {
     setTotalSteps(Object.keys(active.steps).length);
   }, [active]);
 
-  const onSubmit = async (data, role) => {
+  const onSubmit = async (data) => {
+    console.log(data);
+    const { id } = active;
     setError({});
-    const response = await signup(data, role);
+    const response = await signup(data, id);
+    if (response.status === 500) {
+      setError({
+        message: response.message,
+      });
+      return;
+    }
     if (response.status > 200) {
       setError({
         message: "Something went wrong. User sign up failed.",
       });
       return;
     }
-
     router.push("/verify");
   };
 
   const handleClick = () => {
+    if (isLastStep) return;
     setStep((prev) => prev + 1);
   };
 
@@ -95,7 +103,7 @@ const SignUpForm = () => {
 
         <Button
           as="button"
-          type="submit"
+          type="button"
           className="mt-8"
           onClick={handleClick}
         >

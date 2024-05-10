@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,11 +21,12 @@ const MainNav = () => {
 
   const router = useRouter();
   const { logout } = useAuth();
-  const { user } = useUser();
+  const { user, userLoaded, setUserLoaded } = useUser();
 
   const pathname = usePathname();
 
   const handleIsUserClicked = () => {
+    if (!user) return;
     setIsUserClicked((prev) => !prev);
   };
 
@@ -37,6 +38,16 @@ const MainNav = () => {
     logout();
     router.push("/login");
   };
+
+  useEffect(() => {
+    if (
+      userLoaded &&
+      !user &&
+      (pathname !== "/signup" || pathname !== "/login")
+    ) {
+      router.push("/login");
+    }
+  }, [userLoaded]);
 
   const LINKS = {
     creator: [

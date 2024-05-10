@@ -8,15 +8,15 @@ import { useUser } from "@/context/UserContext";
 import Dots from "@/components/Patterns/Dots";
 
 const AuthTemplate = ({ children }) => {
-  const { user, loaded, setLoaded } = useUser();
+  const { user, userLoaded, setUserLoaded } = useUser();
   const router = useRouter();
 
   useLayoutEffect(() => {
-    if (user?.first_name && loaded) {
+    if (user?.first_name && userLoaded) {
       router.push("/");
     }
-    setLoaded(true);
-  }, [loaded, user]);
+    setUserLoaded(true);
+  }, [userLoaded, user]);
 
   return (
     <div className="grid min-h-screen md:grid-cols-2">
