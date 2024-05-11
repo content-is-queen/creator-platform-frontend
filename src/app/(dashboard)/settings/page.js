@@ -36,8 +36,8 @@ const General = () => {
         },
         body: JSON.stringify(formData),
       });
-      setUser({ ...user, username: formData.username,  email: formData.email });
-      console.log("response",response);
+      setUser({ ...user, username: formData.username, email: formData.email });
+      console.log("response", response);
       if (response.status === 200) {
         setSuccess({
           message: "Settings updated successfully",
@@ -46,17 +46,20 @@ const General = () => {
       }
       return response;
     } catch (error) {
-        setError({
-          message: error?.message || "Something went wrong. User sign up failed.",
-        });
-        return;
-
+      setError({
+        message: error?.message || "Something went wrong. User sign up failed.",
+      });
+      return;
     }
   };
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
-        <Form.Input name="username" value={formData.username} onChange={handleChange}>
+        <Form.Input
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+        >
           Username
         </Form.Input>
 
