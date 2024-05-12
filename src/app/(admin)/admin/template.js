@@ -21,7 +21,7 @@ const LINKS = [
 const Template = ({ children }) => {
   const pathname = usePathname();
  return <div className="grid grid-cols-5">
-     <div className="col-span-1 bg-queen-blue h-screen">
+     <div className="col-span-1 bg-queen-blue h-screen overflow-hidden">
      <Container size="4xl">
       <div className="py-12 md:py-20">
         <div className="flex gap-12">
@@ -49,7 +49,7 @@ const Template = ({ children }) => {
     </Container>
     </div>
     <div className="col-span-4">
-    <nav class="bg-white border-gray-200">
+    <nav class="bg-quen-white border-gray-200 mb-8">
       <h1>navbar goes here</h1>
     </nav>
       {children}
