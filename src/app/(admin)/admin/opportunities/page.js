@@ -1,16 +1,25 @@
-"use client";
 
-import { useUser } from "@/context/UserContext";
+// import OpportunitiesSearch from "@/components/Creator/OpportunitiesSearch";
+// import Heading from "@/components/Heading";
+// import Container from "@/components/Container";
 
+import Container from "@/components/Container";
+import OpportunitiesSearch from "@/components/Creator/OpportunitiesSearch";
+import OpportunitiesSearchAdmin from "@/components/Creator/OpportunitiesSearchAdmin";
+import Heading from "@/components/Heading";
+import { getOpportunities } from "@/utils";
 
-const Opportunities = () => {
+// import { getOpportunities } from "@/helpers/getServerComponentData";
+
+const Opportunities = async () => {
+  const opportunities = await getOpportunities();
 
   return (
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
-</div>
-
+    <Container className="mb-32">
+      <OpportunitiesSearchAdmin opportunities={opportunities} />
+    </Container>
   );
 };
 
 export default Opportunities;
+
