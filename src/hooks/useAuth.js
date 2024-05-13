@@ -24,7 +24,11 @@ const useAuth = () => {
 
   const signin = async (email, password) => {
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const { user, ...other } = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       const userProfile = await getUserProfile(user);
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
@@ -32,6 +36,7 @@ const useAuth = () => {
         email,
         ...userProfile,
       });
+      return other;
     } catch (error) {
       console.error("Login error:", error);
     }
