@@ -1,5 +1,3 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase.config";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import { getUserProfile } from "@/context/UserContext";
@@ -8,8 +6,7 @@ const useAuth = () => {
   const { setUser } = useUser();
 
   const signup = async (data, id) => {
-    try {
-      const response = await API("/auth/signup", {
+ await API("/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,26 +16,6 @@ const useAuth = () => {
       return response;
     } catch (error) {
       console.error("Sign up error:", error);
-    }
-  };
-
-  const signin = async (email, password) => {
-    try {
-      const { user, ...other } = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      const userProfile = await getUserProfile(user);
-      localStorage.setItem("userProfile", JSON.stringify(userProfile));
-      setUser({
-        email,
-        ...userProfile,
-      });
-      return other;
-    } catch (error) {
-      console.error("Login error:", error);
     }
   };
 

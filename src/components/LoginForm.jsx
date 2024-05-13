@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase.config";
+import { getUserProfile } from "@/context/UserContext";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInput from "@/components/AuthInput";
-
-import useAuth from "@/hooks/useAuth";
-import { useUser } from "@/context/UserContext";
 
 const FIELDS = [
   {
@@ -49,30 +49,26 @@ const LoginForm = () => {
   const [errors, setError] = useState({});
 
   const router = useRouter();
-  const { signin } = useAuth();
-  const { user } = useUser();
 
   const onSubmit = async (data) => {
+    setError({});
+    const { email, password } = data;
+
     try {
-      const response = await signin(data.email, data.password);
+      const response = await signInWithEmailAndPassword(auth, email, password);
 
-      if (response.status === 500) {
-        setError({
-          message: response.message,
-        });
-        return;
-      }
+      const { user } = response;
 
-      if (response.status > 200) {
-        setError({
-          message: "Something went wrong. User sign up failed.",
-        });
-        return;
-      }
-
+      const userProfile = await getUserProfile(user);
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      setUser({
+        email,
+        ...userProfile,
+      });
       router.push("/");
     } catch (error) {
-      console.error(error);
+      console.error("Login error:", error);
+      setError(error);
     }
   };
 
