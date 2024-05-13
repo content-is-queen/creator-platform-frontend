@@ -11,7 +11,7 @@ import { inputStyles } from "@/components/Form";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const AdminSearch = ({searchQuery}) => {
+const AdminSearch = ({ searchQuery }) => {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState([]);
   const [tags, setTags] = useState([]);

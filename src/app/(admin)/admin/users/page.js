@@ -17,38 +17,37 @@ const Users = () => {
   const [usersList, setUsersList] = useState([]);
   const [filteredUsersList, setFilteredUsersList] = useState([]);
 
-
-  const adminGetAllTheUsers=async()=>{
+  const adminGetAllTheUsers = async () => {
     setError({});
-    console.log("token",token);
-      try {
-        setLoading(true);
-        const response = await API(`/admin/users`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setLoading(false);
-        setUsersList(response);
-        setFilteredUsersList(response);
-      } catch (error) {
-        console.error("Sign up error:", error);
-      }
+    console.log("token", token);
+    try {
+      setLoading(true);
+      const response = await API(`/admin/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setLoading(false);
+      setUsersList(response);
+      setFilteredUsersList(response);
+    } catch (error) {
+      console.error("Sign up error:", error);
+    }
 
-      // if (response.status > 200) {
-      //   setError({
-      //     message: "Something went wrong. User sign up failed.",
-      //   });
-      //   return;
-      // }
-  }
+    // if (response.status > 200) {
+    //   setError({
+    //     message: "Something went wrong. User sign up failed.",
+    //   });
+    //   return;
+    // }
+  };
   console.log("Useeeeeee", usersList);
 
   useEffect(() => {
     setError({});
-    if(token){
+    if (token) {
       console.log("Yes there is a token");
       adminGetAllTheUsers();
     }

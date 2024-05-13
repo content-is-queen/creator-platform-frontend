@@ -1,4 +1,3 @@
-
 // import OpportunitiesSearch from "@/components/Creator/OpportunitiesSearch";
 // import Heading from "@/components/Heading";
 // import Container from "@/components/Container";
@@ -22,4 +21,3 @@ const Opportunities = async () => {
 };
 
 export default Opportunities;
-
