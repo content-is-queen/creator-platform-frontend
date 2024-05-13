@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase.config";
-import { getUserProfile } from "@/context/UserContext";
+import { getUserProfile, useUser } from "@/context/UserContext";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -46,6 +46,8 @@ const LoginForm = () => {
     formState: { errors: formErrors },
   } = useForm();
 
+  const { setUser } = useUser();
+
   const [errors, setError] = useState({});
 
   const router = useRouter();
@@ -68,7 +70,9 @@ const LoginForm = () => {
       router.push("/");
     } catch (error) {
       console.error("Login error:", error);
-      setError(error);
+      setError({
+        message: "Something went wrong when signing up",
+      });
     }
   };
 
