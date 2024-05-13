@@ -8,8 +8,6 @@ import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInput from "@/components/AuthInput";
 
-import useAuth from "@/hooks/useAuth";
-import { useUser } from "@/context/UserContext";
 import API from "@/api/api";
 import { useState } from "react";
 import useToken from "@/hooks/useToken";
@@ -34,10 +32,10 @@ const ResetPasswordForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors: formErrors },
   } = useForm();
 
-  const [errorss, setError] = useState({});
+  const [errors, setError] = useState({});
   const [success, setSuccess] = useState({});
 
   const onSubmit = async (data) => {
@@ -52,7 +50,6 @@ const ResetPasswordForm = () => {
         },
         body: JSON.stringify(data),
       });
-      console.log(response.status);
       if (response.message === "Password reset email sent successfully") {
         setSuccess({
           message: "Please check your email for password reset instructions.",
@@ -76,16 +73,16 @@ const ResetPasswordForm = () => {
 
   return (
     <>
+      <Text className="!mt-4">
+        Enter your email and we’ll send you a link to reset your password
+      </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6">
-          <Text size="sm" className="!mt-2">
-            Enter your email and we’ll send you a link to reset your password
-          </Text>
           {FIELDS.map(({ children, name, ...otherProps }) => (
             <AuthInput
               key={name}
               control={control}
-              errors={errors}
+              errors={formErrors}
               name={name}
               {...otherProps}
             >
@@ -97,9 +94,9 @@ const ResetPasswordForm = () => {
           send password recovery link
         </Button>
       </form>
-      {errorss?.message && (
+      {errors?.message && (
         <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errorss.message}</p>
+          <p>{errors.message}</p>
         </div>
       )}
       {success?.message && (
