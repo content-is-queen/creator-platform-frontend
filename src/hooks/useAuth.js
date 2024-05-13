@@ -1,3 +1,4 @@
+import { auth } from "@/firebase.config";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import { getUserProfile } from "@/context/UserContext";
@@ -6,7 +7,8 @@ const useAuth = () => {
   const { setUser } = useUser();
 
   const signup = async (data, id) => {
- await API("/auth/signup", {
+    try {
+      const response = await API("/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +32,7 @@ const useAuth = () => {
     }
   };
 
-  return { logout, signin, signup, getUserProfile };
+  return { logout, signup, getUserProfile };
 };
 
 export default useAuth;
