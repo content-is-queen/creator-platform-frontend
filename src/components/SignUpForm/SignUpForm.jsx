@@ -12,9 +12,7 @@ import useAuth from "@/hooks/useAuth";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Tabs from "@/components/Tabs";
-import SignUpFormStepOne from "@/components/SignUpForm/SignUpFormStepOne";
-import SignUpFormStepTwo from "@/components/SignUpForm/SignUpFormStepTwo";
-import SignUpFormStepThree from "@/components/SignUpForm/SignUpFormStepThree";
+import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
 
 import OPTIONS from "@/data/signup_data.json";
 
@@ -22,9 +20,11 @@ const SignUpForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors: inputErrors },
+    trigger,
+    reset,
+    formState: { errors: formErrors },
     clearErrors,
-  } = useForm();
+  } = useForm({ mode: "all" });
 
   const { signup } = useAuth();
   const router = useRouter();
@@ -34,54 +34,57 @@ const SignUpForm = () => {
   const [totalSteps, setTotalSteps] = useState(
     Object.keys(OPTIONS[0].steps).length
   );
+
   const [errors, setError] = useState({});
 
   const isLastStep = step === totalSteps;
-
   useEffect(() => {
     clearErrors();
+    reset();
     setError({});
     setTotalSteps(Object.keys(active.steps).length);
   }, [active]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     const { id } = active;
     setError({});
-    const response = await signup(data, id);
-    if (response.status === 500) {
-      setError({
-        message: response.message,
-      });
-      return;
+
+    if (step === 1) {
+      const response = await signup(data, id);
+      if (response.status === 500) {
+        setError({
+          message: response.message,
+        });
+        return;
+      }
+      if (response.status > 200) {
+        setError({
+          message: "Something went wrong. User sign up failed.",
+        });
+        return;
+      }
     }
-    if (response.status > 200) {
-      setError({
-        message: "Something went wrong. User sign up failed.",
-      });
-      return;
-    }
+
     router.push("/verify");
   };
 
   const handleClick = () => {
-    if (isLastStep) return;
-    setStep((prev) => prev + 1);
+    trigger([
+      "email",
+      "password",
+      "first_name",
+      "last_name",
+      "interest",
+      "bio",
+      "organisation_name",
+    ]);
+
+    setTimeout(() => {
+      if (isLastStep || Object.keys(formErrors).length > 0) return;
+
+      setStep((prev) => prev + 1);
+    }, 500);
   };
-
-  let Component;
-
-  switch (step) {
-    case 1:
-      Component = SignUpFormStepOne;
-      break;
-
-    case 2:
-      Component = SignUpFormStepTwo;
-      break;
-    case 3:
-      Component = SignUpFormStepThree;
-  }
 
   return (
     <>
@@ -90,25 +93,27 @@ const SignUpForm = () => {
           <span className="text-sm mb-1 inline-block">
             Step {step} of {totalSteps}
           </span>
-          {step === 1 && (
+          {step === 1 ? (
             <Tabs options={OPTIONS} active={active} setActive={setActive} />
+          ) : (
+            <Text variant="xl">{active.steps[step].title}</Text>
           )}
         </div>
 
-        <Component
+        <SignUpFormStep
           control={control}
-          errors={inputErrors}
+          errors={formErrors}
           fields={active.steps[step].fields}
         />
 
         <Button
           as="button"
-          type="button"
           className="mt-8"
           onClick={handleClick}
-        >
-          {isLastStep ? "Sign Up" : "Next"}
-        </Button>
+          {...(isLastStep
+            ? { type: "submit", children: "Create Account" }
+            : { type: "button", children: "Next" })}
+        />
 
         <Text size="sm" className="mt-4">
           Already registered?{" "}
