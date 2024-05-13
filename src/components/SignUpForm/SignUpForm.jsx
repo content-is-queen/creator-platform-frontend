@@ -49,20 +49,20 @@ const SignUpForm = () => {
     const { id } = active;
     setError({});
 
-    if (step === 1) {
-      const response = await signup(data, id);
-      if (response.status === 500) {
-        setError({
-          message: response.message,
-        });
-        return;
-      }
-      if (response.status > 200) {
-        setError({
-          message: "Something went wrong. User sign up failed.",
-        });
-        return;
-      }
+    const response = await signup(data, id);
+
+    if (response.status === 500) {
+      setError({
+        message: response.message,
+      });
+      return;
+    }
+
+    if (response.status > 200) {
+      setError({
+        message: "Something went wrong. User sign up failed.",
+      });
+      return;
     }
 
     router.push("/verify");
