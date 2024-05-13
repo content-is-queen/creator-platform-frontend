@@ -16,7 +16,9 @@ export const getUserProfile = async () => {
       },
     });
 
-    return response.message;
+    if (response.status === 200) {
+      return response.message;
+    }
   } catch (error) {
     return error.response?.data;
   }
@@ -24,7 +26,7 @@ export const getUserProfile = async () => {
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loaded, setLoaded] = useState(false);
+  const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -35,7 +37,10 @@ export const UserProvider = ({ children }) => {
           userProfile = JSON.parse(localStorage.getItem("userProfile"));
         } else {
           userProfile = await getUserProfile();
-          localStorage.setItem("userProfile", JSON.stringify(userProfile));
+
+          if (userProfile) {
+            localStorage.setItem("userProfile", JSON.stringify(userProfile));
+          }
         }
 
         setUser({
@@ -48,16 +53,17 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem("userProfile");
         setUser(null);
       }
+      setUserLoaded(true);
     });
-  }, []);
+  }, [userLoaded]);
 
   return (
     <UserContext.Provider
       value={{
         user: user,
         setUser: setUser,
-        loaded: loaded,
-        setLoaded: setLoaded,
+        userLoaded: userLoaded,
+        setUserLoaded: setUserLoaded,
       }}
     >
       {children}
@@ -66,6 +72,6 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => {
-  const { user, setUser, loaded, setLoaded } = useContext(UserContext);
-  return { user, setUser, loaded, setLoaded };
+  const { user, setUser, userLoaded, setUserLoaded } = useContext(UserContext);
+  return { user, setUser, userLoaded, setUserLoaded };
 };

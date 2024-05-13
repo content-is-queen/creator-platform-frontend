@@ -30,8 +30,6 @@ const useAuth = () => {
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
       setUser({
         email,
-        displayName: user.displayName,
-        imageUrl: user.imageUrl,
         ...userProfile,
       });
     } catch (error) {
