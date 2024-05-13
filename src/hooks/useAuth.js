@@ -1,4 +1,3 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase.config";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
@@ -22,24 +21,6 @@ const useAuth = () => {
     }
   };
 
-  const signin = async (email, password) => {
-    try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-
-      const userProfile = await getUserProfile();
-      localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
-      setUser({
-        email,
-        displayName: user.displayName,
-        imageUrl: user.imageUrl,
-        ...userProfile,
-      });
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
-
   const logout = async () => {
     try {
       auth.signOut();
@@ -51,7 +32,7 @@ const useAuth = () => {
     }
   };
 
-  return { logout, signin, signup, getUserProfile };
+  return { logout, signup, getUserProfile };
 };
 
 export default useAuth;

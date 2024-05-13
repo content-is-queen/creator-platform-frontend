@@ -31,12 +31,6 @@ nav {
   height: var(--nav-height);
 }
 
-input:not(input[type="checkbox"]),
-textarea {
-  display: block;
-  width: 100%;
-}
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -49,11 +43,20 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px#f7f7f7 inset !important;
 }
 
-input[type="checkbox"] {
+input:not(input[type="checkbox"]),
+input:not(input[type="radio"]),
+textarea {
+  display: block;
+  width: 100%;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
   @apply border-queen-black border-2;
 }
 
-input[type="checkbox"]:checked {
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
   @apply !bg-queen-blue;
 }
 
