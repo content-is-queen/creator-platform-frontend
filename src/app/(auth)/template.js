@@ -8,30 +8,31 @@ import { useUser } from "@/context/UserContext";
 import Dots from "@/components/Patterns/Dots";
 
 const AuthTemplate = ({ children }) => {
-  const { user, userLoaded, setUserLoaded } = useUser();
+  const { user, userLoaded } = useUser();
   const router = useRouter();
 
   useLayoutEffect(() => {
     if (user?.first_name && userLoaded) {
       router.push("/");
     }
-    setUserLoaded(true);
-  }, [userLoaded, user]);
+  }, [userLoaded]);
 
   return (
-    <div className="grid min-h-screen md:grid-cols-2">
-      <div className="bg-queen-blue flex items-center justify-center relative h-full overflow-hidden py-10">
-        <div className="h-20 md:h-auto flex justify-center items-center">
-          <img
-            className="h-28 relative z-10 md:-translate-y-1/2 md:top-1/2 md:fixed md:h-auto"
-            src="/images/CiQ_Logo_Stacked.svg"
-            alt="Content is queen"
-          />
-        </div>
-        <Dots className="absolute md:fixed -left-48 -bottom-60 md:-left-40 md:-bottom-52 text-queen-orange" />
+    <div className="grid min-h-screen md:grid-cols-12">
+      <div className="bg-queen-blue relative flex items-center justify-center h-full overflow-hidden py-10 md:col-span-4 lg:col-span-5">
+        <img
+          className="h-28 max-w-full fixed md:w-52 md:-translate-y-1/2 md:top-1/2 md:h-auto lg:w-80"
+          src="/images/CiQ_Logo_Stacked.svg"
+          alt="Content is queen"
+        />
+        <img
+          src="/images/orange-dots-circle.svg"
+          alt=""
+          className="fixed hidden w-26 md:block md:-bottom-30 md:-left-20 lg:-bottom-10 lg:-left-10"
+        />
       </div>
-      <div className="flex justify-center py-20 items-center h-full">
-        <div className="w-full max-w-md mx-auto space-y-8 px-8 md:px-6">
+      <div className="flex py-20 items-center h-full md:col-span-8 lg:col-span-7">
+        <div className="w-full max-w-md mx-auto px-8 md:space-y-8 md:px-6">
           {children}
         </div>
       </div>

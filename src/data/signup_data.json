@@ -6,31 +6,17 @@
       "1": {
         "fields": [
           {
-            "name": "first_name",
-            "type": "text",
-            "children": "First Name"
-          },
-          {
-            "name": "last_name",
-            "type": "text",
-            "children": "Last Name"
-          },
-          {
             "name": "email",
-            "type": "email",
+            "type": "text",
             "children": "Email Address",
             "rules": {
               "required": "Email address is required",
               "pattern": {
-                "value": {},
-                "message": "Invalid email address"
+                "value": "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i",
+                "message": "invalid email address"
               }
             }
-          }
-        ]
-      },
-      "2": {
-        "fields": [
+          },
           {
             "name": "password",
             "type": "password",
@@ -42,6 +28,58 @@
                 "message": "Password must be at least 6 characters"
               }
             }
+          }
+        ]
+      },
+      "2": {
+        "title": "Tell us a little bit about you and your podcast",
+        "fields": [
+          {
+            "name": "first_name",
+            "type": "text",
+            "children": "First Name",
+            "rules": {
+              "required": "First name is required"
+            }
+          },
+          {
+            "name": "last_name",
+            "type": "text",
+            "children": "Last Name",
+            "rules": {
+              "required": "Last name is required"
+            }
+          },
+
+          {
+            "name": "bio",
+            "type": "text",
+            "children": "Bio",
+            "rules": { "required": "Bio is required" }
+          },
+          {
+            "name": "podcast_name",
+            "type": "text",
+            "children": "Podacast Name (optional)"
+          },
+          {
+            "name": "podcast_link",
+            "type": "url",
+            "children": "Link To Podcast (optional)"
+          }
+        ]
+      },
+      "3": {
+        "title": "What are your goals?",
+        "fields": [
+          {
+            "name": "interest",
+            "options": [
+              "Finding work",
+              "Monetising my podcast",
+              "Pitching and commissions"
+            ],
+            "rules": { "required": "Goal is required" }
           }
         ]
       }
@@ -54,30 +92,17 @@
       "1": {
         "fields": [
           {
-            "name": "organization_name",
-            "type": "text",
-            "children": "Organization Name"
-          },
-          {
             "name": "email",
             "type": "email",
-            "children": "Email Address"
-          }
-        ]
-      },
-      "2": {
-        "fields": [
-          {
-            "name": "first_name",
-            "type": "text",
-            "children": "First Name"
+            "children": "Email Address",
+            "rules": {
+              "required": "Email address is required",
+              "pattern": {
+                "value": "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i",
+                "message": "invalid email address"
+              }
+            }
           },
-          {
-            "name": "last_name",
-            "type": "text",
-            "children": "Last Name"
-          },
-
           {
             "name": "password",
             "type": "password",
@@ -91,6 +116,45 @@
             }
           }
         ]
+      },
+      "2": {
+        "title": "Tell us a bit about you and your organisation",
+        "fields": [
+          {
+            "name": "organisation_name",
+            "type": "text",
+            "children": "Organization Name",
+            "rules": { "required": "Organization name is required" }
+          },
+          {
+            "name": "first_name",
+            "type": "text",
+            "children": "First Name",
+            "rules": { "required": "First name is required" }
+          },
+          {
+            "name": "last_name",
+            "type": "text",
+            "children": "Last Name",
+            "rules": { "required": "Last name is required" }
+          },
+          {
+            "name": "bio",
+            "type": "text",
+            "children": "Description",
+            "rules": { "required": "Bio is required" }
+          }
+        ]
+      },
+      "3": {
+        "title": "What are your goals?",
+        "fields": [
+          {
+            "name": "interest",
+            "options": ["Hiring", "Connecting with new talent", "Advertising"]
+          }
+        ],
+        "rules": { "required": "Goal is required" }
       }
     }
   }
