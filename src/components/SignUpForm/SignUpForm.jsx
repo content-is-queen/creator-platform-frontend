@@ -22,6 +22,7 @@ const SignUpForm = () => {
     control,
     trigger,
     reset,
+    getValues,
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
@@ -68,7 +69,25 @@ const SignUpForm = () => {
     router.push("/verify");
   };
 
-  const handleClick = () => {
+  // TODO: Replace with check to our API
+  const checkIfRegistered = async (email) => {
+    return Promise.resolve(false);
+  };
+
+  const handleClick = async () => {
+    setError({});
+    let isRegistered;
+
+    // Check if email is already registered before letting user progress form steps
+    if (step === 1) {
+      const { email } = getValues();
+
+      isRegistered = await checkIfRegistered(email);
+      if (isRegistered) {
+        setError({ message: "This email address is already in use" });
+      }
+    }
+
     trigger([
       "email",
       "password",
@@ -80,10 +99,11 @@ const SignUpForm = () => {
     ]);
 
     setTimeout(() => {
-      if (isLastStep || Object.keys(formErrors).length > 0) return;
+      if (isLastStep || Object.keys(formErrors).length > 0 || isRegistered)
+        return;
 
       setStep((prev) => prev + 1);
-    }, 500);
+    }, 0);
   };
 
   return (

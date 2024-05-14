@@ -9,6 +9,7 @@
             "name": "email",
             "type": "text",
             "children": "Email Address",
+            "hook": true,
             "rules": {
               "required": "Email address is required",
               "pattern": {
