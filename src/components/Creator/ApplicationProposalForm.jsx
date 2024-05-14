@@ -67,7 +67,12 @@ const ApplicationProposalForm = ({ opportunityId }) => {
         Send Proposal
       </Button>
 
-      <Modal open={isOpen} onClose={() => setIsOpen(false)} title="Apply">
+      <Modal
+        align="left"
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Apply"
+      >
         <Form
           errors={errors}
           setError={setError}
