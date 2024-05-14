@@ -92,7 +92,7 @@ const LoginForm = () => {
             </AuthInput>
           ))}
           <Text size="sm" className="!mt-2">
-            <Link href="/reset-password">Forgot password?</Link>
+            <Link href="/forgot-password">Forgot password?</Link>
           </Text>
         </div>
         <Button as="button" type="submit" className="mt-8">

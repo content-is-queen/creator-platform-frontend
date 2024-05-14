@@ -6,7 +6,7 @@ import React from "react";
 const reset = () => {
   return (
     <>
-      <Heading>Reset your password</Heading>
+      <Heading>Forgot password</Heading>
       <ResetPasswordForm />
     </>
   );
