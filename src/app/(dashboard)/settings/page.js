@@ -12,6 +12,8 @@ const General = () => {
   const { user, setUser } = useUser();
   const { token } = useToken();
   const [errors, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [success, setSuccess] = useState({});
 
   const [formData, setFormData] = useState({
@@ -20,11 +22,14 @@ const General = () => {
   });
 
   const handleChange = (e) => {
+    !updated && setUpdated(true);
+
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     setError({});
     setSuccess({});
     try {
@@ -47,6 +52,8 @@ const General = () => {
         message: error?.message || "Something went wrong. User sign up failed.",
       });
       return;
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -64,8 +71,13 @@ const General = () => {
           Email
         </Form.Input>
 
-        <Button type="submit" as="button" onClick={handleSubmit}>
-          Save Changes
+        <Button
+          type="submit"
+          as="button"
+          onClick={handleSubmit}
+          {...(!updated && { disabled: true })}
+        >
+          {loading && <Button.Spinner />} Save Changes
         </Button>
       </div>
       {errors?.message && (

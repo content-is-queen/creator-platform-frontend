@@ -13,6 +13,9 @@ import { useRouter } from "next/navigation";
 
 const EditProfile = () => {
   const [errors, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [updated, setUpdated] = useState(false);
+
   const { user: userDefaults, setUser } = useUser();
   const { token } = useToken();
   const router = useRouter();
@@ -25,6 +28,7 @@ const EditProfile = () => {
   });
 
   const handleChange = (e) => {
+    !updated && setUpdated(true);
     const { name, value, files } = e.target;
     const newValue = files ? files[0] : value;
     setLocalUser((prev) => ({
@@ -44,6 +48,7 @@ const EditProfile = () => {
   }, [userDefaults]);
 
   const handleSubmit = async () => {
+    setLoading(true);
     const formData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
       formData.append(key, value);
@@ -79,6 +84,8 @@ const EditProfile = () => {
     } catch (err) {
       console.error(err);
       setError({ message: err.message });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,8 +126,8 @@ const EditProfile = () => {
           Bio
         </Form.Input>
 
-        <Button type="submit" as="button">
-          Save Changes
+        <Button type="submit" as="button" {...(!updated && { disabled: true })}>
+          {loading && <Button.Spinner />} Save Changes
         </Button>
       </div>
     </Form>

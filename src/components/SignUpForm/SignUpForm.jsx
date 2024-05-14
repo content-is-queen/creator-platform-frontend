@@ -32,6 +32,7 @@ const SignUpForm = () => {
 
   const [active, setActive] = useState(OPTIONS[0]);
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [totalSteps, setTotalSteps] = useState(
     Object.keys(OPTIONS[0].steps).length
   );
@@ -47,26 +48,26 @@ const SignUpForm = () => {
   }, [active]);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const { id } = active;
     setError({});
 
-    const response = await signup(data, id);
+    try {
+      const response = await signup(data, id);
 
-    if (response.status === 500) {
-      setError({
-        message: response.message,
-      });
-      return;
-    }
-
-    if (response.status > 200) {
+      if (response.status > 200) {
+        setError({ message: response.message });
+        return;
+      }
+      router.push("/verify");
+    } catch (err) {
       setError({
         message: "Something went wrong. User sign up failed.",
       });
-      return;
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/verify");
   };
 
   // TODO: Replace with check to our API
@@ -130,10 +131,11 @@ const SignUpForm = () => {
           as="button"
           className="mt-8"
           onClick={handleClick}
-          {...(isLastStep
-            ? { type: "submit", children: "Create Account" }
-            : { type: "button", children: "Next" })}
-        />
+          {...(isLastStep ? { type: "submit" } : { type: "button" })}
+        >
+          {loading && <Button.Spinner />}
+          {isLastStep ? "Create Account" : "Next"}
+        </Button>
 
         <Text size="sm" className="mt-4">
           Already registered?{" "}

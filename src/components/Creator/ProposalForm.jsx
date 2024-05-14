@@ -17,6 +17,7 @@ const ProposalForm = ({ opportunityId }) => {
   const [proposal, setProposal] = useState("");
   const [errors, setError] = useState({});
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (opportunityId, clientId) => {
     const postData = {
@@ -72,7 +73,7 @@ const ProposalForm = ({ opportunityId }) => {
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
-            Submit
+            {loading && <Button.Spinner />} Apply
           </Button>
         </Form>
       </Modal>

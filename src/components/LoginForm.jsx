@@ -49,10 +49,12 @@ const LoginForm = () => {
   const { setUser } = useUser();
 
   const [errors, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     setError({});
     const { email, password } = data;
 
@@ -73,6 +75,8 @@ const LoginForm = () => {
       setError({
         message: "Something went wrong when signing in",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,6 +100,7 @@ const LoginForm = () => {
           </Text>
         </div>
         <Button as="button" type="submit" className="mt-8">
+          {loading && <Button.Spinner />}
           Sign in
         </Button>
         <Text size="sm" className="mt-4">
