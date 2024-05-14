@@ -62,10 +62,11 @@ const SignUpForm = () => {
         setError({ message: response.message });
         return;
       }
+
       router.push("/verify");
     } catch (err) {
       setError({
-        message: "Something went wrong. User sign up failed.",
+        message: "Something went wrong. User sign up failed",
       });
       console.error(err);
     } finally {

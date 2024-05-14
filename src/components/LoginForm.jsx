@@ -68,9 +68,10 @@ const LoginForm = () => {
 
       if (!userProfile) {
         setError({
-          message: "Sorry but there was some trouble logging you in.",
+          message: "Sorry but there was some trouble logging you in",
         });
-        console.error(response);
+
+        auth.signOut();
         return;
       }
 
@@ -82,9 +83,13 @@ const LoginForm = () => {
       router.push("/");
     } catch (error) {
       console.error("Login error:", error);
-      setError({
-        message: "Something went wrong when signing in",
-      });
+
+      if (error.code === 400) {
+        setError({ message: "Your login credentials are incorrect" });
+      } else
+        setError({
+          message: "Something went wrong when signing in",
+        });
     } finally {
       setLoading(false);
     }
