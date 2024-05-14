@@ -71,3 +71,26 @@ select:focus {
     transform: rotate(360deg);
   }
 }
+.App {
+  text-align: center;
+}
+
+.artists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.artists > div {
+  margin: 10px;
+  width: 200px;
+}
+
+.artists img {
+  width: 100%;
+  height: auto;
+}
+
+.artists h3 {
+  margin-top: 10px;
+}
