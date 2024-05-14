@@ -30,7 +30,7 @@ const AuthInput = ({
             className={clsx(
               twMerge(
                 inputStyles.input,
-                errors[name] ? "border-red-500" : "border-queen-black",
+                errors[name] ? "border-red-600" : "border-queen-black",
                 className
               )
             )}
@@ -43,7 +43,7 @@ const AuthInput = ({
             {children}
           </label>
           {errors[name] && (
-            <p className="text-sm text-red-500 mt-1">{errors[name].message}</p>
+            <p className="text-sm text-red-600 mt-1">{errors[name].message}</p>
           )}
         </>
       )}

@@ -38,7 +38,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               className="text-sm inline-flex items-center gap-1.5 mb-8"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
-              <span>Back to Dashboard</span>
+              Back to Dashboard
             </Link>{" "}
             <ProfileIcon className="h-12 w-12" />
             <Heading size="3xl" className="mt-6 mb-1">

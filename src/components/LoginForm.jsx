@@ -11,6 +11,7 @@ import { getUserProfile, useUser } from "@/context/UserContext";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInput from "@/components/AuthInput";
+import { Error } from "@/components/Form";
 
 const FIELDS = [
   {
@@ -64,6 +65,16 @@ const LoginForm = () => {
       const { user } = response;
 
       const userProfile = await getUserProfile(user);
+
+      if (!userProfile) {
+        setError({
+          message: "Sorry but there was some trouble logging you in",
+        });
+
+        auth.signOut();
+        return;
+      }
+
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
       setUser({
         email,
@@ -72,9 +83,13 @@ const LoginForm = () => {
       router.push("/");
     } catch (error) {
       console.error("Login error:", error);
-      setError({
-        message: "Something went wrong when signing in",
-      });
+
+      if (error.code === 400) {
+        setError({ message: "Your login credentials are incorrect" });
+      } else
+        setError({
+          message: "Something went wrong when signing in",
+        });
     } finally {
       setLoading(false);
     }
@@ -110,11 +125,7 @@ const LoginForm = () => {
           </Link>
         </Text>
       </form>
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
+      {errors?.message && <Error>{errors.message}</Error>}
     </>
   );
 };
