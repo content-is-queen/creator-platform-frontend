@@ -6,7 +6,6 @@ import AdminSearch from "@/components/AdminSearch";
 import Container from "@/components/Container";
 import UsersList from "@/components/UsersList";
 import useToken from "@/hooks/useToken";
-import { getIdToken } from "firebase/auth";
 import { useEffect, useState } from "react";
 
 const Users = () => {
@@ -36,25 +35,23 @@ const Users = () => {
       console.error("Sign up error:", error);
     }
 
-    // if (response.status > 200) {
-    //   setError({
-    //     message: "Something went wrong. User sign up failed.",
-    //   });
-    //   return;
-    // }
+    if (response.status > 200) {
+      setError({
+        message: "Something went wrong. User sign up failed.",
+      });
+      return;
+    }
   };
   console.log("Useeeeeee", usersList);
 
   useEffect(() => {
     setError({});
     if (token) {
-      console.log("Yes there is a token");
       adminGetAllTheUsers();
     }
   }, [token]);
 
   const searchQuery = (query) => {
-    console.log("just query", query);
     const filtered = usersList.filter(
       (user) =>
         user?.first_name.toLowerCase().includes(query.toLowerCase()) ||
@@ -62,15 +59,53 @@ const Users = () => {
     );
     setFilteredUsersList(filtered);
   };
+
+  const deleteSelectedUser = async (id) => {
+    setError({});
+    try {
+      const response = await API(`/admin/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status > 200) {
+        setError({
+          message:
+            response.message || "Something went wrong. User sign up failed.",
+        });
+        return;
+      }
+      if (response.status === 200) {
+        adminGetAllTheUsers();
+      }
+      console.log(response, "direct response..........");
+    } catch (error) {
+      const { message } = error.response.data;
+      toast.error(message || "Try again");
+    }
+  };
+
   return (
     <Container>
       <div className="flex justify-center items-center">
         <div className="min-w-[80%] ">
+          {errors?.message && (
+            <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
+              <p>{errors.message}</p>
+            </div>
+          )}
           <AdminSearch searchQuery={searchQuery} />
           {loading && <Loading />}
-          {!loading && filteredUsersList.length === 0 && <p>No users found</p>}
-          {!loading && filteredUsersList.length > 0 && (
-            <UsersList list={filteredUsersList} />
+          {!loading && !errors && filteredUsersList?.length === 0 && (
+            <p>No users found</p>
+          )}
+          {!loading && filteredUsersList?.length > 0 && (
+            <UsersList
+              list={filteredUsersList}
+              selectedId={deleteSelectedUser}
+            />
           )}
         </div>
       </div>
