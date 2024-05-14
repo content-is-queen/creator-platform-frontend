@@ -1,9 +1,9 @@
 "use client";
+
 import Heading from "@/components/Heading";
 import ForgotPasswordForm from "@/components/ForgotPasswordForm";
-import React from "react";
 
-const Forgot = () => {
+const ForgotPassword = () => {
   return (
     <>
       <Heading>Forgot password</Heading>
@@ -12,4 +12,4 @@ const Forgot = () => {
   );
 };
 
-export default reset;
+export default ForgotPassword;
