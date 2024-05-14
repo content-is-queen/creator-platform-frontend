@@ -14,11 +14,16 @@ const CreateOpportunityForm = ({ type }) => {
   const { user } = useUser();
 
   const [errors, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const form = useRef();
 
-  useEffect(() => {}, [form]);
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
 
   const handleSubmit = async (fields, userId) => {
+    setLoading(true);
     const formData = new FormData(form.current);
 
     const keys = fields.reduce((acc, current) => {
@@ -58,16 +63,14 @@ const CreateOpportunityForm = ({ type }) => {
       });
 
       window.location = "/";
-    } catch ({
-      response: {
-        data: { message },
-      },
-    }) {
+    } catch (err) {
       setError({
         message: "Something went wrong...",
       });
 
-      console.error(message);
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,7 +115,7 @@ const CreateOpportunityForm = ({ type }) => {
       </div>
 
       <Button as="button" type="submit" className="mt-8">
-        Submit
+        {loading && <Button.Spinner />} Submit
       </Button>
     </Form>
   );

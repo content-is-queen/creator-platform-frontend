@@ -32,14 +32,14 @@ const ProfileOpportunities = ({ uid }) => {
                 key={opportunity_id}
                 className="flex items-center justify-between col-span-full"
               >
-                <div className="flex items-center gap-x-8">
-                  <div className="flex content-start items-center">
-                    <p className="text-lg mr-3 text-queen-black capitalize">
+                <div className="grid grid-cols-12 w-full gap-x-6">
+                  <div className="col-span-4 flex content-start items-center">
+                    <p className=" mr-3 truncate max-w-44  text-queen-black capitalize">
                       {title}
                     </p>
                     <Tag>{type}</Tag>
                   </div>
-                  <div className="flex gap-x-6">
+                  <div className="col-span-6 flex items-center gap-x-6 justify-end">
                     <div className="flex gap-x-2">
                       <Text as="span" size="sm">
                         Compensation
@@ -57,13 +57,16 @@ const ProfileOpportunities = ({ uid }) => {
                       </Text>
                     </div>
                   </div>
+                  <div className="col-span-2">
+                    <Button
+                      variant="white"
+                      href={`/opportunities/${opportunity_id}`}
+                      size="sm"
+                    >
+                      View
+                    </Button>
+                  </div>
                 </div>
-                <Button
-                  variant="white"
-                  href={`/opportunities/${opportunity_id}`}
-                >
-                  View
-                </Button>
               </Card>
             )
           )

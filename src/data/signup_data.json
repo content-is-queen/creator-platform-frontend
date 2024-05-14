@@ -9,24 +9,11 @@
             "name": "email",
             "type": "text",
             "children": "Email Address",
-            "hook": true,
             "rules": {
               "required": "Email address is required",
               "pattern": {
                 "value": "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i",
                 "message": "invalid email address"
-              }
-            }
-          },
-          {
-            "name": "password",
-            "type": "password",
-            "children": "Password",
-            "rules": {
-              "required": "Password is required",
-              "minLength": {
-                "value": 6,
-                "message": "Password must be at least 6 characters"
               }
             }
           }
@@ -81,6 +68,23 @@
               "Pitching and commissions"
             ],
             "rules": { "required": "Goal is required" }
+          }
+        ]
+      },
+      "4": {
+        "title": "Your password",
+        "fields": [
+          {
+            "name": "password",
+            "type": "password",
+            "children": "Password",
+            "rules": {
+              "required": "Password is required",
+              "minLength": {
+                "value": 6,
+                "message": "Password must be at least 6 characters"
+              }
+            }
           }
         ]
       }
@@ -156,6 +160,23 @@
           }
         ],
         "rules": { "required": "Goal is required" }
+      },
+      "4": {
+        "title": "Your password",
+        "fields": [
+          {
+            "name": "password",
+            "type": "password",
+            "children": "Password",
+            "rules": {
+              "required": "Password is required",
+              "minLength": {
+                "value": 6,
+                "message": "Password must be at least 6 characters"
+              }
+            }
+          }
+        ]
       }
     }
   }

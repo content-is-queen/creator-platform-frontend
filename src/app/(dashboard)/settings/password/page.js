@@ -9,18 +9,22 @@ import API from "@/api/api";
 const Password = () => {
   const [errors, setError] = useState({});
   const [success, setSuccess] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [formData, setFormData] = useState({
     old_password: "",
     password: "",
   });
   const { token } = useToken();
   const handleChange = (e) => {
+    !updated && setUpdated(true);
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(false);
     setError({});
     setSuccess({});
     if (formData.old_password === formData.password) {
@@ -54,6 +58,8 @@ const Password = () => {
       setError({
         message: error.message || "Something went wrong. User sign up failed.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,8 +84,13 @@ const Password = () => {
           Password
         </Form.Input>
 
-        <Button type="submit" as="button" onClick={handleSubmit}>
-          Update Password
+        <Button
+          type="submit"
+          as="button"
+          onClick={handleSubmit}
+          {...(!updated && { disabled: true })}
+        >
+          {loading && <Button.Spinner />} Update Password
         </Button>
       </div>
       {errors?.message && (
