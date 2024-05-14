@@ -7,7 +7,7 @@ import useToken from "@/hooks/useToken";
 import API from "@/api/api";
 
 const Password = () => {
-  const [errorss, setError] = useState({});
+  const [errors, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [formData, setFormData] = useState({
     old_password: "",
@@ -25,7 +25,7 @@ const Password = () => {
     setSuccess({});
     if (formData.old_password === formData.password) {
       setError({
-        message: "You cannot update the same password!",
+        message: "You cannot use the same password as before",
       });
       return;
     }
@@ -84,9 +84,9 @@ const Password = () => {
           Update Password
         </Button>
       </div>
-      {errorss?.message && (
+      {errors?.message && (
         <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errorss.message}</p>
+          <p>{errors.message}</p>
         </div>
       )}
       {success?.message && (
