@@ -78,7 +78,7 @@ const SignUpForm = () => {
     setError({});
     let isRegistered;
 
-    // Check if email is already registered before letting user progress form steps
+    // Check if the supplied email address is already registered before letting user progress
     if (step === 1) {
       const { email } = getValues();
 
