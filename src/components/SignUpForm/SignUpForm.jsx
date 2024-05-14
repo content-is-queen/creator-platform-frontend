@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import "react-toastify/dist/ReactToastify.css";
-
 import { useForm } from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
 
@@ -24,11 +22,9 @@ const SignUpForm = () => {
     trigger,
     reset,
     getValues,
-    isDirty,
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
-
   const { signup } = useAuth();
   const router = useRouter();
 
@@ -93,7 +89,7 @@ const SignUpForm = () => {
       }
     }
 
-    // Create an array of the steps required fields
+    // Create an array of the current steps required fields
     const fields = active.steps[step].fields.reduce((acc, currentValue) => {
       const { name, rules } = currentValue;
 
@@ -104,7 +100,7 @@ const SignUpForm = () => {
       }
     }, "");
 
-    // Check if required fields for step are valid
+    // Check if fields required for current step are valid
     trigger(fields);
 
     setTimeout(() => {
@@ -135,6 +131,7 @@ const SignUpForm = () => {
           fields={active.steps[step].fields}
         />
 
+        {/* TODO: Disable button if required fields aren't filled in */}
         <Button
           as="button"
           className="mt-8"
