@@ -42,8 +42,8 @@
           {
             "name": "bio",
             "type": "text",
-            "children": "Bio",
-            "rules": { "required": "Bio is required" }
+            "children": "Description",
+            "rules": { "required": "Description is required" }
           },
           {
             "name": "podcast_name",
@@ -105,18 +105,6 @@
               "pattern": {
                 "value": "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i",
                 "message": "invalid email address"
-              }
-            }
-          },
-          {
-            "name": "password",
-            "type": "password",
-            "children": "Password",
-            "rules": {
-              "required": "Password is required",
-              "minLength": {
-                "value": 6,
-                "message": "Password must be at least 6 characters"
               }
             }
           }

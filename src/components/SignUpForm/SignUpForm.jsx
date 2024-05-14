@@ -12,6 +12,7 @@ import useAuth from "@/hooks/useAuth";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Tabs from "@/components/Tabs";
+import { Error } from "@/components/Form";
 import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
 
 import OPTIONS from "@/data/signup_data.json";
@@ -23,6 +24,7 @@ const SignUpForm = () => {
     trigger,
     reset,
     getValues,
+    isDirty,
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
@@ -40,6 +42,7 @@ const SignUpForm = () => {
   const [errors, setError] = useState({});
 
   const isLastStep = step === totalSteps;
+
   useEffect(() => {
     clearErrors();
     reset();
@@ -89,15 +92,19 @@ const SignUpForm = () => {
       }
     }
 
-    trigger([
-      "email",
-      "password",
-      "first_name",
-      "last_name",
-      "interest",
-      "bio",
-      "organisation_name",
-    ]);
+    // Create an array of the steps required fields
+    const fields = active.steps[step].fields.reduce((acc, currentValue) => {
+      const { name, rules } = currentValue;
+
+      if (rules) {
+        return [...acc, name];
+      } else {
+        return [...acc];
+      }
+    }, "");
+
+    // Check if required fields for step are valid
+    trigger(fields);
 
     setTimeout(() => {
       if (isLastStep || Object.keys(formErrors).length > 0 || isRegistered)
@@ -144,11 +151,7 @@ const SignUpForm = () => {
           </Link>
         </Text>
       </form>
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
+      {errors?.message && <Error>{errors.message}</Error>}
     </>
   );
 };
