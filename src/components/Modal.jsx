@@ -33,7 +33,7 @@ const Modal = ({
         )}
       >
         {title && (
-          <Heading size="3xl" className="mb-12">
+          <Heading size="3xl" className={clsx("mb-12", ALIGNMENT[align])}>
             {title}
           </Heading>
         )}
