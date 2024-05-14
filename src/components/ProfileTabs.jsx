@@ -1,3 +1,6 @@
+
+"use client";
+
 import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa'; // Import the cancel icon
 import Section from './Section';
@@ -94,7 +97,7 @@ const ProfileTabs = () => {
                   style={{
                     marginLeft: '-25px',
                     cursor: 'pointer',
-                    color: '#888',
+                    color: '#',
                     fontSize: '15px'
                   }}
                 />
