@@ -9,9 +9,11 @@ import { useUser } from "@/context/UserContext";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
+import useToken from "@/hooks/useToken";
 
-const ProposalForm = ({ opportunityId }) => {
+const ApplicationProposalForm = ({ opportunityId }) => {
   const { user } = useUser();
+  const token = useToken();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
@@ -20,34 +22,43 @@ const ProposalForm = ({ opportunityId }) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (opportunityId, clientId) => {
-    const postData = {
+    setError({});
+    setLoading(true);
+
+    const data = {
       opportunity_id: opportunityId,
       user_id: user.uid,
-      brand_id: clientId,
+      creator_id: clientId,
       proposal: proposal,
     };
 
-    await API(
-      "/applications",
-      {
+    try {
+      const response = await API(`/applications`, {
         method: "POST",
-      },
-      postData
-    )
-      .then((data) => {
-        setStatus("submitted");
-      })
-      .catch((err) => {
-        setError({
-          message: "Something went wrong...",
-        });
-
-        console.log("An error has occurred", err);
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      if (response.status === 201) {
+        setStatus("submitted");
+      } else {
+        setError({ message: response.message });
+      }
+    } catch (err) {
+      setError({
+        message: "Something went wrong...",
+      });
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (status === "submitted" && Object.entries(errors).length < 1) {
-    return <>Thank you</>;
+  if (status === "submitted") {
+    return <>Thank you for your application.</>;
   }
 
   return (
@@ -69,7 +80,7 @@ const ProposalForm = ({ opportunityId }) => {
             minlength="5"
             required
           >
-            Tell us your plan of action
+            Write how you will approach the opportuity
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
@@ -81,4 +92,4 @@ const ProposalForm = ({ opportunityId }) => {
   );
 };
 
-export default ProposalForm;
+export default ApplicationProposalForm;

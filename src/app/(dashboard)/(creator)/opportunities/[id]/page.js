@@ -8,7 +8,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
-import ProposalForm from "@/components/Creator/ProposalForm";
+import ApplicationProposalForm from "@/components/Creator/ApplicationProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
 
 export async function generateStaticParams() {
@@ -51,7 +51,10 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
 
           <div className="space-y-5 min-h-24">{description}</div>
 
-          <ProposalForm opportunityId={opportunity_id} clientId={user_id} />
+          <ApplicationProposalForm
+            opportunityId={opportunity_id}
+            clientId={user_id}
+          />
         </div>
       </Container>
     </div>

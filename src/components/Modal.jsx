@@ -22,7 +22,7 @@ const Modal = ({ size = "3xl", title, children, ...otherProps }) => (
         )}
       >
         {title && (
-          <Heading size="3xl" className="text-center mb-12">
+          <Heading size="3xl" className="mb-12">
             {title}
           </Heading>
         )}
