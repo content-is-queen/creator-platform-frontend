@@ -27,7 +27,7 @@ const FIELDS = [
   },
 ];
 
-const ResetPasswordForm = () => {
+const ForgotPasswordForm = () => {
   const { token } = useToken();
   const {
     handleSubmit,
@@ -108,4 +108,4 @@ const ResetPasswordForm = () => {
   );
 };
 
-export default ResetPasswordForm;
+export default ForgotPasswordForm;

@@ -1,13 +1,13 @@
 "use client";
 import Heading from "@/components/Heading";
-import ResetPasswordForm from "@/components/ResetPasswordForm";
+import ForgotPasswordForm from "@/components/ForgotPasswordForm";
 import React from "react";
 
-const reset = () => {
+const Forgot = () => {
   return (
     <>
       <Heading>Forgot password</Heading>
-      <ResetPasswordForm />
+      <ForgotPasswordForm />
     </>
   );
 };
