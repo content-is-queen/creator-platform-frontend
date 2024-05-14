@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import API from "@/api/api";
-
 import Card from "@/components/Card";
 import Tag from "@/components/Tag";
 import ProfileIcon from "@/components/ProfileIcon";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Button from "@/components/Button";
-import Modal from "../Modal";
+import Modal from "@/components/Modal";
+
+import { getOpportunityById } from "@/helpers/getServerComponentData";
 
 const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
   const [opportunity, setOpportunity] = useState(null);
@@ -15,18 +15,16 @@ const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    async function getOpportunityById(id) {
+    (async (opportunity_id) => {
       try {
-        const response = await API(`/opportunities/opportunityid/${id}`);
+        const response = await getOpportunityById(opportunity_id);
         setOpportunity(response);
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
-    }
-
-    getOpportunityById(opportunity_id);
+    })(opportunity_id);
   }, [opportunity_id]);
 
   return (
