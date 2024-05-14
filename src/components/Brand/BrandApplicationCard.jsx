@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Tag from "@/components/Tag";
 import API from "@/api/api";
 import Heading from "../Heading";
+import useToken from "@/hooks/useToken";
 
 async function getUser(id) {
   try {
@@ -24,10 +25,17 @@ const BrandApplicationCard = async ({
   proposal,
   user_id,
 }) => {
+  const token = useToken();
   const { first_name, last_name } = await getUser(user_id);
   const rejectApplication = async (id) => {
     try {
-      await API.put(`/applications/${id}`, { status: "rejected" });
+      await API(`/auth/user`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: { status: "rejected" },
+      });
       setApplications(
         applications.filter((i) => i.application_id !== application_id)
       );
@@ -37,7 +45,14 @@ const BrandApplicationCard = async ({
   };
   const acceptApplication = async (id) => {
     try {
-      await API.put(`/applications/${id}`, { status: "accepted" });
+      await API(`/auth/user`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: { status: "accepted" },
+      });
+
       setApplications(
         applications.filter((i) => i.application_id !== application_id)
       );
