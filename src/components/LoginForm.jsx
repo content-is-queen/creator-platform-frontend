@@ -71,7 +71,7 @@ const LoginForm = () => {
     } catch (error) {
       console.error("Login error:", error);
       setError({
-        message: "Something went wrong when signing up",
+        message: "Something went wrong when signing in",
       });
     }
   };
