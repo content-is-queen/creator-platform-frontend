@@ -81,12 +81,28 @@ const Input = ({ name, type = "text", children, ...otherProps }) => (
 );
 
 const Form = forwardRef(function Form(
-  { errors, setError, success, setSuccess, children, onSubmit, ...otherProps },
+  {
+    errors,
+    setError,
+    success,
+    setSuccess,
+    children,
+    handleSubmit,
+    ...otherProps
+  },
   ref
 ) {
   return (
     <>
-      <form ref={ref} onSubmit={onSubmit} {...otherProps}>
+      <form
+        ref={ref}
+        onSubmit={(e) => {
+          e.preventDefault();
+          setError({});
+          handleSubmit();
+        }}
+        {...otherProps}
+      >
         {children}
       </form>
       {errors?.message && (

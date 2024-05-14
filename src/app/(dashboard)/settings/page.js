@@ -37,14 +37,11 @@ const General = () => {
         body: JSON.stringify(formData),
       });
       setUser({ ...user, username: formData.username, email: formData.email });
-      console.log("response", response);
       if (response.status === 200) {
         setSuccess({
           message: "Settings updated successfully",
         });
-        return;
       }
-      return response;
     } catch (error) {
       setError({
         message: error?.message || "Something went wrong. User sign up failed.",

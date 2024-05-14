@@ -49,9 +49,7 @@ const Password = () => {
           message:
             response.message || "Something went wrong. User sign up failed.",
         });
-        return;
       }
-      return response;
     } catch (error) {
       setError({
         message: error.message || "Something went wrong. User sign up failed.",
