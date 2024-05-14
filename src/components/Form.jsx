@@ -37,7 +37,7 @@ export const Error = ({ children }) => (
 );
 
 export const Success = ({ children }) => (
-  <div className="bg-green-100 text-green-500 text-sm mt-4 py-2 px-4">
+  <div className="border-l-green-600 border-l-4 bg-green-50 text-queen-black/90 text-sm mt-4 py-2 px-4">
     <p>{children}</p>
   </div>
 );
