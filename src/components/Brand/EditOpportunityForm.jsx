@@ -36,13 +36,14 @@ const EditOpportunityForm = (props) => {
         {
           method: "PUT",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(data),
         }
       );
 
-      if (response.status === 200) {
+      if (response.statusCode === 200) {
         window.location.reload();
       } else {
         setError({ message: "Oops something went wrong when updating your project" })
