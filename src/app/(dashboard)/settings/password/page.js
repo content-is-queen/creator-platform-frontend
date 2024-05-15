@@ -17,7 +17,15 @@ const Password = () => {
   });
   const { token } = useToken();
   const handleChange = (e) => {
-    !updated && setUpdated(true);
+    const checkIsEmpty = (str) => {
+      return str.trim().length === 0;
+    }
+
+    const isEmpty = checkIsEmpty(formData.old_password) || checkIsEmpty(formData.password)
+
+    setUpdated(!isEmpty);
+
+
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };

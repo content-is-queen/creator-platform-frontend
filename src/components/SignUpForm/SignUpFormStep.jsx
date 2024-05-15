@@ -1,15 +1,23 @@
-"use client";
-
-import "react-toastify/dist/ReactToastify.css";
-
-import AuthInput from "@/components/AuthInput";
-import AuthRadio from "@/components/AuthRadio";
+import AuthInputController from "@/components/AuthInputController";
+import AuthRadioController from "@/components/AuthRadioController";
 
 const SignUpFormStep = ({ fields, errors, control }) => {
   return (
     <div className="space-y-6">
       {fields.map(({ children, options, name, ...otherProps }) => {
-        const Component = options ? AuthRadio : AuthInput;
+        let Component;
+
+        switch (name) {
+          case "interest":
+            Component = AuthRadioController;
+            break;
+          case "type":
+            Component = <>as</>;
+            break;
+          default:
+            Component = AuthInputController;
+        }
+
         return (
           <Component
             key={name}

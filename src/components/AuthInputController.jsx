@@ -9,7 +9,7 @@ export const inputStyles = {
     "uppercase peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 uppercase",
 };
 
-const AuthInput = ({
+const AuthInputController = ({
   children,
   name,
   className,
@@ -51,4 +51,4 @@ const AuthInput = ({
   </div>
 );
 
-export default AuthInput;
+export default AuthInputController;

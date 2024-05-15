@@ -7,7 +7,7 @@ import API from "@/api/api";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
-import AuthInput from "@/components/AuthInput";
+import AuthInputController from "@/components/AuthInputController";
 import { Success, Error } from "@/components/Form";
 
 const FIELDS = [
@@ -77,7 +77,7 @@ const ForgotPasswordForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6">
           {FIELDS.map(({ children, name, ...otherProps }) => (
-            <AuthInput
+            <AuthInputController
               key={name}
               control={control}
               errors={formErrors}
@@ -85,7 +85,7 @@ const ForgotPasswordForm = () => {
               {...otherProps}
             >
               {children}
-            </AuthInput>
+            </AuthInputController>
           ))}
         </div>
         <Button as="button" type="submit" className="mt-8">
