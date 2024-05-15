@@ -1,23 +1,16 @@
+import { useEffect, useState } from "react";
+
+import useToken from "@/hooks/useToken";
+import API from "@/api/api";
+
 import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
+import LoadingPlaceholder from "@/components/LoadingPlaceholder"
 import Tag from "@/components/Tag";
-import API from "@/api/api";
-import Heading from "../Heading";
-import useToken from "@/hooks/useToken";
+import Heading from "@/components/Heading";
 
-async function getUser(id) {
-  try {
-    const res = await API(`/auth/user/${id}`);
-
-    const { message } = res;
-    return message;
-  } catch (error) {
-    throw new Error("Something went wrong when getting the user");
-  }
-}
-
-const BrandApplicationCard = async ({
+const BrandApplicationCard = ({
   setApplications,
   applications,
   application_id,
@@ -26,7 +19,24 @@ const BrandApplicationCard = async ({
   user_id,
 }) => {
   const token = useToken();
-  const { first_name, last_name } = await getUser(user_id);
+  const [user, setUser] = useState(null)
+
+  const getUser = async (id) => {
+    try {
+      const res = await API(`/auth/user/${id}`);
+
+      const { message } = res;
+      setUser(message);
+      return message;
+    } catch (error) {
+      throw new Error("Something went wrong when getting the user");
+    }
+  }
+
+  useEffect(() => {
+    getUser(user_id);
+  }, [])
+
   const rejectApplication = async (id) => {
     try {
       await API(`/auth/user`, {
@@ -67,7 +77,10 @@ const BrandApplicationCard = async ({
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
           <Heading size="2xl">
-            {first_name} {last_name}
+            {!user ? (
+              <LoadingPlaceholder dark />
+            ) :
+              <>{user?.first_name} {user?.last_name}</>}
           </Heading>
           <Text size="sm" className="capitalize">
             {opportunityTitle} &bull; Application
@@ -80,7 +93,7 @@ const BrandApplicationCard = async ({
         </div>
       </div>
 
-      <Text> {proposal}</Text>
+      {!user ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
 
       <div className="flex gap-2 mt-auto pt-12">
         <Button

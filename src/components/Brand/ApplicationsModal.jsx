@@ -40,7 +40,7 @@ const ApplicationsModal = ({
 
   const getApplicationsById = async (id) => {
     try {
-      const res = await API(`/applications/${id}`);
+      const res = await API(`/applications/opportunity/${id}`);
       console.log(res);
       setApplications(res.filter((i) => i.status === "pending"));
     } catch (error) {
@@ -54,7 +54,7 @@ const ApplicationsModal = ({
     getApplicationsById(opportunityId);
   }, []);
 
-  useEffect(() => {}, [applications]);
+  useEffect(() => { }, [applications]);
 
   useEffect(() => {
     if (swiperElRef.current) {
