@@ -41,7 +41,12 @@ const EditOpportunityForm = (props) => {
           body: JSON.stringify(data),
         }
       );
-      console.log(response)
+
+      if (response.status === 200) {
+        window.location.reload();
+      } else {
+        setError({ message: "Oops something went wrong when updating your opportunity" })
+      }
     } catch (err) {
       setError({
         message: "There was a problem updating your opportunity.",
