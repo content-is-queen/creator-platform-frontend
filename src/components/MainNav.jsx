@@ -1,30 +1,32 @@
 "use client";
 
-import { useState, useLayoutEffect } from "react";
-import { redirect, usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 
-import { useDispatch } from "react-redux";
-import { userLogout } from "@/app/redux/features/profile/authSlice";
-
 import { IoNotificationsOutline } from "react-icons/io5";
-
-import useAuth from "@/hooks/useAuth";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 
-const MainNav = (userInfo) => {
+import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
+
+const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
-  const dispatch = useDispatch();
 
-  const { user, logout } = useAuth();
+  const router = useRouter();
+  const { logout } = useAuth();
+  const { user, userLoaded } = useUser();
+
   const pathname = usePathname();
 
   const handleIsUserClicked = () => {
+    if (!user) return;
     setIsUserClicked((prev) => !prev);
   };
 
@@ -33,16 +35,19 @@ const MainNav = (userInfo) => {
   };
 
   const handleSignOut = async () => {
-    localStorage.removeItem("userProfileData");
-    dispatch(userLogout());
     logout();
+    router.push("/login");
   };
 
-  useLayoutEffect(() => {
-    if (!user) {
-      redirect("/login");
+  useEffect(() => {
+    if (
+      userLoaded &&
+      !user &&
+      (pathname !== "/signup" || pathname !== "/login")
+    ) {
+      router.push("/login");
     }
-  }, []);
+  }, [userLoaded]);
 
   const LINKS = {
     creator: [
@@ -83,10 +88,11 @@ const MainNav = (userInfo) => {
             id="navbar-user"
           >
             <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0">
-              {LINKS[user.role]?.map(({ href, label }) => (
+              {LINKS[user?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
+                    pathname !== href && "opacity-80",
                     pathname === href &&
                       "relative after:absolute after:h-[1px] after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1"
                   )}
@@ -118,7 +124,7 @@ const MainNav = (userInfo) => {
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
                   data-dropdown-placement="bottom"
-                  photoUrl={userInfo?.imageUrl}
+                  imageUrl={user?.imageUrl}
                 >
                   <span className="sr-only">Open user menu</span>
                 </ProfileIcon>

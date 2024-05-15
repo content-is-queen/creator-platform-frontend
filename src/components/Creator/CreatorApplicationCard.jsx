@@ -1,31 +1,66 @@
-import API from "@/api/api";
+import { useEffect, useState } from "react";
 
 import Card from "@/components/Card";
-import Text from "@/components/Text";
-import Button from "@/components/Button";
 import Tag from "@/components/Tag";
-import Heading from "../Heading";
-import ProfileIcon from "../ProfileIcon";
+import ProfileIcon from "@/components/ProfileIcon";
+import LoadingPlaceholder from "@/components/LoadingPlaceholder";
+import Button from "@/components/Button";
+import Modal from "@/components/Modal";
 
-// async function getOpportunityById(id) {
-//   try {
-//     const res = await API.get(`/opportunities/opportunityid/${id}`);
-//     const {
-//       data: { message },
-//     } = res;
-//     return message;
-//   } catch (error) {
-//     throw new Error("Something went wrong when getting the opportunity");
-//   }
-// }
-const CreatorApplicationCard = async ({ status, opportunity_id }) => {
-  // const { title, type, deadline } = getOpportunityById(opportunity_id);
+import { getOpportunityById } from "@/helpers/getServerComponentData";
+
+const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
+  const [opportunity, setOpportunity] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    (async (opportunity_id) => {
+      try {
+        const response = await getOpportunityById(opportunity_id);
+        setOpportunity(response);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    })(opportunity_id);
+  }, [opportunity_id]);
 
   return (
     <Card className="flex items-center justify-between">
-      <ProfileIcon />
+      {loading ? (
+        <LoadingPlaceholder />
+      ) : (
+        <>
+          <div className="flex gap-x-6 items-center">
+            <ProfileIcon />
+            {opportunity?.title}
+          </div>
 
-      <Tag>{status}</Tag>
+          <Tag>{status}</Tag>
+          {modalOpen && (
+            <Modal
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              title="Application"
+            >
+              {proposal}
+            </Modal>
+          )}
+          <Button
+            variant="white"
+            size="sm"
+            as="button"
+            type="button"
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          >
+            View
+          </Button>
+        </>
+      )}
     </Card>
   );
 };

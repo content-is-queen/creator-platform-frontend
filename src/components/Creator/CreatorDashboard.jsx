@@ -1,8 +1,4 @@
-"use client";
-
-import { useState, useEffect } from "react";
-
-import API from "@/api/api";
+import { useEffect, useState } from "react";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
@@ -12,50 +8,43 @@ import Section from "@/components/Section";
 import Text from "@/components/Text";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 
-const getApplicationsByUserId = async (id) => {
-  try {
-    const res = await API.get("/applications");
-    return res.data.message.filter((i) => i.user_id === id);
-  } catch (error) {
-    throw new Error("Something went wrong when trying to get the applications");
-  }
-};
+import API from "@/api/api";
+import { useUser } from "@/context/UserContext";
 
-const CreatorDashboard = ({ user: { user_id } }) => {
+const CreatorDashboard = () => {
   const [applications, setApplications] = useState([]);
+  const [loading, setloading] = useState(true);
+
+  const { user } = useUser();
 
   useEffect(() => {
-    if (user_id) {
-      (async () => {
-        setApplications(await getApplicationsByUserId(user_id));
-      })();
+    async function getOpportunities() {
+      try {
+        const response = await API("/applications");
+        setApplications(response.message.filter((i) => i.user_id === user.uid));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setloading(false);
+      }
     }
-  }, [user_id]);
 
-  // Application stats
-  const proposals = applications.length;
-  const inProgress = applications.filter((i) => i.status === "accepted").length;
-  const inReview = applications.filter((i) => i.status === "pending").length;
-
-  const STATS = [
-    { name: "proposals", value: proposals },
-    { name: "in_review", value: inReview },
-    { name: "in_progress", value: inProgress },
-    { name: "completed", value: 0 },
-  ];
+    getOpportunities();
+  }, []);
 
   return (
     <>
       <div
         style={{ minHeight: "calc(100vh - var(--nav-height))" }}
-        className="flex justify-center items-center py-12 text-center md:py-20 bg-queen-blue bg-orange-dots bg-repeat-x bg-[center_bottom_-4rem]"
+        className="flex justify-center items-center py-12 text-center md:py-20 bg-queen-blue bg-purple-dots bg-repeat-x bg-[center_bottom_-4rem]"
       >
         <Container className="space-y-4 pb-20">
-          <Heading className="text-queen-white mb-12">Welcome</Heading>
-          {!applications || applications.length > 0 ? (
-            <StatsPanel stats={STATS} />
-          ) : (
-            <div className="space-y-6 max-w-lg text-queen-white">
+          <Heading className="text-queen-white mb-12">Overview</Heading>
+
+          <StatsPanel loading={loading} applications={applications} />
+
+          {!loading && applications.length < 1 && (
+            <div className="space-y-6 max-w-lg text-queen-white pt-12 pb-20">
               <p>
                 It looks like you haven’t applied for any opportunities yet. Why
                 don’t you check out the latest opportunities.
@@ -67,7 +56,7 @@ const CreatorDashboard = ({ user: { user_id } }) => {
           )}
         </Container>
       </div>
-      {applications.length > 0 && (
+      {applications && applications.length > 0 && (
         <Section size="4xl">
           <Text size="xl" className="mb-8">
             Applications
@@ -88,3 +77,5 @@ const CreatorDashboard = ({ user: { user_id } }) => {
 };
 
 export default CreatorDashboard;
+
+CreatorDashboard.role = "creator";

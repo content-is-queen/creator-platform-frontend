@@ -9,7 +9,7 @@ import { Dialog } from "@headlessui/react";
 
 import API from "@/api/api";
 
-import ClientApplicationCard from "@/components/Client/ClientApplicationCard";
+import BrandApplicationCard from "@/components/Brand/BrandApplicationCard";
 import Spinner from "@/components/Spinner";
 import Text from "@/components/Text";
 import clsx from "clsx";
@@ -24,7 +24,7 @@ const ApplicationsModal = ({
   setIsApplicationsOpen,
 }) => {
   const [applications, setApplications] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setloading] = useState(true);
 
   const swiperElRef = useRef(null);
 
@@ -40,14 +40,13 @@ const ApplicationsModal = ({
 
   const getApplicationsById = async (id) => {
     try {
-      const res = await API.get(`/applications/${id}`);
-      setApplications(res.data.filter((i) => i.status === "pending"));
+      const res = await API(`/applications/${id}`);
+      console.log(res);
+      setApplications(res.filter((i) => i.status === "pending"));
     } catch (error) {
-      throw new Error(
-        "Something went wrong when trying to get the applications"
-      );
+      console.error(error);
     } finally {
-      setIsLoading(false);
+      setloading(false);
     }
   };
 
@@ -66,7 +65,7 @@ const ApplicationsModal = ({
     }
   }, [swiperElRef]);
 
-  if (isLoading) {
+  if (loading) {
     return <Spinner />;
   }
 
@@ -89,7 +88,7 @@ const ApplicationsModal = ({
               >
                 {applications.map((application, index) => (
                   <swiper-slide key={index} class="p-1">
-                    <ClientApplicationCard
+                    <BrandApplicationCard
                       key={`application-${index}`}
                       setApplications={setApplications}
                       applications={applications}

@@ -11,13 +11,15 @@ import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
 import SubMenu from "@/components/SubMenu";
-import ApplicationsModal from "@/components/Client/ApplicationsModal";
+import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
 import Spinner from "../Spinner";
+import useToken from "@/hooks/useToken";
 
-const ClientOpportunityCard = (props) => {
+const BrandOpportunityCard = (props) => {
+  const token = useToken();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
@@ -30,10 +32,16 @@ const ClientOpportunityCard = (props) => {
     setIsEditOpen(true);
   };
 
-  const deleteOpportunity = (id) => {
+  const deleteOpportunity = async (id) => {
     try {
       if (confirm("Are you sure you want to delete this opportunity?")) {
-        API.delete(`/opportunities/opportunityid/${id}`);
+        const response = await API(`/opportunities/opportunityid/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         window.location.reload();
       }
     } catch (e) {
@@ -48,9 +56,10 @@ const ClientOpportunityCard = (props) => {
   return (
     <>
       <Card className="inline-block space-y-4 w-full max-w-sm relative">
-        <div className="flex content-start items-center">
-          <p className="text-lg mr-3 text-queen-black capitalize">{title}</p>
-          <Tag>{statusLabel}</Tag>
+        <div className="flex gap-x-3 content-start items-center">
+          <p className="text-lg text-queen-black capitalize truncate max-w-full w-60">
+            {title}
+          </p>
           <button
             type="button"
             className="ml-auto pl-2"
@@ -58,6 +67,7 @@ const ClientOpportunityCard = (props) => {
           >
             <FontAwesomeIcon icon={faEllipsisV} />
           </button>
+
           {menuOpen && (
             <SubMenu>
               <SubMenu.Item>
@@ -82,7 +92,7 @@ const ClientOpportunityCard = (props) => {
           )}
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-6 items-center">
           <div className="flex flex-col">
             <Text as="span" color="muted" size="xs">
               Compensation
@@ -98,6 +108,9 @@ const ClientOpportunityCard = (props) => {
             <Text as="span" size="sm">
               {deadline}
             </Text>
+          </div>
+          <div>
+            <Tag>{statusLabel}</Tag>
           </div>
         </div>
 
@@ -127,4 +140,4 @@ const ClientOpportunityCard = (props) => {
   );
 };
 
-export default ClientOpportunityCard;
+export default BrandOpportunityCard;

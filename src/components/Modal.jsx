@@ -11,7 +11,18 @@ const SIZES = {
   "7xl": "max-w-7xl",
 };
 
-const Modal = ({ size = "3xl", title, children, ...otherProps }) => (
+const ALIGNMENT = {
+  left: "text-left",
+  center: "text-center",
+};
+
+const Modal = ({
+  align = "center",
+  size = "3xl",
+  title,
+  children,
+  ...otherProps
+}) => (
   <Dialog className="relative z-50" {...otherProps}>
     <div className="fixed inset-0 bg-queen-black/75" aria-hidden="true" />
     <div className="fixed inset-0 flex w-screen justify-center p-4">
@@ -22,7 +33,7 @@ const Modal = ({ size = "3xl", title, children, ...otherProps }) => (
         )}
       >
         {title && (
-          <Heading size="3xl" className="text-center mb-12">
+          <Heading size="3xl" className={clsx("mb-12", ALIGNMENT[align])}>
             {title}
           </Heading>
         )}

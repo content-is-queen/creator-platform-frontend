@@ -10,40 +10,52 @@ import Form from "@/components/Form";
 import { inputStyles } from "@/components/Form";
 
 import opportunityData from "@/data/opportunity_data.json";
+import useToken from "@/hooks/useToken";
 
 const EditOpportunityForm = (props) => {
+  const token = useToken();
   const { type, opportunity_id } = props;
   const data = opportunityData[type];
 
   const [updatedFields, setUpdatedFields] = useState({});
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const changeHandler = (fieldName, value) => {
     setUpdatedFields({ ...updatedFields, [fieldName]: value });
   };
 
   const handleSubmit = async (fields, opportunityId) => {
-    const postData = { type: type, opportunity_id: opportunityId, ...fields };
+    setLoading(true);
+    setError({});
+    const data = { type: type, opportunity_id: opportunityId, ...fields };
 
     try {
-      await API.put(`/opportunities/opportunityid/${opportunityId}`, postData);
+      const response = await API(
+        `/opportunities/opportunityid/${opportunityId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: data,
+        }
+      );
       window.location.reload();
-    } catch ({
-      response: {
-        data: { message },
-      },
-    }) {
-      setErrors({
+    } catch (err) {
+      setError({
         message: "There was a problem updating your opportunity.",
       });
-      console.error(message);
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Form
       errors={errors}
-      setErrors={setErrors}
+      setError={setError}
       handleSubmit={() => handleSubmit(updatedFields, opportunity_id)}
     >
       <div className="space-y-10">
@@ -163,8 +175,13 @@ const EditOpportunityForm = (props) => {
         })}
       </div>
 
-      <Button as="button" type="submit" className="mt-8">
-        Update
+      <Button
+        as="button"
+        type="submit"
+        className="mt-8"
+        {...(Object.keys(updatedFields).length < 1 && { disabled: true })}
+      >
+        {loading && <Button.Spinner />} Update
       </Button>
     </Form>
   );

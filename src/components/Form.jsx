@@ -30,6 +30,18 @@ const Select = ({ name, options, children }) => (
   </div>
 );
 
+export const Error = ({ children }) => (
+  <div className="border-l-red-600 border-l-4 bg-red-50 text-queen-black/90 text-sm mt-4 py-2 px-4 rounded-sm">
+    <p>{children}</p>
+  </div>
+);
+
+export const Success = ({ children }) => (
+  <div className="border-l-green-600 border-l-4 bg-green-50 text-queen-black/90 text-sm mt-4 py-2 px-4">
+    <p>{children}</p>
+  </div>
+);
+
 const Checkbox = ({ name, options, children }) => (
   <div key={name}>
     <Text className="mb-4 uppercase">{children}</Text>
@@ -81,7 +93,15 @@ const Input = ({ name, type = "text", children, ...otherProps }) => (
 );
 
 const Form = forwardRef(function Form(
-  { errors, setErrors, children, handleSubmit, ...otherProps },
+  {
+    errors,
+    setError,
+    success,
+    setSuccess,
+    children,
+    handleSubmit,
+    ...otherProps
+  },
   ref
 ) {
   return (
@@ -90,18 +110,15 @@ const Form = forwardRef(function Form(
         ref={ref}
         onSubmit={(e) => {
           e.preventDefault();
-          setErrors({});
+          setError({});
           handleSubmit();
         }}
         {...otherProps}
       >
         {children}
       </form>
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
+      {errors?.message && <Error>{errors.message}</Error>}
+      {success?.message && <Success>{success.message}</Success>}
     </>
   );
 });
@@ -113,5 +130,9 @@ Form.Textarea = Textarea;
 Form.Checkbox = Checkbox;
 
 Form.Select = Select;
+
+Form.Success = Success;
+
+Form.Error = Error;
 
 export default Form;

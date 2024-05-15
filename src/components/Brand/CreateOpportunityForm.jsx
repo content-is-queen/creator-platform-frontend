@@ -1,7 +1,7 @@
 "use client";
 
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
+import { useUser } from "@/context/UserContext";
 import { useEffect, useRef, useState } from "react";
 
 import Button from "@/components/Button";
@@ -11,16 +11,19 @@ import data from "@/data/opportunity_data.json";
 
 const CreateOpportunityForm = ({ type }) => {
   const fields = data[type].fields;
-  const {
-    user: { user_id },
-  } = useAuth();
+  const { user } = useUser();
 
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const form = useRef();
 
-  useEffect(() => {}, [form]);
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
 
   const handleSubmit = async (fields, userId) => {
+    setLoading(true);
     const formData = new FormData(form.current);
 
     const keys = fields.reduce((acc, current) => {
@@ -53,18 +56,21 @@ const CreateOpportunityForm = ({ type }) => {
     });
 
     try {
-      await API.post("/opportunities", postData);
+      await API("/opportunities", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+
       window.location = "/";
-    } catch ({
-      response: {
-        data: { message },
-      },
-    }) {
-      setErrors({
+    } catch (err) {
+      setError({
         message: "Something went wrong...",
       });
 
-      console.error(message);
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,8 +78,8 @@ const CreateOpportunityForm = ({ type }) => {
     <Form
       ref={form}
       errors={errors}
-      setErrors={setErrors}
-      handleSubmit={() => handleSubmit(fields, user_id)}
+      setError={setError}
+      handleSubmit={() => handleSubmit(fields, user.uid)}
     >
       <div className="space-y-10">
         {fields.map(({ children, as, type, name, options }) => {
@@ -109,7 +115,7 @@ const CreateOpportunityForm = ({ type }) => {
       </div>
 
       <Button as="button" type="submit" className="mt-8">
-        Submit
+        {loading && <Button.Spinner />} Submit
       </Button>
     </Form>
   );
