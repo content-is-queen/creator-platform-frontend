@@ -80,15 +80,6 @@
             }
           }
         ]
-      },
-      "4": {
-        "title": "Account type",
-        "fields": [
-          {
-            "name": "type",
-            "options": []
-          }
-        ]
       }
     }
   },
@@ -172,15 +163,6 @@
         "rules": {
           "required": "Goal is required"
         }
-      },
-      "4": {
-        "title": "Account type",
-        "fields": [
-          {
-            "name": "type",
-            "options": []
-          }
-        ]
       }
     }
   }

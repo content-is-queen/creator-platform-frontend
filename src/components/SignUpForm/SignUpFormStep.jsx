@@ -11,9 +11,6 @@ const SignUpFormStep = ({ fields, errors, control }) => {
           case "interest":
             Component = AuthRadioController;
             break;
-          case "type":
-            Component = <>as</>;
-            break;
           default:
             Component = AuthInputController;
         }

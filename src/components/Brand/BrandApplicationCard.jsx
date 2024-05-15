@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder"
 import Tag from "@/components/Tag";
 import Heading from "@/components/Heading";
+import { useUser } from "@/context/UserContext";
 
 const BrandApplicationCard = ({
   setApplications,
@@ -19,6 +20,7 @@ const BrandApplicationCard = ({
   user_id,
 }) => {
   const token = useToken();
+  const { user: { uid } } = useUser();
   const [user, setUser] = useState(null)
 
   const getUser = async (id) => {
@@ -39,36 +41,47 @@ const BrandApplicationCard = ({
 
   const rejectApplication = async (id) => {
     try {
-      await API(`/auth/user`, {
+      const response = await API(`/auth/user`, {
         method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: { status: "rejected" },
+        body: JSON.stringify({ status: "rejected", user_id: user_id, creator_id: uid }),
       });
+
+      if (response?.error) {
+        throw new Error(response.error || "Something went wrong when rejecting the application");
+      }
+
       setApplications(
         applications.filter((i) => i.application_id !== application_id)
       );
     } catch (error) {
-      throw new Error("Rejecting application error");
+      console.error(error)
     }
   };
   const acceptApplication = async (id) => {
     try {
-      await API(`/auth/user`, {
+      const response = await API(`/auth/user`, {
         method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: { status: "accepted" },
+        body: JSON.stringify({ status: "accepted" }),
       });
+
+      if (response?.error) {
+        throw new Error(response.error || "Something went wrong when accpeting the application");
+      }
 
       setApplications(
         applications.filter((i) => i.application_id !== application_id)
       );
       // TODO: Add screen to take to conversation
     } catch (error) {
-      throw new Error("Accepting application error");
+      console.error(error)
     }
   };
 

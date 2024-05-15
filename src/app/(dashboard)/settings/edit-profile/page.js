@@ -58,9 +58,10 @@ const EditProfile = () => {
       const res = await API(`/auth/user`, {
         method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: formData,
+        body: JSON.stringify(formData),
       });
 
       if (res.status === 200) {
@@ -70,7 +71,8 @@ const EditProfile = () => {
           setError({
             message: "Something went wrong when updating your profile",
           });
-          return;
+
+          throw new Error("Something went wrong when updating the user profile");
         }
 
         localStorage.removeItem("userProfile");
