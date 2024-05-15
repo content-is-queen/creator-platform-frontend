@@ -45,7 +45,7 @@ const EditOpportunityForm = (props) => {
       if (response.status === 200) {
         window.location.reload();
       } else {
-        setError({ message: "Oops something went wrong when updating your opportunity" })
+        setError({ message: "Oops something went wrong when updating your project" })
       }
     } catch (err) {
       setError({
