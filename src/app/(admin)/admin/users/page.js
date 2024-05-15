@@ -82,8 +82,58 @@ const Users = () => {
       }
       console.log(response, "direct response..........");
     } catch (error) {
-      const { message } = error.response.data;
+      const { message } = error.response;
       toast.error(message || "Try again");
+    }
+  };
+  const handleUserActivation = async (data) => {
+    console.log(data, "data");
+
+    setError({});
+    try {
+      if (data?.activated === false) {
+        const response = await API(`/admin/activate/${data?.id}`, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response?.status > 200) {
+          setError({
+            message:
+              response?.message || "Something went wrong. User sign up failed.",
+          });
+          return;
+        }
+        if (response?.status === 200) {
+          adminGetAllTheUsers();
+        }
+      }
+      if (data?.activated === true) {
+        const response = await API(`/admin/deactivate/${data?.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response?.status > 200) {
+          setError({
+            message:
+              response?.message || "Something went wrong. User sign up failed.",
+          });
+          return;
+        }
+        if (response?.status === 200) {
+          adminGetAllTheUsers();
+        }
+      }
+
+      console.log(response, "direct response..........");
+    } catch (error) {
+      // const { message } = erresponse;
+      // toast.error(message || "Try again");
     }
   };
 
@@ -93,7 +143,7 @@ const Users = () => {
         <div className="min-w-[80%] ">
           {errors?.message && (
             <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-              <p>{errors.message}</p>
+              <p>{errors?.message}</p>
             </div>
           )}
           <AdminSearch searchQuery={searchQuery} />
@@ -105,6 +155,7 @@ const Users = () => {
             <UsersList
               list={filteredUsersList}
               selectedId={deleteSelectedUser}
+              activate={handleUserActivation}
             />
           )}
         </div>

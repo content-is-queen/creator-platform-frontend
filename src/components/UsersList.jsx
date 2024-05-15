@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import API from "@/api/api";
 import useToken from "@/hooks/useToken";
 
-const UsersList = ({ list, selectedId }) => {
+const UsersList = ({ list, selectedId, activate }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState({});
   const [errors, setError] = useState({});
@@ -24,6 +24,10 @@ const UsersList = ({ list, selectedId }) => {
 
   const deleteUser = async (user) => {
     selectedId(user);
+  };
+
+  const ActivateUser = async (id) => {
+    activate(id);
   };
 
   return (
@@ -107,11 +111,13 @@ const UsersList = ({ list, selectedId }) => {
 
                   <td className="px-6 py-4">
                     <div className="flex items-center">
-                      <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
-                      Activated
+                      <div
+                        className={`h-2.5 w-2.5 rounded-full ${item?.isActivated ? "bg-green-500" : "bg-red-500"} me-2`}
+                      ></div>{" "}
+                      {item?.isActivated ? "Activated" : "Deactivated"}
                     </div>
                   </td>
-                  <td className="px-6 py-4">{item.role}</td>
+                  <td className="px-6 py-4">{item?.email}</td>
                   <td className="px-6 py-4 relative">
                     <button
                       type="button"
@@ -125,16 +131,21 @@ const UsersList = ({ list, selectedId }) => {
                         <SubMenu.Item>
                           <button
                             type="button"
-                            onClick={() => editOpportunity(uid)}
+                            onClick={() =>
+                              ActivateUser({
+                                id: item?.uid,
+                                activated: item?.isActivated,
+                              })
+                            }
                             className="px-4 py-1 w-full text-left inline-block"
                           >
-                            Edit
+                            {!item?.isActivated ? "Activate" : "Deactivate"}
                           </button>
                         </SubMenu.Item>
                         <SubMenu.Item>
                           <button
                             type="button"
-                            onClick={() => deleteUser(item.uid)}
+                            onClick={() => deleteUser(item?.uid)}
                             className="px-4 py-1 w-full text-left inline-block"
                           >
                             Delete
