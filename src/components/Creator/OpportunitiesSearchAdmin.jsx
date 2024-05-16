@@ -7,7 +7,7 @@ import useToken from "@/hooks/useToken";
 import API from "@/api/api";
 import { getOpportunities } from "@/utils";
 
-const OpportunitiesSearchAdmin = ({ opportunities }) => {
+const OpportunitiesSearchAdmin = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [errors, setError] = useState({});
   const { token } = useToken();
@@ -15,15 +15,37 @@ const OpportunitiesSearchAdmin = ({ opportunities }) => {
   const [openSubMenuId, setOpenSubMenuId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    setFilteredOpportunities(opportunities);
-  }, []);
+useEffect(() => {
+  if(token){
+
+    console.log(token,"_______________--");
+  }
+  const fetchData = async () => {
+    try {
+      const res = await API("/admin/opportunities",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      );
+      setFilteredOpportunities(res.message);
+      // return res.message;
+    } catch (error) {
+      throw new Error("Something went wrong with getting opportunities");
+    }
+  };
+
+  fetchData();
+}, [token]);
 
   const handleclose = () => {
     setIsOpen((prev) => !prev);
   };
 
-  console.log(filteredOpportunities);
+  console.log(filteredOpportunities,"list od");
 
   const handleIdToDelete = async (id) => {
     setError({});
@@ -43,7 +65,7 @@ const OpportunitiesSearchAdmin = ({ opportunities }) => {
         return;
       }
       if (response.status === 200) {
-        await getOpportunities();
+        // await getOpportunities();
       }
     } catch (error) {}
   };
@@ -54,10 +76,10 @@ const OpportunitiesSearchAdmin = ({ opportunities }) => {
 
   return (
     <>
-      <Search
+      {/* <Search
         opportunities={opportunities}
         setFilteredOpportunities={setFilteredOpportunities}
-      />
+      /> */}
 
       <div className="my-12 space-y-6">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -97,8 +119,8 @@ const OpportunitiesSearchAdmin = ({ opportunities }) => {
               </tr>
             </thead>
             <tbody>
-              {opportunities.length > 0 ? (
-                filteredOpportunities.map((opportunity) => (
+              {filteredOpportunities?.length > 0 ? (
+                filteredOpportunities?.map((opportunity) => (
                   <OpportunityRow
                     {...opportunity}
                     key={opportunity.opportunity_id}

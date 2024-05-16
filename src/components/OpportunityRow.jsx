@@ -6,11 +6,13 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 const OpportunityRow = ({
   title,
   applications,
+userName,
   status,
   target,
   deadline,
   opportunity_id,
   setIdToDelete,
+  numberOfApplications,
 }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
 
@@ -43,9 +45,10 @@ const OpportunityRow = ({
         {title}
       </th>
       <td className="px-6 py-4">{status}</td>
-      <td className="px-6 py-4">{target}</td>
+      <td className="px-6 py-4">{
+userName}</td>
       <td className="px-6 py-4">{deadline}</td>
-      <td className="px-6 py-4">{applications}</td>
+      <td className="px-6 py-4">{numberOfApplications}</td>
       <td className="px-6 py-4 relative">
         <button
           type="button"
