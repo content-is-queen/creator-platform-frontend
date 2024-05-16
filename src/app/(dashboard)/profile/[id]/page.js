@@ -2,7 +2,7 @@ import API from "@/api/api";
 
 import ProfileHero from "@/components/ProfileHero";
 import BrandProfileOpportunities from "@/components/Brand/BrandProfileOpportunities";
-import CreatorProfileTabs from "@/components/Creator/CreatorProfileTabs";
+import CreatorProfileTabs from "@/components/Creator/CreatorProfileTabs/CreatorProfileTabs";
 
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test
