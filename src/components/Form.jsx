@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 import Text from "@/components/Text";
+import clsx from "clsx";
 
 export const inputStyles = {
   input: [
@@ -77,11 +78,26 @@ const Textarea = ({ name, children, ...otherProps }) => (
   </div>
 );
 
-const Input = ({ name, type = "text", children, ...otherProps }) => (
-  <div>
-    <label className="uppercase" for={name}>
+const Input = ({
+  name,
+  type = "text",
+  className,
+  children,
+  label = "md",
+  description,
+  ...otherProps
+}) => (
+  <div className={className}>
+    <label
+      className={clsx(label === "md" ? "uppercase" : "text-sm")}
+      for={name}
+    >
       {children}
     </label>
+    {description && (
+      <span className="block text-sm text-queen-black/80">{description}</span>
+    )}
+
     <input
       type={type}
       className={inputStyles.input}

@@ -17,7 +17,6 @@ const General = () => {
   const [success, setSuccess] = useState({});
 
   const [formData, setFormData] = useState({
-    username: user?.username || "",
     email: user?.email || "",
   });
 
@@ -41,7 +40,7 @@ const General = () => {
         },
         body: JSON.stringify(formData),
       });
-      setUser({ ...user, username: formData.username, email: formData.email });
+      setUser({ ...user, email: formData.email });
       if (response.status === 200) {
         setSuccess({
           message: "Settings updated successfully",
@@ -59,14 +58,6 @@ const General = () => {
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
-        <Form.Input
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        >
-          Username
-        </Form.Input>
-
         <Form.Input name="email" value={formData.email} onChange={handleChange}>
           Email
         </Form.Input>

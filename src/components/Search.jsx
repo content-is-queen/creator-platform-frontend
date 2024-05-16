@@ -32,7 +32,7 @@ const Search = ({ opportunities, setFilteredOpportunities }) => {
 
   useEffect(() => {
     setFilteredOpportunities(() => {
-      if (query.trim() === "") {
+      if (query.trim().length === 0) {
         return opportunities;
       } else {
         return opportunities.filter(

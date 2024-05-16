@@ -1,12 +1,12 @@
 "use client";
 
-import ProfileTabs from "@/components/ProfileTabs";
+import { useEffect } from "react";
+import { useUser } from "@/context/UserContext";
+
+import CreatorProfileTabs from "@/components/Creator/CreatorProfileTabs/CreatorProfileTabs";
 import ProfileHero from "@/components/ProfileHero";
 import Button from "@/components/Button";
-import ProfileOpportunities from "@/components/ProfileOpportunities";
-
-import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
+import BrandProfileOpportunities from "@/components/Brand/BrandProfileOpportunities";
 
 const Profile = () => {
   const { user } = useUser();
@@ -21,9 +21,9 @@ const Profile = () => {
         </Button>
       </ProfileHero>
       {user?.role === "creator" ? (
-        <ProfileTabs />
+        <CreatorProfileTabs />
       ) : (
-        <ProfileOpportunities uid={user?.uid} />
+        <BrandProfileOpportunities uid={user?.uid} />
       )}
     </>
   );

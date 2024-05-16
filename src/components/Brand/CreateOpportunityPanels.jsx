@@ -15,19 +15,19 @@ const CreateOpportunityPanels = () => (
       switch (name) {
         case "job":
           classes = {
-            panel: "bg-queen-blue text-white bg-purple-dots-circle",
+            panel: "bg-queen-blue text-white bg-lilac-dots-circle",
             arrow: "text-queen-blue",
           };
           break;
         case "campaign":
           classes = {
-            panel: "bg-queen-black text-white bg-purple-dots-circle",
+            panel: "bg-queen-black text-white bg-lilac-dots-circle",
             arrow: "text-queen-black",
           };
           break;
         default:
           classes = {
-            panel: "bg-queen-orange text-white bg-purple-dots-circle",
+            panel: "bg-queen-orange text-white bg-lilac-dots-circle",
             arrow: "text-queen-orange",
           };
       }

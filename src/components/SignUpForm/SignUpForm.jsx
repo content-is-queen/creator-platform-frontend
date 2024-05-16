@@ -56,7 +56,9 @@ const SignUpForm = () => {
 
       if (response.status > 200) {
         setError({ message: response.message });
-        return;
+        throw new Error(
+          response.message || "Something went wrong when signing up"
+        );
       }
 
       router.push("/verify");
@@ -64,7 +66,7 @@ const SignUpForm = () => {
       setError({
         message: "Something went wrong. User sign up failed",
       });
-      console.error(err);
+      console.error("Sign up error:", err);
     } finally {
       setLoading(false);
     }

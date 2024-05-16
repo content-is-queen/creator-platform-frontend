@@ -35,7 +35,7 @@ const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
         <>
           <div className="flex gap-x-6 items-center">
             <ProfileIcon />
-            {opportunity?.title}
+            <p className="truncate w-32">{opportunity?.title}</p>
           </div>
 
           <Tag>{status}</Tag>

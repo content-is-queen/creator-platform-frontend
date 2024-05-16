@@ -5,7 +5,8 @@ import Container from "./Container";
 
 const THEMES = {
   orange: {
-    classes: "bg-queen-orange text-white",
+    classes:
+      "bg-queen-orange pb-40 bg-blue-dots bg-repeat-x bg-[center_bottom_-3.5rem] text-white",
   },
 };
 

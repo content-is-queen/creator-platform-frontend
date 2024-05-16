@@ -1,8 +1,8 @@
 import API from "@/api/api";
 
 import ProfileHero from "@/components/ProfileHero";
-import ProfileOpportunities from "@/components/ProfileOpportunities";
-import ProfileTabs from "@/components/ProfileTabs";
+import BrandProfileOpportunities from "@/components/Brand/BrandProfileOpportunities";
+import CreatorProfileTabs from "@/components/Creator/CreatorProfileTabs/CreatorProfileTabs";
 
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test
@@ -24,9 +24,9 @@ export default async function Profile({ params: { id: uid } }) {
     <>
       <ProfileHero user={user} />
       {user.role === "creator" ? (
-        <ProfileTabs />
+        <CreatorProfileTabs />
       ) : (
-        <ProfileOpportunities uid={uid} />
+        <BrandProfileOpportunities uid={uid} />
       )}
     </>
   );

@@ -21,14 +21,14 @@ const EditOpportunityForm = (props) => {
   const [errors, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const changeHandler = (fieldName, value) => {
-    setUpdatedFields({ ...updatedFields, [fieldName]: value });
+  const changeHandler = (field, value) => {
+    setUpdatedFields({ ...updatedFields, [field]: value });
   };
 
   const handleSubmit = async (fields, opportunityId) => {
     setLoading(true);
     setError({});
-    const data = { type: type, opportunity_id: opportunityId, ...fields };
+    const data = { type: type, ...fields };
 
     try {
       const response = await API(
@@ -36,12 +36,20 @@ const EditOpportunityForm = (props) => {
         {
           method: "PUT",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: data,
+          body: JSON.stringify(data),
         }
       );
-      window.location.reload();
+
+      if (response.statusCode === 200) {
+        window.location.reload();
+      } else {
+        setError({
+          message: "Oops something went wrong when updating your project",
+        });
+      }
     } catch (err) {
       setError({
         message: "There was a problem updating your opportunity.",

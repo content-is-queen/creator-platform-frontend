@@ -10,7 +10,7 @@ import { getUserProfile, useUser } from "@/context/UserContext";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
-import AuthInput from "@/components/AuthInput";
+import AuthInputController from "@/components/AuthInputController";
 import { Error } from "@/components/Form";
 
 const FIELDS = [
@@ -72,7 +72,7 @@ const LoginForm = () => {
         });
 
         auth.signOut();
-        return;
+        throw new Error("Something went wrong when getting the user profile");
       }
 
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
@@ -100,7 +100,7 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6">
           {FIELDS.map(({ children, name, ...otherProps }) => (
-            <AuthInput
+            <AuthInputController
               key={name}
               control={control}
               errors={formErrors}
@@ -108,7 +108,7 @@ const LoginForm = () => {
               {...otherProps}
             >
               {children}
-            </AuthInput>
+            </AuthInputController>
           ))}
           <Text size="sm" className="!mt-2">
             <Link href="/forgot-password">Forgot password?</Link>
