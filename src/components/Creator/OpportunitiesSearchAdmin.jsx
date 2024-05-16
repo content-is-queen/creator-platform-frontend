@@ -6,6 +6,7 @@ import OpportunityRow from "../OpportunityRow";
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
 import { getOpportunities } from "@/utils";
+import Loading from "@/app/(auth)/loading";
 
 const OpportunitiesSearchAdmin = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
@@ -14,38 +15,43 @@ const OpportunitiesSearchAdmin = () => {
 
   const [openSubMenuId, setOpenSubMenuId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-
-useEffect(() => {
-  if(token){
-
-    console.log(token,"_______________--");
-  }
-  const fetchData = async () => {
+  const [loading, setLoading] = useState(false);
+  const getAll = async () => {
     try {
-      const res = await API("/admin/opportunities",
-      {
+      const res = await API("/admin/opportunities", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
-      );
-      setFilteredOpportunities(res.message);
-      // return res.message;
+      });
+      return res.message;
     } catch (error) {
       throw new Error("Something went wrong with getting opportunities");
     }
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await getAll();
+        setFilteredOpportunities(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching opportunities:", error);
+        setError({
+          message: "Something went wrong with getting opportunities",
+        });
+      }
+    };
 
-  fetchData();
-}, [token]);
+    fetchData();
+  }, [token]);
 
   const handleclose = () => {
     setIsOpen((prev) => !prev);
   };
-
-  console.log(filteredOpportunities,"list od");
 
   const handleIdToDelete = async (id) => {
     setError({});
@@ -65,7 +71,7 @@ useEffect(() => {
         return;
       }
       if (response.status === 200) {
-        // await getOpportunities();
+        await getOpportunities();
       }
     } catch (error) {}
   };
@@ -76,10 +82,10 @@ useEffect(() => {
 
   return (
     <>
-      {/* <Search
-        opportunities={opportunities}
+      <Search
+        opportunities={filteredOpportunities}
         setFilteredOpportunities={setFilteredOpportunities}
-      /> */}
+      />
 
       <div className="my-12 space-y-6">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -119,11 +125,11 @@ useEffect(() => {
               </tr>
             </thead>
             <tbody>
-              {filteredOpportunities?.length > 0 ? (
+              {(!loading && filteredOpportunities?.length) > 0 ? (
                 filteredOpportunities?.map((opportunity) => (
                   <OpportunityRow
                     {...opportunity}
-                    key={opportunity.opportunity_id}
+                    key={opportunity?.opportunity_id}
                     setIdToDelete={handleIdToDelete}
                     isOpen={handleclose}
                     subMenuToggle={() =>
@@ -131,6 +137,8 @@ useEffect(() => {
                     }
                   />
                 ))
+              ) : loading ? (
+                <Loading />
               ) : (
                 <tr>
                   <td colSpan="7" className="text-center">

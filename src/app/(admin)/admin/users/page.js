@@ -18,7 +18,6 @@ const Users = () => {
 
   const adminGetAllTheUsers = async () => {
     setError({});
-    console.log("token", token);
     try {
       setLoading(true);
       const response = await API(`/admin/users`, {
@@ -42,7 +41,6 @@ const Users = () => {
       return;
     }
   };
-  console.log("Useeeeeee", usersList);
 
   useEffect(() => {
     setError({});
@@ -80,15 +78,12 @@ const Users = () => {
       if (response.status === 200) {
         adminGetAllTheUsers();
       }
-      console.log(response, "direct response..........");
     } catch (error) {
       const { message } = error.response;
       toast.error(message || "Try again");
     }
   };
   const handleUserActivation = async (data) => {
-    console.log(data, "data");
-
     setError({});
     try {
       if (data?.activated === false) {
@@ -129,8 +124,6 @@ const Users = () => {
           adminGetAllTheUsers();
         }
       }
-
-      console.log(response, "direct response..........");
     } catch (error) {
       // const { message } = erresponse;
       // toast.error(message || "Try again");

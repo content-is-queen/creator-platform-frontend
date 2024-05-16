@@ -6,7 +6,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 const OpportunityRow = ({
   title,
   applications,
-userName,
+  userName,
   status,
   target,
   deadline,
@@ -45,8 +45,7 @@ userName,
         {title}
       </th>
       <td className="px-6 py-4">{status}</td>
-      <td className="px-6 py-4">{
-userName}</td>
+      <td className="px-6 py-4">{userName}</td>
       <td className="px-6 py-4">{deadline}</td>
       <td className="px-6 py-4">{numberOfApplications}</td>
       <td className="px-6 py-4 relative">

@@ -31,6 +31,15 @@ export const getOpportunities = async () => {
   }
 };
 
+export const getOpportunitiesAdmin = async () => {
+  try {
+    const res = await API("/admin/opportunities");
+    return res.message;
+  } catch (error) {
+    throw new Error("Something went wrong with getting opportunities");
+  }
+};
+
 export const getApplicationsByApplicationId = async (application_id) => {
   try {
     const res = await API(`/applications/${application_id}`);

@@ -3,8 +3,6 @@ import OpportunitiesSearchAdmin from "@/components/Creator/OpportunitiesSearchAd
 import { getOpportunities } from "@/utils";
 
 const Opportunities = async () => {
-
-
   return (
     <Container className="mb-32">
       <OpportunitiesSearchAdmin />
