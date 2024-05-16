@@ -29,7 +29,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
     await API(`/opportunities/opportunityid/${opportunity_id}`);
 
   return (
-    <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
+    <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
         <div className="pt-20 pb-64 space-y-8">
           <div>

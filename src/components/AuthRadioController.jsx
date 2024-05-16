@@ -1,9 +1,9 @@
 import { twMerge } from "tailwind-merge";
 import { Controller } from "react-hook-form";
 
-import { inputStyles } from "./AuthInput";
+import { inputStyles } from "./AuthInputController";
 
-const AuthRadio = ({ name, errors, control, options }) => (
+const AuthRadioController = ({ name, errors, control, options }) => (
   <div className="relative z-0 w-full group">
     <Controller
       name={name}
@@ -48,4 +48,4 @@ const AuthRadio = ({ name, errors, control, options }) => (
   </div>
 );
 
-export default AuthRadio;
+export default AuthRadioController;

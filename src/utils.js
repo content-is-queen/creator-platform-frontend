@@ -1,9 +1,14 @@
 import API from "./api/api";
 
-export const getOpportunitiesByUserId = async (user_id) => {
+export const getOpportunitiesByUserId = async (user_id, cb) => {
   try {
     const res = await API(`/opportunities/id/${user_id}`);
-    return res.filter((i) => i.status != "archived");
+
+    const filteredData = res.filter((i) => i.status != "archived");
+    if (cb) {
+      cb(filteredData);
+    }
+    return filteredData;
   } catch (error) {
     throw new Error(
       `Something went wrong when getting the opportunities for user: ${user_id}`

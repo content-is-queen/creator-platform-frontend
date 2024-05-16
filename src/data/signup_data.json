@@ -7,13 +7,24 @@
         "fields": [
           {
             "name": "email",
-            "type": "text",
             "children": "Email Address",
             "rules": {
               "required": "Email address is required",
               "pattern": {
                 "value": "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i",
                 "message": "invalid email address"
+              }
+            }
+          },
+          {
+            "name": "password",
+            "type": "password",
+            "children": "Password",
+            "rules": {
+              "required": "Password is required",
+              "minLength": {
+                "value": 6,
+                "message": "Password must be at least 6 characters"
               }
             }
           }
@@ -24,7 +35,6 @@
         "fields": [
           {
             "name": "first_name",
-            "type": "text",
             "children": "First Name",
             "rules": {
               "required": "First name is required"
@@ -32,22 +42,20 @@
           },
           {
             "name": "last_name",
-            "type": "text",
             "children": "Last Name",
             "rules": {
               "required": "Last name is required"
             }
           },
-
           {
             "name": "bio",
-            "type": "text",
             "children": "Description",
-            "rules": { "required": "Description is required" }
+            "rules": {
+              "required": "Description is required"
+            }
           },
           {
             "name": "podcast_name",
-            "type": "text",
             "children": "Podacast Name (optional)"
           },
           {
@@ -67,23 +75,8 @@
               "Monetising my podcast",
               "Pitching and commissions"
             ],
-            "rules": { "required": "Goal is required" }
-          }
-        ]
-      },
-      "4": {
-        "title": "Your password",
-        "fields": [
-          {
-            "name": "password",
-            "type": "password",
-            "children": "Password",
             "rules": {
-              "required": "Password is required",
-              "minLength": {
-                "value": 6,
-                "message": "Password must be at least 6 characters"
-              }
+              "required": "Goal is required"
             }
           }
         ]
@@ -107,51 +100,7 @@
                 "message": "invalid email address"
               }
             }
-          }
-        ]
-      },
-      "2": {
-        "title": "Tell us a bit about you and your organisation",
-        "fields": [
-          {
-            "name": "organisation_name",
-            "type": "text",
-            "children": "Organization Name",
-            "rules": { "required": "Organization name is required" }
           },
-          {
-            "name": "first_name",
-            "type": "text",
-            "children": "First Name",
-            "rules": { "required": "First name is required" }
-          },
-          {
-            "name": "last_name",
-            "type": "text",
-            "children": "Last Name",
-            "rules": { "required": "Last name is required" }
-          },
-          {
-            "name": "bio",
-            "type": "text",
-            "children": "Description",
-            "rules": { "required": "Bio is required" }
-          }
-        ]
-      },
-      "3": {
-        "title": "What are your goals?",
-        "fields": [
-          {
-            "name": "interest",
-            "options": ["Hiring", "Connecting with new talent", "Advertising"]
-          }
-        ],
-        "rules": { "required": "Goal is required" }
-      },
-      "4": {
-        "title": "Your password",
-        "fields": [
           {
             "name": "password",
             "type": "password",
@@ -165,6 +114,51 @@
             }
           }
         ]
+      },
+      "2": {
+        "title": "Tell us a bit about you and your organisation",
+        "fields": [
+          {
+            "name": "organisation_name",
+            "children": "Organization Name",
+            "rules": {
+              "required": "Organization name is required"
+            }
+          },
+          {
+            "name": "first_name",
+            "children": "First Name",
+            "rules": {
+              "required": "First name is required"
+            }
+          },
+          {
+            "name": "last_name",
+            "children": "Last Name",
+            "rules": {
+              "required": "Last name is required"
+            }
+          },
+          {
+            "name": "bio",
+            "children": "Description",
+            "rules": {
+              "required": "Bio is required"
+            }
+          }
+        ]
+      },
+      "3": {
+        "title": "What are your goals?",
+        "fields": [
+          {
+            "name": "interest",
+            "options": ["Hiring", "Connecting with new talent", "Advertising"]
+          }
+        ],
+        "rules": {
+          "required": "Goal is required"
+        }
       }
     }
   }

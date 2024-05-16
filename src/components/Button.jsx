@@ -13,12 +13,10 @@ const ButtonVariants = cva(
         brown: "text-white bg-queen-brown font-bold",
         blue: "text-white bg-queen-blue font-bold",
         white: "border border-queen-black/40 hover:bg-gray-50",
-        text: "uppercase relative after:absolute after:-bottom-0.5 after:w-full after:h-0.5 after:bg-queen-black after:left-0",
       },
       size: {
         sm: "px-4 py-0.5 text-xs",
         md: "px-6 py-1 text-sm",
-        text: "",
       },
     },
     defaultVariants: {

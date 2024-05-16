@@ -51,8 +51,11 @@ const BrandOpportunities = () => {
 
   useEffect(() => {
     (async () => {
-      setOpportunities(await getOpportunitiesByUserId(user.uid));
-      setloading(false);
+      getOpportunitiesByUserId(user.uid, (opportunities) => {
+        setOpportunities(opportunities);
+
+        setloading(false);
+      });
     })();
   }, []);
 

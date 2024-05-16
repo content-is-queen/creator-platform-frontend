@@ -6,15 +6,27 @@ const SIZES = {
   "4xl": "text-2xl md:text-4xl",
 };
 
-const Heading = ({ tag = "p", size = "4xl", className, children }) => {
+const COLORS = {
+  black: "text-queen-black",
+  lilac: "text-queen-lilac",
+};
+
+const Heading = ({
+  tag = "p",
+  size = "4xl",
+  color = "black",
+  className,
+  children,
+}) => {
   const Tag = tag;
 
   return (
     <Tag
       className={clsx(
-        "uppercase text-queen-black font-heading",
+        "uppercase font-heading",
         className,
-        SIZES[size]
+        SIZES[size],
+        COLORS[color]
       )}
     >
       {children}
