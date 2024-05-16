@@ -6,9 +6,9 @@ export const getOpportunitiesByUserId = async (user_id, cb) => {
 
     const filteredData = res.filter((i) => i.status != "archived");
     if (cb) {
-      cb(filteredData)
+      cb(filteredData);
     }
-    return filteredData
+    return filteredData;
   } catch (error) {
     throw new Error(
       `Something went wrong when getting the opportunities for user: ${user_id}`

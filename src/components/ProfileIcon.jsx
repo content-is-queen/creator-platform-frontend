@@ -20,7 +20,13 @@ const ProfileIcon = ({
       {...otherProps}
     >
       {imageUrl ? (
-        <img className="w-full h-full object-cover" height={20} width={20} src={imageUrl} alt="" />
+        <img
+          className="w-full h-full object-cover"
+          height={20}
+          width={20}
+          src={imageUrl}
+          alt=""
+        />
       ) : (
         <FontAwesomeIcon
           className="text-queen-white w-3/6 h-3/6"

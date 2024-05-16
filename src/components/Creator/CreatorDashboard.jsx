@@ -36,7 +36,7 @@ const CreatorDashboard = () => {
     <>
       <div
         style={{ minHeight: "calc(100vh - var(--nav-height))" }}
-        className="flex justify-center items-center py-12 text-center md:py-20 bg-queen-blue bg-purple-dots bg-repeat-x bg-[center_bottom_-4rem]"
+        className="flex justify-center items-center py-12 text-center md:py-20 bg-queen-blue bg-lilac-dots bg-repeat-x bg-[center_bottom_-4rem]"
       >
         <Container className="space-y-4 pb-20">
           <Heading className="text-queen-white mb-12">Overview</Heading>

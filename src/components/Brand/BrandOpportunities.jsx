@@ -52,10 +52,9 @@ const BrandOpportunities = () => {
   useEffect(() => {
     (async () => {
       getOpportunitiesByUserId(user.uid, (opportunities) => {
-        setOpportunities(opportunities)
+        setOpportunities(opportunities);
 
         setloading(false);
-
       });
     })();
   }, []);

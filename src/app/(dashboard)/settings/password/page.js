@@ -19,12 +19,12 @@ const Password = () => {
   const handleChange = (e) => {
     const checkIsEmpty = (str) => {
       return str.trim().length === 0;
-    }
+    };
 
-    const isEmpty = checkIsEmpty(formData.old_password) || checkIsEmpty(formData.password)
+    const isEmpty =
+      checkIsEmpty(formData.old_password) || checkIsEmpty(formData.password);
 
     setUpdated(!isEmpty);
-
 
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });

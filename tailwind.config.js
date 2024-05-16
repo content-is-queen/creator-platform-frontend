@@ -8,10 +8,11 @@ module.exports = {
     extend: {
       backgroundImage: {
         dots: "url('/images/CiQ_Pattern_02.svg')",
-        "purple-dots": "url('/images/CiQ_Pattern 4 lilac.svg')",
+        "lilac-dots": "url('/images/CiQ_Pattern 4 lilac.svg')",
         "orange-dots": "url('/images/CiQ_Pattern 4 orange.svg')",
+        "blue-dots": "url('/images/CiQ_Pattern 4 blue.svg')",
         "orange-dots-circle": "url('/images/orange-dots-circle-panel.svg')",
-        "purple-dots-circle": "url('/images/purple-dots-circle-panel.svg')",
+        "lilac-dots-circle": "url('/images/lilac-dots-circle-panel.svg')",
       },
       colors: {
         "queen-blue": "#3667ED",
@@ -20,6 +21,7 @@ module.exports = {
         "queen-gray": "#D7CDFB",
         "queen-white": "#F7F7F7",
         "queen-orange": "#FF7300",
+        "queen-lilac": "#D7CDFB",
       },
       fontFamily: {
         heading: ["Anton", "sans-serif"],

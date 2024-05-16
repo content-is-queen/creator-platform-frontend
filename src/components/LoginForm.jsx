@@ -72,7 +72,7 @@ const LoginForm = () => {
         });
 
         auth.signOut();
-        throw new Error("Something went wrong when getting the user profile")
+        throw new Error("Something went wrong when getting the user profile");
       }
 
       localStorage.setItem("userProfile", JSON.stringify(userProfile));

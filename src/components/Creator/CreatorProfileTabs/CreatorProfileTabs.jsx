@@ -2,25 +2,27 @@
 
 import { useState, useEffect } from "react";
 
-import Section from "./Section";
-import Tabs from "./Tabs";
+import Section from "../../Section";
+import Tabs from "../../Tabs";
+import Showcase from "./Showcase";
+import Credits from "./Credits";
 
 const OPTIONS = [
   {
     label: "Showcase",
     id: "showcase",
-    children: <>External</>,
+    children: <Showcase />,
   },
   {
     label: "Credits",
     id: "credits",
     theme: "orange",
-    children: <>A list of credits</>,
+    children: <Credits />,
   },
   { label: "Reviews", id: "reviews", children: <>Reviews from brands</> },
 ];
 
-const ProfileTabs = () => {
+const CreatorProfileTabs = () => {
   const [active, setActive] = useState(OPTIONS[0]);
 
   useEffect(() => {}, [active]);
@@ -33,4 +35,4 @@ const ProfileTabs = () => {
   );
 };
 
-export default ProfileTabs;
+export default CreatorProfileTabs;

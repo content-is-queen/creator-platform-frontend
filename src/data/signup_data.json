@@ -153,11 +153,7 @@
         "fields": [
           {
             "name": "interest",
-            "options": [
-              "Hiring",
-              "Connecting with new talent",
-              "Advertising"
-            ]
+            "options": ["Hiring", "Connecting with new talent", "Advertising"]
           }
         ],
         "rules": {

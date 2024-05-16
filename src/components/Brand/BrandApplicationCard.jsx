@@ -6,7 +6,7 @@ import API from "@/api/api";
 import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
-import LoadingPlaceholder from "@/components/LoadingPlaceholder"
+import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Tag from "@/components/Tag";
 import Heading from "@/components/Heading";
 import { useUser } from "@/context/UserContext";
@@ -20,8 +20,10 @@ const BrandApplicationCard = ({
   user_id,
 }) => {
   const token = useToken();
-  const { user: { uid } } = useUser();
-  const [user, setUser] = useState(null)
+  const {
+    user: { uid },
+  } = useUser();
+  const [user, setUser] = useState(null);
 
   const getUser = async (id) => {
     try {
@@ -33,11 +35,11 @@ const BrandApplicationCard = ({
     } catch (error) {
       throw new Error("Something went wrong when getting the user");
     }
-  }
+  };
 
   useEffect(() => {
     getUser(user_id);
-  }, [])
+  }, []);
 
   const rejectApplication = async (id) => {
     try {
@@ -47,18 +49,25 @@ const BrandApplicationCard = ({
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ status: "rejected", user_id: user_id, creator_id: uid }),
+        body: JSON.stringify({
+          status: "rejected",
+          user_id: user_id,
+          creator_id: uid,
+        }),
       });
 
       if (response?.error) {
-        throw new Error(response.error || "Something went wrong when rejecting the application");
+        throw new Error(
+          response.error ||
+            "Something went wrong when rejecting the application"
+        );
       }
 
       setApplications(
         applications.filter((i) => i.application_id !== application_id)
       );
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
   const acceptApplication = async (id) => {
@@ -73,7 +82,10 @@ const BrandApplicationCard = ({
       });
 
       if (response?.error) {
-        throw new Error(response.error || "Something went wrong when accpeting the application");
+        throw new Error(
+          response.error ||
+            "Something went wrong when accpeting the application"
+        );
       }
 
       setApplications(
@@ -81,7 +93,7 @@ const BrandApplicationCard = ({
       );
       // TODO: Add screen to take to conversation
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -92,8 +104,11 @@ const BrandApplicationCard = ({
           <Heading size="2xl">
             {!user ? (
               <LoadingPlaceholder dark />
-            ) :
-              <>{user?.first_name} {user?.last_name}</>}
+            ) : (
+              <>
+                {user?.first_name} {user?.last_name}
+              </>
+            )}
           </Heading>
           <Text size="sm" className="capitalize">
             {opportunityTitle} &bull; Application

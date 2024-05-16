@@ -54,7 +54,7 @@ const ApplicationsModal = ({
     getApplicationsById(opportunityId);
   }, []);
 
-  useEffect(() => { }, [applications]);
+  useEffect(() => {}, [applications]);
 
   useEffect(() => {
     if (swiperElRef.current) {
