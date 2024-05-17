@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import API from "@/api/api";
-
 import { getUserProfile, useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
-
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
@@ -19,21 +16,34 @@ const EditProfile = () => {
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [localUser, setLocalUser] = useState({});
-
   const { user, setUser } = useUser();
   const { token } = useToken();
   const router = useRouter();
 
+
+ 
   const handleChange = (e) => {
     !updated && setUpdated(true);
     const { name, value, files } = e.target;
     const newValue = files ? files[0] : value;
-
-    setLocalUser((prev) => ({
-      ...prev,
-      [name]: newValue,
-    }));
+  
+    if (name === "showreel") {
+      // If the field is showreel, update it directly in the localUser state
+      setLocalUser((prev) => ({
+        ...prev,
+        [name]: newValue,
+      }));
+    } else {
+      // For other fields, update as before
+      if (newValue !== undefined) {
+        setLocalUser((prev) => ({
+          ...prev,
+          [name]: newValue,
+        }));
+      }
+    }
   };
+  
 
   useEffect(() => {
     if (user)
@@ -43,51 +53,39 @@ const EditProfile = () => {
         imageUrl: user?.imageUrl || "",
         bio: user?.bio || "",
         showreel: user?.showreel || "",
-        showcase: user?.showcase || "",
+        showcase: user?.showcase || [],
+        credits: user?.credits || [], // Adding credits to localUser
       });
   }, [user]);
 
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
+
     Object.entries(localUser).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (key === "showcase" || key === "credits") { // Including credits in formData
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value);
+      }
     });
 
     try {
       const res = await API(`/auth/user`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: formData,
       });
 
       if (res.status === 200) {
-        const userProfile = await getUserProfile();
-
-        if (!userProfile) {
-          setError({
-            message: "Something went wrong when updating your profile",
-          });
-
-          throw new Error(
-            "Something went wrong when updating the user profile"
-          );
-        }
-
-        localStorage.removeItem("userProfile");
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
-        setUser({ ...user, ...userProfile });
-        router.push("/profile");
+        console.log("User profile updated successfully");
       } else {
-        setError({ message: res.message });
+        console.error("Failed to update user profile");
       }
     } catch (err) {
-      console.error(err);
-      setError({ message: err.message });
+      console.error("Error updating user profile:", err);
     } finally {
       setLoading(false);
     }
