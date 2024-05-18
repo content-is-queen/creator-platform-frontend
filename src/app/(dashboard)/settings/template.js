@@ -14,7 +14,6 @@ const LINKS = [
   {
     href: "/settings/edit-profile",
     label: "Edit Profile",
-    label: "Edit Profile",
   },
   {
     href: "/settings/password",
