@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import ShowcaseInput from "@/components/ShowcaseInput";
 import ShowreelInput from "@/components/Creator/ShowreelInput";
 import CreditsInput from "@/components/CreditsInput";
+import local from "next/font/local";
 
 const EditProfile = () => {
   const [errors, setError] = useState({});
