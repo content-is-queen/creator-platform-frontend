@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Form, { Error } from "./Form";
 import Button from "./Button";
 
-const ShowcaseInput = ({ setLocalUser, setUpdated, localUser }) => {
-  const [shows, setShows] = useState(localUser?.showcase || []);
+const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
+  const [shows, setShows] = useState(localUser?.profile_meta?.showcase || []);
   const [inputValue, setInputValue] = useState("");
   const [errors, setError] = useState({});
 
@@ -27,24 +27,26 @@ const ShowcaseInput = ({ setLocalUser, setUpdated, localUser }) => {
       return;
     }
 
-    setUpdated(true);
     setShows((prev) => [...prev, { url: inputValue }]);
 
     // Clear input when an entry is added
     setInputValue("");
+    handleChange();
   };
 
   const remove = (url) => {
-    setUpdated(true);
     setError({});
     setShows((prev) => prev.filter((i) => i.url !== url));
+    handleChange();
   };
 
   useEffect(() => {
-    setLocalUser((prev) => ({
-      ...prev,
-      ["showcase"]: shows,
-    }));
+    setLocalUser((prev) => {
+      const newObj = prev;
+      const { profile_meta } = newObj;
+      newObj.profile_meta = { ...profile_meta, showcase: shows };
+      return newObj;
+    });
   }, [shows]);
 
   return (

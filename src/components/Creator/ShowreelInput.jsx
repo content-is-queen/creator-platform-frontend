@@ -3,32 +3,39 @@ import { useEffect, useState } from "react";
 import Form from "@/components/Form";
 import Button from "../Button";
 import { Error } from "@/components/Form";
-import local from "next/font/local";
 
-const ShowreelInput = ({ setLocalUser, setUpdated, localUser }) => {
-  const [inputValue, setInputValue] = useState(localUser?.showreel || "");
+const ShowreelInput = ({ setLocalUser, localUser, handleChange }) => {
+  const [inputValue, setInputValue] = useState(
+    localUser.profile_meta?.showreel || ""
+  );
   const [status, setStatus] = useState("");
   const [errors, setError] = useState({});
 
   const add = () => {
     setError({});
-    setUpdated(true);
-    setStatus("added");
 
     if (inputValue.trim("").length === 0) {
       setError({ message: "Please enter a valid url" });
       return;
     }
+
+    setStatus("added");
+    handleChange();
   };
 
   const remove = () => {
     setInputValue("");
-    setUpdated(true);
     setStatus("removed");
+    handleChange();
   };
 
   useEffect(() => {
-    setLocalUser((prev) => ({ ...prev, ["showreel"]: inputValue }));
+    setLocalUser((prev) => {
+      const newObj = prev;
+      const { profile_meta } = newObj;
+      newObj.profile_meta = { ...profile_meta, showreel: inputValue };
+      return newObj;
+    });
   }, [status]);
 
   return (
@@ -39,7 +46,7 @@ const ShowreelInput = ({ setLocalUser, setUpdated, localUser }) => {
           Insert a link to your Spotify or Soundcloud showreel
         </span>
       </div>
-      {localUser?.showreel ? (
+      {localUser.profile_meta?.showreel ? (
         <div className="flex items-center border-b border-queen-black/10 pb-5">
           <span className="w-full block">{inputValue}</span>
           <Button type="button" variant="white" as="button" onClick={remove}>

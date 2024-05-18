@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Form, { Error } from "./Form";
 import Button from "./Button";
 
-const CreditsInput = ({ setLocalUser, setUpdated, localUser }) => {
-  const [credits, setCredits] = useState(localUser?.credits || []);
+const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
+  const [credits, setCredits] = useState(localUser.profile_meta?.credits || []);
   const [inputValue, setInputValue] = useState({ show: "", role: "" });
   const [errors, setError] = useState({});
 
@@ -18,24 +18,26 @@ const CreditsInput = ({ setLocalUser, setUpdated, localUser }) => {
     //   }
     // });
 
-    setUpdated(true);
     setCredits((prev) => [...prev, inputValue]);
 
     // Clear input when an entry is added
     setInputValue({ show: "", role: "" });
+    handleChange();
   };
 
   const remove = (show) => {
-    setUpdated(true);
     setError({});
     setCredits((prev) => prev.filter((i) => i.show !== show));
+    handleChange();
   };
 
   useEffect(() => {
-    setLocalUser((prev) => ({
-      ...prev,
-      ["credits"]: credits,
-    }));
+    setLocalUser((prev) => {
+      const newObj = prev;
+      const { profile_meta } = newObj;
+      newObj.profile_meta = { ...profile_meta, credits: credits };
+      return newObj;
+    });
   }, [credits]);
 
   return (
