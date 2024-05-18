@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 
-import Form, { Error } from "./Form";
-import Button from "./Button";
+import Form, { Error } from "../Form";
+import Button from "../Button";
 
 const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
   const [shows, setShows] = useState(localUser?.profile_meta?.showcase || []);
   const [inputValue, setInputValue] = useState("");
   const [errors, setError] = useState({});
 
-  const add = (e) => {
+  const add = () => {
     setError({});
 
-    // TODO: add rejex expression to check if it is a valid spotify or apple url
-    if (inputValue.trim("").length === 0) {
-      setError({ message: "Please enter a valid url" });
+    if (
+      inputValue.trim("").length === 0 ||
+      !inputValue.startsWith("https://open.spotify.com/episode/") ||
+      !inputValue.startsWith("https://podcasts.apple.com/gb/podcast/")
+    ) {
+      setError({
+        message: "Please enter a valid Spotify or Apple podcast episode url",
+      });
       return;
     }
 
@@ -54,7 +59,8 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
       <div className="mb-4">
         <p className="uppercase">Showcase</p>
         <span className="block text-sm text-queen-black/80">
-          Add up to 6 podacast Spotify or Apple podacast episodes
+          Add up to 6 Spotify or Apple podacast episodes by inserting their
+          episode link
         </span>
       </div>
 

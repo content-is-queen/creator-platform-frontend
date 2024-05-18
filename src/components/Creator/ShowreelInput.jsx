@@ -13,8 +13,11 @@ const ShowreelInput = ({ setLocalUser, localUser, handleChange }) => {
   const add = () => {
     setError({});
 
-    if (inputValue.trim("").length === 0) {
-      setError({ message: "Please enter a valid url" });
+    if (
+      inputValue.trim("").length === 0 ||
+      !inputValue.startsWith("https://soundcloud.com/")
+    ) {
+      setError({ message: "Please enter a valid Soundcloud track url" });
       return;
     }
 
@@ -43,7 +46,7 @@ const ShowreelInput = ({ setLocalUser, localUser, handleChange }) => {
       <div className="mb-4">
         <p className="uppercase">Showreel</p>
         <span className="block text-sm text-queen-black/80">
-          Insert a link to your Spotify or Soundcloud showreel
+          Insert a link to your Soundcloud showreel
         </span>
       </div>
       {localUser.profile_meta?.showreel &&

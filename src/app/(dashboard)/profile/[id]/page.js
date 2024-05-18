@@ -1,8 +1,6 @@
 import API from "@/api/api";
 
-import ProfileHero from "@/components/ProfileHero";
-import BrandProfileOpportunities from "@/components/Brand/BrandProfileOpportunities";
-import CreatorProfileTabs from "@/components/Creator/CreatorProfileTabs/CreatorProfileTabs";
+import Profile from "@/components/Profile";
 
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test
@@ -17,17 +15,8 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
-export default async function Profile({ params: { id: uid } }) {
+export default async function PublicProfile({ params: { id: uid } }) {
   const { message: user } = await API(`/auth/user/${uid}`);
 
-  return (
-    <>
-      <ProfileHero user={user} />
-      {user.role === "creator" ? (
-        <CreatorProfileTabs />
-      ) : (
-        <BrandProfileOpportunities uid={uid} />
-      )}
-    </>
-  );
+  return <Profile user={user} />;
 }

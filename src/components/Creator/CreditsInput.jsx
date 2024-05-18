@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 
-import Form, { Error } from "./Form";
-import Button from "./Button";
+import Form, { Error } from "../Form";
+import Button from "../Button";
 
 const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
   const [credits, setCredits] = useState(localUser.profile_meta?.credits || []);
   const [inputValue, setInputValue] = useState({ show: "", role: "" });
   const [errors, setError] = useState({});
 
-  const add = (e) => {
+  const add = () => {
     setError({});
 
     // Check if both fields contain a value
-    // Object.values(inputValue).some((value) => {
-    //   if (value.trim("").length === 0) {
-    //     setError({ message: "Please fill in both fields" });
-    //   }
-    // });
+    if (
+      inputValue.show.trim("").length === 0 ||
+      inputValue.role.trim("").length === 0
+    ) {
+      setError({ message: "Please fill in both fields" });
+      return;
+    }
 
     setCredits((prev) => [...prev, inputValue]);
 
