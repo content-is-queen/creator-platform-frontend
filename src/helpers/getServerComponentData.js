@@ -24,7 +24,6 @@ export const getOpportunityById = async (id) => {
 
   try {
     const res = await API(`/opportunities/opportunityid/${id}`);
-    console.log(res);
     return res;
   } catch (error) {
     throw new Error("Something went wrong when getting the opportunity");

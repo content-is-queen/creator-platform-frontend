@@ -1,45 +1,56 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Form from "@/components/Form";
 import Button from "../Button";
 import { Error } from "@/components/Form";
-import local from "next/font/local";
 
-const ShowreelInput = ({ setLocalUser, setUpdated, localUser }) => {
-  const [inputValue, setInputValue] = useState(localUser?.showreel || "");
-  const [status, setStatus] = useState("");
+const ShowreelInput = ({ setLocalUser, localUser, handleChange }) => {
+  const [inputValue, setInputValue] = useState(
+    localUser.profile_meta?.showreel || ""
+  );
   const [errors, setError] = useState({});
 
   const add = () => {
     setError({});
-    setUpdated(true);
-    setStatus("added");
 
-    if (inputValue.trim("").length === 0) {
-      setError({ message: "Please enter a valid url" });
+    if (
+      inputValue.trim("").length === 0 ||
+      !inputValue.startsWith("https://soundcloud.com/")
+    ) {
+      setError({ message: "Please enter a valid Soundcloud track url" });
       return;
     }
+
+    setLocalUser((prev) => {
+      const newObj = prev;
+      const { profile_meta } = newObj;
+      newObj.profile_meta = { ...profile_meta, showreel: inputValue };
+      return newObj;
+    });
+    handleChange();
   };
 
   const remove = () => {
-    setInputValue("");
-    setUpdated(true);
-    setStatus("removed");
+    setError({});
+    setLocalUser((prev) => {
+      const newObj = prev;
+      const { profile_meta } = newObj;
+      newObj.profile_meta = { ...profile_meta, showreel: "" };
+      return newObj;
+    });
+    handleChange();
   };
-
-  useEffect(() => {
-    setLocalUser((prev) => ({ ...prev, ["showreel"]: inputValue }));
-  }, [status]);
 
   return (
     <div>
       <div className="mb-4">
         <p className="uppercase">Showreel</p>
         <span className="block text-sm text-queen-black/80">
-          Insert a link to your Spotify or Soundcloud showreel
+          Insert a link to your Soundcloud showreel
         </span>
       </div>
-      {localUser?.showreel ? (
+      {localUser.profile_meta?.showreel &&
+      localUser.profile_meta?.showreel != "" ? (
         <div className="flex items-center border-b border-queen-black/10 pb-5">
           <span className="w-full block">{inputValue}</span>
           <Button type="button" variant="white" as="button" onClick={remove}>

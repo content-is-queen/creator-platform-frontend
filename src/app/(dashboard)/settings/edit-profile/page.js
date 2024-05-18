@@ -10,9 +10,10 @@ import useToken from "@/hooks/useToken";
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import ShowcaseInput from "@/components/ShowcaseInput";
+import ShowcaseInput from "@/components/Creator/ShowcaseInput";
 import ShowreelInput from "@/components/Creator/ShowreelInput";
-import CreditsInput from "@/components/CreditsInput";
+import CreditsInput from "@/components/Creator/CreditsInput";
+import local from "next/font/local";
 
 const EditProfile = () => {
   const [errors, setError] = useState({});
@@ -26,25 +27,27 @@ const EditProfile = () => {
 
   const handleChange = (e) => {
     !updated && setUpdated(true);
-    const { name, value, files } = e.target;
-    const newValue = files ? files[0] : value;
 
-    setLocalUser((prev) => ({
-      ...prev,
-      [name]: newValue,
-    }));
+    // Prevent checking values updated by a button
+    if (e?.target) {
+      const { name, value, files } = e.target;
+      const newValue = files ? files[0] : value;
+
+      setLocalUser((prev) => ({
+        ...prev,
+        [name]: newValue,
+      }));
+    }
   };
 
   useEffect(() => {
-    if (user)
-      setLocalUser({
-        first_name: user?.first_name || "",
-        last_name: user?.last_name || "",
-        imageUrl: user?.imageUrl || "",
-        bio: user?.bio || "",
-        showreel: user?.showreel || "",
-        showcase: user?.showcase || "",
-      });
+    setLocalUser({
+      first_name: user?.first_name || "",
+      last_name: user?.last_name || "",
+      imageUrl: user?.imageUrl || "",
+      bio: user?.bio || "",
+      profile_meta: user?.profile_meta || {},
+    });
   }, [user]);
 
   const handleSubmit = async () => {
@@ -141,18 +144,21 @@ const EditProfile = () => {
             setUpdated={setUpdated}
             setLocalUser={setLocalUser}
             localUser={localUser}
+            handleChange={handleChange}
           />
 
           <ShowcaseInput
             setUpdated={setUpdated}
             setLocalUser={setLocalUser}
             localUser={localUser}
+            handleChange={handleChange}
           />
 
           <CreditsInput
             setUpdated={setUpdated}
             setLocalUser={setLocalUser}
             localUser={localUser}
+            handleChange={handleChange}
           />
         </div>
 
