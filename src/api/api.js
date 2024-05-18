@@ -1,13 +1,8 @@
-import axios from "axios";
-import Keys from "../utils/keys";
-import Secure from "../utils/SecureLs";
+import config from "../config";
 
-const API = axios.create({
-  baseURL: `${Keys.DEFAULT_API}`,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${Secure.getToken()}`,
-    "Cache-Control": "max-age=1800",
-  },
-});
+const API = async (endpoint, options) =>
+  await fetch(`${config.DEFAULT_API}${endpoint}`, options)
+    .then((res) => res.json())
+    .catch((err) => console.error(err));
+
 export default API;

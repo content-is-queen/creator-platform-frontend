@@ -3,7 +3,6 @@
 import API from "@/api/api";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
-import Secure from "@/utils/SecureLs";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -22,7 +21,6 @@ const Verify = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const parsedQuery = searchParams?.get("otp");
-  const [userInfo, setUserInfo] = useState({});
   const [formData, setFormData] = useState({
     input1: "",
     input2: "",
@@ -41,7 +39,11 @@ const Verify = () => {
   const handleSubmit = async () => {
     const otp = Object.values(formData).join("");
     try {
-      const response = await API.post(`/auth/verify`, { ...userInfo, otp });
+      const response = await API("/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...userInfo, otp }),
+      });
       const { message } = response.data;
       router.push("/login");
       toast.success(message);
@@ -50,11 +52,6 @@ const Verify = () => {
       toast.error(message || "Try again");
     }
   };
-
-  useEffect(() => {
-    const data = Secure.get("userInfo");
-    setUserInfo(data);
-  }, []);
 
   useEffect(() => {
     // If otp has length of 5, update the form data with otp characters

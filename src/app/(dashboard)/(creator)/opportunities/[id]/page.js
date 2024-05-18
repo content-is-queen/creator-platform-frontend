@@ -8,10 +8,8 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
-import ProposalForm from "@/components/Creator/ProposalForm";
+import ApplicationProposalForm from "@/components/Creator/ApplicationProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
-
-import { getOpportunityById } from "@/helpers/getServerComponentData";
 
 export async function generateStaticParams() {
   // Prevent build failing during workflows build test
@@ -19,23 +17,19 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const res = await API.get(`/opportunities`);
+  const res = await API("/opportunities");
 
-  const {
-    data: { message },
-  } = res;
-
-  return message.map(({ opportunity_id }) => ({ id: opportunity_id }));
+  return res.message.map(({ opportunity_id }) => ({ id: opportunity_id }));
 }
 
 export const dynamicParams = false;
 
-export default async function Opportunity({ params: { id } }) {
-  const { title, description, company, type, compensation } =
-    await getOpportunityById(id);
+export default async function Opportunity({ params: { id: opportunity_id } }) {
+  const { title, description, company, type, compensation, user_id } =
+    await API(`/opportunities/opportunityid/${opportunity_id}`);
 
   return (
-    <div className="bg-white bg-purple-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
+    <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
         <div className="pt-20 pb-64 space-y-8">
           <div>
@@ -44,7 +38,7 @@ export default async function Opportunity({ params: { id } }) {
               className="text-sm inline-flex items-center gap-1.5 mb-8"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
-              <span>Back to Dashboard</span>
+              Back to Dashboard
             </Link>{" "}
             <ProfileIcon className="h-12 w-12" />
             <Heading size="3xl" className="mt-6 mb-1">
@@ -57,7 +51,10 @@ export default async function Opportunity({ params: { id } }) {
 
           <div className="space-y-5 min-h-24">{description}</div>
 
-          <ProposalForm opportunityId={id} />
+          <ApplicationProposalForm
+            opportunityId={opportunity_id}
+            clientId={user_id}
+          />
         </div>
       </Container>
     </div>

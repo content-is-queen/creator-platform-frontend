@@ -109,7 +109,7 @@
     "label": "Advertising Campaign",
     "description": "An advertising campaign is a series of advertisement messages that share a single idea",
     "fields": [
-      { "name": "name", "type": "text", "children": "Campaign Name" },
+      { "name": "title", "type": "text", "children": "Campaign Name" },
       { "name": "brand", "type": "text", "children": "Brand/Product" },
       {
         "name": "description",

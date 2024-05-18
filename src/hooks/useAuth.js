@@ -1,33 +1,38 @@
-import isAuth from "@/helpers/isAuth";
-import { useRouter } from "next/navigation";
-import { doSignOut } from "@/firebase/auth";
-import Secure from "@/utils/SecureLs";
+import { auth } from "@/firebase.config";
+import API from "@/api/api";
+import { useUser } from "@/context/UserContext";
+import { getUserProfile } from "@/context/UserContext";
 
 const useAuth = () => {
-  const router = useRouter();
-  const user = isAuth();
+  const { setUser } = useUser();
 
-  const login = async (user) => {
+  const signup = async (data, id) => {
     try {
-      const token = await user.getIdToken(/* forceRefresh */ true);
-      Secure.setToken(token);
-      router.push("/");
+      const response = await API("/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data, role: id }),
+      });
+      return response;
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Sign up error:", error);
     }
   };
 
   const logout = async () => {
     try {
-      await doSignOut();
-      Secure.removeToken();
-      router.push("/login");
+      auth.signOut();
+      localStorage.removeItem("userProfile");
+
+      setUser(null);
     } catch (error) {
       console.error("Sign out error:", error);
     }
   };
 
-  return { user, logout, login };
+  return { logout, signup, getUserProfile };
 };
 
 export default useAuth;

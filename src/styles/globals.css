@@ -11,37 +11,35 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@font-face {
-  font-family: "FormaDJRBanner";
-  src: url("/fonts/FormaDJRBanner-Bold.woff2") format("woff2");
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: "FormaDJRBanner";
-  src: url("/fonts/FormaDJRBanner-Regular.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "FormaDJRDeck";
-  src: url("/fonts/FormaDJRDeck-Regular.woff2") format("woff2");
-}
-
 nav {
   height: var(--nav-height);
 }
 
-input:not(input[type="checkbox"]),
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px#f7f7f7 inset !important;
+}
+
+input:not(input[type="checkbox"]):not(input[type="radio"]),
 textarea {
   display: block;
   width: 100%;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
   @apply border-queen-black border-2;
 }
 
-input[type="checkbox"]:checked {
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
   @apply !bg-queen-blue;
 }
 
