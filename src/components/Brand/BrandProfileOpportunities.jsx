@@ -10,7 +10,7 @@ import Button from "@/components/Button";
 
 import { getOpportunitiesByUserId } from "@/helpers/getServerComponentData";
 
-const BrandProfileOpportunities = ({ uid }) => {
+const BrandProfileOpportunities = ({ user: { uid } }) => {
   const [opportunities, setOpportunities] = useState([]);
 
   useEffect(() => {

@@ -10,9 +10,9 @@ import useToken from "@/hooks/useToken";
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import ShowcaseInput from "@/components/ShowcaseInput";
+import ShowcaseInput from "@/components/Creator/ShowcaseInput";
 import ShowreelInput from "@/components/Creator/ShowreelInput";
-import CreditsInput from "@/components/CreditsInput";
+import CreditsInput from "@/components/Creator/CreditsInput";
 import local from "next/font/local";
 
 const EditProfile = () => {
