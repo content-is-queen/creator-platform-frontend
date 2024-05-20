@@ -18,9 +18,7 @@ const CreateOpportunityForm = ({ type }) => {
 
   const form = useRef();
 
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
+  useEffect(() => {}, [form]);
 
   const handleSubmit = async (fields, userId) => {
     setLoading(true);

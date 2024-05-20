@@ -69,7 +69,7 @@
         "title": "What are your goals?",
         "fields": [
           {
-            "name": "interest",
+            "name": "goals",
             "options": [
               "Finding work",
               "Monetising my podcast",
@@ -152,7 +152,7 @@
         "title": "What are your goals?",
         "fields": [
           {
-            "name": "interest",
+            "name": "goals",
             "options": ["Hiring", "Connecting with new talent", "Advertising"]
           }
         ],

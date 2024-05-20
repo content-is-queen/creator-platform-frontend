@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { auth } from "@/firebase.config";
-import { getIdToken } from "firebase/auth";
 import { useUser } from "@/context/UserContext";
 
 const useToken = () => {
@@ -8,14 +7,14 @@ const useToken = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    (async () => {
-      const user = auth.currentUser;
-
+    return auth.onIdTokenChanged(async (user) => {
       if (user) {
-        const token = await getIdToken(user);
+        const token = await user.getIdToken();
         setToken(token);
+      } else {
+        setToken(null);
       }
-    })();
+    });
   }, [user]);
 
   return { token };

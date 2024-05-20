@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 
-import Form, { Error } from "./Form";
-import Button from "./Button";
+import Form, { Error } from "../Form";
+import Button from "../Button";
 
-const ShowcaseInput = ({ setLocalUser, setUpdated, localUser }) => {
-  const [shows, setShows] = useState(localUser?.showcase || []);
+const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
+  const [shows, setShows] = useState(localUser?.profile_meta?.showcase || []);
   const [inputValue, setInputValue] = useState("");
   const [errors, setError] = useState({});
 
-  const add = (e) => {
+  const add = () => {
     setError({});
 
-    // TODO: add rejex expression to check if it is a valid spotify or apple url
-    if (inputValue.trim("").length === 0) {
-      setError({ message: "Please enter a valid url" });
+    if (
+      inputValue.trim("").length === 0 ||
+      !inputValue.startsWith("https://open.spotify.com/episode/") ||
+      !inputValue.startsWith("https://podcasts.apple.com/gb/podcast/")
+    ) {
+      setError({
+        message: "Please enter a valid Spotify or Apple podcast episode url",
+      });
       return;
     }
 
@@ -27,24 +32,26 @@ const ShowcaseInput = ({ setLocalUser, setUpdated, localUser }) => {
       return;
     }
 
-    setUpdated(true);
     setShows((prev) => [...prev, { url: inputValue }]);
 
     // Clear input when an entry is added
     setInputValue("");
+    handleChange();
   };
 
   const remove = (url) => {
-    setUpdated(true);
     setError({});
     setShows((prev) => prev.filter((i) => i.url !== url));
+    handleChange();
   };
 
   useEffect(() => {
-    setLocalUser((prev) => ({
-      ...prev,
-      ["showcase"]: shows,
-    }));
+    setLocalUser((prev) => {
+      const newObj = prev;
+      const { profile_meta } = newObj;
+      newObj.profile_meta = { ...profile_meta, showcase: shows };
+      return newObj;
+    });
   }, [shows]);
 
   return (
@@ -52,7 +59,8 @@ const ShowcaseInput = ({ setLocalUser, setUpdated, localUser }) => {
       <div className="mb-4">
         <p className="uppercase">Showcase</p>
         <span className="block text-sm text-queen-black/80">
-          Add up to 6 podacast Spotify or Apple podacast episodes
+          Add up to 6 Spotify or Apple podacast episodes by inserting their
+          episode link
         </span>
       </div>
 

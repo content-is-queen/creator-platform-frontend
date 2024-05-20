@@ -5,25 +5,21 @@ import { useUser } from "@/context/UserContext";
 
 import CreatorProfileTabs from "@/components/Creator/CreatorProfileTabs/CreatorProfileTabs";
 import ProfileHero from "@/components/ProfileHero";
-import Button from "@/components/Button";
 import BrandProfileOpportunities from "@/components/Brand/BrandProfileOpportunities";
 
-const Profile = () => {
-  const { user } = useUser();
+const Profile = ({ user: publicUser }) => {
+  const { user: localUser } = useUser();
+
+  const user = publicUser || localUser;
 
   useEffect(() => {}, [user]);
 
   return (
     <>
-      <ProfileHero user={user}>
-        <Button href="/settings/edit-profile" variant="yellow">
-          Edit Profile
-        </Button>
-      </ProfileHero>
-      {user?.role === "creator" ? (
-        <CreatorProfileTabs />
-      ) : (
-        <BrandProfileOpportunities uid={user?.uid} />
+      <ProfileHero user={user} />
+      {user && user?.role === "creator" && <CreatorProfileTabs />}
+      {user && user?.role === "brand" && (
+        <BrandProfileOpportunities user={user} />
       )}
     </>
   );

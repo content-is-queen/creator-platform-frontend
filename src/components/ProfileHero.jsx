@@ -1,17 +1,26 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import ProfileIcon from "@/components/ProfileIcon";
 import Dots from "@/components/Patterns/Dots";
 import Container from "@/components/Container";
 import Tag from "@/components/Tag";
+import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 
-const ProfileHero = ({ user, children }) => {
+const ProfileHero = ({ user }) => {
+  const pathname = usePathname();
+
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
       <Container size="4xl" className="space-y-4">
         <ProfileIcon imageUrl={user?.imageUrl} className="h-20 w-20" />
-        {children}
+        {pathname === "/profile" && (
+          <Button href="/settings/edit-profile" variant="yellow">
+            Edit Profile
+          </Button>
+        )}
 
         <div className="max-w-96">
           <h1 className="font-heading uppercase text-2xl">
