@@ -12,15 +12,16 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
     setError({});
 
     if (
-      inputValue.trim("").length === 0 ||
-      !inputValue.startsWith("https://open.spotify.com/episode/") ||
-      !inputValue.startsWith("https://podcasts.apple.com/gb/podcast/")
+      inputValue.trim().length === 0 ||
+      (!inputValue.includes("open.spotify.com/episode/") &&
+        !inputValue.includes("podcasts.apple.com"))
     ) {
       setError({
-        message: "Please enter a valid Spotify or Apple podcast episode url",
+        message: "Please enter a valid Spotify or Apple podcast episode URL",
       });
       return;
     }
+    
 
     if (shows.find((i) => i.url == inputValue)) {
       setError({ message: "You can't add the same url twice" });
