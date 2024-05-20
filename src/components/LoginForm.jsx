@@ -82,7 +82,7 @@ const LoginForm = () => {
       });
       router.push("/");
     } catch (error) {
-      console.error("Login error:", error);
+      console.error(error);
 
       if (error.code === 400) {
         setError({ message: "Your login credentials are incorrect" });

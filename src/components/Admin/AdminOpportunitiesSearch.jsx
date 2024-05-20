@@ -1,90 +1,79 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Search from "@/components/Search";
-import OpportunityRow from "../OpportunityRow";
+import { useEffect, useState } from "react";
+
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
-import { getOpportunities } from "@/utils";
-import Loading from "@/app/(auth)/loading";
 
-const OpportunitiesSearchAdmin = () => {
+import Search from "@/components/Search";
+import OpportunityRow from "../OpportunityRow";
+import { Error } from "../Form";
+
+const TableBody = ({ data = [], setError }) => {
+  if (data && data.length > 0) {
+    return data.map((opportunity) => (
+      <OpportunityRow
+        setError={setError}
+        {...opportunity}
+        key={opportunity?.opportunity_id}
+      />
+    ));
+  }
+
+  return (
+    <tr>
+      <td colSpan="7" className="text-center">
+        No opportunities found
+      </td>
+    </tr>
+  );
+};
+
+const AdminOpportunitiesSearch = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [errors, setError] = useState({});
   const { token } = useToken();
 
-  const [openSubMenuId, setOpenSubMenuId] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const getAll = async () => {
+  const [loading, setLoading] = useState(true);
+
+  const getAdminOpportunities = async () => {
     try {
-      const res = await API("/admin/opportunities", {
-        method: "GET",
+      const res = await API.get("/admin/opportunities", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-      return res.message;
+      return res.data.message;
     } catch (error) {
       throw new Error("Something went wrong with getting opportunities");
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await getAll();
+        const data = await getAdminOpportunities();
         setFilteredOpportunities(data);
-        setLoading(false);
       } catch (error) {
-        setLoading(false);
         console.error("Error fetching opportunities:", error);
         setError({
           message: "Something went wrong with getting opportunities",
         });
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchData();
+    token && fetchData();
   }, [token]);
-
-  const handleclose = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleIdToDelete = async (id) => {
-    setError({});
-    try {
-      const response = await API(`/opportunities/opportunityid/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status > 200) {
-        setError({
-          message:
-            response?.message || "Something went wrong. User sign up failed.",
-        });
-        return;
-      }
-      if (response.status === 200) {
-        await getOpportunities();
-      }
-    } catch (error) {}
-  };
-
-  const subMenuToggle = (id) => {
-    setOpenSubMenuId((prevId) => (prevId === id ? null : id));
-  };
 
   return (
     <>
       <Search
-        opportunities={filteredOpportunities}
-        setFilteredOpportunities={setFilteredOpportunities}
+        data={filteredOpportunities}
+        setFilteredData={setFilteredOpportunities}
       />
 
       <div className="my-12 space-y-6">
@@ -125,38 +114,26 @@ const OpportunitiesSearchAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {(!loading && filteredOpportunities?.length) > 0 ? (
-                filteredOpportunities?.map((opportunity) => (
-                  <OpportunityRow
-                    {...opportunity}
-                    key={opportunity?.opportunity_id}
-                    setIdToDelete={handleIdToDelete}
-                    isOpen={handleclose}
-                    subMenuToggle={() =>
-                      subMenuToggle(opportunity.opportunity_id)
-                    }
-                  />
-                ))
-              ) : loading ? (
-                <Loading />
-              ) : (
+              {loading && !filteredOpportunities.length > 0 ? (
                 <tr>
                   <td colSpan="7" className="text-center">
-                    No opportunities found
+                    loading...
                   </td>
                 </tr>
+              ) : (
+                <TableBody
+                  data={filteredOpportunities}
+                  errors={errors}
+                  setError={setError}
+                />
               )}
             </tbody>
           </table>
         </div>
-        {errors?.message && (
-          <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-            <p>{errors?.message}</p>
-          </div>
-        )}
+        {errors?.message && <Error>{errors?.message}</Error>}
       </div>
     </>
   );
 };
 
-export default OpportunitiesSearchAdmin;
+export default AdminOpportunitiesSearch;

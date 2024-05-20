@@ -65,6 +65,21 @@ const MainNav = () => {
       },
       { href: "/conversations", label: "Conversations" },
     ],
+    admin: [
+      {
+        href: "/",
+        label: "Dashboard",
+      },
+      {
+        href: "/admin/opportunities",
+        label: "Opportunities",
+      },
+      {
+        href: "/admin/users",
+        label: "Users",
+      },
+      { href: "/admin/billing", label: "Billing" },
+    ],
   };
 
   return (

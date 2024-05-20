@@ -12,7 +12,6 @@ import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
 const AdminSearch = ({ searchQuery }) => {
-  const [query, setQuery] = useState("");
   const [selected, setSelected] = useState([]);
   const [tags, setTags] = useState([]);
   const debouncedSearchQuery = debounce(searchQuery, 1000);

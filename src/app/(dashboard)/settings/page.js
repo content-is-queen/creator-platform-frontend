@@ -32,13 +32,11 @@ const General = () => {
     setError({});
     setSuccess({});
     try {
-      const response = await API("/auth/username", {
-        method: "POST",
+      const response = await API.post("/auth/username", formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
       });
       setUser({ ...user, email: formData.email });
       if (response.status === 200) {

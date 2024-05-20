@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import BrandOpportunityCard from "./Brand/BrandOpportunityCard";
 import SubMenu from "./SubMenu";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import API from "@/api/api";
 import useToken from "@/hooks/useToken";
+import ProfileIcon from "./ProfileIcon";
+import { Error } from "./Form";
 
 const UsersList = ({ list, selectedId, activate }) => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -32,11 +32,7 @@ const UsersList = ({ list, selectedId, activate }) => {
 
   return (
     <div className="overflow-x-auto max-h-[70vh]">
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
+      {errors?.message && <Error>{errors.message}</Error>}
       <table className="w-full text-sm text-left text-gray-500 bg-gray-900">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
           <tr>
@@ -94,14 +90,7 @@ const UsersList = ({ list, selectedId, activate }) => {
                     scope="row"
                     className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
                   >
-                    <img
-                      className="w-10 h-10 rounded-full"
-                      src={
-                        item.imageUrl ||
-                        "https://images.unsplash.com/photo-1604147706283-d7119b5b822c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2hpdGV8ZW58MHx8MHx8fDA%3D"
-                      }
-                      alt="Jese image"
-                    />
+                    <ProfileIcon imageUrl={item.imageUrl} />
                     <div className="ps-3">
                       <div className="text-base font-semibold">
                         {item.first_name + " " + item.last_name}

@@ -11,7 +11,7 @@ import { inputStyles } from "@/components/Form";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const Search = ({ opportunities, setFilteredOpportunities }) => {
+const Search = ({ data, setFilteredData }) => {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState([]);
   const [tags, setTags] = useState([]);
@@ -21,9 +21,10 @@ const Search = ({ opportunities, setFilteredOpportunities }) => {
     debouncedSearch();
   };
 
-  const getTags = (opportunities) => {
+  const getTags = (data) => {
     const tags = [];
-    opportunities.map(({ type }) => {
+
+    data.map(({ type }) => {
       if (!tags.includes(type)) tags.push(type);
     });
 
@@ -31,29 +32,29 @@ const Search = ({ opportunities, setFilteredOpportunities }) => {
   };
 
   useEffect(() => {
-    setFilteredOpportunities(() => {
-      if (query.trim().length === 0) {
-        return opportunities;
-      } else {
-        return opportunities.filter(
+    if (query) {
+      setFilteredData(() => {
+        if (query.trim().length === 0) {
+          return data;
+        }
+
+        return data.filter(
           (i) =>
             i.title?.toLowerCase().includes(query.toLowerCase()) ||
             i.project?.toLowerCase().includes(query.toLowerCase()) ||
             i.name?.toLowerCase().includes(query.toLowerCase())
         );
-      }
-    });
+      });
+    }
   }, [query]);
 
   useEffect(() => {
-    setTags(getTags(opportunities));
+    setTags(getTags(data));
   }, []);
 
   useEffect(() => {
-    setFilteredOpportunities(
-      selected.length > 0
-        ? opportunities.filter((i) => selected.includes(i.type))
-        : opportunities
+    setFilteredData(
+      selected.length > 0 ? data.filter((i) => selected.includes(i.type)) : data
     );
   }, [selected]);
 

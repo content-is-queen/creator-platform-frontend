@@ -1,27 +1,52 @@
 import { useState } from "react";
-import SubMenu from "./SubMenu";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
+import useToken from "@/hooks/useToken";
+
+import SubMenu from "./SubMenu";
+import API from "@/api/api";
+
 const OpportunityRow = ({
   title,
-  applications,
-  userName,
   status,
-  target,
   deadline,
+  userName, // TODO: change to full_name
   opportunity_id,
-  setIdToDelete,
   numberOfApplications,
+  setError,
 }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
 
-  const subMenuToggle = (id) => {
-    setOpenMenuId((prevId) => (prevId === id ? null : id));
+  const { token } = useToken();
+
+  const handleDelete = async (id) => {
+    setError({});
+    try {
+      if (confirm("Are you sure you want to delete this opportunity?")) {
+        const response = await API.delete(
+          `/opportunities/opportunityid/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        window.location.reload();
+      }
+    } catch (error) {
+      setError({
+        message: `Something went wrong when deleting the opportunity`,
+      });
+      console.error(error);
+    }
   };
 
-  const handleDeleteOpportunity = (data) => {
-    setIdToDelete(data);
+  const handleMenuToggle = (id) => {
+    setOpenMenuId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -52,7 +77,7 @@ const OpportunityRow = ({
         <button
           type="button"
           className="ml-auto pl-2"
-          onClick={() => subMenuToggle(opportunity_id)}
+          onClick={() => handleMenuToggle(opportunity_id)}
         >
           <FontAwesomeIcon icon={faEllipsisV} />
         </button>
@@ -61,7 +86,7 @@ const OpportunityRow = ({
             <SubMenu.Item>
               <button
                 type="button"
-                onClick={() => handleDeleteOpportunity(opportunity_id)}
+                onClick={() => handleDelete(opportunity_id)}
                 className="px-4 py-1 w-full text-left inline-block"
               >
                 Delete
