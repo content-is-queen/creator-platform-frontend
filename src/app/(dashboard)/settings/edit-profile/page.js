@@ -47,51 +47,41 @@ const EditProfile = () => {
       });
   }, [user]);
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    const formData = new FormData();
-    Object.entries(localUser).forEach(([key, value]) => {
+  
+// Ensure profile_meta is sent as a JSON string
+const handleSubmit = async () => {
+  setLoading(true);
+  const formData = new FormData();
+
+  Object.entries(localUser).forEach(([key, value]) => {
+    if (key === "showcase" || key === "credits" || key === "profile_meta") {
+      // Convert profile_meta to a JSON string
+      formData.append(key, JSON.stringify(value));
+    } else {
       formData.append(key, value);
+    }
+  });
+
+  try {
+    const res = await API(`/auth/user`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
     });
 
-    try {
-      const res = await API(`/auth/user`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.status === 200) {
-        const userProfile = await getUserProfile();
-
-        if (!userProfile) {
-          setError({
-            message: "Something went wrong when updating your profile",
-          });
-
-          throw new Error(
-            "Something went wrong when updating the user profile"
-          );
-        }
-
-        localStorage.removeItem("userProfile");
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
-        setUser({ ...user, ...userProfile });
-        router.push("/profile");
-      } else {
-        setError({ message: res.message });
-      }
-    } catch (err) {
-      console.error(err);
-      setError({ message: err.message });
-    } finally {
-      setLoading(false);
+    if (res.status === 200) {
+      console.log("User profile updated successfully");
+    } else {
+      console.error("Failed to update user profile");
     }
-  };
+  } catch (err) {
+    console.error("Error updating user profile:", err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Form
