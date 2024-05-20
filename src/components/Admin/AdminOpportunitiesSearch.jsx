@@ -1,15 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-import useToken from "@/hooks/useToken";
-import API from "@/api/api";
-
 import Search from "@/components/Search";
 import OpportunityRow from "../OpportunityRow";
 import { Error } from "../Form";
+import { useEffect, useState } from "react";
 
-const TableBody = ({ data = [], setError }) => {
+const TableBody = ({ data = [] }) => {
   if (data && data.length > 0) {
     return data.map((opportunity) => (
       <OpportunityRow
@@ -29,45 +25,14 @@ const TableBody = ({ data = [], setError }) => {
   );
 };
 
-const AdminOpportunitiesSearch = () => {
+const AdminOpportunitiesSearch = ({ opportunities }) => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
-  const [errors, setError] = useState({});
-  const { token } = useToken();
-
   const [loading, setLoading] = useState(true);
-
-  const getAdminOpportunities = async () => {
-    try {
-      const res = await API.get("/admin/opportunities", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data.message;
-    } catch (error) {
-      throw new Error("Something went wrong with getting opportunities");
-    }
-  };
+  const [errors, setError] = useState({});
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await getAdminOpportunities();
-        setFilteredOpportunities(data);
-      } catch (error) {
-        console.error("Error fetching opportunities:", error);
-        setError({
-          message: "Something went wrong with getting opportunities",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    token && fetchData();
-  }, [token]);
+    setFilteredOpportunities(opportunities);
+  }, []);
 
   return (
     <>

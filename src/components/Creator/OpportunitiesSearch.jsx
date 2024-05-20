@@ -14,7 +14,11 @@ const OpportunitiesSearch = ({ opportunities }) => {
 
   return (
     <>
-      <Search data={opportunities} setFilteredData={setFilteredOpportunities} />
+      <Search
+        data={filteredOpportunities}
+        setFilteredData={setFilteredOpportunities}
+        filterBy={["title", "project", "name"]}
+      />
 
       <div className="my-12 space-y-6">
         {filteredOpportunities.length > 0 ? (

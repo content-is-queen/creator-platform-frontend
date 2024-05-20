@@ -11,7 +11,7 @@ import { inputStyles } from "@/components/Form";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const Search = ({ data, setFilteredData }) => {
+const Search = ({ data, setFilteredData, filterBy }) => {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState([]);
   const [tags, setTags] = useState([]);
@@ -38,11 +38,11 @@ const Search = ({ data, setFilteredData }) => {
           return data;
         }
 
-        return data.filter(
-          (i) =>
-            i.title?.toLowerCase().includes(query.toLowerCase()) ||
-            i.project?.toLowerCase().includes(query.toLowerCase()) ||
-            i.name?.toLowerCase().includes(query.toLowerCase())
+        return data.filter((i) =>
+          filterBy.forEach((value) => {
+            // TODO: check if any values to query are included
+            i[value]?.toLowerCase().includes(query.toLowerCase());
+          })
         );
       });
     }
