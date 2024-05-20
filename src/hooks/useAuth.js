@@ -8,13 +8,15 @@ const useAuth = () => {
 
   const signup = async (data, id) => {
     try {
-      const response = await API("/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data, role: id }),
-      });
+      const response = await API.post(
+        "/auth/signup",
+        { ...data, role: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response;
     } catch (error) {
       console.error("Sign up error:", error);

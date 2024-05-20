@@ -18,10 +18,10 @@ const CreatorDashboard = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    async function getOpportunities() {
+    async function getApplications() {
       try {
-        const response = await API("/applications");
-        setApplications(response.message.filter((i) => i.user_id === user.uid));
+        const { data } = await API.get("/applications");
+        setApplications(data.message.filter((i) => i.user_id === user.uid));
       } catch (err) {
         console.error(err);
       } finally {
@@ -29,7 +29,7 @@ const CreatorDashboard = () => {
       }
     }
 
-    getOpportunities();
+    getApplications();
   }, []);
 
   return (

@@ -40,13 +40,11 @@ const ForgotPasswordForm = () => {
     setError({});
     setSuccess({});
     try {
-      const response = await API(`/auth/reset`, {
-        method: "POST",
+      const response = await API.post(`/auth/reset`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
       });
       if (response.message === "Password reset email sent successfully") {
         setSuccess({

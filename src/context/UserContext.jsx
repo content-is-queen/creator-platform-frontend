@@ -5,22 +5,19 @@ import API from "@/api/api";
 
 export const UserContext = createContext(null);
 
-export const getUserProfile = async () => {
-  const user = auth.currentUser;
+export const getUserProfile = async (user) => {
   const token = await getIdToken(user);
 
   try {
-    const response = await API("/auth/user", {
+    const response = await API.get("/auth/user", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    if (response.status === 200) {
-      return response.message;
-    }
+    return response.data.message;
   } catch (error) {
-    console.error(error.response?.data);
+    console.error(error);
   }
 };
 
@@ -36,7 +33,7 @@ export const UserProvider = ({ children }) => {
         if (localStorage.getItem("userProfile")) {
           userProfile = JSON.parse(localStorage.getItem("userProfile"));
         } else {
-          userProfile = await getUserProfile();
+          userProfile = await getUserProfile(user);
 
           if (userProfile) {
             localStorage.setItem("userProfile", JSON.stringify(userProfile));

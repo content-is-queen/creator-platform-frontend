@@ -54,13 +54,13 @@ const CreateOpportunityForm = ({ type }) => {
     });
 
     try {
-      await API("/opportunities", {
-        method: "POST",
+      const response = await API.post("/opportunities", postData, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData),
       });
 
-      window.location = "/";
+      console.log(response);
+
+      // window.location = "/";
     } catch (err) {
       setError({
         message: "Something went wrong...",

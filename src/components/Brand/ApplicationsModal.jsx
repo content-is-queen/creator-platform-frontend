@@ -40,8 +40,8 @@ const ApplicationsModal = ({
 
   const getApplicationsById = async (id) => {
     try {
-      const res = await API(`/applications/opportunity/${id}`);
-      setApplications(res.filter((i) => i.status === "pending"));
+      const { data } = await API.get(`/applications/opportunity/${id}`);
+      setApplications(data.filter((i) => i.status === "pending"));
     } catch (error) {
       console.error(error);
     } finally {

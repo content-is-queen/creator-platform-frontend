@@ -27,11 +27,10 @@ const BrandApplicationCard = ({
 
   const getUser = async (id) => {
     try {
-      const res = await API(`/auth/user/${id}`);
+      const res = await API.get(`/auth/user/${id}`);
 
-      const { message } = res;
-      setUser(message);
-      return message;
+      const { data } = res;
+      setUser(data.message);
     } catch (error) {
       throw new Error("Something went wrong when getting the user");
     }
@@ -43,18 +42,20 @@ const BrandApplicationCard = ({
 
   const rejectApplication = async (id) => {
     try {
-      const response = await API(`/auth/user`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
+      const response = await API.put(
+        `/auth/user`,
+        {
           status: "rejected",
           user_id: user_id,
           creator_id: uid,
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response?.error) {
         throw new Error(
@@ -72,14 +73,16 @@ const BrandApplicationCard = ({
   };
   const acceptApplication = async (id) => {
     try {
-      const response = await API(`/auth/user`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status: "accepted" }),
-      });
+      const response = await API.put(
+        `/auth/user`,
+        { status: "accepted" },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response?.error) {
         throw new Error(

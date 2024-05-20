@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, Suspense, useMemo } from "react";
+import { useState, useRef } from "react";
 
 import { register } from "swiper/element/bundle";
 
@@ -10,8 +10,8 @@ import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
 import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
 import Spinner from "@/components/Spinner";
 
-import { getOpportunitiesByUserId } from "@/utils";
 import { useUser } from "@/context/UserContext";
+import useOpportunities from "@/hooks/useOpportunities";
 
 register();
 
@@ -35,11 +35,16 @@ const BrandOpportunities = () => {
     },
   ];
 
-  const [opportunities, setOpportunities] = useState([]);
   const { user } = useUser();
 
   const [active, setActive] = useState(OPTIONS[0]);
-  const [loading, setloading] = useState(true);
+
+  const [opportunities, setOpportunities, loading] = useOpportunities(
+    { user_id: user.uid },
+    (data) => {
+      setOpportunities(data.filter((i) => i.status !== "archived"));
+    }
+  );
 
   const swiperElRef = useRef(null);
 
@@ -48,16 +53,6 @@ const BrandOpportunities = () => {
       ? opportunities
       : opportunities.filter((i) => i.status === active.id);
   };
-
-  useEffect(() => {
-    (async () => {
-      getOpportunitiesByUserId(user.uid, (opportunities) => {
-        setOpportunities(opportunities);
-
-        setloading(false);
-      });
-    })();
-  }, []);
 
   // TODO: on change update swiper to start at the index of the first slide
   if (loading) return <Spinner />;

@@ -11,62 +11,25 @@ import { inputStyles } from "@/components/Form";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const Search = ({ data, setFilteredData }) => {
-  const [query, setQuery] = useState("");
+const AdminSearch = ({ searchQuery }) => {
   const [selected, setSelected] = useState([]);
   const [tags, setTags] = useState([]);
+  const debouncedSearchQuery = debounce(searchQuery, 1000);
 
-  const changeHandler = (e) => {
-    const debouncedSearch = debounce(() => setQuery(e.target.value), 500);
-    debouncedSearch();
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    debouncedSearchQuery(inputValue);
   };
-
-  const getTags = (data) => {
-    const tags = [];
-
-    data.map(({ type }) => {
-      if (!tags.includes(type)) tags.push(type);
-    });
-
-    return tags;
-  };
-
-  useEffect(() => {
-    if (query) {
-      setFilteredData(() => {
-        if (query.trim().length === 0) {
-          return data;
-        }
-
-        return data.filter(
-          (i) =>
-            i.title?.toLowerCase().includes(query.toLowerCase()) ||
-            i.project?.toLowerCase().includes(query.toLowerCase()) ||
-            i.name?.toLowerCase().includes(query.toLowerCase())
-        );
-      });
-    }
-  }, [query]);
-
-  useEffect(() => {
-    setTags(getTags(data));
-  }, []);
-
-  useEffect(() => {
-    setFilteredData(
-      selected.length > 0 ? data.filter((i) => selected.includes(i.type)) : data
-    );
-  }, [selected]);
 
   return (
-    <section>
+    <section className="pb-4">
       <div className="relative z-0 w-full group">
         <input
           type="search"
           name="search"
           placeholder="Search"
           className={clsx(inputStyles.input, "px-4")}
-          onChange={changeHandler}
+          onChange={handleInputChange}
         />
 
         <FontAwesomeIcon
@@ -88,4 +51,4 @@ const Search = ({ data, setFilteredData }) => {
   );
 };
 
-export default Search;
+export default AdminSearch;
