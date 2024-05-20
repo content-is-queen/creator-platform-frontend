@@ -15,8 +15,7 @@ const Empty = () => {
 
 const Showcase = () => {
   const { user } = useUser();
-  const shows = user?.showcase || [];
-  console.log(shows)
+  const shows = user?.profile_meta?.showcase || [];
 
   if (shows.length > 0) {
     return (

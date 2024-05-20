@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import API from "@/api/api";
+
 import { getUserProfile, useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
+
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
@@ -12,11 +15,14 @@ import ShowreelInput from "@/components/Creator/ShowreelInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 import local from "next/font/local";
 
+
+
 const EditProfile = () => {
   const [errors, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [localUser, setLocalUser] = useState({});
+
   const { user, setUser } = useUser();
   const { token } = useToken();
   const router = useRouter();
@@ -24,7 +30,6 @@ const EditProfile = () => {
   const handleChange = (e) => {
     !updated && setUpdated(true);
 
-    // Prevent checking values updated by a button
     if (e?.target) {
       const { name, value, files } = e.target;
       const newValue = files ? files[0] : value;
@@ -33,14 +38,6 @@ const EditProfile = () => {
         ...prev,
         [name]: newValue,
       }));
-    } else {
-      // For other fields, update as before
-      if (newValue !== undefined) {
-        setLocalUser((prev) => ({
-          ...prev,
-          [name]: newValue,
-        }));
-      }
     }
   };
 
@@ -50,19 +47,16 @@ const EditProfile = () => {
       last_name: user?.last_name || "",
       imageUrl: user?.imageUrl || "",
       bio: user?.bio || "",
-      profile_meta: user?.profile_meta || {},
+      profile_meta: user?.profile_meta || { showcase: [], credits: [], showreel: "" }, // Ensure default values
     });
   }, [user]);
 
-  // Ensure profile_meta is sent as a JSON string
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
-
     Object.entries(localUser).forEach(([key, value]) => {
-      if (key === "showcase" || key === "credits" || key === "profile_meta") {
-        // Convert profile_meta to a JSON string
-        formData.append(key, JSON.stringify(value));
+      if (key === "profile_meta") {
+        formData.append(key, JSON.stringify(value)); // Convert profile_meta to JSON string
       } else {
         formData.append(key, value);
       }
@@ -78,12 +72,26 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        console.log("User profile updated successfully");
+        const userProfile = await getUserProfile();
+
+        if (!userProfile) {
+          setError({
+            message: "Something went wrong when updating your profile",
+          });
+          throw new Error("Something went wrong when updating the user profile");
+        }
+
+        localStorage.removeItem("userProfile");
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
+
+        setUser({ ...user, ...userProfile });
+        router.push("/profile");
       } else {
-        console.error("Failed to update user profile");
+        setError({ message: res.message });
       }
     } catch (err) {
-      console.error("Error updating user profile:", err);
+      console.error(err);
+      setError({ message: err.message });
     } finally {
       setLoading(false);
     }
