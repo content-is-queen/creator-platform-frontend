@@ -31,6 +31,7 @@ export default function RootLayout({ children }) {
       <link rel="icon" href="/images/favicon.svg" />
       <link rel="apple-touch-icon" href="/images/touch-icon.png" />
       <meta name="theme-color" content="#ffffff" />
+      <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"/>
 
       <body>
         <Providers>{children}</Providers>
