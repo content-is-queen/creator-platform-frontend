@@ -16,6 +16,7 @@ const SIZES = {
 
 const COLORS = {
   black: "text-queen-black",
+  white: "text-queen-white",
   lilac: "text-queen-lilac",
 };
 
