@@ -8,6 +8,8 @@ import Container from "@/components/Container";
 import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
+import Heading from "@/components/Heading";
+
 
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
@@ -23,13 +25,13 @@ const ProfileHero = ({ user }) => {
         )}
 
         <div className="max-w-96">
-          <h1 className="font-heading uppercase text-2xl">
+        <Heading color="lilac" size="3xl">
             {!user ? (
               <LoadingPlaceholder />
             ) : (
               `${user?.first_name} ${user?.last_name}`
             )}
-          </h1>
+          </Heading>
           {user?.tags && (
             <div className="flex gap-2 my-2">
               {user?.tags?.map((tag) => (
