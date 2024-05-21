@@ -1,16 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import useToken from "@/hooks/useToken";
+import API from "@/api/api";
 
 import Search from "@/components/Search";
-import OpportunityRow from "../OpportunityRow";
+import OpportunityRow from "./AdminOpportunityTableRow";
 import { Error } from "../Form";
 
-const TableBody = ({ data = [], setError }) => {
+const TableBody = (props) => {
+  const { data } = props;
   if (data && data.length > 0) {
     return data.map((opportunity) => (
       <OpportunityRow
-        setError={setError}
+        {...props}
         {...opportunity}
         key={opportunity?.opportunity_id}
       />
@@ -26,9 +30,50 @@ const TableBody = ({ data = [], setError }) => {
   );
 };
 
-const AdminOpportunitiesSearch = ({ opportunities }) => {
+const AdminOpportunitiesTable = ({ opportunities }) => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
+  const [selectedOpportunities, setSelectedOpportunities] = useState([]);
   const [errors, setError] = useState({});
+  const [checkAll, setCheckAll] = useState(false);
+
+  const { token } = useToken();
+
+  const handleDelete = async (id) => {
+    setError({});
+    try {
+      if (confirm("Are you sure you want to delete this opportunity?")) {
+        await API.delete(`/opportunities/opportunityid/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        window.location.reload();
+      }
+    } catch (error) {
+      setError({
+        message: `Something went wrong when deleting the opportunity`,
+      });
+      console.error(error);
+    }
+  };
+
+  const handleCheckAll = () => {
+    const deselect = selectedOpportunities.length === opportunities.length;
+
+    deselect
+      ? setSelectedOpportunities(() => {
+          setCheckAll(false);
+          return [];
+        })
+      : setSelectedOpportunities(
+          opportunities.map((opportunity) => {
+            setCheckAll(true);
+            return opportunity.opportunity_id;
+          })
+        );
+  };
 
   return (
     <>
@@ -50,6 +95,8 @@ const AdminOpportunitiesSearch = ({ opportunities }) => {
                       id="checkbox-all-search"
                       type="checkbox"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                      checked={checkAll}
+                      onClick={() => handleCheckAll()}
                     />
                     <label htmlFor="checkbox-all-search" className="sr-only">
                       checkbox
@@ -81,6 +128,9 @@ const AdminOpportunitiesSearch = ({ opportunities }) => {
                 data={filteredOpportunities}
                 errors={errors}
                 setError={setError}
+                handleDelete={handleDelete}
+                setSelectedOpportunities={setSelectedOpportunities}
+                selectedOpportunities={selectedOpportunities}
               />
             </tbody>
           </table>
@@ -91,4 +141,4 @@ const AdminOpportunitiesSearch = ({ opportunities }) => {
   );
 };
 
-export default AdminOpportunitiesSearch;
+export default AdminOpportunitiesTable;

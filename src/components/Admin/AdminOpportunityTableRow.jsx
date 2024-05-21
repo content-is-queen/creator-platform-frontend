@@ -3,10 +3,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-import useToken from "@/hooks/useToken";
-
-import SubMenu from "./SubMenu";
-import API from "@/api/api";
+import SubMenu from "../SubMenu";
 
 const OpportunityRow = ({
   title,
@@ -16,33 +13,16 @@ const OpportunityRow = ({
   opportunity_id,
   numberOfApplications,
   setError,
+  selectedOpportunities,
+  setSelectedOpportunities,
+  handleDelete,
 }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
 
-  const { token } = useToken();
-
-  const handleDelete = async (id) => {
-    setError({});
-    try {
-      if (confirm("Are you sure you want to delete this opportunity?")) {
-        const response = await API.delete(
-          `/opportunities/opportunityid/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        window.location.reload();
-      }
-    } catch (error) {
-      setError({
-        message: `Something went wrong when deleting the opportunity`,
-      });
-      console.error(error);
-    }
+  const handleChange = (id) => {
+    selectedOpportunities.includes(id)
+      ? setSelectedOpportunities((prev) => prev.filter((i) => !i.includes(id)))
+      : setSelectedOpportunities((prev) => [...prev, id]);
   };
 
   const handleMenuToggle = (id) => {
@@ -57,6 +37,8 @@ const OpportunityRow = ({
             id="checkbox-table-search-1"
             type="checkbox"
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+            onChange={() => handleChange(opportunity_id)}
+            checked={selectedOpportunities.includes(opportunity_id)}
           />
           <label htmlFor="checkbox-table-search-1" className="sr-only">
             checkbox

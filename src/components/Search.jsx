@@ -11,7 +11,7 @@ import { inputStyles } from "@/components/Form";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const Search = ({ data, setFilteredData, filter }) => {
+const Search = ({ data = [], setFilteredData, filter }) => {
   const [query, setQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [tags, setTags] = useState([]);
@@ -21,12 +21,12 @@ const Search = ({ data, setFilteredData, filter }) => {
     debouncedSearch();
   };
 
-  // TODO: build tags based on data
   const buildTags = (data) => {
     const tags = [];
 
-    data.map(({ type }) => {
-      if (!tags.includes(type)) tags.push(type);
+    data.forEach((tag) => {
+      // Prevent duplicates
+      if (!tags.includes(tag[filter.tag])) tags.push(tag[filter.tag]);
     });
 
     return tags;
@@ -60,7 +60,7 @@ const Search = ({ data, setFilteredData, filter }) => {
   useEffect(() => {
     setFilteredData(
       selectedTags.length > 0
-        ? data.filter((i) => selectedTags.includes(i.filter.tag))
+        ? data.filter((i) => selectedTags.includes(i[filter.tag]))
         : data
     );
   }, [selectedTags]);

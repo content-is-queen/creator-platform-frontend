@@ -1,7 +1,7 @@
 import API from "@/api/api";
 
 import Container from "@/components/Container";
-import AdminOpportunitiesSearch from "@/components/Admin/AdminOpportunitiesSearch";
+import AdminOpportunitiesTable from "@/components/Admin/AdminOpportunitiesTable";
 
 const getOpportunities = async () => {
   // Prevent build failing during workflows build test
@@ -21,8 +21,8 @@ const AdminOpportunities = async () => {
   const opportunities = await getOpportunities();
 
   return (
-    <Container className="mb-32">
-      <AdminOpportunitiesSearch opportunities={opportunities} />
+    <Container>
+      <AdminOpportunitiesTable opportunities={opportunities} />
     </Container>
   );
 };

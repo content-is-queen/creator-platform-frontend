@@ -6,7 +6,7 @@ import useToken from "@/hooks/useToken";
 import ProfileIcon from "./ProfileIcon";
 import { Error } from "./Form";
 
-const UsersList = ({ list, selectedId, activate }) => {
+const UsersTable = ({ list, selectedId, activate }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState({});
   const [errors, setError] = useState({});
@@ -152,4 +152,4 @@ const UsersList = ({ list, selectedId, activate }) => {
   );
 };
 
-export default UsersList;
+export default UsersTable;
