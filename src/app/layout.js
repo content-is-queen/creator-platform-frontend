@@ -4,7 +4,6 @@ import "react-tailwindcss-select/dist/index.css";
 import Providers from "@/components/Providers";
 
 import localFont from "next/font/local";
-import { Anton } from "next/font/google";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
@@ -19,12 +18,6 @@ const formaDJRBanner = localFont({
   variable: "--font-forma-banner",
 });
 
-const anton = Anton({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-anton",
-});
-
 export const metadata = {
   title: "Creator Platform | CIQ",
 };
@@ -33,7 +26,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable} ${anton.className}`}
+      className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
       <link rel="icon" href="/images/favicon.svg" />
       <link rel="apple-touch-icon" href="/images/touch-icon.png" />
