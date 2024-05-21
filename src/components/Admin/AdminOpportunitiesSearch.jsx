@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
+
 import Search from "@/components/Search";
 import OpportunityRow from "../OpportunityRow";
 import { Error } from "../Form";
-import { useEffect, useState } from "react";
 
-const TableBody = ({ data = [] }) => {
+const TableBody = ({ data = [], setError }) => {
   if (data && data.length > 0) {
     return data.map((opportunity) => (
       <OpportunityRow
@@ -27,18 +28,15 @@ const TableBody = ({ data = [] }) => {
 
 const AdminOpportunitiesSearch = ({ opportunities }) => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [errors, setError] = useState({});
-
-  useEffect(() => {
-    setFilteredOpportunities(opportunities);
-  }, []);
 
   return (
     <>
       <Search
-        data={filteredOpportunities}
+        data={opportunities}
+        filteredData={filteredOpportunities}
         setFilteredData={setFilteredOpportunities}
+        filter={{ keys: ["title", "project", "name"], tag: "type" }}
       />
 
       <div className="my-12 space-y-6">
@@ -79,19 +77,11 @@ const AdminOpportunitiesSearch = ({ opportunities }) => {
               </tr>
             </thead>
             <tbody>
-              {loading && !filteredOpportunities.length > 0 ? (
-                <tr>
-                  <td colSpan="7" className="text-center">
-                    loading...
-                  </td>
-                </tr>
-              ) : (
-                <TableBody
-                  data={filteredOpportunities}
-                  errors={errors}
-                  setError={setError}
-                />
-              )}
+              <TableBody
+                data={filteredOpportunities}
+                errors={errors}
+                setError={setError}
+              />
             </tbody>
           </table>
         </div>

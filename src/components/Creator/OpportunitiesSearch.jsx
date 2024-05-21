@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Search from "@/components/Search";
 import OpportunityCard from "@/components/OpportunityCard";
@@ -8,16 +8,13 @@ import OpportunityCard from "@/components/OpportunityCard";
 const OpportunitiesSearch = ({ opportunities }) => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
 
-  useEffect(() => {
-    setFilteredOpportunities(opportunities);
-  }, []);
-
   return (
     <>
       <Search
-        data={filteredOpportunities}
+        data={opportunities}
+        filteredData={filteredOpportunities}
         setFilteredData={setFilteredOpportunities}
-        filterBy={["title", "project", "name"]}
+        filter={{ keys: ["title", "project", "name"], tag: "type" }}
       />
 
       <div className="my-12 space-y-6">

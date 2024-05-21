@@ -1,3 +1,5 @@
+import API from "@/api/api";
+
 import Container from "@/components/Container";
 import AdminOpportunitiesSearch from "@/components/Admin/AdminOpportunitiesSearch";
 
@@ -11,7 +13,7 @@ const getOpportunities = async () => {
     const { data } = await API.get("/admin/opportunities");
     return data.message;
   } catch (error) {
-    throw new Error("Something went wrong with getting opportunities");
+    throw new Error("Something went wrong when getting opportunities");
   }
 };
 
