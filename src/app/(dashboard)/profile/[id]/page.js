@@ -8,15 +8,15 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const res = await API("/auth/users");
+  const { data } = await API.get("/auth/users");
 
-  return res.map(({ uid }) => ({ id: uid }));
+  return data.map(({ uid }) => ({ id: uid }));
 }
 
 export const dynamicParams = false;
 
 export default async function PublicProfile({ params: { id: uid } }) {
-  const { message: user } = await API(`/auth/user/${uid}`);
+  const { data } = await API.get(`/auth/user/${uid}`);
 
-  return <Profile user={user} />;
+  return <Profile user={data.message.user} />;
 }

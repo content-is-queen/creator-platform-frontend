@@ -39,11 +39,13 @@ const Verify = () => {
   const handleSubmit = async () => {
     const otp = Object.values(formData).join("");
     try {
-      const response = await API("/auth/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...userInfo, otp }),
-      });
+      const response = await API.post(
+        "/auth/verify",
+        { ...userInfo, otp },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       const { message } = response.data;
       router.push("/login");
       toast.success(message);

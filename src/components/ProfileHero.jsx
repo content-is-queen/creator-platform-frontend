@@ -8,8 +8,7 @@ import Container from "@/components/Container";
 import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
-import Heading from "@/components/Heading";
-
+import Heading from "./Heading";
 
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
@@ -25,7 +24,11 @@ const ProfileHero = ({ user }) => {
         )}
 
         <div className="max-w-96">
-        <Heading color="lilac" size="3xl">
+          <Heading
+            color="white"
+            size="3xl"
+            className="font-heading uppercase text-2xl"
+          >
             {!user ? (
               <LoadingPlaceholder />
             ) : (

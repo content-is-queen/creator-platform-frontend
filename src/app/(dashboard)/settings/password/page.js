@@ -42,13 +42,11 @@ const Password = () => {
       return;
     }
     try {
-      const response = await API(`/auth/password`, {
-        method: "POST",
+      const response = await API.post(`/auth/password`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
 
       if (response?.status === 200) {

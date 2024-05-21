@@ -35,8 +35,7 @@ const BrandOpportunityCard = (props) => {
   const deleteOpportunity = async (id) => {
     try {
       if (confirm("Are you sure you want to delete this opportunity?")) {
-        const response = await API(`/opportunities/opportunityid/${id}`, {
-          method: "DELETE",
+        await API.delete(`/opportunities/opportunityid/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

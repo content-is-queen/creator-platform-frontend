@@ -63,12 +63,10 @@ const EditProfile = () => {
     });
 
     try {
-      const res = await API(`/auth/user`, {
-        method: "PUT",
+      const res = await API.put(`/auth/user`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: formData,
       });
 
       if (res.status === 200) {

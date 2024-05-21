@@ -9,8 +9,8 @@ export const getOpportunitiesByUserId = async (uid) => {
   }
 
   try {
-    const res = await API(`/opportunities/id/${uid}`);
-    return res.filter((i) => i.status != "archived");
+    const { data } = await API.get(`/opportunities/id/${uid}`);
+    return data.filter((i) => i.status != "archived");
   } catch (e) {
     console.error(e);
   }
@@ -23,8 +23,8 @@ export const getOpportunityById = async (id) => {
   }
 
   try {
-    const res = await API(`/opportunities/opportunityid/${id}`);
-    return res;
+    const { data } = await API.get(`/opportunities/opportunityid/${id}`);
+    return data;
   } catch (error) {
     throw new Error("Something went wrong when getting the opportunity");
   }
@@ -37,8 +37,8 @@ export const getOpportunities = async () => {
   }
 
   try {
-    const res = await API("/opportunities");
-    return res.message;
+    const { data } = await API.get("/opportunities");
+    return data.message;
   } catch (error) {
     throw new Error("Something went wrong with getting opportunities");
   }

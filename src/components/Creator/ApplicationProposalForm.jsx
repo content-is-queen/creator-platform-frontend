@@ -33,20 +33,14 @@ const ApplicationProposalForm = ({ opportunityId }) => {
     };
 
     try {
-      const response = await API(`/applications`, {
-        method: "POST",
+      const response = await API.post(`/applications`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
       });
 
-      if (response.status === 201) {
-        setStatus("submitted");
-      } else {
-        setError({ message: response.message });
-      }
+      setStatus("submitted");
     } catch (err) {
       setError({
         message: "Something went wrong...",

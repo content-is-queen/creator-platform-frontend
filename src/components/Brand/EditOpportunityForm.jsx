@@ -31,15 +31,14 @@ const EditOpportunityForm = (props) => {
     const data = { type: type, ...fields };
 
     try {
-      const response = await API(
+      const response = await API.put(
         `/opportunities/opportunityid/${opportunityId}`,
+        data,
         {
-          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(data),
         }
       );
 

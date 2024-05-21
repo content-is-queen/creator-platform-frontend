@@ -17,9 +17,9 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const res = await API("/opportunities");
+  const { data } = await API.get("/opportunities");
 
-  return res.message.map(({ opportunity_id }) => ({ id: opportunity_id }));
+  return data.message.map(({ opportunity_id }) => ({ id: opportunity_id }));
 }
 
 export const dynamicParams = false;
