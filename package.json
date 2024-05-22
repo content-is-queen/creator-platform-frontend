@@ -10,7 +10,8 @@
     "lint": "next lint",
     "deploy": "firebase deploy",
     "format": "npx prettier ./src --check",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prettier": "prettier --write 'src/**/*.js'"
   },
   "lint-staged": {
     "*": "npm run lint",
