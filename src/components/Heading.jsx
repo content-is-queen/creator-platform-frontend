@@ -1,4 +1,12 @@
 import clsx from "clsx";
+import { Anton } from "next/font/google";
+
+const anton = Anton({
+  subsets: ["latin"],
+  display: "swap",
+  weight: "400",
+  variable: "--font-anton",
+});
 
 const SIZES = {
   "2xl": "text-lg md:text-2xl",
