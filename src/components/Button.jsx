@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 
-import Spinner from "./Spinner";
+import GlobalSpinner from "./Spinner";
 
 const ButtonVariants = cva(
   "inline-flex items-center leading-none font-subheading rounded-full uppercase hover:opacity-90 disabled:opacity-60 transition",
@@ -28,6 +28,8 @@ const ButtonVariants = cva(
   }
 );
 
+const Spinner = () => <GlobalSpinner className="text-white mr-3 h-3 w-3" />;
+
 const Button = ({ variant, size, as, children, className, ...otherProps }) => {
   const Element = as || Link;
 
@@ -44,4 +46,4 @@ const Button = ({ variant, size, as, children, className, ...otherProps }) => {
 
 export default Button;
 
-Button.Spinner = <Spinner className="text-white mr-3 h-3 w-3" />;
+Button.Spinner = Spinner;

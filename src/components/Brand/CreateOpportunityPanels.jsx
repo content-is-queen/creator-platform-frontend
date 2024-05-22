@@ -6,11 +6,11 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 import Panel from "@/components/Panel";
 
-import data from "@/data/opportunity_data.json";
+import formData from "@/data/opportunity_form_data.json";
 
 const CreateOpportunityPanels = () => (
   <div className="flex gap-3 text-black">
-    {Object.entries(data).map(([name, opp]) => {
+    {Object.entries(formData).map(([name, opp]) => {
       let classes;
       switch (name) {
         case "job":

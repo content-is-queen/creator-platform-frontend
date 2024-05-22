@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import API from "@/api/api";
 
 import { useForm } from "react-hook-form";
-import useAuth from "@/hooks/useAuth";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -13,7 +13,7 @@ import Tabs from "@/components/Tabs";
 import { Error } from "@/components/Form";
 import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
 
-import OPTIONS from "@/data/signup_data.json";
+import formData from "@/data/signup_form_data.json";
 
 const SignUpForm = () => {
   const {
@@ -25,14 +25,13 @@ const SignUpForm = () => {
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
-  const { signup, checkEmailExists } = useAuth(); // Get checkEmailExists from useAuth
   const router = useRouter();
 
-  const [active, setActive] = useState(OPTIONS[0]);
+  const [active, setActive] = useState(formData[0]);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [totalSteps, setTotalSteps] = useState(
-    Object.keys(OPTIONS[0].steps).length
+    Object.keys(formData[0].steps).length
   );
 
   const [errors, setError] = useState({});
@@ -52,23 +51,31 @@ const SignUpForm = () => {
     setError({});
 
     try {
-      const response = await signup(data, id);
-
-      if (response.status > 200) {
-        setError({ message: response.message });
-        throw new Error(
-          response.message || "Something went wrong when signing up"
-        );
-      }
+      const response = await API.post(
+        "/auth/signup",
+        { ...data, role: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       router.push("/verify");
-    } catch (err) {
-      setError({
-        message: "Something went wrong. User sign up failed",
-      });
-      console.error("Sign up error:", err);
+    } catch ({ response: { data } }) {
+      setError({ message: data.message });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await API.get(`/auth/check-email?email=${email}`);
+      return response.data.exists;
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      return false;
     }
   };
 
@@ -116,7 +123,7 @@ const SignUpForm = () => {
             Step {step} of {totalSteps}
           </span>
           {step === 1 ? (
-            <Tabs options={OPTIONS} active={active} setActive={setActive} />
+            <Tabs options={formData} active={active} setActive={setActive} />
           ) : (
             <Text variant="xl">{active.steps[step].title}</Text>
           )}
