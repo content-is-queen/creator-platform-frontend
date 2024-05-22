@@ -11,7 +11,7 @@
     "deploy": "firebase deploy",
     "format": "npx prettier ./src --check",
     "precommit": "lint-staged",
-    "prettier": "prettier --write 'src/**/*.js'"
+    "prettier": "prettier --write '**/*.js'"
   },
   "lint-staged": {
     "*": "npm run lint",
@@ -96,4 +96,6 @@
     "stylelint-scss": "^3.21.0",
     "tailwindcss": "^3.4.1"
   }
+
+  
 }
