@@ -1,7 +1,4 @@
-import { twMerge } from "tailwind-merge";
 import { Controller } from "react-hook-form";
-
-import { inputStyles } from "./AuthInputController";
 
 const AuthRadioController = ({ name, errors, control, options }) => (
   <div className="relative z-0 w-full group">
@@ -15,18 +12,15 @@ const AuthRadioController = ({ name, errors, control, options }) => (
             {options.map((option) => {
               const id = option.replaceAll(" ", "-").toLowerCase();
               return (
-                <div
-                  className="inline-flex items-center gap-3 w-full"
-                  key={option}
-                >
+                <div className="inline-flex items-center gap-3 w-full" key={id}>
                   <input
                     type="radio"
                     className="p-1 w-5 h-5 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
                     name={id}
                     id={id}
-                    value={option}
                     onChange={onChange}
                     {...otherProps}
+                    value={id}
                   />
                   <label for={id} className="text-sm">
                     {option}

@@ -7,10 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 
-import data from "@/data/opportunity_data.json";
+import formData from "@/data/opportunity_form_data.json";
 
 const CreateOpportunityForm = ({ type }) => {
-  const fields = data[type].fields;
+  const fields = formData[type].fields;
   const { user } = useUser();
 
   const [errors, setError] = useState({});
@@ -58,9 +58,7 @@ const CreateOpportunityForm = ({ type }) => {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log(response);
-
-      // window.location = "/";
+      window.location = "/";
     } catch (err) {
       setError({
         message: "Something went wrong...",

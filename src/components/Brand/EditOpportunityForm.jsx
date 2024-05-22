@@ -9,13 +9,13 @@ import Button from "@/components/Button";
 import Form from "@/components/Form";
 import { inputStyles } from "@/components/Form";
 
-import opportunityData from "@/data/opportunity_data.json";
+import formData from "@/data/opportunity_form_data.json";
 import useToken from "@/hooks/useToken";
 
 const EditOpportunityForm = (props) => {
   const token = useToken();
   const { type, opportunity_id } = props;
-  const data = opportunityData[type];
+  const data = formData[type];
 
   const [updatedFields, setUpdatedFields] = useState({});
   const [errors, setError] = useState({});
