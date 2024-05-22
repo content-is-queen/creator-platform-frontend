@@ -11,7 +11,7 @@ const Heading = ({ children }) => (
 );
 
 const SubMenu = ({ heading, children }) => (
-  <div className="z-50 text-sm list-none text-queen-black bg-white divide-y divide-gray-100 rounded-lg shadow-md absolute top-0 left-0">
+  <div className="z-50 text-sm list-none text-queen-black bg-white divide-y divide-gray-100 rounded-lg shadow-md absolute top-14 right-0">
     {heading && heading}
     <ul className="py-2" aria-labelledby="user-menu-button">
       {children}

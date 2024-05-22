@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import { twMerge } from "tailwind-merge";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
