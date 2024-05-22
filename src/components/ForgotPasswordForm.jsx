@@ -47,21 +47,21 @@ const ForgotPasswordForm = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
 
-      if (response.data.message === 'Password reset email sent successfully') {
+      if (response.data.message === "Password reset email sent successfully") {
         setSuccess({
-          message: 'Please check your email for password reset instructions.',
+          message: "Please check your email for password reset instructions.",
         });
         return;
       }
 
       if (response.data.status > 200) {
         setError({
-          message: 'Something went wrong. try again.',
+          message: "Something went wrong. try again.",
         });
         return;
       }
@@ -69,7 +69,9 @@ const ForgotPasswordForm = () => {
       return response.data;
     } catch (error) {
       setError({
-        message: error.response?.data?.message || 'Something went wrong. User sign up failed.',
+        message:
+          error.response?.data?.message ||
+          "Something went wrong. User sign up failed.",
       });
     }
   };

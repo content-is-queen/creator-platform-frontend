@@ -41,39 +41,41 @@ const ResetPasswordForm = () => {
   const [success, setSuccess] = useState({});
 
   function parseJwt(token) {
-    if (!token) { return; }
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    if (!token) {
+      return;
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
     return JSON.parse(window.atob(base64));
-}
-
-useEffect(() => {
-  if (tokenParam) {
-   let data = parseJwt(tokenParam);
-   setDecodedToken(data);
   }
-}, [tokenParam]);
+
+  useEffect(() => {
+    if (tokenParam) {
+      let data = parseJwt(tokenParam);
+      setDecodedToken(data);
+    }
+  }, [tokenParam]);
 
   const onSubmit = async (data) => {
     setError({});
     setSuccess({});
-    if(decodedToken !== null){
-      const {uid} = decodedToken;
+    if (decodedToken !== null) {
+      const { uid } = decodedToken;
       try {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_KEY}/v1/auth/reset`,
-          {...data,uid},
+          { ...data, uid },
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
         );
 
         if (response.data.status === 200) {
           setSuccess({
-            message: 'Password changed successfully.',
+            message: "Password changed successfully.",
           });
           router.push("/login");
           return;
@@ -81,16 +83,15 @@ useEffect(() => {
 
         if (response.data.status > 200) {
           setError({
-            message: 'Something went wrong. try again.',
+            message: "Something went wrong. try again.",
           });
           return;
         }
 
         return response.data;
-
       } catch (error) {
         setError({
-          message: error.response?.data?.message || 'Something went wrong.',
+          message: error.response?.data?.message || "Something went wrong.",
         });
       }
     }
