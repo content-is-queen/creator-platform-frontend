@@ -7,10 +7,10 @@ import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 import CreateOpportunityForm from "@/components/Brand/CreateOpportunityForm";
 
-import data from "@/data/opportunity_data.json";
+import formData from "@/data/opportunity_form_data.json";
 
 export async function generateStaticParams() {
-  const types = Object.keys(data).map((opp) => {
+  const types = Object.keys(formData).map((opp) => {
     return { slug: opp };
   });
 
