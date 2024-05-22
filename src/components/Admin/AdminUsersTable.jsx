@@ -7,26 +7,11 @@ import useToken from "@/hooks/useToken";
 
 import Search from "@/components/Search";
 import AdminUserTableRow from "./AdminUserTableRow";
-import { Error } from "../Form";
-
-const TableBody = (props) => {
-  const { data } = props;
-  if (data && data.length > 0) {
-    return data.map((user) => (
-      <AdminUserTableRow {...props} {...user} key={user.uid} />
-    ));
-  }
-
-  return (
-    <tr>
-      <td colSpan="7" className="text-center">
-        No users found
-      </td>
-    </tr>
-  );
-};
+import { Error } from "@/components/Form";
+import Table from "@/components/Table";
 
 const AdminUsersTable = ({ users }) => {
+  const [loading, setLoading] = useState(true);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [checkAll, setCheckAll] = useState(false);
@@ -34,7 +19,9 @@ const AdminUsersTable = ({ users }) => {
 
   const token = useToken();
 
-  useEffect(() => {}, [filteredUsers]);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const handleDelete = async (id) => {
     setError({});
@@ -108,51 +95,66 @@ const AdminUsersTable = ({ users }) => {
       />
 
       <div className="my-12 space-y-6">
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-              <tr>
-                <th scope="col" className="p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-all-search"
-                      type="checkbox"
-                      checked={checkAll}
-                      onClick={() => handleCheckAll()}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+        <Table>
+          <Table.Head>
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                <div className="flex items-center">
+                  <input
+                    id="checkbox-all-search"
+                    type="checkbox"
+                    checked={checkAll}
+                    onClick={() => handleCheckAll()}
+                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
+                  />
+                  <label htmlFor="checkbox-all-search" className="sr-only">
+                    checkbox
+                  </label>
+                </div>
+              </th>
+              <th scope="col" className="px-6 py-3">
+                User
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Email
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Role
+              </th>
+            </tr>
+          </Table.Head>
+          {loading ? (
+            <Table.Loading />
+          ) : (
+            <Table.Body>
+              {filteredUsers && filteredUsers.length > 0 ? (
+                <>
+                  {filteredUsers.map((user) => (
+                    <AdminUserTableRow
+                      errors={errors}
+                      setError={setError}
+                      selectedUsers={selectedUsers}
+                      setSelectedUsers={setSelectedUsers}
+                      handleActivation={handleActivation}
+                      handleDelete={handleDelete}
+                      {...user}
+                      key={user.uid}
                     />
-                    <label htmlFor="checkbox-all-search" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  User
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Status
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Email
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <TableBody
-                data={filteredUsers}
-                errors={errors}
-                setError={setError}
-                selectedUsers={selectedUsers}
-                setSelectedUsers={setSelectedUsers}
-                handleActivation={handleActivation}
-                handleDelete={handleDelete}
-              />
-            </tbody>
-          </table>
-        </div>
+                  ))}
+                </>
+              ) : (
+                <Table.Row>
+                  <Table.Data colSpan="7" className="text-center py-20">
+                    No users found
+                  </Table.Data>
+                </Table.Row>
+              )}
+            </Table.Body>
+          )}
+        </Table>
         {errors?.message && <Error>{errors?.message}</Error>}
       </div>
     </>

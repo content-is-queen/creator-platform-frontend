@@ -10,7 +10,7 @@ import { Dialog } from "@headlessui/react";
 import API from "@/api/api";
 
 import BrandApplicationCard from "@/components/Brand/BrandApplicationCard";
-import Spinner from "@/components/Spinner";
+import SpinnerScreen from "@/components/SpinnerScreen";
 import Text from "@/components/Text";
 import clsx from "clsx";
 import Card from "../Card";
@@ -65,7 +65,7 @@ const ApplicationsModal = ({
   }, [swiperElRef]);
 
   if (loading) {
-    return <Spinner />;
+    return <SpinnerScreen />;
   }
 
   return (

@@ -49,9 +49,9 @@
           },
           {
             "name": "bio",
-            "children": "Description",
+            "children": "Bio",
             "rules": {
-              "required": "Description is required"
+              "required": "Bio is required"
             }
           },
           {
@@ -76,7 +76,7 @@
               "Pitching and commissions"
             ],
             "rules": {
-              "required": "Goal is required"
+              "required": "A goal is required"
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "bio",
             "children": "Description",
             "rules": {
-              "required": "Bio is required"
+              "required": "Description is required"
             }
           }
         ]

@@ -1,5 +1,5 @@
-import Spinner from "@/components/Spinner";
+import SpinnerScreen from "@/components/SpinnerScreen";
 
-const Loading = () => <Spinner />;
+const Loading = () => <SpinnerScreen />;
 
 export default Loading;

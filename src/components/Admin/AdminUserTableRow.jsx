@@ -3,6 +3,7 @@ import { useState } from "react";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import Table from "../Table";
 import SubMenu from "@/components/SubMenu";
 import ProfileIcon from "@/components/ProfileIcon";
 
@@ -12,6 +13,7 @@ const AdminUserTableRow = ({
   first_name,
   last_name,
   email,
+  role,
   isActivated,
   selectedUsers,
   setSelectedUsers,
@@ -31,43 +33,39 @@ const AdminUserTableRow = ({
   };
 
   return (
-    <tr className="bg-queen-white hover:bg-queen-gray" key={uid}>
-      <td className="w-4 p-4">
+    <Table.Row>
+      <Table.Data className="pl-6">
         <div className="flex items-center">
           <input
             id={`checkbox-table-search-${uid}`}
             type="checkbox"
             checked={selectedUsers.includes(uid)}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+            className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
             onChange={() => handleChange(uid)}
           />
           <label htmlFor={`checkbox-table-search-${uid}`} className="sr-only">
             checkbox
           </label>
         </div>
-      </td>
-      <th
-        scope="row"
-        className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
-      >
+      </Table.Data>
+      <Table.Data className="flex items-center font-subheading font-bold whitespace-nowrap">
         <ProfileIcon imageUrl={imageUrl} />
-        <div className="ps-3">
-          <div className="text-base font-semibold">
-            {first_name + " " + last_name}
-          </div>
+        <div className="ps-6">
+          <div className="font-subheading">{first_name + " " + last_name}</div>
         </div>
-      </th>
+      </Table.Data>
 
-      <td className="px-6 py-4">
+      <Table.Data>
         <div className="flex items-center">
           <div
             className={`h-2.5 w-2.5 rounded-full ${isActivated ? "bg-green-500" : "bg-red-500"} me-2`}
           ></div>{" "}
           {isActivated ? "Activated" : "Deactivated"}
         </div>
-      </td>
-      <td className="px-6 py-4">{email}</td>
-      <td className="px-6 py-4 relative">
+      </Table.Data>
+      <Table.Data>{email}</Table.Data>
+      <Table.Data className="px-6 py-3 capitalize">{role}</Table.Data>
+      <Table.Data className="px-6 py-3 relative">
         <button
           type="button"
           className="ml-auto pl-2"
@@ -102,8 +100,8 @@ const AdminUserTableRow = ({
             </SubMenu.Item>
           </SubMenu>
         )}
-      </td>
-    </tr>
+      </Table.Data>
+    </Table.Row>
   );
 };
 

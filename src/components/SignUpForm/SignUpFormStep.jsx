@@ -8,7 +8,7 @@ const SignUpFormStep = ({ fields, errors, control }) => {
         let Component;
 
         switch (name) {
-          case "interest":
+          case "goals":
             Component = AuthRadioController;
             break;
           default:

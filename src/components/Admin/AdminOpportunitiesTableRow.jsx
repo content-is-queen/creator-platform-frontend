@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import SubMenu from "../SubMenu";
+import Table from "../Table";
 
-const OpportunityRow = ({
+const AdminOpportunitiesRow = ({
   title,
   status,
   deadline,
@@ -30,13 +31,13 @@ const OpportunityRow = ({
   };
 
   return (
-    <tr className="bg-white border-b hover:bg-queen-gray">
-      <td className="w-4 p-4">
+    <Table.Row>
+      <Table.Data>
         <div className="flex items-center">
           <input
             id="checkbox-table-search-1"
             type="checkbox"
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+            className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
             onChange={() => handleChange(opportunity_id)}
             checked={selectedOpportunities.includes(opportunity_id)}
           />
@@ -44,18 +45,15 @@ const OpportunityRow = ({
             checkbox
           </label>
         </div>
-      </td>
-      <th
-        scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-      >
+      </Table.Data>
+      <Table.Data className="font-subheading font-bold whitespace-nowrap">
         {title}
-      </th>
-      <td className="px-6 py-4">{status}</td>
-      <td className="px-6 py-4">{userName}</td>
-      <td className="px-6 py-4">{deadline}</td>
-      <td className="px-6 py-4">{numberOfApplications}</td>
-      <td className="px-6 py-4 relative">
+      </Table.Data>
+      <Table.Data>{status}</Table.Data>
+      <Table.Data>{userName}</Table.Data>
+      <Table.Data>{deadline}</Table.Data>
+      <Table.Data>{numberOfApplications}</Table.Data>
+      <Table.Data>
         <button
           type="button"
           className="ml-auto pl-2"
@@ -76,9 +74,9 @@ const OpportunityRow = ({
             </SubMenu.Item>
           </SubMenu>
         )}
-      </td>
-    </tr>
+      </Table.Data>
+    </Table.Row>
   );
 };
 
-export default OpportunityRow;
+export default AdminOpportunitiesRow;

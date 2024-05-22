@@ -23,7 +23,7 @@ const UsersOpportunities = async () => {
   const users = await getUsers();
 
   return (
-    <Container>
+    <Container size="6xl" className="mt-16">
       <AdminUsersTable users={users} />
     </Container>
   );
