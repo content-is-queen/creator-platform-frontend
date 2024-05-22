@@ -86,8 +86,9 @@ const SignUpForm = () => {
     if (step === 1) {
       const { email } = getValues();
 
-      // Check if the email already exists
+      // Check if a user has already signed up with inputted email
       isRegistered = await checkEmailExists(email);
+      console.log(isRegistered);
 
       if (isRegistered) {
         setError({ message: "This email address is already in use" });
