@@ -15,7 +15,7 @@ import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
-import Spinner from "../Spinner";
+import SpinnerScreen from "../SpinnerScreen";
 import useToken from "@/hooks/useToken";
 
 const BrandOpportunityCard = (props) => {
@@ -121,7 +121,7 @@ const BrandOpportunityCard = (props) => {
         >
           View Applications
         </Button>
-        <Suspense fallback={<Spinner />}>
+        <Suspense fallback={<SpinnerScreen />}>
           {isApplicationsOpen && (
             <ApplicationsModal
               isApplicationsOpen={isApplicationsOpen}

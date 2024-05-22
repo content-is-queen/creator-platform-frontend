@@ -51,7 +51,7 @@ const Checkbox = ({ name, options, children }) => (
         <div className="inline-flex items-center gap-3 w-full" key={option}>
           <input
             type="checkbox"
-            className={twMerge(inputStyles.input, "p-1")}
+            className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
             name={option}
             id={option}
           />

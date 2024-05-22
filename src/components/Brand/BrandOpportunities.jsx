@@ -8,7 +8,7 @@ import Tabs from "@/components/Tabs";
 import Empty from "@/components/Empty";
 import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
 import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
-import Spinner from "@/components/Spinner";
+import SpinnerScreen from "@/components/SpinnerScreen";
 
 import { useUser } from "@/context/UserContext";
 import useOpportunities from "@/hooks/useOpportunities";
@@ -55,7 +55,7 @@ const BrandOpportunities = () => {
   };
 
   // TODO: on change update swiper to start at the index of the first slide
-  if (loading) return <Spinner />;
+  if (loading) return <SpinnerScreen />;
 
   return (
     <>
