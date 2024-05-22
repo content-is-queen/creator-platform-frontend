@@ -34,7 +34,18 @@ const useAuth = () => {
     }
   };
 
-  return { logout, signup, getUserProfile };
+    // Function to check if an email exists
+    const checkEmailExists = async (email) => {
+      try {
+        const response = await API.get(`/auth/check-email?email=${email}`);
+        return response.data.exists; // Assuming the response contains { exists: true/false }
+      } catch (error) {
+        console.error("Error checking email existence:", error);
+        return false; 
+      }
+    };
+
+  return { logout, signup, getUserProfile, checkEmailExists  };
 };
 
 export default useAuth;

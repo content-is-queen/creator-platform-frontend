@@ -25,7 +25,7 @@ const SignUpForm = () => {
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
-  const { signup } = useAuth();
+  const { signup, checkEmailExists } = useAuth(); // Get checkEmailExists from useAuth
   const router = useRouter();
 
   const [active, setActive] = useState(OPTIONS[0]);
@@ -72,26 +72,22 @@ const SignUpForm = () => {
     }
   };
 
-  // TODO: Replace with check to our API
-  const checkIfRegistered = async (email) => {
-    return Promise.resolve(false);
-  };
-
   const handleClick = async () => {
     setError({});
     let isRegistered;
 
-    // Check if the supplied email address is already registered before letting user progress
     if (step === 1) {
       const { email } = getValues();
 
-      isRegistered = await checkIfRegistered(email);
+      // Check if the email already exists
+      isRegistered = await checkEmailExists(email);
+
       if (isRegistered) {
         setError({ message: "This email address is already in use" });
+        return;
       }
     }
 
-    // Create an array of the current steps required fields
     const fields = active.steps[step].fields.reduce((acc, currentValue) => {
       const { name, rules } = currentValue;
 
@@ -102,7 +98,6 @@ const SignUpForm = () => {
       }
     }, "");
 
-    // Check if fields required for current step are valid
     trigger(fields);
 
     setTimeout(() => {
@@ -133,7 +128,6 @@ const SignUpForm = () => {
           fields={active.steps[step].fields}
         />
 
-        {/* TODO: Disable button if required fields aren't filled in */}
         <Button
           as="button"
           className="mt-8"
