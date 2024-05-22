@@ -9,6 +9,7 @@ import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
 import { Success, Error } from "@/components/Form";
+import axios from "axios";
 
 const FIELDS = [
   {
@@ -40,30 +41,36 @@ const ForgotPasswordForm = () => {
     setError({});
     setSuccess({});
     try {
-      const response = await API.post(`/auth/reset`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.message === "Password reset email sent successfully") {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_KEY}/v1/auth/forgot`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.data.message === 'Password reset email sent successfully') {
         setSuccess({
-          message: "Please check your email for password reset instructions.",
+          message: 'Please check your email for password reset instructions.',
         });
         return;
       }
-      if (response.status > 200) {
+
+      if (response.data.status > 200) {
         setError({
-          message: "Something went wrong. User sign up failed.",
+          message: 'Something went wrong. try again.',
         });
         return;
       }
-      return response;
+
+      return response.data;
     } catch (error) {
       setError({
-        message: error.message || "Something went wrong. User sign up failed.",
+        message: error.response?.data?.message || 'Something went wrong. User sign up failed.',
       });
-      console.error("Sign up error:", error);
     }
   };
 
