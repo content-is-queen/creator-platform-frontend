@@ -24,7 +24,7 @@ module.exports = {
         "queen-lilac": "#D7CDFB",
       },
       fontFamily: {
-        heading: ["Anton", "sans-serif"],
+        heading: ["var(--font-anton)"],
         sans: ["var(--font-forma-deck)"],
         subheading: ["var(--font-forma-banner)"],
       },
