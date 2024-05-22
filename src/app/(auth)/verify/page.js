@@ -46,8 +46,6 @@ const Verify = () => {
   const handleSubmit = async () => {
     const otp = Object.values(formData).join("");
     try {
-      console.log(user);
-
       // const response = await API.post(
       //   "/auth/verify",
       //   { email, uid, otp },

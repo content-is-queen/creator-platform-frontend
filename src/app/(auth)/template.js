@@ -10,7 +10,6 @@ const AuthTemplate = ({ children }) => {
 
   useLayoutEffect(() => {
     if (user?.first_name && userLoaded) {
-      console.log(user);
       router.push("/");
     }
   }, [userLoaded]);
