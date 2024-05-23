@@ -4,7 +4,7 @@ import AuthRadioController from "@/components/AuthRadioController";
 const SignUpFormStep = ({ fields, errors, control }) => {
   return (
     <div className="space-y-6">
-      {fields.map(({ children, options, name, ...otherProps }) => {
+      {fields.map(({ children, options, name, type, ...otherProps }) => {
         let Component;
 
         switch (name) {
