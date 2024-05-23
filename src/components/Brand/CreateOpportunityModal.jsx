@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Modal from "@/components/Modal";
 import CreateOpportunityPanels from "./CreateOpportunityPanels";

@@ -2,10 +2,7 @@
 
 import { useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
-
 import { useUser } from "@/context/UserContext";
-
-import Dots from "@/components/Patterns/Dots";
 
 const AuthTemplate = ({ children }) => {
   const { user, userLoaded } = useUser();

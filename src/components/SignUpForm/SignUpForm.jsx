@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import API from "@/api/api";
-
+import { getUserProfile, useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
@@ -26,6 +26,7 @@ const SignUpForm = () => {
     clearErrors,
   } = useForm({ mode: "all" });
   const router = useRouter();
+  const { setUser } = useUser();
 
   const [active, setActive] = useState(formData[0]);
   const [step, setStep] = useState(1);
@@ -61,9 +62,22 @@ const SignUpForm = () => {
         }
       );
 
+      const {
+        data: {
+          data: { uid },
+        },
+      } = response;
+
+      const user = { ...data, uid, role: id };
+
+      const { password, ...userProfile } = user;
+
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      setUser(userProfile);
       router.push("/verify");
-    } catch ({ response: { data } }) {
-      setError({ message: data.message });
+    } catch (response) {
+      setError({ message: "Something went wrong during sign up" });
+      console.error(response);
     } finally {
       setLoading(false);
     }
@@ -88,7 +102,6 @@ const SignUpForm = () => {
 
       // Check if a user has already signed up with inputted email
       isRegistered = await checkEmailExists(email);
-      console.log(isRegistered);
 
       if (isRegistered) {
         setError({ message: "This email address is already in use" });

@@ -1,26 +1,22 @@
 "use client";
 
-import API from "@/api/api";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const Input = ({ value, onChange }) => (
   <input
     type="text"
-    value={value}
     onChange={onChange}
+    value={value}
     className="max-w-12 h-12 text-center border-queen-black/80 border-2 bg-transparent"
   />
 );
 
 const Verify = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const parsedQuery = searchParams?.get("otp");
   const [formData, setFormData] = useState({
     input1: "",
     input2: "",
@@ -28,6 +24,14 @@ const Verify = () => {
     input4: "",
     input5: "",
   });
+  const [errors, setError] = useState({});
+  const [success, setSuccess] = useState({});
+
+  const { user } = useUser();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const parsedQuery = searchParams.get("otp");
+
   const handleChange = (e, inputName) => {
     const { value } = e.target;
     setFormData((prevFormData) => ({
@@ -39,30 +43,32 @@ const Verify = () => {
   const handleSubmit = async () => {
     const otp = Object.values(formData).join("");
     try {
-      const response = await API.post(
-        "/auth/verify",
-        { ...userInfo, otp },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const { message } = response.data;
-      router.push("/login");
-      toast.success(message);
+      // const response = await API.post(
+      //   "/auth/verify",
+      //   { email, uid, otp },
+      //   {
+      //     headers: { "Content-Type": "application/json" },
+      //   }
+      // );
+      // const { message } = response.data;
+      // console.log(response);
+      // setSuccess({ message: message });
+      // router.push("/login");
     } catch (error) {
-      const { message } = error.response.data;
-      toast.error(message || "Try again");
+      console.log(error);
+      setError({ message: "Sorry we were unable to verify your email" });
+      console.error(message);
     }
   };
 
   useEffect(() => {
     // If otp has length of 5, update the form data with otp characters
-    if (typeof parsedQuery === "string" && parsedQuery?.length === 5) {
+    if (parsedQuery && parsedQuery.length === 5) {
       const otpCharacters = parsedQuery.split("");
       setFormData((prevFormData) => {
         const newFormData = { ...prevFormData };
-        otpCharacters.slice(0, 5).forEach((character, index) => {
-          newFormData[`input${index + 1}`] = character;
+        otpCharacters.forEach((character, index) => {
+          newFormData[`input${index}`] = character;
         });
         return newFormData;
       });
@@ -77,12 +83,13 @@ const Verify = () => {
       <p className="mb-6">
         We're sure you're you, but we still need to verify that.
       </p>
+
       <div className="flex gap-2 justify-center">
-        {[1, 2, 3, 4, 5].map((index) => (
+        {Array.from({ length: 5 }).map((value, index) => (
           <Input
             key={index}
-            value={formData[`input${index}`]}
             onChange={(e) => handleChange(e, `input${index}`)}
+            value={formData[`input${index}`]}
           />
         ))}
       </div>
