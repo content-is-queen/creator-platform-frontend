@@ -2,7 +2,7 @@
 
 import API from "@/api/api";
 
-import { useState } from "react";
+import { useState,  useEffect } from "react";
 
 import { useUser } from "@/context/UserContext";
 
@@ -10,6 +10,8 @@ import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import useToken from "@/hooks/useToken";
+
+
 
 const ApplicationProposalForm = ({ opportunityId }) => {
   const { user } = useUser();
@@ -20,6 +22,9 @@ const ApplicationProposalForm = ({ opportunityId }) => {
   const [errors, setError] = useState({});
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [promptText, setPromptText] = useState(
+    "Write how you will approach the opportunity"
+  );
 
   const handleSubmit = async (opportunityId, clientId) => {
     setError({});
@@ -51,6 +56,25 @@ const ApplicationProposalForm = ({ opportunityId }) => {
     }
   };
 
+  // Function to fetch opportunity data and update prompt text
+  const fetchOpportunityData = async () => {
+    try {
+      const response = await API.get(`/opportunities/id/${opportunityId}`);
+      const opportunityData = response.data;
+
+      if (opportunityData.prompt) {
+        setPromptText(opportunityData.prompt);
+      }
+    } catch (error) {
+      console.error("Error fetching opportunity data:", error);
+    }
+  };
+
+  // Fetch opportunity data when component mounts
+  useEffect(() => {
+    fetchOpportunityData();
+  }, []);
+
   if (status === "submitted") {
     return <>Thank you for your application.</>;
   }
@@ -79,7 +103,7 @@ const ApplicationProposalForm = ({ opportunityId }) => {
             minlength="5"
             required
           >
-            Write how you will approach the opportuity
+            {promptText}
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
