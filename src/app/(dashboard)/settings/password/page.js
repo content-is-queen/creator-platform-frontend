@@ -33,13 +33,16 @@ const Password = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-
   const handleToggleOldPasswordVisibility = () => {
-    setIsOldPasswordVisible((prevIsOldPasswordVisible) => !prevIsOldPasswordVisible);
+    setIsOldPasswordVisible(
+      (prevIsOldPasswordVisible) => !prevIsOldPasswordVisible
+    );
   };
 
   const handleToggleNewPasswordVisibility = () => {
-    setIsNewPasswordVisible((prevIsNewPasswordVisible) => !prevIsNewPasswordVisible);
+    setIsNewPasswordVisible(
+      (prevIsNewPasswordVisible) => !prevIsNewPasswordVisible
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -84,7 +87,7 @@ const Password = () => {
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
-      <Form.Input
+        <Form.Input
           name="old_password"
           type={isOldPasswordVisible ? "text" : "password"}
           value={formData.old_password}
@@ -94,7 +97,7 @@ const Password = () => {
           Old Password
           <div
             className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
-            onClick={handleToggleOldPasswordVisibility }
+            onClick={handleToggleOldPasswordVisibility}
           >
             {isOldPasswordVisible ? <FaEyeSlash /> : <FaEye />}
           </div>

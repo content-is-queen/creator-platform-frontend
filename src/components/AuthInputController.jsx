@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Controller } from "react-hook-form";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 
 export const inputStyles = {
@@ -20,36 +20,39 @@ const AuthInputController = ({
   control,
   ...otherProps
 }) => {
-const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-const togglePasswordVisibility = () => {
-  setIsPasswordVisible(prevState => !prevState);
-};
-return  <div className="relative z-0 w-full group">
-    <Controller
-      name={name}
-      control={control}
-      defaultValue=""
-      rules={rules}
-      render={({ field }) => (
-        <>
-          <input
-          type={name === 'password' && !isPasswordVisible ? 'password' : 'text'}
-            className={clsx(
-              twMerge(
-                inputStyles.input,
-                errors[name] ? "border-red-600" : "border-queen-black",
-                className
-              )
-            )}
-            placeholder=""
-            id={name}
-            {...field}
-            {...otherProps}
-          />
-          <label htmlFor={name} className={inputStyles.label}>
-            {children}
-          </label>
-          {name === 'password' && (
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevState) => !prevState);
+  };
+  return (
+    <div className="relative z-0 w-full group">
+      <Controller
+        name={name}
+        control={control}
+        defaultValue=""
+        rules={rules}
+        render={({ field }) => (
+          <>
+            <input
+              type={
+                name === "password" && !isPasswordVisible ? "password" : "text"
+              }
+              className={clsx(
+                twMerge(
+                  inputStyles.input,
+                  errors[name] ? "border-red-600" : "border-queen-black",
+                  className
+                )
+              )}
+              placeholder=""
+              id={name}
+              {...field}
+              {...otherProps}
+            />
+            <label htmlFor={name} className={inputStyles.label}>
+              {children}
+            </label>
+            {name === "password" && (
               <div
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
                 onClick={togglePasswordVisibility}
@@ -57,13 +60,16 @@ return  <div className="relative z-0 w-full group">
                 {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
               </div>
             )}
-          {errors[name] && (
-            <p className="text-sm text-red-600 mt-1">{errors[name].message}</p>
-          )}
-        </>
-      )}
-    />
-  </div>
+            {errors[name] && (
+              <p className="text-sm text-red-600 mt-1">
+                {errors[name].message}
+              </p>
+            )}
+          </>
+        )}
+      />
+    </div>
+  );
 };
 
 export default AuthInputController;
