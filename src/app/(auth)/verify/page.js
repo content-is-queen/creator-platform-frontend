@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import API from "@/api/api";
-
-import { Error, Success } from "@/components/Form";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import { useUser } from "@/context/UserContext";

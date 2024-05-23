@@ -74,6 +74,7 @@ const SignUpForm = () => {
 
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
       setUser(userProfile);
+      router.push("/verify");
     } catch (response) {
       setError({ message: "Something went wrong during sign up" });
       console.error(response);
