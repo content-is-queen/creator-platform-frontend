@@ -60,7 +60,10 @@
         "options": ["Fixed", "Range", "To be discussed"]
       },
       { "name": "deadline", "type": "date", "children": "Deadline" },
-      {"name":"prompt", "children": "This is what show for the Creator when writing their proposal"}
+      {
+        "name": "prompt",
+        "children": "This is what show for the Creator when writing their proposal"
+      }
     ]
   },
   "pitch": {
@@ -104,7 +107,7 @@
         "options": ["Summary", "Script Sample", "Audio Sample"]
       },
       { "name": "deadline", "type": "date", "children": "Deadline" },
-      {"name":"prompt", "children": "Prompt"}
+      { "name": "prompt", "children": "Prompt" }
     ]
   },
   "campaign": {
@@ -128,7 +131,18 @@
         "name": "target",
         "as": "select",
         "children": "Target Demographic",
-        "options": ["Male", "Female", "Non-binary", "18-24 years", "25-34 years", "35-44 years", "45-54 years", "55-64 years", "65+ years", "Other"]
+        "options": [
+          "Male",
+          "Female",
+          "Non-binary",
+          "18-24 years",
+          "25-34 years",
+          "35-44 years",
+          "45-54 years",
+          "55-64 years",
+          "65+ years",
+          "Other"
+        ]
       },
       {
         "name": "compensation",
@@ -154,7 +168,10 @@
         "children": "Creative Requirements"
       },
       { "name": "deadline", "type": "date", "children": "Deadline" },
-      {"name":"prompt", "children": "This is what show for the Creator when writing their proposal"}
+      {
+        "name": "prompt",
+        "children": "This is what show for the Creator when writing their proposal"
+      }
     ]
   }
 }

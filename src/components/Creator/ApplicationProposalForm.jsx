@@ -2,7 +2,7 @@
 
 import API from "@/api/api";
 
-import { useState,  useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { useUser } from "@/context/UserContext";
 
@@ -10,8 +10,6 @@ import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import useToken from "@/hooks/useToken";
-
-
 
 const ApplicationProposalForm = ({ opportunityId }) => {
   const { user } = useUser();
@@ -59,9 +57,11 @@ const ApplicationProposalForm = ({ opportunityId }) => {
   // Function to fetch opportunity data and update prompt text
   const fetchOpportunityData = async () => {
     try {
-      const response = await API.get(`/opportunities/opportunityid/${opportunityId}`);
+      const response = await API.get(
+        `/opportunities/opportunityid/${opportunityId}`
+      );
       const opportunityData = response.data;
-console.log('tttttttttttttt',opportunityData)
+      console.log("tttttttttttttt", opportunityData);
       if (opportunityData.prompt) {
         setPromptText(opportunityData.prompt);
       }

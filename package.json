@@ -10,8 +10,8 @@
     "lint": "next lint",
     "deploy": "firebase deploy",
     "prettier:check": "npx prettier ./src --check",
-    "prettier:write": "npx prettier ./src --write"
-
+    "prettier:write": "npx prettier ./src --write",
+    "format": "prettier --write ."
   },
   "lint-staged": {
     "*": "npm run lint"
