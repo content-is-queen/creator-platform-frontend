@@ -60,7 +60,7 @@ const ApplicationProposalForm = ({ opportunityId }) => {
       const response = await API.get(
         `/opportunities/opportunityid/${opportunityId}`
       );
-      const opportunityData = response.data;
+      const opportunityData = response?.data;
       console.log("tttttttttttttt", opportunityData);
       if (opportunityData.prompt) {
         setPromptText(opportunityData.prompt);
