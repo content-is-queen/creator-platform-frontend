@@ -31,7 +31,7 @@ const Providers = ({ children }) => {
       );
     }
   }
-  useEffect(() => {
+  // useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
       requestPermission();
       navigator.serviceWorker
@@ -48,11 +48,8 @@ const Providers = ({ children }) => {
     } else {
       alert("Service workers are not supported in this environment.");
     }
-    onMessage(messaging, (payload) => {
-      console.log("Received foreground message: ", payload);
-      toast(<Message notification={payload.notification} />);
-    });
-  }, []);
+
+  // }, [onMessage]);
 
   return (
     <div>
