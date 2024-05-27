@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth} from "@/firebase.config";
+import { auth } from "@/firebase.config";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import { getUserProfile } from "@/context/UserContext";
@@ -34,7 +34,7 @@ const useAuth = () => {
         imageUrl: user.imageUrl,
         ...userProfile,
       });
-      if ('Notification' in window && Notification.permission !== 'granted') {
+      if ("Notification" in window && Notification.permission !== "granted") {
         await Notification.requestPermission();
       }
     } catch (error) {

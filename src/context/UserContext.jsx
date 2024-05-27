@@ -22,9 +22,12 @@ export const getUserProfile = async (args) => {
   }
 };
 
-export const saveTokenToServer = async ({fcm_token, user_id}) => {
+export const saveTokenToServer = async ({ fcm_token, user_id }) => {
   try {
-    const response = await API.post("/notifications/save", {fcm_token, user_id});
+    const response = await API.post("/notifications/save", {
+      fcm_token,
+      user_id,
+    });
 
     return response.data.message;
   } catch (error) {
