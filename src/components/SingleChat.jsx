@@ -5,12 +5,12 @@ import { useUser } from "@/context/UserContext";
 
 import {
   collection,
-  doc,
-  getDocs,
-  setDoc,
+  orderBy,
   onSnapshot,
-  getDoc,
   query,
+  limit,
+  addDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@/firebase.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -62,32 +62,23 @@ const Body = ({ room }) => {
   const { user } = useUser();
 
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
-
-  const saveMessage = (message, createdAt, sender, receiver) => {};
-
-  const getMessages = async (id) => {
-    try {
-      const querySnapshot = await getDocs(
-        collection(db, "rooms", id, "messages")
-      );
-
-      const messages = [];
-
-      querySnapshot.forEach((doc) => {
-        messages.push(doc.data());
-      });
-
-      setMessages(
-        messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   useEffect(() => {
-    getMessages(room.id);
+    const q = query(
+      collection(db, "rooms", room.id, "messages"),
+      orderBy("createdAt", "desc"),
+      limit(50)
+    );
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      const messages = [];
+      QuerySnapshot.forEach((doc) => {
+        messages.push({ ...doc.data(), id: doc.id });
+      });
+
+      const sortedMessages = messages.sort((a, b) => a.createdAt - b.createdAt);
+      setMessages(sortedMessages);
+    });
+    return () => unsubscribe;
   }, []);
 
   return (
@@ -96,7 +87,7 @@ const Body = ({ room }) => {
         <div className="flex flex-col space-y-8">
           {messages.length > 0 &&
             messages.map((item) => (
-              <Message key={item.id} currentUser={item.sender === user.uid}>
+              <Message key={item.id} currentUser={item.uid === user.uid}>
                 {item.message}
               </Message>
             ))}
@@ -106,40 +97,63 @@ const Body = ({ room }) => {
   );
 };
 
-const Footer = () => (
-  <div className="bg-gradient-to-t from-white from-40% to-transparent bottom-0 w-full flex relative mt-auto">
-    <input
-      type="text"
-      placeholder="Enter your message"
-      className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
-      // value={message}
-      // onChange={handleChange}
-    />
-    <div className="absolute right-0 pr-4 items-center inset-y-0 hidden sm:flex">
-      <button
-        type="button"
-        className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
-      >
-        <FontAwesomeIcon className="h-6 w-6" icon={faImage} />
-      </button>
-      <button
-        type="button"
-        className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
-      >
-        <FontAwesomeIcon className="h-6 w-6" icon={faPaperclip} />
-      </button>
-      <Button
-        as="button"
-        type="button"
-        // onClick={saveMessage}
-        className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"
-      >
-        <span className="sr-only">Send</span>
-        <FontAwesomeIcon className="shrink-0 h-4 w-4" icon={faPaperPlane} />
-      </Button>
+const Footer = ({ room }) => {
+  const { user } = useUser();
+
+  const [message, setMessage] = useState("");
+
+  const sendMessage = async () => {
+    if (message.trim() === "") {
+      return;
+    }
+
+    await addDoc(collection(db, "rooms", room.id, "messages"), {
+      message: message,
+      uid: user.uid,
+      createdAt: serverTimestamp(),
+    });
+    setMessage("");
+  };
+
+  const handleChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  return (
+    <div className="bg-gradient-to-t from-white from-40% to-transparent bottom-0 w-full flex relative mt-auto">
+      <input
+        type="text"
+        placeholder="Enter your message"
+        className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
+        value={message}
+        onChange={handleChange}
+      />
+      <div className="absolute right-0 pr-4 items-center inset-y-0 hidden sm:flex">
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
+        >
+          <FontAwesomeIcon className="h-6 w-6" icon={faImage} />
+        </button>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
+        >
+          <FontAwesomeIcon className="h-6 w-6" icon={faPaperclip} />
+        </button>
+        <Button
+          as="button"
+          type="button"
+          onClick={sendMessage}
+          className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"
+        >
+          <span className="sr-only">Send</span>
+          <FontAwesomeIcon className="shrink-0 h-4 w-4" icon={faPaperPlane} />
+        </Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const SingleChat = ({ room }) => {
   return (
@@ -153,7 +167,7 @@ const SingleChat = ({ room }) => {
       <div className="flex items-stretch flex-col h-[inherit]">
         <Header />
         <Body room={room} />
-        <Footer />
+        <Footer room={room} />
       </div>
     </div>
   );
