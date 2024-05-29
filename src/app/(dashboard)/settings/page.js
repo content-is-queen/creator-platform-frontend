@@ -32,7 +32,7 @@ const General = () => {
     setError({});
     setSuccess({});
     try {
-      const response = await API.post("/auth/username", formData, {
+      const response = await API.post("/auth/emailupdate", formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -41,12 +41,12 @@ const General = () => {
       setUser({ ...user, email: formData.email });
       if (response.status === 200) {
         setSuccess({
-          message: "Settings updated successfully",
+          message: "Email updated successfully",
         });
       }
     } catch (error) {
       setError({
-        message: error?.message || "Something went wrong. User sign up failed.",
+        message: error?.message || "Something went wrong",
       });
       return;
     } finally {
