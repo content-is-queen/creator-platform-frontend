@@ -1,3 +1,18 @@
+import { useEffect, useState } from "react";
+
+import API from "@/api/api";
+import { useUser } from "@/context/UserContext";
+
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  onSnapshot,
+  getDoc,
+  query,
+} from "firebase/firestore";
+import { db } from "@/firebase.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaperPlane,
@@ -5,10 +20,8 @@ import {
   faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
+
 import Button from "./Button";
-import { useEffect, useState } from "react";
-import API from "@/api/api";
-import { useUser } from "@/context/UserContext";
 import ProfileIcon from "./ProfileIcon";
 
 const Message = ({ children, currentUser }) => {
@@ -45,8 +58,37 @@ const Header = () => (
   </div>
 );
 
-const Body = ({ messages }) => {
+const Body = ({ room }) => {
   const { user } = useUser();
+
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+
+  const saveMessage = (message, createdAt, sender, receiver) => {};
+
+  const getMessages = async (id) => {
+    try {
+      const querySnapshot = await getDocs(
+        collection(db, "rooms", id, "messages")
+      );
+
+      const messages = [];
+
+      querySnapshot.forEach((doc) => {
+        messages.push(doc.data());
+      });
+
+      setMessages(
+        messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getMessages(room.id);
+  }, []);
 
   return (
     <div>
@@ -89,7 +131,7 @@ const Footer = () => (
       <Button
         as="button"
         type="button"
-        // onClick={hangleSendMessage}
+        onClick={saveMessage}
         className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"
       >
         <span className="sr-only">Send</span>
@@ -100,22 +142,6 @@ const Footer = () => (
 );
 
 const SingleChat = ({ room }) => {
-  const [messages, setMessages] = useState([]);
-
-  const getMessages = async (id) => {
-    try {
-      const { data } = await API.get(`/messages/${id}/all-messages`);
-      setMessages(
-        data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getMessages(room.id);
-  }, []);
   return (
     <div
       className="relative col-span-4 bg-white rounded-3xl shadow-md"
@@ -126,7 +152,7 @@ const SingleChat = ({ room }) => {
     >
       <div className="flex items-stretch flex-col h-[inherit]">
         <Header />
-        <Body messages={messages} />
+        <Body room={room} />
         <Footer />
       </div>
     </div>
