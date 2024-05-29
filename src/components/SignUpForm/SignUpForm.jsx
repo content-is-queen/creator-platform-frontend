@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import API from "@/api/api";
-
+import { getUserProfile, useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
@@ -26,6 +26,7 @@ const SignUpForm = () => {
     clearErrors,
   } = useForm({ mode: "all" });
   const router = useRouter();
+  const { setUser } = useUser();
 
   const [active, setActive] = useState(formData[0]);
   const [step, setStep] = useState(1);
@@ -61,34 +62,53 @@ const SignUpForm = () => {
         }
       );
 
+      const {
+        data: {
+          data: { uid },
+        },
+      } = response;
+
+      const user = { ...data, uid, role: id };
+
+      const { password, ...userProfile } = user;
+
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      setUser(userProfile);
       router.push("/verify");
-    } catch ({ response: { data } }) {
-      setError({ message: data.message });
+    } catch (response) {
+      setError({ message: "Something went wrong during sign up" });
+      console.error(response);
     } finally {
       setLoading(false);
     }
   };
 
-  // TODO: Replace with check to our API
-  const checkIfRegistered = async (email) => {
-    return Promise.resolve(false);
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await API.get(`/auth/check-email?email=${email}`);
+      return response.data.exists;
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      return false;
+    }
   };
 
   const handleClick = async () => {
     setError({});
     let isRegistered;
 
-    // Check if the supplied email address is already registered before letting user progress
     if (step === 1) {
       const { email } = getValues();
 
-      isRegistered = await checkIfRegistered(email);
+      // Check if a user has already signed up with inputted email
+      isRegistered = await checkEmailExists(email);
+
       if (isRegistered) {
         setError({ message: "This email address is already in use" });
+        return;
       }
     }
 
-    // Create an array of the current steps required fields
     const fields = active.steps[step].fields.reduce((acc, currentValue) => {
       const { name, rules } = currentValue;
 
@@ -99,7 +119,6 @@ const SignUpForm = () => {
       }
     }, "");
 
-    // Check if fields required for current step are valid
     trigger(fields);
 
     setTimeout(() => {
@@ -130,7 +149,6 @@ const SignUpForm = () => {
           fields={active.steps[step].fields}
         />
 
-        {/* TODO: Disable button if required fields aren't filled in */}
         <Button
           as="button"
           className="mt-8"
