@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
@@ -30,29 +30,25 @@ const Select = ({ name, options, children }) => (
   </div>
 );
 
-const DynamicDatalist = ({ name, options, children, ...otherProps }) => {
-  const [currentOptions, setCurrentOptions] = useState(options);
-
-  return (
-    <div className="mb-4">
-      <label htmlFor={name} className="uppercase">
-        {children}
-      </label>
-      <input
-        list={`${name}-options`}
-        name={name}
-        id={name}
-        className={inputStyles.input}
-        {...otherProps}
-      />
-      <datalist id={`${name}-options`}>
-        {currentOptions.map((option, index) => (
-          <option key={`${option}-${index}`} value={option} />
-        ))}
-      </datalist>
-    </div>
-  );
-};
+const DynamicDatalist = ({ name, options, children, ...otherProps }) => (
+  <div className="mb-4">
+    <label htmlFor={name} className="uppercase">
+      {children}
+    </label>
+    <input
+      list={`${name}-options`}
+      name={name}
+      id={name}
+      className={inputStyles.input}
+      {...otherProps}
+    />
+    <datalist id={`${name}-options`}>
+      {options.map((option, index) => (
+        <option key={`${option}-${index}`} value={option} />
+      ))}
+    </datalist>
+  </div>
+);
 
 export const Error = ({ children }) => (
   <div className="border-l-red-600 border-l-4 bg-red-50 text-queen-black/90 text-sm mt-4 py-2 px-4 rounded-sm">

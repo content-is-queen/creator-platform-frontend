@@ -6,7 +6,6 @@ import { getOpportunities } from "@/helpers/getServerComponentData";
 
 const Opportunities = async () => {
   const opportunities = await getOpportunities();
-  console.log(opportunities, "gmailllllllllll");
 
   return (
     <Container size="2xl" className="mb-32">

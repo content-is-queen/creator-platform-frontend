@@ -9,7 +9,6 @@ import Panel from "@/components/Panel";
 import formData from "@/data/opportunity_form_data.json";
 
 const CreateOpportunityPanels = () => {
-  console.log(formData, "tmmmooooooooooooooooooooooo");
   return (
     <div className="flex gap-3 text-black">
       {Object.entries(formData).map(([name, opp]) => {
