@@ -11,7 +11,7 @@ import { useUser } from "@/context/UserContext";
 
 const Empty = ({ rooms }) => (
   <div
-    className="relative col-span-4 bg-white px-8 rounded-3xl shadow-md overflow-y-auto flex text-center flex-col items-center justify-center"
+    className="relative col-span-8 bg-white px-8 rounded-3xl shadow-md overflow-y-auto flex text-center flex-col items-center justify-center"
     style={{ maxHeight: "calc(100vh - var(--nav-height) - 54px)" }}
   >
     <div className="max-w-sm">
@@ -52,7 +52,7 @@ const Conversations = () => {
       className="bg-dots bg-repeat-x bg-[center_bottom_-4rem]"
       style={{ height: "calc(100vh - var(--nav-height)" }}
     >
-      <Container className="pt-8 grid gap-6 grid-cols-6">
+      <Container className="pt-8 grid gap-6 grid-cols-12">
         <ChatList rooms={rooms} active={activeChat} setActive={setActiveChat} />
         {activeChat ? (
           <SingleChat room={activeChat || null} />
