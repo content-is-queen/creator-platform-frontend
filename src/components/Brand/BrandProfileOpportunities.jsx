@@ -25,7 +25,7 @@ const BrandProfileOpportunities = ({ user: { uid } }) => {
         Opportunities
       </Text>
       <div className="grid grid-cols-2 gap-4">
-        {opportunities.length > 0 ? (
+        {opportunities?.length > 0 ? (
           opportunities.map(
             ({ title, compensation, deadline, type, opportunity_id }) => (
               <Card

@@ -87,6 +87,14 @@ const CreateOpportunityForm = ({ type }) => {
             );
           }
 
+          if (as === "datalist") {
+            return (
+              <Form.DynamicDatalist key={name} name={name} options={options}>
+                {children}
+              </Form.DynamicDatalist>
+            );
+          }
+
           if (as === "textarea") {
             return (
               <Form.Textarea key={name} name={name}>

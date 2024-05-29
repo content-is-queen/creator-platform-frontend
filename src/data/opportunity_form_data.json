@@ -5,7 +5,7 @@
     "fields": [
       {
         "name": "title",
-        "as": "select",
+        "as": "datalist",
         "options": [
           "Host",
           "Audio Editor",
@@ -37,25 +37,25 @@
       },
       {
         "name": "experience",
-        "as": "select",
+        "as": "datalist",
         "children": "Experience Level",
         "options": ["Entry-level", "Mid-level", "Senior", "Expert"]
       },
       {
         "name": "contract_type",
-        "as": "select",
+        "as": "datalist",
         "children": "Contract Type",
         "options": ["One-off", "Fixed-term", "Ongoing"]
       },
       {
         "name": "location",
-        "as": "select",
+        "as": "datalist",
         "children": "Location",
         "options": ["Remote", "Specific Location(s)", "Flexible"]
       },
       {
         "name": "compensation",
-        "as": "select",
+        "as": "datalist",
         "children": "Compensation",
         "options": ["Fixed", "Range", "To be discussed"]
       },
@@ -74,25 +74,25 @@
       },
       {
         "name": "target",
-        "as": "select",
+        "as": "datalist",
         "children": "Target Audience",
         "options": ["Women", "Millenials", "Sports Fans", "Other"]
       },
       {
         "name": "format",
-        "as": "select",
+        "as": "datalist",
         "children": "Audio Format",
         "options": ["Podcast", "Audiobook", "Radio Show", "Other"]
       },
       {
         "name": "contract_type",
-        "as": "select",
+        "as": "datalist",
         "children": "Contract Type",
         "options": ["30 min episodes", "2-hour audiobook"]
       },
       {
         "name": "compensation",
-        "as": "select",
+        "as": "datalist",
         "children": "Compensation",
         "options": ["Fixed", "Range", "To be discussed"]
       },
@@ -113,7 +113,7 @@
       { "name": "brand", "type": "text", "children": "Brand/Product" },
       {
         "name": "description",
-        "as": "select",
+        "as": "datalist",
         "children": "Campaign Goals",
         "options": [
           "Brand Awareness",
@@ -124,25 +124,25 @@
       },
       {
         "name": "target",
-        "as": "select",
+        "as": "datalist",
         "children": "Target Demographic",
         "options": []
       },
       {
         "name": "compensation",
-        "as": "select",
+        "as": "datalist",
         "children": "Compensation",
         "options": ["Fixed", "Range", "To be discussed"]
       },
       {
         "name": "contract_type",
-        "as": "select",
+        "as": "datalist",
         "children": "Contract Type",
         "options": ["1 month", "3 months", "Custom"]
       },
       {
         "name": "format",
-        "as": "select",
+        "as": "datalist",
         "children": "Ad Format",
         "options": []
       },

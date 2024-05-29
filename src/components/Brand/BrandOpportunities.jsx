@@ -42,7 +42,7 @@ const BrandOpportunities = () => {
   const { opportunities, setOpportunities, loading } = useOpportunities(
     { user_id: user.uid },
     (data) => {
-      setOpportunities(data.filter((i) => i.status !== "archived"));
+      setOpportunities(data?.filter((i) => i.status !== "archived"));
     }
   );
 
@@ -57,7 +57,7 @@ const BrandOpportunities = () => {
   // TODO: on change update swiper to start at the index of the first slide
   if (loading) return <SpinnerScreen />;
 
-  if (opportunities.length > 0) {
+  if (opportunities?.length > 0) {
     return (
       <section>
         <Tabs options={OPTIONS} active={active} setActive={setActive} />
@@ -68,7 +68,7 @@ const BrandOpportunities = () => {
           navigation="true"
           class="my-6"
         >
-          {opportunities.length > 0 &&
+          {opportunities?.length > 0 &&
             opportunities.map((opportunity, index) => (
               <swiper-slide key={index} class="m-1">
                 <BrandOpportunityCard {...opportunity} />
