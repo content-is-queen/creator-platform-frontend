@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import useOpportunities from "@/hooks/useOpportunities";
 
 import Section from "@/components/Section";
 import Text from "@/components/Text";
@@ -8,16 +8,10 @@ import Card from "@/components/Card";
 import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 
-import { getOpportunitiesByUserId } from "@/helpers/getServerComponentData";
-
 const BrandProfileOpportunities = ({ user: { uid } }) => {
-  const [opportunities, setOpportunities] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      setOpportunities(await getOpportunitiesByUserId(uid));
-    })();
-  }, [uid]);
+  const { opportunities, setOpportunities, loading } = useOpportunities({
+    user_id: uid,
+  });
 
   return (
     <Section size="4xl">

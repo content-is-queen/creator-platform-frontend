@@ -131,7 +131,7 @@ const Footer = () => (
       <Button
         as="button"
         type="button"
-        onClick={saveMessage}
+        // onClick={saveMessage}
         className="inline-flex items-center gap-2 h-8 w-8 px-0 justify-center rounded-full"
       >
         <span className="sr-only">Send</span>
