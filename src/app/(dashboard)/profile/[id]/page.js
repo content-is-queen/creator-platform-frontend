@@ -18,5 +18,5 @@ export const dynamicParams = false;
 export default async function PublicProfile({ params: { id: uid } }) {
   const { data } = await API.get(`/auth/user/${uid}`);
 
-  return <Profile user={data.message.user} />;
+  return <Profile user={data.message} />;
 }
