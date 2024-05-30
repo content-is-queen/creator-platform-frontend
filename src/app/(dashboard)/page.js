@@ -8,9 +8,9 @@ import AdminDashboard from "@/components/Admin/AdminDashboard";
 const Page = () => {
   return (
     <Dashboard>
+      <AdminDashboard />
       <CreatorDashboard />
       <BrandDashboard />
-      <AdminDashboard />
     </Dashboard>
   );
 };
