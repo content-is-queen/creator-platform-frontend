@@ -8,41 +8,50 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import ButtonText from "@/components/ButtonText";
 import Heading from "@/components/Heading";
+import { db } from "@/firebase.config";
+import { doc, updateDoc } from "firebase/firestore";
 
-// Load environment variables from .env file
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
 
-// Function to get the access token from Spotify
 const getAccessToken = async () => {
-  const response = await axios.post('https://accounts.spotify.com/api/token',
-      new URLSearchParams({
-          'grant_type': 'client_credentials'
-      }), {
+  const response = await axios.post(
+    "https://accounts.spotify.com/api/token",
+    new URLSearchParams({
+      grant_type: "client_credentials",
+    }),
+    {
       headers: {
-          'Authorization': 'Basic ' + Buffer.from(clientId + ':' + clientSecret).toString('base64'),
-          'Content-Type': 'application/x-www-form-urlencoded'
-      }
-  });
+        Authorization:
+          "Basic " +
+          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
 
   return response.data.access_token;
-}
+};
 
 const getEpisodeDetails = async (episodeId) => {
   const accessToken = await getAccessToken();
 
-  const response = await axios.get(`https://api.spotify.com/v1/episodes/${episodeId}?market=US`, {
+  const response = await axios.get(
+    `https://api.spotify.com/v1/episodes/${episodeId}?market=US`,
+    {
       headers: {
-          'Authorization': `Bearer ${accessToken}`
-      }
-  });
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 
   const episodeData = response.data;
-  const episodeName = episodeData.name; // Use the 'name' property directly
-  console.log("Episode Name:", episodeName); // Log the episode name
+  const episodeName = episodeData.name;
+  const coverImage = episodeData.images[0].url; // Assuming the first image is the cover image
+  console.log("Episode Name:", episodeName);
+  console.log("Cover Image URL:", coverImage);
   return episodeData;
-}
-
+};
 
 const Credit = ({ episode_link, role, episodeName }) => (
   <div className="flex gap-x-4">
@@ -70,13 +79,10 @@ const Credits = () => {
   const LIMIT = 3;
 
   const { user } = useUser();
-
   const credits = user?.profile_meta?.credits || [];
-
+  console.log('hhhhhhhhhh', credits);
   const [viewMore, setViewMore] = useState(false);
-  const [viewableCredits, setViewableCredits] = useState(
-    credits.slice(0, LIMIT)
-  );
+  const [viewableCredits, setViewableCredits] = useState(credits.slice(0, LIMIT));
   const [episodeNames, setEpisodeNames] = useState({});
 
   const handleClick = () => {
@@ -84,32 +90,45 @@ const Credits = () => {
   };
 
   useEffect(() => {
-    viewMore
-      ? setViewableCredits(credits)
-      : setViewableCredits(credits.slice(0, LIMIT));
+    viewMore ? setViewableCredits(credits) : setViewableCredits(credits.slice(0, LIMIT));
   }, [viewMore]);
 
   useEffect(() => {
     const fetchAllEpisodeNames = async () => {
       const names = {};
-      for (const credit of credits) {
+      const updatedCredits = [...credits];
+
+      for (let i = 0; i < credits.length; i++) {
+        const credit = credits[i];
         if (!episodeNames[credit.episode_link]) {
           try {
             const episodeId = credit.episode_link.split("/episode/")[1].split("?")[0];
             const episodeData = await getEpisodeDetails(episodeId);
             const episodeName = `${episodeData.show.name} | Episode ${episodeData.episode_number}: ${episodeData.name}`;
+            const coverImage = episodeData.images[0].url; // Assuming the first image is the cover image
+
+            // Update the credit object in the array
+            updatedCredits[i] = { ...credit, episodeName, coverImage };
+
+            // Store the updated credits array in Firestore
+            const userRef = doc(db, "users", user.uid);
+            await updateDoc(userRef, {
+              "profile_meta.credits": updatedCredits,
+            });
+
             names[credit.episode_link] = episodeName;
           } catch (error) {
             console.error("Error fetching episode details:", error);
-            names[credit.episode_link] = credit.episode_link; // fallback to the link if an error occurs
+            names[credit.episode_link] = credit.episode_link;
           }
         }
       }
+
       setEpisodeNames((prevNames) => ({ ...prevNames, ...names }));
     };
 
     fetchAllEpisodeNames();
-  }, [credits]);
+  }, [credits, user.uid]);
 
   return (
     <>
