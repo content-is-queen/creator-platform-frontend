@@ -67,6 +67,7 @@ const SignUpForm = () => {
           data: { uid },
         },
       } = response;
+      console.log(response);
 
       const user = { ...data, uid, role: id };
 
@@ -88,7 +89,7 @@ const SignUpForm = () => {
       const response = await API.get(`/auth/check-email?email=${email}`);
       return response.data.exists;
     } catch (error) {
-      console.error("Error checking email existence:", error);
+      console.log("Error checking email existence");
       return false;
     }
   };

@@ -21,14 +21,14 @@ const ApplicationProposalForm = ({ opportunityId }) => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (opportunityId, clientId) => {
+  const handleSubmit = async (opportunityId, brandId) => {
     setError({});
     setLoading(true);
 
     const data = {
       opportunity_id: opportunityId,
       user_id: user.uid,
-      creator_id: clientId,
+      creator_id: brandId,
       proposal: proposal,
     };
 
