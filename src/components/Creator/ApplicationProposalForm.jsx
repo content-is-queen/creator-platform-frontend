@@ -6,7 +6,7 @@ import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import useToken from "@/hooks/useToken";
 
-const ApplicationProposalForm = ({ opportunityId, prompt }) => {
+const ApplicationProposalForm = ({ opportunityId, brandId, prompt }) => {
   const { user } = useUser();
   const token = useToken();
 
@@ -23,7 +23,7 @@ const ApplicationProposalForm = ({ opportunityId, prompt }) => {
     const data = {
       opportunity_id: opportunityId,
       user_id: user.uid,
-      creator_id: user.uid, // Assuming creator_id is user.uid, you can change it accordingly
+      creator_id: brandId,
       proposal: proposal,
     };
 
@@ -67,7 +67,7 @@ const ApplicationProposalForm = ({ opportunityId, prompt }) => {
             name="proposal"
             onChange={(e) => setProposal(e.target.value)}
             rows={10}
-            minLength={5} // Corrected from minlength to minLength
+            minLength={5}
             required
           >
             {prompt || "Write how you will approach the opportunity"}
