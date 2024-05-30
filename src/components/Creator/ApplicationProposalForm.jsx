@@ -1,17 +1,12 @@
-"use client";
-
 import API from "@/api/api";
-
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import { useUser } from "@/context/UserContext";
-
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import useToken from "@/hooks/useToken";
 
-const ApplicationProposalForm = ({ opportunityId }) => {
+const ApplicationProposalForm = ({ opportunityId, prompt }) => {
   const { user } = useUser();
   const token = useToken();
 
@@ -20,18 +15,15 @@ const ApplicationProposalForm = ({ opportunityId }) => {
   const [errors, setError] = useState({});
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
-  const [promptText, setPromptText] = useState(
-    "Write how you will approach the opportunity"
-  );
 
-  const handleSubmit = async (opportunityId, clientId) => {
+  const handleSubmit = async () => {
     setError({});
     setLoading(true);
 
     const data = {
       opportunity_id: opportunityId,
       user_id: user.uid,
-      creator_id: clientId,
+      creator_id: user.uid, // Assuming creator_id is user.uid, you can change it accordingly
       proposal: proposal,
     };
 
@@ -54,27 +46,6 @@ const ApplicationProposalForm = ({ opportunityId }) => {
     }
   };
 
-  // Function to fetch opportunity data and update prompt text
-  const fetchOpportunityData = async () => {
-    try {
-      const response = await API.get(
-        `/opportunities/opportunityid/${opportunityId}`
-      );
-      const opportunityData = response?.data;
-      console.log("tttttttttttttt", opportunityData);
-      if (opportunityData.prompt) {
-        setPromptText(opportunityData.prompt);
-      }
-    } catch (error) {
-      console.error("Error fetching opportunity data:", error);
-    }
-  };
-
-  // Fetch opportunity data when component mounts
-  useEffect(() => {
-    fetchOpportunityData();
-  }, []);
-
   if (status === "submitted") {
     return <>Thank you for your application.</>;
   }
@@ -94,16 +65,16 @@ const ApplicationProposalForm = ({ opportunityId }) => {
         <Form
           errors={errors}
           setError={setError}
-          handleSubmit={() => handleSubmit(opportunityId, user.uid)}
+          handleSubmit={handleSubmit}
         >
           <Form.Textarea
             name="proposal"
             onChange={(e) => setProposal(e.target.value)}
             rows={10}
-            minlength="5"
+            minLength={5} // Corrected from minlength to minLength
             required
           >
-            {promptText}
+            {prompt || "Write how you will approach the opportunity"}
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
