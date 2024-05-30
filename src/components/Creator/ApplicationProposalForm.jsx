@@ -62,11 +62,7 @@ const ApplicationProposalForm = ({ opportunityId, prompt }) => {
         onClose={() => setIsOpen(false)}
         title="Apply"
       >
-        <Form
-          errors={errors}
-          setError={setError}
-          handleSubmit={handleSubmit}
-        >
+        <Form errors={errors} setError={setError} handleSubmit={handleSubmit}>
           <Form.Textarea
             name="proposal"
             onChange={(e) => setProposal(e.target.value)}
