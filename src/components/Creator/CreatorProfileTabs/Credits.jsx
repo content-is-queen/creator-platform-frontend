@@ -80,9 +80,11 @@ const Credits = () => {
 
   const { user } = useUser();
   const credits = user?.profile_meta?.credits || [];
-  console.log('hhhhhhhhhh', credits);
+  console.log("hhhhhhhhhh", credits);
   const [viewMore, setViewMore] = useState(false);
-  const [viewableCredits, setViewableCredits] = useState(credits.slice(0, LIMIT));
+  const [viewableCredits, setViewableCredits] = useState(
+    credits.slice(0, LIMIT)
+  );
   const [episodeNames, setEpisodeNames] = useState({});
 
   const handleClick = () => {
@@ -90,7 +92,9 @@ const Credits = () => {
   };
 
   useEffect(() => {
-    viewMore ? setViewableCredits(credits) : setViewableCredits(credits.slice(0, LIMIT));
+    viewMore
+      ? setViewableCredits(credits)
+      : setViewableCredits(credits.slice(0, LIMIT));
   }, [viewMore]);
 
   useEffect(() => {
@@ -102,7 +106,9 @@ const Credits = () => {
         const credit = credits[i];
         if (!episodeNames[credit.episode_link]) {
           try {
-            const episodeId = credit.episode_link.split("/episode/")[1].split("?")[0];
+            const episodeId = credit.episode_link
+              .split("/episode/")[1]
+              .split("?")[0];
             const episodeData = await getEpisodeDetails(episodeId);
             const episodeName = `${episodeData.show.name} | Episode ${episodeData.episode_number}: ${episodeData.name}`;
             const coverImage = episodeData.images[0].url; // Assuming the first image is the cover image
