@@ -27,7 +27,9 @@ const useOpportunities = (args, cb) => {
           cb(data);
           return;
         }
-        setOpportunities(data.message.opportunities);
+        setOpportunities(
+          data.message?.opportunities || data?.opportunities || data
+        );
         setStartAfterId(data.message.nextStartAfterId);
       } catch (err) {
         setError({ message: "There was a problem getting opportunities" });

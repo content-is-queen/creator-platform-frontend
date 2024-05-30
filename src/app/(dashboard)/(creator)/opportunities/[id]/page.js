@@ -56,7 +56,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
 
           <ApplicationProposalForm
             opportunityId={opportunity_id}
-            clientId={user_id}
+            brandId={user_id}
           />
         </div>
       </Container>
