@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Form, { Error } from "../Form";
 import Button from "../Button";
 
@@ -13,17 +12,16 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
 
     if (
       inputValue.trim("").length === 0 ||
-      !inputValue.startsWith("https://open.spotify.com/episode/") ||
-      !inputValue.startsWith("https://podcasts.apple.com/gb/podcast/")
+      !inputValue.startsWith("https://open.spotify.com/episode/")
     ) {
       setError({
-        message: "Please enter a valid Spotify or Apple podcast episode url",
+        message: "Please enter a valid Spotify episode URL",
       });
       return;
     }
 
-    if (shows.find((i) => i.url == inputValue)) {
-      setError({ message: "You can't add the same url twice" });
+    if (shows.find((i) => i.url === inputValue)) {
+      setError({ message: "You can't add the same URL twice" });
       return;
     }
 
@@ -47,9 +45,8 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
 
   useEffect(() => {
     setLocalUser((prev) => {
-      const newObj = prev;
-      const { profile_meta } = newObj;
-      newObj.profile_meta = { ...profile_meta, showcase: shows };
+      const newObj = { ...prev };
+      newObj.profile_meta = { ...newObj.profile_meta, showcase: shows };
       return newObj;
     });
   }, [shows]);
@@ -59,8 +56,7 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
       <div className="mb-4">
         <p className="uppercase">Showcase</p>
         <span className="block text-sm text-queen-black/80">
-          Add up to 6 Spotify or Apple podacast episodes by inserting their
-          episode link
+          Add up to 6 Spotify podcast episodes by inserting their episode link
         </span>
       </div>
 
@@ -101,4 +97,5 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
     </div>
   );
 };
+
 export default ShowcaseInput;

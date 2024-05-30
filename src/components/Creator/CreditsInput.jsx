@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-
 import Form, { Error } from "../Form";
 import Button from "../Button";
 
 const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
   const [credits, setCredits] = useState(localUser.profile_meta?.credits || []);
-  const [inputValue, setInputValue] = useState({ show: "", role: "" });
+  const [inputValue, setInputValue] = useState({ episode_link: "", role: "" });
   const [errors, setError] = useState({});
 
   const add = () => {
@@ -13,7 +12,7 @@ const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
 
     // Check if both fields contain a value
     if (
-      inputValue.show.trim("").length === 0 ||
+      inputValue.episode_link.trim("").length === 0 ||
       inputValue.role.trim("").length === 0
     ) {
       setError({ message: "Please fill in both fields" });
@@ -23,13 +22,13 @@ const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
     setCredits((prev) => [...prev, inputValue]);
 
     // Clear input when an entry is added
-    setInputValue({ show: "", role: "" });
+    setInputValue({ episode_link: "", role: "" });
     handleChange();
   };
 
-  const remove = (show) => {
+  const remove = (episode_link) => {
     setError({});
-    setCredits((prev) => prev.filter((i) => i.show !== show));
+    setCredits((prev) => prev.filter((i) => i.episode_link !== episode_link));
     handleChange();
   };
 
@@ -49,20 +48,20 @@ const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
       </div>
 
       {credits.length > 0 &&
-        credits.map(({ show, role }, index) => (
+        credits.map(({ episode_link, role }, index) => (
           <div
             key={index}
             className="flex items-center border-b border-queen-black/10 pb-5 my-5"
           >
             <span className="w-full block">
-              {show} - {role}
+              {episode_link} - {role}
             </span>
             <Button
               type="button"
               variant="white"
               as="button"
               onClick={() => {
-                remove(show);
+                remove(episode_link);
               }}
             >
               Remove
@@ -74,19 +73,19 @@ const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
         <div className="space-y-4 w-full">
           <Form.Input
             className="w-full"
-            value={inputValue?.show}
-            placeholder="Feel better, live more"
+            value={inputValue?.episode_link}
+            placeholder="Episode Link"
             onChange={(e) =>
-              setInputValue((prev) => ({ ...prev, ["show"]: e.target.value }))
+              setInputValue((prev) => ({ ...prev, ["episode_link"]: e.target.value }))
             }
             label="sm"
           >
-            Show
+            Episode Link
           </Form.Input>
           <Form.Input
             className="w-full"
             value={inputValue?.role}
-            placeholder="Host"
+            placeholder="Role"
             onChange={(e) =>
               setInputValue((prev) => ({ ...prev, ["role"]: e.target.value }))
             }
