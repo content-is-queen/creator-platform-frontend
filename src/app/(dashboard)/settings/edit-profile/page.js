@@ -12,7 +12,6 @@ import ShowcaseInput from "@/components/Creator/ShowcaseInput";
 import ShowreelInput from "@/components/Creator/ShowreelInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 
-
 const EditProfile = () => {
   const [errors, setError] = useState({});
   const [loading, setLoading] = useState(false);
@@ -79,7 +78,9 @@ const EditProfile = () => {
             message: "Something went wrong when updating your profile",
           });
 
-          throw new Error("Something went wrong when updating the user profile");
+          throw new Error(
+            "Something went wrong when updating the user profile"
+          );
         }
 
         localStorage.removeItem("userProfile");

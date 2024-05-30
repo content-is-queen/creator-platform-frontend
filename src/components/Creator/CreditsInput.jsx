@@ -76,7 +76,10 @@ const CreditsInput = ({ setLocalUser, localUser, handleChange }) => {
             value={inputValue?.episode_link}
             placeholder="Episode Link"
             onChange={(e) =>
-              setInputValue((prev) => ({ ...prev, ["episode_link"]: e.target.value }))
+              setInputValue((prev) => ({
+                ...prev,
+                ["episode_link"]: e.target.value,
+              }))
             }
             label="sm"
           >
