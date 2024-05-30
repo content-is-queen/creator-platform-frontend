@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import debounce from "debounce";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

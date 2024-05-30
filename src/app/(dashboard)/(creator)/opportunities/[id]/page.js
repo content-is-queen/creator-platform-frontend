@@ -17,16 +17,19 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const { data } = await API.get("/opportunities");
+  const { data } = await API.get("/opportunities?limit=0");
 
-  return data.message.map(({ opportunity_id }) => ({ id: opportunity_id }));
+  return data.message.opportunities.map(({ opportunity_id }) => ({
+    id: opportunity_id,
+  }));
 }
 
 export const dynamicParams = false;
 
 export default async function Opportunity({ params: { id: opportunity_id } }) {
-  const { title, description, company, type, compensation, user_id } =
-    await API(`/opportunities/opportunityid/${opportunity_id}`);
+  const {
+    data: { title, description, company, type, compensation, user_id },
+  } = await API(`/opportunities/opportunityid/${opportunity_id}`);
 
   return (
     <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
@@ -53,7 +56,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
 
           <ApplicationProposalForm
             opportunityId={opportunity_id}
-            clientId={user_id}
+            brandId={user_id}
           />
         </div>
       </Container>

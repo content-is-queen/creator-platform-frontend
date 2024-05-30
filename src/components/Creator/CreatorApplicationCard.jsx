@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+import useOpportunities from "@/hooks/useOpportunities";
 
 import Card from "@/components/Card";
 import Tag from "@/components/Tag";
@@ -7,25 +9,12 @@ import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 
-import { getOpportunityById } from "@/helpers/getServerComponentData";
-
 const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
-  const [opportunity, setOpportunity] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
+  const { opportunities: opportunity, loading } = useOpportunities({
+    opportunity_id: opportunity_id,
+  });
 
-  useEffect(() => {
-    (async (opportunity_id) => {
-      try {
-        const response = await getOpportunityById(opportunity_id);
-        setOpportunity(response);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    })(opportunity_id);
-  }, [opportunity_id]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Card className="flex items-center justify-between">

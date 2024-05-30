@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
+
+import { auth } from "@/firebase.config";
+import { useUser } from "@/context/UserContext";
 
 import { IoNotificationsOutline } from "react-icons/io5";
 
@@ -12,16 +15,13 @@ import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 
-import useAuth from "@/hooks/useAuth";
-import { useUser } from "@/context/UserContext";
-
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
 
   const router = useRouter();
-  const { logout } = useAuth();
-  const { user, userLoaded, setUserLoaded } = useUser();
+
+  const { user, userLoaded, setUser } = useUser();
 
   const pathname = usePathname();
 
@@ -35,8 +35,15 @@ const MainNav = () => {
   };
 
   const handleSignOut = async () => {
-    logout();
-    router.push("/login");
+    try {
+      auth.signOut();
+      localStorage.removeItem("userProfile");
+
+      setUser(null);
+      router.push("/login");
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
   };
 
   useEffect(() => {

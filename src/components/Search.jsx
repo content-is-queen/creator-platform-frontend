@@ -11,9 +11,9 @@ import { inputStyles } from "@/components/Form";
 import FilterTag from "@/components/FilterTag";
 import clsx from "clsx";
 
-const Search = ({ data, setFilteredData }) => {
+const Search = ({ data = [], setFilteredData, filter }) => {
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [tags, setTags] = useState([]);
 
   const changeHandler = (e) => {
@@ -21,42 +21,49 @@ const Search = ({ data, setFilteredData }) => {
     debouncedSearch();
   };
 
-  const getTags = (data) => {
+  const buildTags = (data) => {
     const tags = [];
 
-    data.map(({ type }) => {
-      if (!tags.includes(type)) tags.push(type);
+    data.forEach((tag) => {
+      // Prevent duplicates
+      if (!tags.includes(tag[filter.tag])) tags.push(tag[filter.tag]);
     });
 
     return tags;
   };
 
   useEffect(() => {
-    if (query) {
-      setFilteredData(() => {
-        if (query.trim().length === 0) {
-          return data;
-        }
+    setFilteredData(() => {
+      if (query.trim().length === 0) {
+        return data;
+      }
 
-        return data.filter(
-          (i) =>
-            i.title?.toLowerCase().includes(query.toLowerCase()) ||
-            i.project?.toLowerCase().includes(query.toLowerCase()) ||
-            i.name?.toLowerCase().includes(query.toLowerCase())
-        );
+      return data.filter((i) => {
+        let filterData = false;
+
+        filter.keys.forEach((key) => {
+          if (filterData) return;
+
+          if (i[key]?.toLowerCase().includes(query.toLowerCase())) {
+            filterData = true;
+          }
+        });
+        return filterData;
       });
-    }
+    });
   }, [query]);
 
   useEffect(() => {
-    setTags(getTags(data));
+    setTags(buildTags(data));
   }, []);
 
   useEffect(() => {
     setFilteredData(
-      selected.length > 0 ? data.filter((i) => selected.includes(i.type)) : data
+      selectedTags.length > 0
+        ? data.filter((i) => selectedTags.includes(i[filter.tag]))
+        : data
     );
-  }, [selected]);
+  }, [selectedTags]);
 
   return (
     <section>
@@ -78,11 +85,17 @@ const Search = ({ data, setFilteredData }) => {
         Search
       </label>
       <div className="flex gap-2 mt-6">
-        {tags.map((tag) => (
-          <FilterTag selected={selected} setSelected={setSelected} key={tag}>
-            {tag}
-          </FilterTag>
-        ))}
+        {/** Only show tags if there are more than one */}
+        {tags.length > 1 &&
+          tags.map((tag) => (
+            <FilterTag
+              selected={selectedTags}
+              setSelected={setSelectedTags}
+              key={tag}
+            >
+              {tag}
+            </FilterTag>
+          ))}
       </div>
     </section>
   );

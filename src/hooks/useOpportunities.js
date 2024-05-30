@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const useOpportunities = (args, cb) => {
   const [opportunities, setOpportunities] = useState([]);
+  const [startAfterId, setStartAfterId] = useState("");
   const [loading, setLoading] = useState(true);
   const [errors, setError] = useState({});
 
@@ -26,7 +27,10 @@ const useOpportunities = (args, cb) => {
           cb(data);
           return;
         }
-        setOpportunities(data);
+        setOpportunities(
+          data.message?.opportunities || data?.opportunities || data
+        );
+        setStartAfterId(data.message.nextStartAfterId);
       } catch (err) {
         setError({ message: "There was a problem getting opportunities" });
         console.error(err);
@@ -35,7 +39,14 @@ const useOpportunities = (args, cb) => {
       }
     })();
   }, []);
-  return [opportunities, setOpportunities, loading, setLoading];
+  return {
+    opportunities,
+    setOpportunities,
+    loading,
+    setLoading,
+    startAfterId,
+    setStartAfterId,
+  };
 };
 
 export default useOpportunities;
