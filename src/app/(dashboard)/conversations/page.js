@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import API from "@/api/api";
 
@@ -31,7 +30,6 @@ const Empty = ({ rooms }) => (
 
 const Conversations = () => {
   const { user } = useUser();
-  const searchParams = useSearchParams();
 
   const [activeChat, setActiveChat] = useState(null);
   const [rooms, setRooms] = useState([]);
@@ -48,13 +46,6 @@ const Conversations = () => {
       getRooms(user.uid);
     }
   }, [user]);
-
-  useEffect(() => {
-    // Select room automatically
-    if (searchParams && searchParams.get("room")) {
-      document.getElementById(searchParams.get("room")).click();
-    }
-  }, []);
 
   return (
     <div

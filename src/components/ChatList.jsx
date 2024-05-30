@@ -2,23 +2,32 @@
 
 import moment from "moment";
 
+import { useEffect } from "react";
+
 import clsx from "clsx";
 import ProfileIcon from "./ProfileIcon";
 import { useUser } from "@/context/UserContext";
+import { useSearchParams } from "next/navigation";
 
 const ChatList = ({ active, setActive, rooms }) => {
   const { user } = useUser();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (rooms && searchParams) {
+      const createdRoom = rooms.find(
+        (room) => room.id === searchParams.get("room")
+      );
+      setActive(createdRoom);
+    }
+  }, [rooms]);
   return (
     <ul
       className="bg-white rounded-3xl shadow-md col-span-4 overflow-y-auto"
       style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}
     >
       {rooms.map((room) => (
-        <li
-          key={room.id}
-          className="first:rounded-t-3xl overflow-hidden"
-          id={room.id}
-        >
+        <li key={room.id} className="first:rounded-t-3xl overflow-hidden">
           <button
             type="button"
             className="w-full"

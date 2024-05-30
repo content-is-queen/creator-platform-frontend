@@ -121,7 +121,7 @@ const BrandApplicationCard = ({
               conversation with <b>{user.first_name}</b>.
             </p>
           </div>
-          <Button href={`/conversations/${message.room}`}>
+          <Button href={`/conversations/?room=${message.room}`}>
             Start conversation
           </Button>
         </div>
