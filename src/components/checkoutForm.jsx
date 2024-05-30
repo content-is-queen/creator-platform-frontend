@@ -3,7 +3,9 @@ import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import API from "@/api/api";
 
-const stripePromise = loadStripe("pk_test_51PEYUjA0tTttcwfymYaiJOk46eP4fcCNTJEvt9ihqaefcDDD3SmDSBKMygET1MA6VeseOF6PscXHvhIXc3sUQWm50026vNqpuz");
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_PK_TEST
+);
 
 const CheckoutForm = ({ userId }) => {
   const [loading, setLoading] = useState(false);
@@ -11,38 +13,39 @@ const CheckoutForm = ({ userId }) => {
   const handleCheckout = async () => {
     setLoading(true);
     console.log("handleCheckout function called");
-  
+
     try {
-      console.log("Attempting to create checkout session...");
-      const response = await API.post('/payments/create-checkout-session', {});
-  
+      const response = await API.post("/payments/create-checkout-session", {});
+
       if (response.status !== 200) {
-        throw new Error('Failed to create checkout session front end');
+        throw new Error("Failed to create checkout session front end");
       }
-  
+
       const sessionId = response.data.id; // Extract session ID from response data
       console.log("Checkout session ID:", sessionId);
-  
+
       const stripe = await stripePromise;
-  
+
       // Redirect to the Stripe Checkout page
       const { error } = await stripe.redirectToCheckout({
         sessionId: sessionId,
       });
-  
+
       if (error) {
-        console.error("Error redirecting to checkout:", error);
         throw new Error("An error occurred during checkout");
       } else {
         console.log("Redirecting to checkout...");
-  
+
         // Call API to update user subscription status upon successful checkout
-        const updateResponse = await API.post(`/auth/userSubscription/sCxCtR8YPfWyrZGVkwyzcTNcF5N2`, { subscribed: true });
-        
+        const updateResponse = await API.post(
+          `/auth/userSubscription/sCxCtR8YPfWyrZGVkwyzcTNcF5N2`,
+          { subscribed: true }
+        );
+
         if (updateResponse.status === 200) {
           console.log("User subscription status updated successfully");
         } else {
-          throw new Error('Failed to update user subscription status');
+          throw new Error("Failed to update user subscription status");
         }
       }
     } catch (error) {
@@ -51,8 +54,7 @@ const CheckoutForm = ({ userId }) => {
       setLoading(false);
     }
   };
-  
-  
+
   return (
     <div>
       <button onClick={handleCheckout} disabled={loading}>
