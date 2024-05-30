@@ -1,18 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 import API from "@/api/api";
-
 import { getUserProfile, useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
 import ShowcaseInput from "@/components/Creator/ShowcaseInput";
 import ShowreelInput from "@/components/Creator/ShowreelInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
+
 
 const EditProfile = () => {
   const [errors, setError] = useState({});
@@ -27,7 +26,6 @@ const EditProfile = () => {
   const handleChange = (e) => {
     !updated && setUpdated(true);
 
-    // Prevent checking values updated by a button
     if (e?.target) {
       const { name, value, files } = e.target;
       const newValue = files ? files[0] : value;
@@ -45,21 +43,30 @@ const EditProfile = () => {
       last_name: user?.last_name || "",
       imageUrl: user?.imageUrl || "",
       bio: user?.bio || "",
-      profile_meta: user?.profile_meta || {},
+      profile_meta: user?.profile_meta || {
+        showcase: [],
+        credits: [],
+        showreel: "",
+      },
     });
   }, [user]);
 
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
+
     Object.entries(localUser).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (key === "profile_meta") {
+        formData.append(key, JSON.stringify(value)); // Serialize profile_meta
+      } else {
+        formData.append(key, value);
+      }
     });
 
     try {
       const res = await API.put(`/auth/user`, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
@@ -72,9 +79,7 @@ const EditProfile = () => {
             message: "Something went wrong when updating your profile",
           });
 
-          throw new Error(
-            "Something went wrong when updating the user profile"
-          );
+          throw new Error("Something went wrong when updating the user profile");
         }
 
         localStorage.removeItem("userProfile");
