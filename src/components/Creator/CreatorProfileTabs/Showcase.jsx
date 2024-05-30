@@ -7,7 +7,12 @@ const Empty = () => {
   const pathname = usePathname();
 
   if (pathname === "/profile") {
-    return <>It looks like you haven't added any shows</>;
+    return (
+      <>
+        Select your proudest work from your list of credits to add to your
+        showcase
+      </>
+    );
   }
 
   return <>No shows</>;

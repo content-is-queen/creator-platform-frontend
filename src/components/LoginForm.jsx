@@ -28,7 +28,6 @@ const FIELDS = [
   },
   {
     name: "password",
-    type: "password",
     children: "Password",
     rules: {
       required: "Password is required",

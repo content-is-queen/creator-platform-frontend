@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
+import API from "@/api/api";
+import { getUserProfile, useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
-import useAuth from "@/hooks/useAuth";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -13,7 +13,7 @@ import Tabs from "@/components/Tabs";
 import { Error } from "@/components/Form";
 import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
 
-import OPTIONS from "@/data/signup_data.json";
+import formData from "@/data/signup_form_data.json";
 
 const SignUpForm = () => {
   const {
@@ -25,14 +25,14 @@ const SignUpForm = () => {
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
-  const { signup } = useAuth();
   const router = useRouter();
+  const { setUser } = useUser();
 
-  const [active, setActive] = useState(OPTIONS[0]);
+  const [active, setActive] = useState(formData[0]);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [totalSteps, setTotalSteps] = useState(
-    Object.keys(OPTIONS[0].steps).length
+    Object.keys(formData[0].steps).length
   );
 
   const [errors, setError] = useState({});
@@ -52,46 +52,63 @@ const SignUpForm = () => {
     setError({});
 
     try {
-      const response = await signup(data, id);
+      const response = await API.post(
+        "/auth/signup",
+        { ...data, role: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.status > 200) {
-        setError({ message: response.message });
-        throw new Error(
-          response.message || "Something went wrong when signing up"
-        );
-      }
+      const {
+        data: {
+          data: { uid },
+        },
+      } = response;
 
+      const user = { ...data, uid, role: id };
+
+      const { password, ...userProfile } = user;
+
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      setUser(userProfile);
       router.push("/verify");
-    } catch (err) {
-      setError({
-        message: "Something went wrong. User sign up failed",
-      });
-      console.error("Sign up error:", err);
+    } catch (response) {
+      setError({ message: "Something went wrong during sign up" });
+      console.error(response);
     } finally {
       setLoading(false);
     }
   };
 
-  // TODO: Replace with check to our API
-  const checkIfRegistered = async (email) => {
-    return Promise.resolve(false);
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await API.get(`/auth/check-email?email=${email}`);
+      return response.data.exists;
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      return false;
+    }
   };
 
   const handleClick = async () => {
     setError({});
     let isRegistered;
 
-    // Check if the supplied email address is already registered before letting user progress
     if (step === 1) {
       const { email } = getValues();
 
-      isRegistered = await checkIfRegistered(email);
+      // Check if a user has already signed up with inputted email
+      isRegistered = await checkEmailExists(email);
+
       if (isRegistered) {
         setError({ message: "This email address is already in use" });
+        return;
       }
     }
 
-    // Create an array of the current steps required fields
     const fields = active.steps[step].fields.reduce((acc, currentValue) => {
       const { name, rules } = currentValue;
 
@@ -102,7 +119,6 @@ const SignUpForm = () => {
       }
     }, "");
 
-    // Check if fields required for current step are valid
     trigger(fields);
 
     setTimeout(() => {
@@ -121,7 +137,7 @@ const SignUpForm = () => {
             Step {step} of {totalSteps}
           </span>
           {step === 1 ? (
-            <Tabs options={OPTIONS} active={active} setActive={setActive} />
+            <Tabs options={formData} active={active} setActive={setActive} />
           ) : (
             <Text variant="xl">{active.steps[step].title}</Text>
           )}
@@ -133,7 +149,6 @@ const SignUpForm = () => {
           fields={active.steps[step].fields}
         />
 
-        {/* TODO: Disable button if required fields aren't filled in */}
         <Button
           as="button"
           className="mt-8"

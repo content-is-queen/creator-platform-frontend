@@ -38,8 +38,8 @@ export const getOpportunities = async () => {
 
   try {
     const { data } = await API.get("/opportunities");
-    return data.message;
+    return data.message.opportunities;
   } catch (error) {
-    throw new Error("Something went wrong with getting opportunities");
+    throw new Error("Something went wrong when getting opportunities");
   }
 };
