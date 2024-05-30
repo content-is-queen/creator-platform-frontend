@@ -15,34 +15,41 @@ const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
 
 // Function to get the access token from Spotify
 const getAccessToken = async () => {
-  const response = await axios.post('https://accounts.spotify.com/api/token',
-      new URLSearchParams({
-          'grant_type': 'client_credentials'
-      }), {
+  const response = await axios.post(
+    "https://accounts.spotify.com/api/token",
+    new URLSearchParams({
+      grant_type: "client_credentials",
+    }),
+    {
       headers: {
-          'Authorization': 'Basic ' + Buffer.from(clientId + ':' + clientSecret).toString('base64'),
-          'Content-Type': 'application/x-www-form-urlencoded'
-      }
-  });
+        Authorization:
+          "Basic " +
+          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
 
   return response.data.access_token;
-}
+};
 
 const getEpisodeDetails = async (episodeId) => {
   const accessToken = await getAccessToken();
 
-  const response = await axios.get(`https://api.spotify.com/v1/episodes/${episodeId}?market=US`, {
+  const response = await axios.get(
+    `https://api.spotify.com/v1/episodes/${episodeId}?market=US`,
+    {
       headers: {
-          'Authorization': `Bearer ${accessToken}`
-      }
-  });
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 
   const episodeData = response.data;
   const episodeName = episodeData.name; // Use the 'name' property directly
   console.log("Episode Name:", episodeName); // Log the episode name
   return episodeData;
-}
-
+};
 
 const Credit = ({ episode_link, role, episodeName }) => (
   <div className="flex gap-x-4">
@@ -95,7 +102,9 @@ const Credits = () => {
       for (const credit of credits) {
         if (!episodeNames[credit.episode_link]) {
           try {
-            const episodeId = credit.episode_link.split("/episode/")[1].split("?")[0];
+            const episodeId = credit.episode_link
+              .split("/episode/")[1]
+              .split("?")[0];
             const episodeData = await getEpisodeDetails(episodeId);
             const episodeName = `${episodeData.show.name} | Episode ${episodeData.episode_number}: ${episodeData.name}`;
             names[credit.episode_link] = episodeName;
