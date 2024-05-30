@@ -9,23 +9,40 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ButtonText from "@/components/ButtonText";
 import Heading from "@/components/Heading";
 
-const fetchEpisodeName = async (episode_link) => {
-  try {
-    const episodeId = episode_link.split("/episode/")[1].split("?")[0];
-    const response = await axios.get(
-      `https://api.spotify.com/v1/episodes/${episodeId}`,
-      {
-        headers: {
-          Authorization: `Bearer BQB2202VIfMVk_J1PN8Drsf3XZvTvEmKF6VFINHJbWE97NFD_FexAWm4MHKcKP5e-gDZrCz_fg0AP3bfs6tdAUNkgYzUlg6IB8Q4vLo_i37h3_KJo4HrfRjdVeMXYCZiHhrxluEj1KCf_clUSAWoRltxO-ffZMx8U27vsmnhQuirYQOQODUzIBJmPkNKFPrazRmzKa3bobgFipb2yS4&`,
-        },
+// Load environment variables from .env file
+const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+
+// Function to get the access token from Spotify
+const getAccessToken = async () => {
+  const response = await axios.post('https://accounts.spotify.com/api/token',
+      new URLSearchParams({
+          'grant_type': 'client_credentials'
+      }), {
+      headers: {
+          'Authorization': 'Basic ' + Buffer.from(clientId + ':' + clientSecret).toString('base64'),
+          'Content-Type': 'application/x-www-form-urlencoded'
       }
-    );
-    return response.data.name;
-  } catch (error) {
-    console.error("Error fetching episode name:", error);
-    return episode_link; // fallback to the link if an error occurs
-  }
-};
+  });
+
+  return response.data.access_token;
+}
+
+const getEpisodeDetails = async (episodeId) => {
+  const accessToken = await getAccessToken();
+
+  const response = await axios.get(`https://api.spotify.com/v1/episodes/${episodeId}?market=US`, {
+      headers: {
+          'Authorization': `Bearer ${accessToken}`
+      }
+  });
+
+  const episodeData = response.data;
+  const episodeName = episodeData.name; // Use the 'name' property directly
+  console.log("Episode Name:", episodeName); // Log the episode name
+  return episodeData;
+}
+
 
 const Credit = ({ episode_link, role, episodeName }) => (
   <div className="flex gap-x-4">
@@ -77,8 +94,15 @@ const Credits = () => {
       const names = {};
       for (const credit of credits) {
         if (!episodeNames[credit.episode_link]) {
-          const name = await fetchEpisodeName(credit.episode_link);
-          names[credit.episode_link] = name;
+          try {
+            const episodeId = credit.episode_link.split("/episode/")[1].split("?")[0];
+            const episodeData = await getEpisodeDetails(episodeId);
+            const episodeName = `${episodeData.show.name} | Episode ${episodeData.episode_number}: ${episodeData.name}`;
+            names[credit.episode_link] = episodeName;
+          } catch (error) {
+            console.error("Error fetching episode details:", error);
+            names[credit.episode_link] = credit.episode_link; // fallback to the link if an error occurs
+          }
         }
       }
       setEpisodeNames((prevNames) => ({ ...prevNames, ...names }));
