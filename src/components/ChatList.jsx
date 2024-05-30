@@ -14,7 +14,11 @@ const ChatList = ({ active, setActive, rooms }) => {
       style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}
     >
       {rooms.map((room) => (
-        <li key={room.id} className="first:rounded-t-3xl overflow-hidden">
+        <li
+          key={room.id}
+          className="first:rounded-t-3xl overflow-hidden"
+          id={room.id}
+        >
           <button
             type="button"
             className="w-full"
