@@ -83,7 +83,7 @@ const Body = ({ room }) => {
       setMessages(sortedMessages);
     });
     return () => unsubscribe;
-  }, []);
+  }, [room]);
 
   useEffect(() => {
     // Always scroll to the latest message
