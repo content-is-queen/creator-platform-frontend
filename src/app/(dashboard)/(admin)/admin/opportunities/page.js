@@ -10,7 +10,7 @@ const getOpportunities = async () => {
   }
 
   try {
- await API.get("/admin/opportunities?limit=0");
+    await API.get("/admin/opportunities?limit=0");
   } catch (error) {
     console.log(error);
   }
