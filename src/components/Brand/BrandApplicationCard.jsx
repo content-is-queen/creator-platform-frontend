@@ -24,6 +24,7 @@ const BrandApplicationCard = ({
     user: { uid },
   } = useUser();
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const getUser = async (id) => {
     try {
@@ -42,8 +43,8 @@ const BrandApplicationCard = ({
 
   const rejectApplication = async (id) => {
     try {
-      const response = await API.put(
-        `/auth/user`,
+      const response = await API.patch(
+        `/applications/${id}`,
         {
           status: "rejected",
           user_id: user_id,
@@ -73,9 +74,14 @@ const BrandApplicationCard = ({
   };
   const acceptApplication = async (id) => {
     try {
-      const response = await API.put(
-        `/auth/user`,
-        { status: "accepted" },
+      const response = await API.patch(
+        `/applications/${id}`,
+        {
+          status: "accepted",
+          user_id: user_id,
+          creator_id: uid,
+          opportunity_title: opportunityTitle,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -91,9 +97,9 @@ const BrandApplicationCard = ({
         );
       }
 
-      setApplications(
-        applications.filter((i) => i.application_id !== application_id)
-      );
+      setMessage({ status: "accepted", room: response.data.room });
+      console.log(response);
+
       // TODO: Add screen to take to conversation
     } catch (error) {
       console.error(error);
@@ -102,57 +108,79 @@ const BrandApplicationCard = ({
 
   return (
     <Card className="h-[488px] max-h-screen flex flex-col">
-      <div className="mb-8 flex items-start justify-between gap-4">
-        <div>
-          <Heading size="2xl">
-            {!user ? (
-              <LoadingPlaceholder dark />
-            ) : (
-              <>
-                {user?.first_name} {user?.last_name}
-              </>
-            )}
-          </Heading>
-          <Text size="sm" className="capitalize">
-            {opportunityTitle} &bull; Application
-          </Text>
+      {message?.status === "accepted" ? (
+        <div
+          className="text-center flex items-center flex-col justify-center"
+          style={{ height: "inherit" }}
+        >
+          <div className="max-w-xs mx-auto mb-5">
+            <p className="text-subheading text-queen-black font-bold text-xl mb-2">
+              Start chatting!
+            </p>
+            <p className="text-queen-black/80">
+              What are you waiting for? Why don't you head over and start the
+              conversation with <b>{user.first_name}</b>.
+            </p>
+          </div>
+          <Button href={`/conversations/?room=${message.room}`}>
+            Start conversation
+          </Button>
         </div>
-        <div className="flex gap-2 mt-1">
-          {/* {skills.map((skill) => (
+      ) : (
+        <>
+          <div className="mb-8 flex items-start justify-between gap-4">
+            <div>
+              <Heading size="2xl">
+                {!user ? (
+                  <LoadingPlaceholder dark />
+                ) : (
+                  <>
+                    {user.first_name} {user.last_name}
+                  </>
+                )}
+              </Heading>
+              <Text size="sm" className="capitalize">
+                {opportunityTitle} &bull; Application
+              </Text>
+            </div>
+            <div className="flex gap-2 mt-1">
+              {/* {skills.map((skill) => (
             <Tag key={skill}>{skill}</Tag>
           ))} */}
-        </div>
-      </div>
+            </div>
+          </div>
 
-      {!user ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
+          {!user ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
 
-      <div className="flex gap-2 mt-auto pt-12">
-        <Button
-          type="button"
-          as="button"
-          variant="white"
-          size="sm"
-          onClick={() => rejectApplication(application_id)}
-        >
-          Reject
-        </Button>
-        <Button
-          type="button"
-          as="button"
-          size="sm"
-          onClick={() => acceptApplication(application_id)}
-        >
-          Accept
-        </Button>
-        <Button
-          type="button"
-          variant="blue"
-          size="sm"
-          href={`/profile/${user_id}`}
-        >
-          View profile
-        </Button>
-      </div>
+          <div className="flex gap-2 mt-auto pt-12">
+            <Button
+              type="button"
+              as="button"
+              variant="white"
+              size="sm"
+              onClick={() => rejectApplication(application_id)}
+            >
+              Reject
+            </Button>
+            <Button
+              type="button"
+              as="button"
+              size="sm"
+              onClick={() => acceptApplication(application_id)}
+            >
+              Accept
+            </Button>
+            <Button
+              type="button"
+              variant="blue"
+              size="sm"
+              href={`/profile/${user_id}`}
+            >
+              View profile
+            </Button>
+          </div>
+        </>
+      )}
     </Card>
   );
 };
