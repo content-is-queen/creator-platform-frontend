@@ -21,7 +21,6 @@ const AdminUserTableRow = ({
   handleDelete,
 }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
-console.log(email, "---------");
   const handleChange = (uid) => {
     selectedUsers.includes(uid)
       ? setSelectedUsers((prev) => prev.filter((i) => !i.includes(uid)))

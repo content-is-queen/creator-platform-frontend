@@ -32,7 +32,6 @@ const TableBody = (props) => {
 };
 
 const AdminOpportunitiesTable = () => {
-
   const [opportunities, setOpportunities] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
@@ -49,7 +48,7 @@ const AdminOpportunitiesTable = () => {
     // }
 
     try {
-      const data =await API.get("/admin/opportunities");
+      const data = await API.get("/admin/opportunities");
       setFilteredOpportunities(data.data.message);
       return data;
     } catch (error) {

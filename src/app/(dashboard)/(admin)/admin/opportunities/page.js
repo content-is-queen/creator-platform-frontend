@@ -10,8 +10,8 @@ const getOpportunities = async () => {
   }
 
   try {
-await API.get("/admin/opportunities");
-return
+    await API.get("/admin/opportunities");
+    return;
   } catch (error) {
     console.log(error);
   }
