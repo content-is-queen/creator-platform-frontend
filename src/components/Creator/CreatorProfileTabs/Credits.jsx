@@ -46,24 +46,27 @@ const getEpisodeDetails = async (episodeId) => {
   );
 
   const episodeData = response.data;
-  const episodeName = episodeData.name;
+  const episodeName = episodeData.show.name; // Extracting only the show name
   const coverImage = episodeData.images[0].url; // Assuming the first image is the cover image
   console.log("Episode Name:", episodeName);
   console.log("Cover Image URL:", coverImage);
-  return episodeData;
+  return { ...episodeData, episodeName };
 };
 
 const Credit = ({ episode_link, role, episodeName }) => (
-  <div className="flex gap-x-4">
-    <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
-    <div>
-      <Heading color="lilac" size="3xl">
-        {episodeName || episode_link}
-      </Heading>
-      <p className="text-queen-white uppercase">{role}</p>
+    <div className="flex gap-x-4">
+      <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
+      <div>
+        <button className="hover:text-blue-500" onClick={() => {/* Add your onClick functionality */}}>
+          <Heading color="lilac" size="3xl">
+            {episodeName || episode_link}
+          </Heading>
+        </button>
+        <p className="text-queen-white uppercase">{role}</p>
+      </div>
     </div>
-  </div>
-);
+  );
+  
 
 const Empty = () => {
   const pathname = usePathname();
@@ -80,7 +83,7 @@ const Credits = () => {
 
   const { user } = useUser();
   const credits = user?.profile_meta?.credits || [];
-  console.log("hhhhhhhhhh", credits);
+  console.log("Credits:", credits);
   const [viewMore, setViewMore] = useState(false);
   const [viewableCredits, setViewableCredits] = useState(
     credits.slice(0, LIMIT)
@@ -110,7 +113,7 @@ const Credits = () => {
               .split("/episode/")[1]
               .split("?")[0];
             const episodeData = await getEpisodeDetails(episodeId);
-            const episodeName = `${episodeData.show.name} | Episode ${episodeData.episode_number}: ${episodeData.name}`;
+            const episodeName = episodeData.episodeName; // Only show name
             const coverImage = episodeData.images[0].url; // Assuming the first image is the cover image
 
             // Update the credit object in the array
