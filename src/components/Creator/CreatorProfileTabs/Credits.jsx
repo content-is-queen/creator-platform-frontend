@@ -53,17 +53,72 @@ const getEpisodeDetails = async (episodeId) => {
   return { ...episodeData, episodeName };
 };
 
-const Credit = ({ episode_link, role, episodeName }) => (
-  <div className="flex gap-x-4">
-    <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
-    <div>
-      <Heading color="lilac" size="3xl">
-        {episodeName || episode_link}
-      </Heading>
-      <p className="text-queen-white uppercase">{role}</p>
+const Credit = ({ episode_link, role, episodeName, coverImage, user }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleAddToFavorites = async () => { // Remove 'credit' parameter since it's not needed
+    try {
+      const currentUser = user;
+      if (!currentUser || !currentUser.uid || !episode_link) {
+        console.error("User not authenticated or credit data incomplete.");
+        return;
+      }
+  
+      const userRef = doc(db, "users", currentUser.uid);
+      const newShowcaseItem = {
+        episode_link,
+        episodeName,
+        role,
+        coverImage,
+      };
+  
+      // Find and remove existing showcase item with the same episode link, if any
+      const updatedShowcase = (currentUser.profile_meta.showcase || []).filter(
+        (item) => item.episode_link !== episode_link
+      );
+  
+      // Add the new showcase item to the updated showcase array
+      updatedShowcase.push(newShowcaseItem);
+  
+      // Update the showcase in Firestore
+      await updateDoc(userRef, {
+        "profile_meta.showcase": updatedShowcase,
+      });
+  
+      console.log("Showcase updated successfully!");
+      console.log("Updated Showcase:", updatedShowcase);
+    } catch (error) {
+      console.error("Error updating showcase:", error);
+    }
+  };
+
+  return (
+    <div className="flex gap-x-4" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
+      <div>
+        <Heading color="lilac" size="3xl">{episodeName || episode_link}</Heading>
+        <p className="text-queen-white uppercase">{role}</p>
+      </div>
+      {isHovered && (
+        <button
+          style={{ backgroundColor: '#FF7300', color: '#fff', padding: '0.45rem 1.45rem', borderRadius: '1.5rem', textAlign: 'center', fontSize: '0.8rem' }}
+          onClick={handleAddToFavorites} 
+        >
+          <FontAwesomeIcon icon={faPlus} className="text-queen-yellow" />
+        </button>
+      )}
     </div>
-  </div>
-);
+  );
+};
+
 
 const Empty = () => {
   const pathname = usePathname();
@@ -146,6 +201,11 @@ const Credits = () => {
                 key={credit.episode_link}
                 {...credit}
                 episodeName={episodeNames[credit.episode_link]}
+                coverImage={credit.coverImage} 
+
+                onAddToFavorites={() => handleAddToFavorites(credit)}
+                user={user}
+
               />
             ))}
           </div>
