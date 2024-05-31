@@ -54,19 +54,16 @@ const getEpisodeDetails = async (episodeId) => {
 };
 
 const Credit = ({ episode_link, role, episodeName }) => (
-    <div className="flex gap-x-4">
-      <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
-      <div>
-        <button className="hover:text-blue-500" onClick={() => {/* Add your onClick functionality */}}>
-          <Heading color="lilac" size="3xl">
-            {episodeName || episode_link}
-          </Heading>
-        </button>
-        <p className="text-queen-white uppercase">{role}</p>
-      </div>
+  <div className="flex gap-x-4">
+    <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
+    <div>
+      <Heading color="lilac" size="3xl">
+        {episodeName || episode_link}
+      </Heading>
+      <p className="text-queen-white uppercase">{role}</p>
     </div>
-  );
-  
+  </div>
+);
 
 const Empty = () => {
   const pathname = usePathname();
