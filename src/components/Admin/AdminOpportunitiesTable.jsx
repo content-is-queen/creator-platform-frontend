@@ -31,7 +31,9 @@ const TableBody = (props) => {
   );
 };
 
-const AdminOpportunitiesTable = ({ opportunities }) => {
+const AdminOpportunitiesTable = () => {
+
+  const [opportunities, setOpportunities] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [selectedOpportunities, setSelectedOpportunities] = useState([]);
@@ -40,7 +42,24 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
 
   const { token } = useToken();
 
+  const getOpportunities = async () => {
+    // Prevent build failing during workflows build test
+    // if (process.env.APP_ENV === "development") {
+    //   return [];
+    // }
+
+    try {
+      const data =await API.get("/admin/opportunities");
+      setFilteredOpportunities(data.data.message);
+      return data;
+    } catch (error) {
+      console.log(error, "PPPPPPPPPPPPPPPPPP");
+      // throw new Error("Something went wrong when getting opportunities");
+    }
+  };
+
   useEffect(() => {
+    getOpportunities();
     setLoading(false);
   }, []);
 

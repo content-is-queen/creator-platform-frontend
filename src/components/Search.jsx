@@ -24,7 +24,7 @@ const Search = ({ data = [], setFilteredData, filter }) => {
   const buildTags = (data) => {
     const tags = [];
 
-    data.forEach((tag) => {
+    data?.forEach((tag) => {
       // Prevent duplicates
       if (!tags.includes(tag[filter.tag])) tags.push(tag[filter.tag]);
     });
@@ -38,7 +38,7 @@ const Search = ({ data = [], setFilteredData, filter }) => {
         return data;
       }
 
-      return data.filter((i) => {
+      return data?.filter((i) => {
         let filterData = false;
 
         filter.keys.forEach((key) => {
@@ -60,7 +60,7 @@ const Search = ({ data = [], setFilteredData, filter }) => {
   useEffect(() => {
     setFilteredData(
       selectedTags.length > 0
-        ? data.filter((i) => selectedTags.includes(i[filter.tag]))
+        ? data?.filter((i) => selectedTags.includes(i[filter.tag]))
         : data
     );
   }, [selectedTags]);

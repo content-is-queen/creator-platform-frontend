@@ -10,7 +10,7 @@ const AdminOpportunitiesRow = ({
   title,
   status,
   deadline,
-  userName, // TODO: change to full_name
+  full_name, // TODO: change to full_name
   opportunity_id,
   numberOfApplications,
   setError,
@@ -50,7 +50,7 @@ const AdminOpportunitiesRow = ({
         {title}
       </Table.Data>
       <Table.Data>{status}</Table.Data>
-      <Table.Data>{userName}</Table.Data>
+      <Table.Data>{full_name}</Table.Data>
       <Table.Data>{deadline}</Table.Data>
       <Table.Data>{numberOfApplications}</Table.Data>
       <Table.Data>

@@ -21,7 +21,6 @@ const getUsers = async () => {
 
 const UsersOpportunities = async () => {
   const users = await getUsers();
-
   return (
     <Container size="6xl" className="mt-16">
       <AdminUsersTable users={users} />

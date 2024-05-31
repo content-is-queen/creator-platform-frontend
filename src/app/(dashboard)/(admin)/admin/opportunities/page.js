@@ -10,7 +10,8 @@ const getOpportunities = async () => {
   }
 
   try {
-    await API.get("/admin/opportunities?limit=0");
+await API.get("/admin/opportunities");
+return
   } catch (error) {
     console.log(error);
   }
@@ -18,7 +19,6 @@ const getOpportunities = async () => {
 
 const AdminOpportunities = async () => {
   const opportunities = await getOpportunities();
-
   return (
     <Container size="6xl" className="mt-16">
       <AdminOpportunitiesTable opportunities={opportunities} />
