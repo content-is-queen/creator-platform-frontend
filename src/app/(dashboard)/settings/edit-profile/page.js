@@ -87,6 +87,8 @@ const EditProfile = () => {
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
 
         setUser({ ...user, ...userProfile });
+        console.log("Redirecting to /profile...");
+
         router.push("/profile");
       } else {
         setError({ message: res.message });

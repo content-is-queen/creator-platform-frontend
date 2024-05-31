@@ -9,7 +9,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ButtonText from "@/components/ButtonText";
 import Heading from "@/components/Heading";
 import { db } from "@/firebase.config";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
@@ -56,6 +56,24 @@ const getEpisodeDetails = async (episodeId) => {
 const Credit = ({ episode_link, role, episodeName, coverImage, user }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const [isAdded, setIsAdded] = useState(false);
+
+  useEffect(() => {
+    const checkIfAdded = async () => {
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.data();
+      const showcase = userData?.profile_meta?.showcase || [];
+
+      const exists = showcase.some(
+        (item) => item.episode_link === episode_link
+      );
+      setIsAdded(exists);
+    };
+
+    checkIfAdded();
+  }, [episode_link, user.uid]);
+
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -64,14 +82,14 @@ const Credit = ({ episode_link, role, episodeName, coverImage, user }) => {
     setIsHovered(false);
   };
 
-  const handleAddToFavorites = async () => { // Remove 'credit' parameter since it's not needed
+  const handleAddToFavorites = async () => {
     try {
       const currentUser = user;
       if (!currentUser || !currentUser.uid || !episode_link) {
         console.error("User not authenticated or credit data incomplete.");
         return;
       }
-  
+
       const userRef = doc(db, "users", currentUser.uid);
       const newShowcaseItem = {
         episode_link,
@@ -79,38 +97,58 @@ const Credit = ({ episode_link, role, episodeName, coverImage, user }) => {
         role,
         coverImage,
       };
-  
-      // Find and remove existing showcase item with the same episode link, if any
-      const updatedShowcase = (currentUser.profile_meta.showcase || []).filter(
-        (item) => item.episode_link !== episode_link
-      );
-  
-      // Add the new showcase item to the updated showcase array
-      updatedShowcase.push(newShowcaseItem);
-  
+
+      // Fetch current showcase
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.data();
+      const currentShowcase = userData.profile_meta.showcase || [];
+
+      // Limit the number of credits in showcase to 6
+      if (currentShowcase.length >= 6) {
+        console.error("Maximum number of credits reached. Cannot add more.");
+        return;
+      }
+
+      // Append the new showcase item to the existing showcase
+      const updatedShowcase = [...currentShowcase, newShowcaseItem];
+
       // Update the showcase in Firestore
       await updateDoc(userRef, {
         "profile_meta.showcase": updatedShowcase,
       });
-  
+
       console.log("Showcase updated successfully!");
       console.log("Updated Showcase:", updatedShowcase);
+      setIsAdded(true); // <-- Set isAdded to true here
     } catch (error) {
       console.error("Error updating showcase:", error);
     }
   };
 
   return (
-    <div className="flex gap-x-4" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div
+      className="flex gap-x-4"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
       <div>
-        <Heading color="lilac" size="3xl">{episodeName || episode_link}</Heading>
+        <Heading color="lilac" size="3xl">
+          {episodeName || episode_link}
+        </Heading>
         <p className="text-queen-white uppercase">{role}</p>
       </div>
-      {isHovered && (
+      {isHovered && !isAdded && (
         <button
-          style={{ backgroundColor: '#FF7300', color: '#fff', padding: '0.45rem 1.45rem', borderRadius: '1.5rem', textAlign: 'center', fontSize: '0.8rem' }}
-          onClick={handleAddToFavorites} 
+          style={{
+            backgroundColor: "#FF7300",
+            color: "#fff",
+            padding: "0.45rem 1.45rem",
+            borderRadius: "1.5rem",
+            textAlign: "center",
+            fontSize: "0.8rem",
+          }}
+          onClick={handleAddToFavorites}
         >
           <FontAwesomeIcon icon={faPlus} className="text-queen-yellow" />
         </button>
@@ -118,7 +156,6 @@ const Credit = ({ episode_link, role, episodeName, coverImage, user }) => {
     </div>
   );
 };
-
 
 const Empty = () => {
   const pathname = usePathname();
@@ -201,11 +238,9 @@ const Credits = () => {
                 key={credit.episode_link}
                 {...credit}
                 episodeName={episodeNames[credit.episode_link]}
-                coverImage={credit.coverImage} 
-
+                coverImage={credit.coverImage}
                 onAddToFavorites={() => handleAddToFavorites(credit)}
                 user={user}
-
               />
             ))}
           </div>
