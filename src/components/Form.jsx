@@ -85,7 +85,14 @@ const Datalist = ({ name, options, children, ...otherProps }) => (
   </div>
 );
 
-const Checkbox = ({ name, options, children, max, ...otherProps }) => {
+const Checkbox = ({
+  name,
+  options,
+  children,
+  max,
+  description,
+  ...otherProps
+}) => {
   const [selected, setSelected] = useState([]);
 
   const handleChange = (e) => {
@@ -101,7 +108,7 @@ const Checkbox = ({ name, options, children, max, ...otherProps }) => {
   return (
     <div key={name}>
       <Text className="mb-4 uppercase">{children}</Text>
-      <div className="space-y grid grid-cols-2">
+      <div className="space-y grid grid-cols-2 gap-6">
         {options.map((option) => {
           if (typeof option === "string") {
             return (
@@ -111,7 +118,7 @@ const Checkbox = ({ name, options, children, max, ...otherProps }) => {
               >
                 <input
                   type="checkbox"
-                  className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-80"
+                  className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
                   name={option}
                   id={option}
                   onChange={handleChange}
@@ -125,18 +132,52 @@ const Checkbox = ({ name, options, children, max, ...otherProps }) => {
               </div>
             );
           }
-          return <></>;
+          return (
+            <div className="items-center gap-3 w-full" key={option}>
+              {description && (
+                <span className="block text-sm text-queen-black/80">
+                  {description}
+                </span>
+              )}
+              <span className="font-subheading mb-2 inline-block">
+                {option.title}
+              </span>
+              {option.categories.map((category) => (
+                <div
+                  key={category}
+                  className="inline-flex items-center gap-3 w-full"
+                >
+                  <input
+                    type="checkbox"
+                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    name={name}
+                    id={category}
+                    onChange={handleChange}
+                    value={category}
+                    disabled={disabled && !selected.includes(category)}
+                    {...otherProps}
+                  />
+                  <label for={name} className="text-sm">
+                    {category}
+                  </label>
+                </div>
+              ))}
+            </div>
+          );
         })}
       </div>
     </div>
   );
 };
 
-const Textarea = ({ name, children, ...otherProps }) => (
+const Textarea = ({ name, children, description, ...otherProps }) => (
   <div>
     <label className="uppercase" for={name}>
       {children}
     </label>
+    {description && (
+      <span className="block text-sm text-queen-black/80">{description}</span>
+    )}
     <textarea
       name={name}
       rows={6}

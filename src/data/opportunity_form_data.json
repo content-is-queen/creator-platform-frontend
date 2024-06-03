@@ -82,7 +82,7 @@
       {
         "name": "skills",
         "type": "checkbox",
-        "children": "Skills Required (Choose 2 - 3)",
+        "children": "Skills Required (Choose up to 3)",
         "max": "3",
         "options": [
           "Audio Editing",
@@ -158,15 +158,15 @@
         "options": [
           {
             "title": "Age Group:",
-            "options": ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
+            "categories": ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
           },
           {
             "title": "Gender",
-            "options": ["Male", "Female", "Non-Binary", "Prefer not to say"]
+            "categories": ["Male", "Female", "Non-Binary", "Prefer not to say"]
           },
           {
             "title": "Interests",
-            "options": [
+            "categories": [
               "Technology and Gadgets",
               "Health and Fitness",
               "Finance and Investing",
@@ -250,15 +250,15 @@
         "options": [
           {
             "title": "Age Group:",
-            "options": ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
+            "categories": ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
           },
           {
             "title": "Gender",
-            "options": ["Male", "Female", "Non-Binary", "Prefer not to say"]
+            "categories": ["Male", "Female", "Non-Binary", "Prefer not to say"]
           },
           {
             "title": "Income Level",
-            "options": [
+            "categories": [
               "Less than £20,000",
               "£20,000 - £40,000",
               "£40,000 - £60,000",
@@ -268,7 +268,7 @@
           },
           {
             "title": "Education Level",
-            "options": [
+            "categories": [
               "High School or Equivalent",
               "Some College",
               "Bachelor's Degree",
@@ -278,7 +278,7 @@
           },
           {
             "title": "Geographic Location",
-            "options": [
+            "categories": [
               "North America",
               "South America",
               "Europe",
@@ -290,7 +290,7 @@
           },
           {
             "title": "Ethnicity",
-            "options": [
+            "categories": [
               "African",
               "Asian",
               "Caucasian",
@@ -303,7 +303,7 @@
           },
           {
             "title": "Interests",
-            "options": [
+            "categories": [
               "Technology and Gadgets",
               "Health and Fitness",
               "Finance and Investing",
