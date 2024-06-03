@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, useState } from "react";
 
 import Text from "@/components/Text";
