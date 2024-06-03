@@ -4,6 +4,7 @@ import { forwardRef, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
+import { set } from "lodash";
 
 export const inputStyles = {
   input: [
@@ -47,7 +48,7 @@ const Select = ({ name, options, children, ...otherProps }) => {
       </label>
       <select
         onChange={handleChange}
-        className="w-full"
+        className={clsx("w-full", showInput && "border-b-0")}
         name={showInput ? "" : name}
         id={name}
         {...otherProps}
@@ -84,32 +85,52 @@ const Datalist = ({ name, options, children, ...otherProps }) => (
   </div>
 );
 
-const Checkbox = ({ name, options, children, ...otherProps }) => (
-  <div key={name}>
-    <Text className="mb-4 uppercase">{children}</Text>
-    <div className="space-y grid grid-cols-2">
-      {options.map((option) => {
-        if (typeof option === "string") {
-          return (
-            <div className="inline-flex items-center gap-3 w-full" key={option}>
-              <input
-                type="checkbox"
-                className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-                name={option}
-                id={option}
-                {...otherProps}
-              />
-              <label for={name} className="text-sm">
-                {option}
-              </label>
-            </div>
-          );
-        }
-        return <></>;
-      })}
+const Checkbox = ({ name, options, children, max, ...otherProps }) => {
+  const [selected, setSelected] = useState([]);
+
+  const handleChange = (e) => {
+    setSelected((prev) => {
+      return e.target.checked
+        ? [...prev, e.target.value]
+        : prev.filter((i) => i !== e.target.value);
+    });
+  };
+
+  const disabled = selected.length === parseInt(max);
+
+  return (
+    <div key={name}>
+      <Text className="mb-4 uppercase">{children}</Text>
+      <div className="space-y grid grid-cols-2">
+        {options.map((option) => {
+          if (typeof option === "string") {
+            return (
+              <div
+                className="inline-flex items-center gap-3 w-full"
+                key={option}
+              >
+                <input
+                  type="checkbox"
+                  className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-80"
+                  name={option}
+                  id={option}
+                  onChange={handleChange}
+                  value={option}
+                  disabled={disabled && !selected.includes(option)}
+                  {...otherProps}
+                />
+                <label for={name} className="text-sm">
+                  {option}
+                </label>
+              </div>
+            );
+          }
+          return <></>;
+        })}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Textarea = ({ name, children, ...otherProps }) => (
   <div>
