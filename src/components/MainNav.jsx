@@ -85,6 +85,10 @@ const MainNav = () => {
         href: "/admin/users",
         label: "Users",
       },
+      {
+        href: "/admin/user/new",
+        label: "New User",
+      },
       { href: "/admin/billing", label: "Billing" },
     ],
   };

@@ -52,8 +52,7 @@ const AdminOpportunitiesTable = () => {
       setFilteredOpportunities(data.data.message);
       return data;
     } catch (error) {
-      console.log(error, "PPPPPPPPPPPPPPPPPP");
-      // throw new Error("Something went wrong when getting opportunities");
+      console.log(error);
     }
   };
 
