@@ -112,23 +112,22 @@ const Checkbox = ({
         {options.map((option) => {
           if (typeof option === "string") {
             return (
-              <div
-                className="inline-flex items-center gap-3 w-full"
-                key={option}
-              >
-                <input
-                  type="checkbox"
-                  className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
-                  name={option}
-                  id={option}
-                  onChange={handleChange}
-                  value={option}
-                  disabled={disabled && !selected.includes(option)}
-                  {...otherProps}
-                />
-                <label for={name} className="text-sm">
-                  {option}
-                </label>
+              <div key={option} className="-mb-6">
+                <div className="inline-flex items-center gap-x-3 w-full">
+                  <input
+                    type="checkbox"
+                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    name={option}
+                    id={option}
+                    onChange={handleChange}
+                    value={option}
+                    disabled={disabled && !selected.includes(option)}
+                    {...otherProps}
+                  />
+                  <label for={name} className="text-sm">
+                    {option}
+                  </label>
+                </div>
               </div>
             );
           }
@@ -139,7 +138,7 @@ const Checkbox = ({
                   {description}
                 </span>
               )}
-              <span className="font-subheading mb-2 inline-block">
+              <span className="font-subheading mb-2 inline-block text-sm">
                 {option.title}
               </span>
               {option.categories.map((category) => (

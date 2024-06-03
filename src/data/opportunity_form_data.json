@@ -82,7 +82,7 @@
       {
         "name": "skills",
         "type": "checkbox",
-        "children": "Skills Required (Choose up to 3)",
+        "children": "Skills Required (Select up to 3)",
         "max": "3",
         "options": [
           "Audio Editing",
@@ -245,7 +245,7 @@
       {
         "name": "target",
         "type": "checkbox",
-        "children": "Target Demographics (Choose all that apply)",
+        "children": "Target Demographics (Select up to 3)",
         "max": "3",
         "options": [
           {
