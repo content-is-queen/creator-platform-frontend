@@ -63,7 +63,7 @@ const LoginForm = () => {
 
       const { user } = response;
 
-      const userProfile = await getUserProfile(user);
+      const userProfile = await getUserProfile({ user });
 
       if (!userProfile) {
         setError({

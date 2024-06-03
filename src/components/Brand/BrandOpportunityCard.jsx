@@ -72,15 +72,6 @@ const BrandOpportunityCard = (props) => {
               <SubMenu.Item>
                 <button
                   type="button"
-                  onClick={() => editOpportunity(opportunity_id)}
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Edit
-                </button>
-              </SubMenu.Item>
-              <SubMenu.Item>
-                <button
-                  type="button"
                   onClick={() => deleteOpportunity(opportunity_id)}
                   className="px-4 py-1 w-full text-left inline-block"
                 >

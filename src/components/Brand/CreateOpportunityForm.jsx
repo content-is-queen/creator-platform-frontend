@@ -2,7 +2,7 @@
 
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -59,10 +59,10 @@ const CreateOpportunityForm = ({ type }) => {
       window.location = "/";
     } catch (err) {
       setError({
-        message: "Something went wrong...",
+        message: err.response.data.message,
       });
 
-      console.error(err);
+      console.error(err.response);
     } finally {
       setLoading(false);
     }
@@ -76,18 +76,36 @@ const CreateOpportunityForm = ({ type }) => {
       handleSubmit={() => handleSubmit(fields, user.uid)}
     >
       <div className="space-y-10">
-        {fields.map(({ children, as, type, name, options }) => {
+        {fields.map(({ children, as, type, name, options, ...otherProps }) => {
           if (as === "select") {
             return (
-              <Form.Select key={name} name={name} options={options}>
+              <Form.Select
+                key={name}
+                name={name}
+                options={options}
+                {...otherProps}
+              >
                 {children}
               </Form.Select>
             );
           }
 
+          if (as === "datalist") {
+            return (
+              <Form.Datalist
+                key={name}
+                name={name}
+                options={options}
+                {...otherProps}
+              >
+                {children}
+              </Form.Datalist>
+            );
+          }
+
           if (as === "textarea") {
             return (
-              <Form.Textarea key={name} name={name}>
+              <Form.Textarea key={name} name={name} {...otherProps}>
                 {children}
               </Form.Textarea>
             );
@@ -95,13 +113,18 @@ const CreateOpportunityForm = ({ type }) => {
 
           if (type === "checkbox") {
             return (
-              <Form.Checkbox key={name} name={name} options={options}>
+              <Form.Checkbox
+                key={name}
+                name={name}
+                options={options}
+                {...otherProps}
+              >
                 {children}
               </Form.Checkbox>
             );
           }
           return (
-            <Form.Input key={name} name={name} type={type}>
+            <Form.Input key={name} name={name} type={type} {...otherProps}>
               {children}
             </Form.Input>
           );

@@ -65,13 +65,10 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        const userProfile = await getUserProfile();
+        // Update local users profile
+        const userProfile = await getUserProfile({ token });
 
         if (!userProfile) {
-          setError({
-            message: "Something went wrong when updating your profile",
-          });
-
           throw new Error(
             "Something went wrong when updating the user profile"
           );

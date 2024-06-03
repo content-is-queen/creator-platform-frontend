@@ -8,7 +8,11 @@ import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import useToken from "@/hooks/useToken";
 
-const ApplicationProposalForm = ({ opportunityId, brandId, prompt }) => {
+const ApplicationProposalForm = ({
+  opportunityId,
+  brandId,
+  application_instructions,
+}) => {
   const { user } = useUser();
   const token = useToken();
 
@@ -72,7 +76,7 @@ const ApplicationProposalForm = ({ opportunityId, brandId, prompt }) => {
             minLength={5}
             required
           >
-            {prompt || "Write how you will approach the opportunity"}
+            {application_instructions || "Write a cover letter"}
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
