@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
@@ -27,12 +27,29 @@ export const Success = ({ children }) => (
 );
 
 const Select = ({ name, options, children, ...otherProps }) => {
+  const [showInput, setShowInput] = useState(false);
+
+  const handleChange = (e) => {
+    if (e.target.value === "Other") {
+      setShowInput(true);
+      return;
+    }
+
+    setShowInput(false);
+  };
+
   return (
     <div key={name}>
       <label className="uppercase" for={name}>
         {children}
       </label>
-      <select className="w-full" name={name} id={name} {...otherProps}>
+      <select
+        onChange={handleChange}
+        className="w-full"
+        name={showInput ? "" : name}
+        id={name}
+        {...otherProps}
+      >
         <option value="" selected disabled>
           Select
         </option>
@@ -40,6 +57,7 @@ const Select = ({ name, options, children, ...otherProps }) => {
           <option key={`${option}-${index}`}>{option}</option>
         ))}
       </select>
+      {showInput && <Form.Input name={name} className="mt-4" />}
     </div>
   );
 };
