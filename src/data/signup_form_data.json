@@ -59,7 +59,7 @@
             "children": "Podacast Name (optional)"
           },
           {
-            "name": "podcast_link",
+            "name": "podcast_url",
             "type": "url",
             "children": "Link To Podcast (optional)"
           }

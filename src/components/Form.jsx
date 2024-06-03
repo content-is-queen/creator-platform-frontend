@@ -14,23 +14,37 @@ export const inputStyles = {
   ].join(" "),
 };
 
-const Select = ({ name, options, children }) => (
-  <div key={name}>
-    <label className="uppercase" for={name}>
-      {children}
-    </label>
-    <select className="w-full" name={name} id={name}>
-      <option value="" selected disabled>
-        Select
-      </option>
-      {options.map((option, index) => (
-        <option key={`${option}-${index}`}>{option}</option>
-      ))}
-    </select>
+export const Error = ({ children }) => (
+  <div className="border-l-red-600 border-l-4 bg-red-50 text-queen-black/90 text-sm mt-4 py-2 px-4 rounded-sm">
+    <p>{children}</p>
   </div>
 );
 
-const DynamicDatalist = ({ name, options, children, ...otherProps }) => (
+export const Success = ({ children }) => (
+  <div className="border-l-green-600 border-l-4 bg-green-50 text-queen-black/90 text-sm mt-4 py-2 px-4">
+    <p>{children}</p>
+  </div>
+);
+
+const Select = ({ name, options, children, ...otherProps }) => {
+  return (
+    <div key={name}>
+      <label className="uppercase" for={name}>
+        {children}
+      </label>
+      <select className="w-full" name={name} id={name} {...otherProps}>
+        <option value="" selected disabled>
+          Select
+        </option>
+        {options.map((option, index) => (
+          <option key={`${option}-${index}`}>{option}</option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+const Datalist = ({ name, options, children, ...otherProps }) => (
   <div className="mb-4">
     <label htmlFor={name} className="uppercase">
       {children}
@@ -50,35 +64,29 @@ const DynamicDatalist = ({ name, options, children, ...otherProps }) => (
   </div>
 );
 
-export const Error = ({ children }) => (
-  <div className="border-l-red-600 border-l-4 bg-red-50 text-queen-black/90 text-sm mt-4 py-2 px-4 rounded-sm">
-    <p>{children}</p>
-  </div>
-);
-
-export const Success = ({ children }) => (
-  <div className="border-l-green-600 border-l-4 bg-green-50 text-queen-black/90 text-sm mt-4 py-2 px-4">
-    <p>{children}</p>
-  </div>
-);
-
-const Checkbox = ({ name, options, children }) => (
+const Checkbox = ({ name, options, children, ...otherProps }) => (
   <div key={name}>
     <Text className="mb-4 uppercase">{children}</Text>
-    <div className="space-y">
-      {options.map((option) => (
-        <div className="inline-flex items-center gap-3 w-full" key={option}>
-          <input
-            type="checkbox"
-            className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-            name={option}
-            id={option}
-          />
-          <label for={name} className="text-sm">
-            {option}
-          </label>
-        </div>
-      ))}
+    <div className="space-y grid grid-cols-2">
+      {options.map((option) => {
+        if (typeof option === "string") {
+          return (
+            <div className="inline-flex items-center gap-3 w-full" key={option}>
+              <input
+                type="checkbox"
+                className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
+                name={option}
+                id={option}
+                {...otherProps}
+              />
+              <label for={name} className="text-sm">
+                {option}
+              </label>
+            </div>
+          );
+        }
+        return <></>;
+      })}
     </div>
   </div>
 );
@@ -116,7 +124,6 @@ const Input = ({
     {description && (
       <span className="block text-sm text-queen-black/80">{description}</span>
     )}
-
     <input
       type={type}
       className={inputStyles.input}
@@ -166,7 +173,7 @@ Form.Checkbox = Checkbox;
 
 Form.Select = Select;
 
-Form.DynamicDatalist = DynamicDatalist;
+Form.Datalist = Datalist;
 
 Form.Success = Success;
 

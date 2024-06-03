@@ -97,7 +97,7 @@ const BrandApplicationCard = ({
         );
       }
 
-      setMessage({ status: "accepted", room: response.data.room });
+      setMessage({ status: "accepted", room: response.data.roomId });
       console.log(response);
 
       // TODO: Add screen to take to conversation
