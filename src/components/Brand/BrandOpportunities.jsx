@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useRef } from "react";
+import clsx from "clsx";
 
+import { useState, useRef, useEffect, useCallback } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { register } from "swiper/element/bundle";
 
 import Tabs from "@/components/Tabs";
 import Container from "../Container";
-import Heading from "../Heading";
 import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
 import SpinnerScreen from "@/components/SpinnerScreen";
 
@@ -22,8 +25,8 @@ const BrandOpportunities = () => {
       id: "all",
     },
     {
-      label: "Live",
-      id: "live",
+      label: "Open",
+      id: "open",
     },
     {
       label: "In Progress",
@@ -38,6 +41,7 @@ const BrandOpportunities = () => {
   const { user } = useUser();
 
   const [active, setActive] = useState(OPTIONS[0]);
+  const [filteredOpportunities, setFilteredOpportunities] = useState([]);
 
   const { opportunities, setOpportunities, loading } = useOpportunities(
     { user_id: user.uid },
@@ -45,38 +49,90 @@ const BrandOpportunities = () => {
       setOpportunities(
         data.opportunities.filter((i) => i.status !== "archived")
       );
+
+      setFilteredOpportunities(
+        data.opportunities.filter((i) => i.status !== "archived")
+      );
     }
   );
 
-  const swiperElRef = useRef(null);
+  const swiperRef = useRef(null);
 
-  const filterOpportunities = (opportunities) => {
-    active.id === "all"
-      ? opportunities
-      : opportunities.filter((i) => i.status === active.id);
-  };
+  const handlePrev = useCallback(() => {
+    if (!swiperRef.current) return;
+    swiperRef.current.swiper.slidePrev();
+  }, []);
 
-  // TODO: on change update swiper to start at the index of the first slide
+  const handleNext = useCallback(() => {
+    if (!swiperRef.current) return;
+    swiperRef.current.swiper.slideNext();
+  }, []);
+
+  useEffect(() => {
+    const swiperContainer = swiperRef.current;
+
+    const params = {
+      slidesPerView: 3,
+      spaceBetween: 20,
+    };
+
+    // Filter opportunities by their statuses
+    setFilteredOpportunities(
+      active.id === "all"
+        ? opportunities
+        : opportunities.filter((i) => i.status === active.id)
+    );
+
+    // Swiper initialization
+    if (opportunities && swiperContainer) {
+      Object.assign(swiperContainer, params);
+      swiperContainer.initialize();
+    }
+  }, [filteredOpportunities, active]);
+
   if (loading) return <SpinnerScreen />;
 
   if (opportunities?.length > 0) {
     return (
       <section>
         <Tabs options={OPTIONS} active={active} setActive={setActive} />
-        <swiper-container
-          ref={swiperElRef}
-          space-between="25"
-          slides-per-view="3"
-          navigation="true"
-          class="my-6"
-        >
-          {opportunities?.length > 0 &&
-            opportunities.map((opportunity, index) => (
-              <swiper-slide key={index} class="m-1">
-                <BrandOpportunityCard {...opportunity} />
-              </swiper-slide>
-            ))}
-        </swiper-container>
+        <div className="relative">
+          <swiper-container ref={swiperRef} init="false" class="my-6">
+            {filteredOpportunities.length > 0 ? (
+              filteredOpportunities.map((opportunity, index) => (
+                <swiper-slide key={index}>
+                  <div className="m-0.5">
+                    <BrandOpportunityCard {...opportunity} />
+                  </div>
+                </swiper-slide>
+              ))
+            ) : (
+              <div className="h-48 flex items-center justify-center text-center w-full">
+                You have no "{active.label}" opportunities
+              </div>
+            )}
+          </swiper-container>
+          {filteredOpportunities.length > 0 && (
+            <>
+              <button
+                type="button"
+                onClick={handlePrev}
+                className={clsx(
+                  "absolute -left-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
+                )}
+              >
+                <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
+              </button>
+              <button
+                type="button"
+                onClick={handleNext}
+                className="absolute -right-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+            </>
+          )}
+        </div>
       </section>
     );
   }
