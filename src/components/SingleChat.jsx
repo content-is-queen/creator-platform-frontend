@@ -86,8 +86,14 @@ const Body = ({ room }) => {
   }, [room]);
 
   useEffect(() => {
-    // Scroll to the latest message
-    if (messageBody)
+    const isOverflown = (element) => {
+      return (
+        element.scrollHeight > element.clientHeight ||
+        element.scrollWidth > element.clientWidth
+      );
+    };
+
+    if (isOverflown(messageBody.current))
       messageBody.current.scrollTop = messageBody.current.scrollHeight;
   }, [messages]);
 
