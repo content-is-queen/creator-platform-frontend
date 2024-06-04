@@ -10,6 +10,7 @@ const OpportunityCard = ({
   company,
   compensation,
   deadline,
+  salary,
   type,
   title,
   description,
@@ -18,10 +19,10 @@ const OpportunityCard = ({
 }) => (
   <Card>
     <div className="flex items-center gap-2.5 justify-between mb-4">
-      <Link href={`/profile/${user_id}`} className="flex items-center">
+      <Link href={`/profile/${user_id}`} className="flex gap-2 items-center">
         <ProfileIcon />
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
-          {company?.name}
+          {company}
         </span>
       </Link>
       <div className="flex gap-y-2 gap-x-6 item-center">
@@ -30,7 +31,7 @@ const OpportunityCard = ({
             Compensation
           </Text>
           <Text as="span" size="sm" color="muted">
-            {compensation}
+            {compensation || salary}
           </Text>
         </div>
 

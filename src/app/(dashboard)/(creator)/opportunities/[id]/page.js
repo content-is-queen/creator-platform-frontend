@@ -28,7 +28,7 @@ export const dynamicParams = false;
 
 export default async function Opportunity({ params: { id: opportunity_id } }) {
   const {
-    data: { title, description, company, type, compensation, user_id },
+    data: { title, description, company, type, compensation, salary, user_id },
   } = await API(`/opportunities/opportunityid/${opportunity_id}`);
 
   return (
@@ -48,11 +48,12 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               {title}
             </Heading>
             <Text size="sm" className="capitalize">
-              {company} &bull; {type} &bull; {compensation}
+              {company || "Company"} &bull; {type} &bull;{" "}
+              {compensation || salary}
             </Text>
           </div>
 
-          <div className="space-y-5 min-h-24">{description}</div>
+          <div className="space-y-5 min-h-24 max-w-lg">{description}</div>
 
           <ApplicationProposalForm
             opportunityId={opportunity_id}

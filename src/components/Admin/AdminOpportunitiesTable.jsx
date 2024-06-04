@@ -83,7 +83,7 @@ const AdminOpportunitiesTable = () => {
   };
 
   const handleCheckAll = () => {
-    const deselect = selectedOpportunities.length === opportunities.length;
+    const deselect = selectedOpportunities?.length === opportunities.length;
 
     deselect
       ? setSelectedOpportunities(() => {

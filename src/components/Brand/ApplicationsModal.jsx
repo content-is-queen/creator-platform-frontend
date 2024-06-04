@@ -1,5 +1,7 @@
 "use client";
 
+import clsx from "clsx";
+
 import { useEffect, useState, useRef, useCallback } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +14,6 @@ import API from "@/api/api";
 import BrandApplicationCard from "@/components/Brand/BrandApplicationCard";
 import SpinnerScreen from "@/components/SpinnerScreen";
 import Text from "@/components/Text";
-import clsx from "clsx";
 import Card from "../Card";
 
 register();
@@ -26,22 +27,22 @@ const ApplicationsModal = ({
   const [applications, setApplications] = useState([]);
   const [loading, setloading] = useState(true);
 
-  const swiperElRef = useRef(null);
+  const swiperRef = useRef(null);
 
   const handlePrev = useCallback(() => {
-    if (!swiperElRef.current) return;
-    swiperElRef.current.swiper.slidePrev();
+    if (!swiperRef.current) return;
+    swiperRef.current.swiper.slidePrev();
   }, []);
 
   const handleNext = useCallback(() => {
-    if (!swiperElRef.current) return;
-    swiperElRef.current.swiper.slideNext();
+    if (!swiperRef.current) return;
+    swiperRef.current.swiper.slideNext();
   }, []);
 
   const getApplicationsById = async (id) => {
     try {
       const { data } = await API.get(`/applications/opportunity/${id}`);
-      setApplications(data.filter((i) => i.status === "pending"));
+      setApplications(data?.filter((i) => i.status === "pending"));
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,13 +57,13 @@ const ApplicationsModal = ({
   useEffect(() => {}, [applications]);
 
   useEffect(() => {
-    if (swiperElRef.current) {
-      console.log(swiperElRef);
-      swiperElRef.current.addEventListener("swiperslidechange", (e) => {
+    if (swiperRef.current) {
+      console.log(swiperRef);
+      swiperRef.current.addEventListener("swiperslidechange", (e) => {
         console.log("slide changed");
       });
     }
-  }, [swiperElRef]);
+  }, [swiperRef]);
 
   if (loading) {
     return <SpinnerScreen />;
@@ -80,7 +81,7 @@ const ApplicationsModal = ({
           {applications.length > 0 ? (
             <>
               <swiper-container
-                ref={swiperElRef}
+                ref={swiperRef}
                 space-between="25"
                 slides-per-view="1"
                 class="w-full max-h-screen"
