@@ -132,28 +132,32 @@ const EditProfile = () => {
             Bio
           </Form.Input>
         </div>
-
         <div className="space-y-10">
-          <ShowreelInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
+          {/* Conditionally render ShowreelInput, ShowcaseInput, and CreditsInput */}
+          {user && user.role !== "brand" && (
+            <>
+              <ShowreelInput
+                setUpdated={setUpdated}
+                setLocalUser={setLocalUser}
+                localUser={localUser}
+                handleChange={handleChange}
+              />
 
-          <ShowcaseInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
+              <ShowcaseInput
+                setUpdated={setUpdated}
+                setLocalUser={setLocalUser}
+                localUser={localUser}
+                handleChange={handleChange}
+              />
 
-          <CreditsInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
+              <CreditsInput
+                setUpdated={setUpdated}
+                setLocalUser={setLocalUser}
+                localUser={localUser}
+                handleChange={handleChange}
+              />
+            </>
+          )}
         </div>
 
         <Button type="submit" as="button" {...(!updated && { disabled: true })}>
