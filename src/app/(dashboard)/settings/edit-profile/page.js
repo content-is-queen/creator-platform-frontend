@@ -49,7 +49,6 @@ const EditProfile = () => {
     });
   }, [user]);
 
-
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
@@ -126,7 +125,6 @@ const EditProfile = () => {
             Bio
           </Form.Input>
         </div>
-
 
         <div className="space-y-10">
           {/* Conditionally render ShowreelInput, ShowcaseInput, and CreditsInput */}
