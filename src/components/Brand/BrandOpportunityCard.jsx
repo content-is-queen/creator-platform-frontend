@@ -24,7 +24,8 @@ const BrandOpportunityCard = (props) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
 
-  const { compensation, deadline, status, title, opportunity_id } = props;
+  const { compensation, deadline, status, title, opportunity_id, salary } =
+    props;
 
   const statusLabel = status.replace("_", " ");
 
@@ -88,7 +89,7 @@ const BrandOpportunityCard = (props) => {
               Compensation
             </Text>
             <Text as="span" size="sm">
-              {compensation}
+              {compensation || salary}
             </Text>
           </div>
           <div className="flex flex-col">

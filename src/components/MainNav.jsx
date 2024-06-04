@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,6 +15,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
+import Button from "@/components/Button";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -22,6 +24,8 @@ const MainNav = () => {
   const router = useRouter();
 
   const { user, userLoaded, setUser } = useUser();
+
+  const standard = true;
 
   const pathname = usePathname();
 
@@ -98,7 +102,7 @@ const MainNav = () => {
         >
           <img
             src="/images/CiQ_Logo_Horizontal.svg"
-            className="h-10"
+            className="h-12"
             alt="Content is queen"
           />
         </Link>
@@ -109,24 +113,33 @@ const MainNav = () => {
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
-            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0">
+            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-6 rtl:space-x-reverse md:flex-row md:border-0">
               {LINKS[user?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
-                    pathname !== href && "opacity-80",
-                    pathname === href &&
-                      "relative after:absolute after:h-[1px] after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1"
+                    twMerge(
+                      pathname !== href && "opacity-80",
+                      "relative after:absolute after:h-[1px] after:w-0 after:bg-queen-yellow after:left-0 after:-bottom-1 hover:after:w-full transition-all",
+                      pathname === href && "after:w-full"
+                    )
                   )}
                 >
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
+              {standard && (
+                <li>
+                  <Button variant="yellow" href="/plus">
+                    Upgrade to plus
+                  </Button>
+                </li>
+              )}
               <li>
                 <button
                   type="button"
                   onClick={handleIsUserClicked}
-                  className="flex text-sm  rounded-full md:me-0 focus:ring-4"
+                  className="flex text-sm rounded-full md:me-0 focus:ring-4"
                   id="user-menu-button"
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"

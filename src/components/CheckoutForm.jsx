@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import API from "@/api/api";
+import Button from "./Button";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
-const CheckoutForm = () => {
+const CheckoutForm = (className) => {
   const [loading, setLoading] = useState(false);
 
-  const handleCheckout = async () => {
+  const handleClick = async () => {
     setLoading(true);
 
     try {
@@ -38,6 +39,8 @@ const CheckoutForm = () => {
         { subscribed: true }
       );
 
+      // Add session id
+
       if (updateResponse.status === 200) {
         console.log("User subscription status updated successfully");
       } else {
@@ -51,11 +54,14 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleCheckout} disabled={loading}>
-        {loading ? "Processing..." : "Checkout"}
-      </button>
-    </div>
+    <Button
+      as="button"
+      type="button"
+      onClick={handleClick}
+      className={className}
+    >
+      {loading && <Button.Spinner />}Subscribe
+    </Button>
   );
 };
 
