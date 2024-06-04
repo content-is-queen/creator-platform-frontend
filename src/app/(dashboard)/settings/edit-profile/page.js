@@ -63,24 +63,19 @@ const EditProfile = () => {
     try {
       const res = await API.put(`/auth/user`, formData, {
         headers: {
+<<<<<<< HEAD
           "Content-Type": "multipart/form-data",
+=======
+>>>>>>> main
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (res.status === 200) {
-        // Update local users profile
+        // Update local user profile on successful update
         const userProfile = await getUserProfile({ token });
-
-        if (!userProfile) {
-          throw new Error(
-            "Something went wrong when updating the user profile"
-          );
-        }
-
         localStorage.removeItem("userProfile");
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
         setUser({ ...user, ...userProfile });
         console.log("Redirecting to /profile...");
 
@@ -90,7 +85,7 @@ const EditProfile = () => {
       }
     } catch (err) {
       console.error(err);
-      setError({ message: err.message });
+      setError({ message: err.message || "Server error" });
     } finally {
       setLoading(false);
     }
@@ -107,31 +102,33 @@ const EditProfile = () => {
         <div className="flex gap-x-6 w-full">
           <Form.Input
             name="first_name"
-            value={localUser?.first_name}
+            value={localUser.first_name}
             onChange={handleChange}
             className="w-full"
           >
             First Name
           </Form.Input>
-
           <Form.Input
             name="last_name"
-            value={localUser?.last_name}
+            value={localUser.last_name}
             onChange={handleChange}
             className="w-full"
           >
             Last Name
           </Form.Input>
         </div>
-
         <div className="space-y-10">
-          <Form.Input name="imageUrl" type="file" onChange={handleChange}>
+          <Form.Input
+            name="imageUrl"
+            type="file"
+            onChange={handleChange}
+            accept="image/*"
+          >
             Profile Picture
           </Form.Input>
-
           <Form.Input
             name="bio"
-            value={localUser?.bio}
+            value={localUser.bio}
             rows={5}
             onChange={handleChange}
           >
@@ -140,19 +137,23 @@ const EditProfile = () => {
         </div>
 
         <div className="space-y-10">
-          <ShowcaseInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
+          {user && user.role !== "brand" && (
+            <>
+              <ShowcaseInput
+                setUpdated={setUpdated}
+                setLocalUser={setLocalUser}
+                localUser={localUser}
+                handleChange={handleChange}
+              />
 
-          <CreditsInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
+              <CreditsInput
+                setUpdated={setUpdated}
+                setLocalUser={setLocalUser}
+                localUser={localUser}
+                handleChange={handleChange}
+              />
+            </>
+          )}
         </div>
 
         <Button type="submit" as="button" {...(!updated && { disabled: true })}>
