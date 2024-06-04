@@ -9,7 +9,6 @@ import useToken from "@/hooks/useToken";
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 import ShowcaseInput from "@/components/Creator/ShowcaseInput";
-import ShowreelInput from "@/components/Creator/ShowreelInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 
 const EditProfile = () => {
@@ -45,7 +44,6 @@ const EditProfile = () => {
       profile_meta: user?.profile_meta || {
         showcase: [],
         credits: [],
-        showreel: "",
       },
     });
   }, [user]);
@@ -142,13 +140,6 @@ const EditProfile = () => {
         </div>
 
         <div className="space-y-10">
-          <ShowreelInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
-
           <ShowcaseInput
             setUpdated={setUpdated}
             setLocalUser={setLocalUser}
