@@ -43,3 +43,16 @@ export const getOpportunities = async () => {
     console.log("Error: Getting opportunties:", error);
   }
 };
+
+export const getAppData = async () => {
+  // Prevent build failing during workflows build test
+  if (process.env.APP_ENV === "development") {
+    return [];
+  }
+
+  try {
+    const response = await API("/admin/info");
+  } catch (error) {
+    console.log("Error: Getting app data:", error);
+  }
+};
