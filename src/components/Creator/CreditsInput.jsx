@@ -108,26 +108,29 @@ const CreditsInput = ({ setLocalUser, handleChange }) => {
             key={index}
             className="flex items-center border-b border-queen-black/10 gap-4 pb-5 my-5"
           >
-            <span className="w-full block">
-              {name} - <b>{role}</b>
-            </span>
-            <img
-              src={cover.url}
-              height={70}
-              width={70}
-              alt=""
-              className="rounded"
-            />
-            <Button
-              type="button"
-              variant="white"
-              as="button"
-              onClick={() => {
-                remove(href);
-              }}
-            >
-              Remove
-            </Button>
+            <div>
+              <span className="w-full block max-w-sm truncate">{name}</span>
+              <span className="font-bold text-sm">{role}</span>
+            </div>
+            <div className="flex items-center gap-4 ml-auto">
+              <img
+                src={cover.url}
+                height={70}
+                width={70}
+                alt=""
+                className="rounded"
+              />
+              <Button
+                type="button"
+                variant="white"
+                as="button"
+                onClick={() => {
+                  remove(href);
+                }}
+              >
+                Remove
+              </Button>
+            </div>
           </div>
         ))}
 

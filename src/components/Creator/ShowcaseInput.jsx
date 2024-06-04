@@ -38,8 +38,8 @@ const ShowcaseInput = ({ setLocalUser, handleChange }) => {
   };
 
   useEffect(() => {
-    if (user && user.shows) {
-      setShows(JSON.parse(user.shows));
+    if (user && user.showcase) {
+      setShows(JSON.parse(user.showcase));
     }
 
     if (user && user.credits) {
@@ -73,11 +73,12 @@ const ShowcaseInput = ({ setLocalUser, handleChange }) => {
             key={index}
             className="flex items-center border-b border-queen-black/10 pb-5 my-5"
           >
-            <span className="w-full block">{show}</span>
+            <span className="w-full block max-w-lg truncate">{show}</span>
             <Button
               type="button"
               variant="white"
               as="button"
+              className="ml-auto"
               onClick={() => {
                 remove(show);
               }}
