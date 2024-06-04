@@ -31,7 +31,7 @@ const OpportunitiesSearch = ({ opportunities: initialOpportunities }) => {
           </div>
         ) : (
           <>
-            {filteredOpportunities.length > 0 ? (
+            {filteredOpportunities?.length > 0 ? (
               <>
                 {filteredOpportunities.map((opportunity) => (
                   <div key={opportunity.opportunity_id}>

@@ -58,7 +58,7 @@ const Conversations = () => {
           <SingleChat room={activeChat || null} />
         ) : (
           <Empty rooms={rooms} />
-        )}{" "}
+        )}
       </Container>
     </div>
   );

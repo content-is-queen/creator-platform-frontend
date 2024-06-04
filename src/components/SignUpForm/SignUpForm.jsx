@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import API from "@/api/api";
-import { getUserProfile, useUser } from "@/context/UserContext";
+import { useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
@@ -88,7 +88,7 @@ const SignUpForm = () => {
       const response = await API.get(`/auth/check-email?email=${email}`);
       return response.data.exists;
     } catch (error) {
-      console.error("Error checking email existence:", error);
+      console.log("Error checking email existence");
       return false;
     }
   };

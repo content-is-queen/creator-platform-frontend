@@ -83,11 +83,17 @@ const Body = ({ room }) => {
       setMessages(sortedMessages);
     });
     return () => unsubscribe;
-  }, []);
+  }, [room]);
 
   useEffect(() => {
-    // Always scroll to the latest message
-    if (messageBody)
+    const isOverflown = (element) => {
+      return (
+        element.scrollHeight > element.clientHeight ||
+        element.scrollWidth > element.clientWidth
+      );
+    };
+
+    if (isOverflown(messageBody.current))
       messageBody.current.scrollTop = messageBody.current.scrollHeight;
   }, [messages]);
 
@@ -139,6 +145,10 @@ const Footer = ({ room }) => {
     setMessage(e.target.value);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) sendMessage();
+  };
+
   return (
     <div className="relative ">
       <div className="w-full p-8">
@@ -148,6 +158,7 @@ const Footer = ({ room }) => {
           className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
           value={message}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
         <div className="absolute right-6 pr-4 items-center inset-y-0 hidden sm:flex">
           <button

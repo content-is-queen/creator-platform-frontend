@@ -5,24 +5,8 @@
     "fields": [
       {
         "name": "title",
-        "as": "select",
-        "options": [
-          "Host",
-          "Audio Editor",
-          "Producer",
-          "Voiceover Artist",
-          "Sound Designer",
-          "Production Assistant",
-          "Audience Development",
-          "Executive Producer",
-          "Other"
-        ],
-        "children": "Title/Role"
-      },
-      {
-        "name": "company",
         "type": "text",
-        "children": "Company/Organisation Name"
+        "children": "Title"
       },
       {
         "name": "description",
@@ -30,36 +14,129 @@
         "children": "Description"
       },
       {
-        "name": "skills",
-        "type": "checkbox",
-        "children": "Skills Required",
-        "options": ["Editing", "Scriptwriting", "Mixing"]
-      },
-      {
-        "name": "experience",
+        "name": "category",
         "as": "select",
-        "children": "Experience Level",
-        "options": ["Entry-level", "Mid-level", "Senior", "Expert"]
+        "options": [
+          "Podcast Production",
+          "Audio Editing",
+          "Voiceover",
+          "Scriptwriting",
+          "Sound Design",
+          "Music Composition",
+          "Podcast Advertising",
+          "Other"
+        ],
+        "children": "Category"
       },
       {
         "name": "contract_type",
         "as": "select",
         "children": "Contract Type",
-        "options": ["One-off", "Fixed-term", "Ongoing"]
+        "options": ["Freelance", "Full-time", "Part-time", "Contract"]
       },
       {
         "name": "location",
-        "as": "select",
-        "children": "Location",
-        "options": ["Remote", "Specific Location(s)", "Flexible"]
+        "type": "text",
+        "children": "Location"
       },
       {
-        "name": "compensation",
-        "as": "select",
-        "children": "Compensation",
-        "options": ["Fixed", "Range", "To be discussed"]
+        "name": "company",
+        "type": "text",
+        "children": "Company Name"
       },
-      { "name": "deadline", "type": "date", "children": "Deadline" }
+      {
+        "name": "company_website",
+        "type": "url",
+        "children": "Company Website"
+      },
+      {
+        "name": "company_description",
+        "as": "textarea",
+        "children": "Company Description"
+      },
+      {
+        "name": "company_contact_name",
+        "type": "text",
+        "children": "Contact Name"
+      },
+      {
+        "name": "company_contact_email",
+        "type": "email",
+        "children": "Contact Email"
+      },
+      {
+        "name": "company_contact_tel",
+        "type": "tel",
+        "children": "Contact Number"
+      },
+      {
+        "name": "experience",
+        "as": "select",
+        "children": "Experience Level",
+        "options": [
+          "Entry-level (1-2 years)",
+          "Mid-level (3 - 5 years)",
+          "Senior-level (5+ years)"
+        ]
+      },
+      {
+        "name": "skills",
+        "type": "checkbox",
+        "children": "Skills Required (Select up to 3)",
+        "max": "3",
+        "options": [
+          "Audio Editing",
+          "Sound Design",
+          "Mixing and Mastering",
+          "Voiceover Talent",
+          "Scriptwriting",
+          "Music Composition",
+          "Podcast Hosting",
+          "Interviewing Skills",
+          "Project Management",
+          "Social Media Marketing",
+          "SEO for Podcasts",
+          "Content Marketing",
+          "Ad Copywriting",
+          "Sponsorship Sales",
+          "Audience Analytics",
+          "Video Production",
+          "Filming",
+          "Video Editing",
+          "Commercial Partnerships",
+          "Advertising Sales",
+          "Brand Strategy",
+          "Marketing Analytics"
+        ]
+      },
+      {
+        "name": "education",
+        "type": "text",
+        "children": "Education Requirements"
+      },
+      { "name": "salary", "type": "text", "children": "Salary/Rate" },
+      {
+        "name": "terms",
+        "as": "select",
+        "children": "Payment Terms",
+        "options": ["Hourly", "Per Project", "Salary", "Other"]
+      },
+      {
+        "name": "benefits",
+        "as": "textarea",
+        "children": "Benefits Offered"
+      },
+      {
+        "name": "deadline",
+        "type": "date",
+        "children": "Application Deadline"
+      },
+      {
+        "name": "application_instructions",
+        "as": "textarea",
+        "children": "Application Instruction (optional)",
+        "description": "This is what creators will see when filling in an application form"
+      }
     ]
   },
   "pitch": {
@@ -70,88 +147,232 @@
       {
         "name": "description",
         "as": "textarea",
-        "children": "Description"
+        "children": "Description",
+        "description": "Please describe your intended audience. Include any specific details about who you are aiming to reach with your content."
       },
       {
         "name": "target",
-        "as": "select",
-        "children": "Target Audience",
-        "options": ["Women", "Millenials", "Sports Fans", "Other"]
-      },
-      {
-        "name": "format",
-        "as": "select",
-        "children": "Audio Format",
-        "options": ["Podcast", "Audiobook", "Radio Show", "Other"]
-      },
-      {
-        "name": "contract_type",
-        "as": "select",
-        "children": "Contract Type",
-        "options": ["30 min episodes", "2-hour audiobook"]
-      },
-      {
-        "name": "compensation",
-        "as": "select",
-        "children": "Compensation",
-        "options": ["Fixed", "Range", "To be discussed"]
-      },
-      {
-        "name": "submission",
         "type": "checkbox",
-        "children": "Submission Details",
-        "options": ["Summary", "Script Sample", "Audio Sample"]
+        "children": "Target Audience Characteristics (Choose up to 3)",
+        "max": "3",
+        "options": [
+          {
+            "title": "Age Group:",
+            "categories": ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
+          },
+          {
+            "title": "Gender",
+            "categories": ["Male", "Female", "Non-Binary", "Prefer not to say"]
+          },
+          {
+            "title": "Interests",
+            "categories": [
+              "Technology and Gadgets",
+              "Health and Fitness",
+              "Finance and Investing",
+              "Entertainment (Movies, TV, Music)",
+              "Education and Learning",
+              "Travel and Adventure",
+              "Food and Cooking",
+              "Sports and Outdoor Activities",
+              "Fashion and Beauty",
+              "Art and Design",
+              "Science and Nature",
+              "Home and Garden",
+              "Parenting and Family",
+              "Gaming and Esports",
+              "Cars and Motorcycles",
+              "History and Culture",
+              "Politics and Current Events",
+              "Literature and Books",
+              "Personal Development",
+              "Social Justice and Activism",
+              "Spiritulality and Religion",
+              "Environmental Issues",
+              "Business and Entrepreneurship",
+              "Relationships and Dating",
+              "Mental Health and Wellness",
+              "Hobbies and Crafts",
+              "Pet Care and Animal Lovers",
+              "DIY and Home Improvement",
+              "Other"
+            ]
+          }
+        ]
       },
-      { "name": "deadline", "type": "date", "children": "Deadline" }
+      {
+        "name": "content_duration",
+        "type": "text",
+        "placeholder": "e.g. 30 minutes, 1 hour",
+        "children": "Expected Duration of Content"
+      },
+      {
+        "name": "content_type",
+        "as": "select",
+        "children": "Type of Content",
+        "options": [
+          "One-off episode",
+          "Limited Series",
+          "Ongoing Series",
+          "Always On (daily/weekly show)"
+        ]
+      },
+      {
+        "name": "key_message",
+        "as": "textarea",
+        "children": "Key Message or Theme"
+      },
+      {
+        "name": "application_instructions",
+        "as": "textarea",
+        "children": "Application Instruction (optional)",
+        "description": "This is what creators will see when filling in an application form"
+      }
     ]
   },
   "campaign": {
     "label": "Advertising Campaign",
     "description": "An advertising campaign is a series of advertisement messages that share a single idea",
     "fields": [
-      { "name": "title", "type": "text", "children": "Campaign Name" },
-      { "name": "brand", "type": "text", "children": "Brand/Product" },
+      { "name": "title", "type": "text", "children": "Title" },
+      { "name": "description", "as": "textarea", "children": "Description" },
       {
-        "name": "description",
-        "as": "select",
-        "children": "Campaign Goals",
+        "name": "target",
+        "as": "textarea",
+        "children": "Target Audience",
+        "description": "Please describe your target audience. Include any specific details about who you are aiming to reach with your ad campaign."
+      },
+      {
+        "name": "target",
+        "type": "checkbox",
+        "children": "Target Demographics (Select up to 3)",
+        "max": "3",
         "options": [
-          "Brand Awareness",
-          "Product Sales",
-          "Event Promotion",
+          {
+            "title": "Age Group:",
+            "categories": ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
+          },
+          {
+            "title": "Gender",
+            "categories": ["Male", "Female", "Non-Binary", "Prefer not to say"]
+          },
+          {
+            "title": "Income Level",
+            "categories": [
+              "Less than £20,000",
+              "£20,000 - £40,000",
+              "£40,000 - £60,000",
+              "£60,000 - £80,000",
+              "More than £80,000"
+            ]
+          },
+          {
+            "title": "Education Level",
+            "categories": [
+              "High School or Equivalent",
+              "Some College",
+              "Bachelor's Degree",
+              "Master's Degree",
+              "Doctorate"
+            ]
+          },
+          {
+            "title": "Geographic Location",
+            "categories": [
+              "North America",
+              "South America",
+              "Europe",
+              "Asia",
+              "Africa",
+              "Oceania",
+              "Specific Country"
+            ]
+          },
+          {
+            "title": "Ethnicity",
+            "categories": [
+              "African",
+              "Asian",
+              "Caucasian",
+              "Hispanic",
+              "Native American",
+              "Pacific Islander",
+              "Mixed Ethnicity",
+              "Prefer not to say"
+            ]
+          },
+          {
+            "title": "Interests",
+            "categories": [
+              "Technology and Gadgets",
+              "Health and Fitness",
+              "Finance and Investing",
+              "Entertainment (Movies, TV, Music)",
+              "Education and Learning",
+              "Travel and Adventure",
+              "Food and Cooking",
+              "Sports and Outdoor Activities",
+              "Fashion and Beauty",
+              "Art and Design",
+              "Science and Nature",
+              "Home and Garden",
+              "Parenting and Family",
+              "Gaming and Esports",
+              "Cars and Motorcycles",
+              "History and Culture",
+              "Politics and Current Events",
+              "Literature and Books",
+              "Personal Development",
+              "Social Justice and Activism",
+              "Spiritulality and Religion",
+              "Environmental Issues",
+              "Business and Entrepreneurship",
+              "Relationships and Dating",
+              "Mental Health and Wellness",
+              "Hobbies and Crafts",
+              "Pet Care and Animal Lovers",
+              "DIY and Home Improvement",
+              "Other"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ad_type",
+        "as": "select",
+        "children": "Ad Type",
+        "options": ["Host-read Ad", "Pre-recorded Ad", "Sponsorship", "Other"]
+      },
+      {
+        "name": "length",
+        "as": "select",
+        "children": "Ad Length",
+        "options": [
+          "15 seconds",
+          "30 seconds",
+          "60 seconds",
+          "90 seconds",
+          "Full episode",
           "Other"
         ]
       },
       {
-        "name": "target",
-        "as": "select",
-        "children": "Target Demographic",
-        "options": []
+        "name": "budget",
+        "type": "text",
+        "children": "Budget for Ad Campaign"
       },
       {
-        "name": "compensation",
-        "as": "select",
-        "children": "Compensation",
-        "options": ["Fixed", "Range", "To be discussed"]
+        "name": "start_date",
+        "type": "date",
+        "children": "Campaign Start Date"
       },
+      { "name": "end_date", "type": "date", "children": "Campaign End Date" },
       {
-        "name": "contract_type",
-        "as": "select",
-        "children": "Contract Type",
-        "options": ["1 month", "3 months", "Custom"]
-      },
-      {
-        "name": "format",
-        "as": "select",
-        "children": "Ad Format",
-        "options": []
-      },
-      {
-        "name": "requirements",
+        "name": "application_instructions",
         "as": "textarea",
-        "children": "Creative Requirements"
-      },
-      { "name": "deadline", "type": "date", "children": "Deadline" }
+        "children": "Application Instruction (optional)",
+        "description": "This is what creators will see when filling in an application form"
+      }
     ]
   }
 }
