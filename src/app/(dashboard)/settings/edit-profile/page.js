@@ -133,7 +133,6 @@ const EditProfile = () => {
           </Form.Input>
         </div>
         <div className="space-y-10">
-          {/* Conditionally render ShowreelInput, ShowcaseInput, and CreditsInput */}
           {user && user.role !== "brand" && (
             <>
               <ShowreelInput
