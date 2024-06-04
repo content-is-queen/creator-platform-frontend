@@ -11,7 +11,6 @@ import Form from "@/components/Form";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import ShowcaseInput from "@/components/Creator/ShowcaseInput";
-import ShowreelInput from "@/components/Creator/ShowreelInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 
 const EditProfile = () => {
@@ -127,16 +126,8 @@ const EditProfile = () => {
         </div>
 
         <div className="space-y-10">
-          {/* Conditionally render ShowreelInput, ShowcaseInput, and CreditsInput */}
           {user && user.role !== "brand" && (
             <>
-              <ShowreelInput
-                setUpdated={setUpdated}
-                setLocalUser={setLocalUser}
-                localUser={localUser}
-                handleChange={handleChange}
-              />
-
               <ShowcaseInput
                 setUpdated={setUpdated}
                 setLocalUser={setLocalUser}
