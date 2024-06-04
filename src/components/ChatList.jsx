@@ -53,7 +53,7 @@ const ChatList = ({ active, setActive, rooms }) => {
                   </div>
                 </div>
 
-                <div className="space-y-1 max-w-[150px]">
+                <div className="space-y-1 max-w-[150px] w-full">
                   <p className="text-left text-xs text-queen-black/60 truncate">
                     Opportunity name
                   </p>

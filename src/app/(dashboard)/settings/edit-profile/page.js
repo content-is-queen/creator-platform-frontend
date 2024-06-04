@@ -1,15 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 import API from "@/api/api";
-
 import { getUserProfile, useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
 import ShowcaseInput from "@/components/Creator/ShowcaseInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 
@@ -26,7 +24,6 @@ const EditProfile = () => {
   const handleChange = (e) => {
     !updated && setUpdated(true);
 
-    // Prevent checking values updated by a button
     if (e?.target) {
       const { name, value, files } = e.target;
       const newValue = files ? files[0] : value;
@@ -44,15 +41,19 @@ const EditProfile = () => {
       last_name: user?.last_name || "",
       imageUrl: user?.imageUrl || "",
       bio: user?.bio || "",
-      profile_meta: user?.profile_meta || {},
     });
   }, [user]);
 
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
+
     Object.entries(localUser).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (typeof value !== "string") {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value);
+      }
     });
 
     try {
@@ -68,6 +69,7 @@ const EditProfile = () => {
         localStorage.removeItem("userProfile");
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
         setUser({ ...user, ...userProfile });
+
         router.push("/profile");
       } else {
         setError({ message: res.message });
@@ -131,14 +133,12 @@ const EditProfile = () => {
               <ShowcaseInput
                 setUpdated={setUpdated}
                 setLocalUser={setLocalUser}
-                localUser={localUser}
                 handleChange={handleChange}
               />
 
               <CreditsInput
                 setUpdated={setUpdated}
                 setLocalUser={setLocalUser}
-                localUser={localUser}
                 handleChange={handleChange}
               />
             </>

@@ -6,7 +6,6 @@ import Section from "../../Section";
 import Tabs from "../../Tabs";
 import Showcase from "./Showcase";
 import Credits from "./Credits";
-import Reviews from "./Reviews";
 
 const OPTIONS = [
   {
@@ -20,7 +19,6 @@ const OPTIONS = [
     theme: "orange",
     children: <Credits />,
   },
-  { label: "Reviews", id: "reviews", children: <Reviews /> },
 ];
 
 const CreatorProfileTabs = () => {
