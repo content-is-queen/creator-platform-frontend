@@ -49,6 +49,7 @@ const EditProfile = () => {
     });
   }, [user]);
 
+
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
@@ -59,24 +60,15 @@ const EditProfile = () => {
     try {
       const res = await API.put(`/auth/user`, formData, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (res.status === 200) {
-        // Update local users profile
+        // Update local user profile on successful update
         const userProfile = await getUserProfile({ token });
-
-        if (!userProfile) {
-          throw new Error(
-            "Something went wrong when updating the user profile"
-          );
-        }
-
         localStorage.removeItem("userProfile");
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
         setUser({ ...user, ...userProfile });
         router.push("/profile");
       } else {
@@ -84,7 +76,7 @@ const EditProfile = () => {
       }
     } catch (err) {
       console.error(err);
-      setError({ message: err.message });
+      setError({ message: err.message || "Server error" });
     } finally {
       setLoading(false);
     }
@@ -101,38 +93,43 @@ const EditProfile = () => {
         <div className="flex gap-x-6 w-full">
           <Form.Input
             name="first_name"
-            value={localUser?.first_name}
+            value={localUser.first_name}
             onChange={handleChange}
             className="w-full"
           >
             First Name
           </Form.Input>
-
           <Form.Input
             name="last_name"
-            value={localUser?.last_name}
+            value={localUser.last_name}
             onChange={handleChange}
             className="w-full"
           >
             Last Name
           </Form.Input>
         </div>
-
         <div className="space-y-10">
-          <Form.Input name="imageUrl" type="file" onChange={handleChange}>
+          <Form.Input
+            name="imageUrl"
+            type="file"
+            onChange={handleChange}
+            accept="image/*"
+          >
             Profile Picture
           </Form.Input>
-
           <Form.Input
             name="bio"
-            value={localUser?.bio}
+            value={localUser.bio}
             rows={5}
             onChange={handleChange}
           >
             Bio
           </Form.Input>
         </div>
+
+
         <div className="space-y-10">
+          {/* Conditionally render ShowreelInput, ShowcaseInput, and CreditsInput */}
           {user && user.role !== "brand" && (
             <>
               <ShowreelInput
