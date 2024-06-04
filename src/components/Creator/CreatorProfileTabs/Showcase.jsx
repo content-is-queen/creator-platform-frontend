@@ -1,16 +1,12 @@
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
+import Button from "@/components/Button";
 
 const Empty = () => {
   const pathname = usePathname();
 
   if (pathname === "/profile") {
-    return (
-      <>
-        Select your proudest work from your list of credits to add to your
-        showcase
-      </>
-    );
+    return <>Edit your profile to add your proudest credits to your showcase</>;
   }
 
   return <>No shows</>;
@@ -18,89 +14,46 @@ const Empty = () => {
 
 const Showcase = () => {
   const { user } = useUser();
-  const credits = user?.profile_meta?.credits || [];
+  const creditsToShow = user?.showcase ? JSON.parse(user.showcase) : [];
+
+  const credits = user?.credits ? JSON.parse(user.credits) : [];
+
+  const showcase = credits.reduce((acc, current) => {
+    if (creditsToShow.includes(current.name)) {
+      return [...acc, current];
+    }
+    return [...acc];
+  }, []);
 
   return (
     <div>
-      {credits.length > 0 ? (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "2rem",
-          }}
-        >
-          {credits.map((credit, index) => (
-            <div
-              key={index}
-              style={{ borderRadius: "0.5rem", overflow: "hidden" }}
-            >
+      {showcase.length > 0 ? (
+        <div className="grid grid-cols-3 gap-6">
+          {showcase.map(({ name, href, cover, role }) => (
+            <div key={href} className="space-y-5">
               <img
-                src={credit.coverImage}
-                alt="Cover"
-                style={{
-                  height: "20rem",
-                  width: "100%",
-                  objectFit: "cover",
-                  borderRadius: "0.5rem",
-                }}
-                onError={(e) => {
-                  e.target.src = "default_image_url";
-                }} // fallback image if the src fails
+                src={cover.url || ""}
+                alt={`${name} cover`}
+                className="object-cover w-full rounded-2xl"
+                height={200}
+                width={200}
               />
-              <div style={{ padding: "1rem" }}>
-                <p
-                  style={{
-                    textAlign: "center",
-                    marginTop: "0.5rem",
-                    fontSize: "1.125rem",
-                    fontWeight: "600",
-                  }}
-                >
-                  {credit.episodeName}
-                </p>
-                <p
-                  style={{
-                    textAlign: "center",
-                    marginTop: "0.25rem",
-                    fontSize: "0.875rem",
-                    color: "#718096",
-                  }}
-                >
-                  {credit.role.toUpperCase()}
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "1rem",
-                  }}
-                >
-                  <a
-                    href={credit.episode_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      backgroundColor: "#FF7300",
-                      color: "#fff",
-                      padding: "0.45rem 1.45rem",
-                      borderRadius: "1.5rem",
-                      textDecoration: "none",
-                      textAlign: "center",
-                      display: "block",
-                      fontSize: "0.8rem",
-                    }}
-                    onMouseOver={(e) =>
-                      (e.target.style.backgroundColor = "#e06600")
-                    }
-                    onMouseOut={(e) =>
-                      (e.target.style.backgroundColor = "#FF7300")
-                    }
-                  >
-                    MORE INFO
-                  </a>
-                </div>
+              <div>
+                <span className="truncate inline-block max-w-60 w-full leading-none">
+                  {name}
+                </span>
+                <span className="text-queen-black/60 block text-sm leading-none">
+                  {role}
+                </span>
               </div>
+              <Button
+                href={href}
+                as="a"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Listen <span className="sr-only">to {name}</span>
+              </Button>
             </div>
           ))}
         </div>

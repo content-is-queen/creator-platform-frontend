@@ -1,53 +1,60 @@
 import { useEffect, useState } from "react";
 import Form, { Error } from "../Form";
 import Button from "../Button";
+import { useUser } from "@/context/UserContext";
 
-const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
-  const [shows, setShows] = useState(localUser?.profile_meta?.showcase || []);
+const ShowcaseInput = ({ setLocalUser, handleChange }) => {
+  const [shows, setShows] = useState([]);
+  const [credits, setCredits] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [errors, setError] = useState({});
 
+  const { user } = useUser();
+
   const add = () => {
     setError({});
-
-    if (
-      inputValue.trim("").length === 0 ||
-      !inputValue.startsWith("https://open.spotify.com/episode/")
-    ) {
-      setError({
-        message: "Please enter a valid Spotify episode URL",
-      });
-      return;
-    }
-
-    if (shows.find((i) => i.url === inputValue)) {
-      setError({ message: "You can't add the same URL twice" });
-      return;
-    }
 
     if (shows.length === 6) {
       setError({ message: "You can only add up to 6 episodes" });
       return;
     }
 
-    setShows((prev) => [...prev, { url: inputValue }]);
+    if (!credits.includes(inputValue)) {
+      setError({ message: "Please select one of your credits" });
+      return;
+    }
+
+    setShows((prev) => [...prev, inputValue]);
 
     // Clear input when an entry is added
     setInputValue("");
     handleChange();
   };
 
-  const remove = (url) => {
+  const remove = (show) => {
     setError({});
-    setShows((prev) => prev.filter((i) => i.url !== url));
+    setShows((prev) => prev.filter((i) => i !== show));
     handleChange();
   };
 
   useEffect(() => {
+    if (user && user.shows) {
+      setShows(JSON.parse(user.shows));
+    }
+
+    if (user && user.credits) {
+      setCredits(() => {
+        // Set credits to an array of titles for mapping
+        return JSON.parse(user.credits).map((credit) => {
+          return credit.name;
+        });
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
     setLocalUser((prev) => {
-      const newObj = { ...prev };
-      newObj.profile_meta = { ...newObj.profile_meta, showcase: shows };
-      return newObj;
+      return { ...prev, showcase: shows };
     });
   }, [shows]);
 
@@ -56,7 +63,7 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
       <div className="mb-4">
         <p className="uppercase">Showcase</p>
         <span className="block text-sm text-queen-black/80">
-          Add up to 6 Spotify podcast episodes by inserting their episode link
+          Add up to 6 of your credits
         </span>
       </div>
 
@@ -66,13 +73,13 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
             key={index}
             className="flex items-center border-b border-queen-black/10 pb-5 my-5"
           >
-            <span className="w-full block">{show.url}</span>
+            <span className="w-full block">{show}</span>
             <Button
               type="button"
               variant="white"
               as="button"
               onClick={() => {
-                remove(show.url);
+                remove(show);
               }}
             >
               Remove
@@ -81,11 +88,10 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
         ))}
 
       <div className="flex items-center gap-x-6">
-        <Form.Input
-          className="w-full"
+        <Form.Datalist
           name="showcase"
           value={inputValue}
-          placeholder="https://open.spotify.com/episode/1AndIV5yEGBgW41BmQuYkQ?si=d01cf36e51544969"
+          options={credits}
           onChange={(e) => setInputValue(e.target.value)}
         />
         <Button type="button" variant="white" as="button" onClick={add}>

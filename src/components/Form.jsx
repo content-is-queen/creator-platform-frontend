@@ -4,7 +4,6 @@ import { forwardRef, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
-import { set } from "lodash";
 
 export const inputStyles = {
   input: [
@@ -66,7 +65,7 @@ const Select = ({ name, options, children, ...otherProps }) => {
 };
 
 const Datalist = ({ name, options, children, ...otherProps }) => (
-  <div className="mb-4">
+  <div className="w-full">
     <label htmlFor={name} className="uppercase">
       {children}
     </label>
@@ -74,7 +73,7 @@ const Datalist = ({ name, options, children, ...otherProps }) => (
       list={`${name}-options`}
       name={name}
       id={name}
-      className={inputStyles.input}
+      className={clsx("w-full", inputStyles.input)}
       {...otherProps}
     />
     <datalist id={`${name}-options`}>

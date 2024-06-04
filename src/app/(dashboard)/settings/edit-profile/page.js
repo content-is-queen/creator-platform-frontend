@@ -41,10 +41,6 @@ const EditProfile = () => {
       last_name: user?.last_name || "",
       imageUrl: user?.imageUrl || "",
       bio: user?.bio || "",
-      profile_meta: user?.profile_meta || {
-        showcase: [],
-        credits: [],
-      },
     });
   }, [user]);
 
@@ -53,8 +49,8 @@ const EditProfile = () => {
     const formData = new FormData();
 
     Object.entries(localUser).forEach(([key, value]) => {
-      if (key === "profile_meta") {
-        formData.append(key, JSON.stringify(value)); // Serialize profile_meta
+      if (typeof value !== "string") {
+        formData.append(key, JSON.stringify(value));
       } else {
         formData.append(key, value);
       }
@@ -63,10 +59,6 @@ const EditProfile = () => {
     try {
       const res = await API.put(`/auth/user`, formData, {
         headers: {
-<<<<<<< HEAD
-          "Content-Type": "multipart/form-data",
-=======
->>>>>>> main
           Authorization: `Bearer ${token}`,
         },
       });
@@ -77,7 +69,6 @@ const EditProfile = () => {
         localStorage.removeItem("userProfile");
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
         setUser({ ...user, ...userProfile });
-        console.log("Redirecting to /profile...");
 
         router.push("/profile");
       } else {
@@ -142,14 +133,12 @@ const EditProfile = () => {
               <ShowcaseInput
                 setUpdated={setUpdated}
                 setLocalUser={setLocalUser}
-                localUser={localUser}
                 handleChange={handleChange}
               />
 
               <CreditsInput
                 setUpdated={setUpdated}
                 setLocalUser={setLocalUser}
-                localUser={localUser}
                 handleChange={handleChange}
               />
             </>
