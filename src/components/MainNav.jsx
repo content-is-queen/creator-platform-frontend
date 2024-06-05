@@ -42,13 +42,13 @@ const MainNav = () => {
   const handleClearAll = async () => {
     try {
       await API("/notifications/clear", {
-        method: "GET",
+        method: "delete",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-      handleIsBellClicked();
+      setIsBellClicked(false);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
