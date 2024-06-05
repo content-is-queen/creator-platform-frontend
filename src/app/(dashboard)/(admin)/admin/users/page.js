@@ -2,7 +2,6 @@ import API from "@/api/api";
 
 import Container from "@/components/Container";
 import AdminUsersTable from "@/components/Admin/AdminUsersTable";
-import { Error } from "@/components/Form";
 
 const getUsers = async () => {
   // Prevent build failing during workflows build test
@@ -19,7 +18,7 @@ const getUsers = async () => {
   }
 };
 
-const UsersOpportunities = async () => {
+const AdminUsers = async () => {
   const users = await getUsers();
 
   return (
@@ -29,4 +28,4 @@ const UsersOpportunities = async () => {
   );
 };
 
-export default UsersOpportunities;
+export default AdminUsers;

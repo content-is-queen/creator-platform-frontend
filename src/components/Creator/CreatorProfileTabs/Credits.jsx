@@ -10,15 +10,25 @@ import Heading from "@/components/Heading";
 
 const Credit = ({ href, role, name }) => {
   return (
-    <a className="flex gap-x-4" href={href} target="_blank">
+    <div className="flex gap-x-4 relative">
       <span className="h-7 w-7 shrink-0 mt-1 bg-queen-black rounded-full block" />
       <div>
-        <Heading color="lilac" size="3xl">
+        <Heading
+          color="lilac"
+          as="a"
+          href={href}
+          target="_blank"
+          rel="noreferrer noopener"
+          size="3xl"
+          className={
+            "after:absolute after:w-full after:h-full after:left-0 after:top-0 hover:text-queen-white transition"
+          }
+        >
           {name}
         </Heading>
-        <p className="text-queen-white uppercase">{role}</p>
+        <span className="text-queen-white uppercase block">{role}</span>
       </div>
-    </a>
+    </div>
   );
 };
 
@@ -58,7 +68,7 @@ const Credits = () => {
     <>
       {credits.length > 0 ? (
         <>
-          <div className="space-y-4">
+          <div className="space-y-6">
             {viewableCredits.map((credit) => (
               <Credit key={credit.href} {...credit} />
             ))}

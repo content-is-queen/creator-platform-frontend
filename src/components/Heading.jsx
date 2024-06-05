@@ -23,13 +23,14 @@ const COLORS = {
 };
 
 const Heading = ({
-  tag = "p",
+  as = "p",
   size = "4xl",
   color = "black",
   className,
   children,
+  ...otherProps
 }) => {
-  const Tag = tag;
+  const Tag = as;
 
   return (
     <Tag
@@ -40,6 +41,7 @@ const Heading = ({
         COLORS[color],
         anton.className
       )}
+      {...otherProps}
     >
       {children}
     </Tag>
