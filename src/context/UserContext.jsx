@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "@/firebase.config";
 import { getIdToken, onAuthStateChanged } from "firebase/auth";
 import API from "@/api/api";
+import useToken from "@/hooks/useToken";
 
 export const UserContext = createContext(null);
 
@@ -14,6 +15,16 @@ export const getUserProfile = async (args) => {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return response.data.message;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const saveTokenToServer = async ({fcm_token, user_id}) => {
+  try {
+    const response = await API.post("/notifications/save", {fcm_token, user_id});
 
     return response.data.message;
   } catch (error) {
