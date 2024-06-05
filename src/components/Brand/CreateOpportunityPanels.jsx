@@ -10,7 +10,7 @@ import formData from "@/data/opportunity_form_data.json";
 
 const CreateOpportunityPanels = () => {
   return (
-    <div className="flex gap-3 text-black">
+    <div className="flex flex-col gap-3 text-black lg:flex-row">
       {Object.entries(formData).map(([name, opp]) => {
         let classes;
         switch (name) {
@@ -37,7 +37,7 @@ const CreateOpportunityPanels = () => {
           <Panel
             key={name}
             className={clsx(
-              "flex flex-col justify-between basis-1/3",
+              "flex flex-col justify-between basis-1/3 max-w-sm mx-auto ",
               classes.panel
             )}
           >
@@ -51,9 +51,12 @@ const CreateOpportunityPanels = () => {
               href={{
                 pathname: `/opportunities/create/${name}`,
               }}
-              className="bg-white h-7 w-7 self-end justify-self-end flex items-center justify-center rounded-full mt-8"
+              className="bg-white h-7 w-7 self-end justify-self-end flex items-center justify-center rounded-full mt-20"
             >
-              <FontAwesomeIcon className={classes.arrow} icon={faArrowRight} />
+              <FontAwesomeIcon
+                className={clsx(classes.arrow, "h-3 w-3")}
+                icon={faArrowRight}
+              />
             </Link>
           </Panel>
         );

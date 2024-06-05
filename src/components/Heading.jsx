@@ -10,8 +10,8 @@ const anton = Anton({
 
 const SIZES = {
   "2xl": "text-lg md:text-2xl",
-  "3xl": "text-xl md:text-3xl",
-  "4xl": "text-2xl md:text-4xl",
+  "3xl": "text-2xl md:text-3xl",
+  "4xl": "text-3xl md:text-4xl",
   "5xl": "text-3xl md:text-5xl",
 };
 

@@ -17,7 +17,7 @@ const CreateOpportunityModal = () => {
         open={isOpen}
         onClose={() => setIsOpen(false)}
         title="Select an opportunity type"
-        size="6xl"
+        className="max-w-5xl"
       >
         <CreateOpportunityPanels />
       </Modal>
