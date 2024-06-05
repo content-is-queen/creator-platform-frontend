@@ -8,7 +8,7 @@ import Link from "next/link";
 import { auth, messaging } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import { IoNotificationsOutline } from "react-icons/io5";
-import { MdOutlineNotificationAdd } from "react-icons/md"
+import { MdOutlineNotificationAdd } from "react-icons/md";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
@@ -136,11 +136,11 @@ const MainNav = () => {
       },
     ],
   };
-useEffect(()=>{
-  onMessage(messaging, async (payload) => {
-    setIsNewNotification(true);
-    toast(payload?.notification?.title);
-  });
+  useEffect(() => {
+    onMessage(messaging, async (payload) => {
+      setIsNewNotification(true);
+      toast(payload?.notification?.title);
+    });
   }, []);
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
@@ -191,8 +191,11 @@ useEffect(()=>{
                   data-dropdown-placement="bottom"
                 >
                   <span className="sr-only">Open user menu</span>
-                  {isNewNotification? <MdOutlineNotificationAdd className="w-6 h-6" /> : <IoNotificationsOutline className="w-6 h-6" />}
-
+                  {isNewNotification ? (
+                    <MdOutlineNotificationAdd className="w-6 h-6" />
+                  ) : (
+                    <IoNotificationsOutline className="w-6 h-6" />
+                  )}
                 </button>
               </li>
               <li>

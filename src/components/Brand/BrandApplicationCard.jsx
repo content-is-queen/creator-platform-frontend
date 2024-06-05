@@ -96,8 +96,8 @@ const BrandApplicationCard = ({
             "Something went wrong when accpeting the application"
         );
       }
-      if(response.data.status === 200){
-        if(user?.fcm_token){
+      if (response.data.status === 200) {
+        if (user?.fcm_token) {
           await API.post(
             `/notifications/send`,
             {
@@ -105,7 +105,7 @@ const BrandApplicationCard = ({
               token: user?.fcm_token,
               user_id,
               title: "Creator Platform Application Update",
-              body: "Your your application has been successfully reviewed and accepted"
+              body: "Your your application has been successfully reviewed and accepted",
             },
             {
               headers: {
@@ -116,7 +116,7 @@ const BrandApplicationCard = ({
           );
         }
 
-      setMessage({ status: "accepted", room: response.data.roomId });
+        setMessage({ status: "accepted", room: response.data.roomId });
       }
       // TODO: Add screen to take to conversation
     } catch (error) {

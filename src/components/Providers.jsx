@@ -8,7 +8,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Providers = ({ children }) => {
-
   async function requestPermission() {
     if (typeof window !== "undefined" && "Notification" in window) {
       const permission = await Notification.requestPermission();
@@ -48,10 +47,10 @@ const Providers = ({ children }) => {
     } else {
       alert("Service workers are not supported in this environment.");
     }
-  //   onMessage(messaging, (payload) => {
-  //     console.log("Message received. ", payload);
-  //     // toast(<Message notification={payload.notification} />);
-  //   });
+    //   onMessage(messaging, (payload) => {
+    //     console.log("Message received. ", payload);
+    //     // toast(<Message notification={payload.notification} />);
+    //   });
   }, []);
 
   return (
