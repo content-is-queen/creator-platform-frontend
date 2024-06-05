@@ -8,17 +8,19 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ButtonText from "@/components/ButtonText";
 import Heading from "@/components/Heading";
 
-const Credit = ({ show, role }) => (
-  <div className="flex gap-x-4">
-    <span className="h-8 w-8 mt-1 bg-queen-black rounded-full block" />
-    <div>
-      <Heading color="lilac" size="3xl">
-        {show}
-      </Heading>
-      <p className="text-queen-white uppercase">{role}</p>
-    </div>
-  </div>
-);
+const Credit = ({ href, role, name }) => {
+  return (
+    <a className="flex gap-x-4" href={href} target="_blank">
+      <span className="h-7 w-7 shrink-0 mt-1 bg-queen-black rounded-full block" />
+      <div>
+        <Heading color="lilac" size="3xl">
+          {name}
+        </Heading>
+        <p className="text-queen-white uppercase">{role}</p>
+      </div>
+    </a>
+  );
+};
 
 const Empty = () => {
   const pathname = usePathname();
@@ -35,13 +37,12 @@ const Credits = () => {
   const pathname = usePathname();
 
   const { user } = useUser();
-
-  const credits = user?.profile_meta?.credits || [];
+  const credits = user?.credits ? JSON.parse(user.credits) : [];
 
   const [viewMore, setViewMore] = useState(false);
-  const [viewableCredits, setViewableCredits] = useState(
-    credits.slice(0, LIMIT)
-  );
+  const [viewableCredits, setViewableCredits] = useState([
+    credits.slice(0, LIMIT),
+  ]);
 
   const handleClick = () => {
     setViewMore(!viewMore);
@@ -57,9 +58,9 @@ const Credits = () => {
     <>
       {credits.length > 0 ? (
         <>
-          <div className="space-y-2">
+          <div className="space-y-4">
             {viewableCredits.map((credit) => (
-              <Credit key={credit.id} {...credit} />
+              <Credit key={credit.href} {...credit} />
             ))}
           </div>
           {credits.length > LIMIT && (
