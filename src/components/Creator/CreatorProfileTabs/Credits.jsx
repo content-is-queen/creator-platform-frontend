@@ -87,11 +87,6 @@ const Credits = () => {
       ) : (
         <Empty />
       )}
-      {pathname == "/profile" && (
-        <button className="bg-queen-yellow text-queen-black flex gap-x-4 items-center justify-center h-12 w-12 p-4 rounded-full fixed right-10 bottom-10 shadow-xl">
-          <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
-        </button>
-      )}
     </>
   );
 };
