@@ -1,19 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import clsx from "clsx";
+
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
-
 import { IoNotificationsOutline } from "react-icons/io5";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
+import Button from "./Button";
+import CreateUserForm from "./Admin/CreateUserForm";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -37,9 +38,8 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
-      localStorage.removeItem("userProfile");
-
       setUser(null);
+      localStorage.removeItem("userProfile");
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -85,7 +85,6 @@ const MainNav = () => {
         href: "/admin/users",
         label: "Users",
       },
-      { href: "/admin/billing", label: "Billing" },
     ],
   };
 
@@ -122,6 +121,11 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
+              {user?.role === "admin" && (
+                <li>
+                  <CreateUserForm />
+                </li>
+              )}
               <li>
                 <button
                   type="button"

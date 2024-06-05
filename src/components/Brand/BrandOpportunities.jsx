@@ -92,7 +92,7 @@ const BrandOpportunities = () => {
 
   if (loading) return <SpinnerScreen />;
 
-  if (opportunities.length > 0) {
+  if (opportunities?.length > 0) {
     return (
       <section>
         <Tabs options={OPTIONS} active={active} setActive={setActive} />

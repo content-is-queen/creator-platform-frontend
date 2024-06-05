@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import API from "@/api/api";
-import { getUserProfile, useUser } from "@/context/UserContext";
+import { useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
 
 import Text from "@/components/Text";
@@ -67,7 +67,6 @@ const SignUpForm = () => {
           data: { uid },
         },
       } = response;
-      console.log(response);
 
       const user = { ...data, uid, role: id };
 

@@ -1,17 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 import API from "@/api/api";
-
 import { getUserProfile, useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
 import ShowcaseInput from "@/components/Creator/ShowcaseInput";
-import ShowreelInput from "@/components/Creator/ShowreelInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 
 const EditProfile = () => {
@@ -27,7 +24,6 @@ const EditProfile = () => {
   const handleChange = (e) => {
     !updated && setUpdated(true);
 
-    // Prevent checking values updated by a button
     if (e?.target) {
       const { name, value, files } = e.target;
       const newValue = files ? files[0] : value;
@@ -45,49 +41,42 @@ const EditProfile = () => {
       last_name: user?.last_name || "",
       imageUrl: user?.imageUrl || "",
       bio: user?.bio || "",
-      profile_meta: user?.profile_meta || {},
     });
   }, [user]);
 
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
+
     Object.entries(localUser).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (typeof value !== "string") {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value);
+      }
     });
 
     try {
       const res = await API.put(`/auth/user`, formData, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (res.status === 200) {
-        const userProfile = await getUserProfile();
-
-        if (!userProfile) {
-          setError({
-            message: "Something went wrong when updating your profile",
-          });
-
-          throw new Error(
-            "Something went wrong when updating the user profile"
-          );
-        }
-
+        // Update local user profile on successful update
+        const userProfile = await getUserProfile({ token });
         localStorage.removeItem("userProfile");
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
         setUser({ ...user, ...userProfile });
+
         router.push("/profile");
       } else {
         setError({ message: res.message });
       }
     } catch (err) {
       console.error(err);
-      setError({ message: err.message });
+      setError({ message: err.message || "Server error" });
     } finally {
       setLoading(false);
     }
@@ -104,31 +93,33 @@ const EditProfile = () => {
         <div className="flex gap-x-6 w-full">
           <Form.Input
             name="first_name"
-            value={localUser?.first_name}
+            value={localUser.first_name}
             onChange={handleChange}
             className="w-full"
           >
             First Name
           </Form.Input>
-
           <Form.Input
             name="last_name"
-            value={localUser?.last_name}
+            value={localUser.last_name}
             onChange={handleChange}
             className="w-full"
           >
             Last Name
           </Form.Input>
         </div>
-
         <div className="space-y-10">
-          <Form.Input name="imageUrl" type="file" onChange={handleChange}>
+          <Form.Input
+            name="imageUrl"
+            type="file"
+            onChange={handleChange}
+            accept="image/*"
+          >
             Profile Picture
           </Form.Input>
-
           <Form.Input
             name="bio"
-            value={localUser?.bio}
+            value={localUser.bio}
             rows={5}
             onChange={handleChange}
           >
@@ -137,26 +128,21 @@ const EditProfile = () => {
         </div>
 
         <div className="space-y-10">
-          <ShowreelInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
+          {user && user.role !== "brand" && (
+            <>
+              <ShowcaseInput
+                setUpdated={setUpdated}
+                setLocalUser={setLocalUser}
+                handleChange={handleChange}
+              />
 
-          <ShowcaseInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
-
-          <CreditsInput
-            setUpdated={setUpdated}
-            setLocalUser={setLocalUser}
-            localUser={localUser}
-            handleChange={handleChange}
-          />
+              <CreditsInput
+                setUpdated={setUpdated}
+                setLocalUser={setLocalUser}
+                handleChange={handleChange}
+              />
+            </>
+          )}
         </div>
 
         <Button type="submit" as="button" {...(!updated && { disabled: true })}>
