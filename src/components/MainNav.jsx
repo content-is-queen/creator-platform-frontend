@@ -88,6 +88,7 @@ const MainNav = () => {
         href: "/admin/users",
         label: "Users",
       },
+      { href: "/conversations", label: "Conversations" },
     ],
   };
 
@@ -137,7 +138,6 @@ const MainNav = () => {
               <li>
                 <button
                   type="button"
-                  onClick={handleIsUserClicked}
                   className="flex text-sm rounded-full md:me-0 focus:ring-4"
                   id="user-menu-button"
                   aria-expanded="false"
