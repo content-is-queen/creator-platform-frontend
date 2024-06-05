@@ -12,7 +12,6 @@ export const sendTokenToServer = async (userId, token) => {
         },
         { merge: true }
       );
-    console.log("Token successfully sent to server");
   } catch (error) {
     console.error("Error sending token to server:", error);
   }

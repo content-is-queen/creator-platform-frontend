@@ -49,7 +49,6 @@ const Providers = ({ children }) => {
       alert("Service workers are not supported in this environment.");
     }
     onMessage(messaging, (payload) => {
-      console.log("Received foreground message: ", payload);
       toast(<Message notification={payload.notification} />);
     });
   }, [onMessage]);

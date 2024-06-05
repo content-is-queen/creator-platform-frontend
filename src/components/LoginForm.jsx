@@ -67,8 +67,6 @@ const LoginForm = () => {
       const response = await signInWithEmailAndPassword(auth, email, password);
 
       const { user } = response;
-      console.log(user);
-
       const userProfile = await getUserProfile({ user });
       if (!userProfile) {
         setError({
