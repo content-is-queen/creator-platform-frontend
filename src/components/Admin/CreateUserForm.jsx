@@ -120,7 +120,7 @@ const CreateUserForm = () => {
         open={isOpen}
         onClose={() => setIsOpen(false)}
         title="Create a new user"
-        size="3xl"
+        size="2xl"
       >
         <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
           <div className="space-y-6">
@@ -138,7 +138,7 @@ const CreateUserForm = () => {
           </div>
           <Button as="button" type="submit" className="mt-8">
             {loading && <Button.Spinner />}
-            Register user
+            Register
           </Button>
         </form>
         {errors?.message && <Error>{errors.message}</Error>}
