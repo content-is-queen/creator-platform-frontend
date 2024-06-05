@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useUser } from "@/context/UserContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,9 +26,21 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
 
   const pause = () => {
     audioRef.current.pause();
-    audioRef.currentTime = 0;
     setAudioPlaying(false);
   };
+
+  useEffect(() => {
+    const handleEnded = () => {
+      audioRef.current.currentTime = 0;
+      setAudioPlaying(false);
+    };
+
+    audioRef.current.addEventListener("ended", handleEnded);
+
+    return () => {
+      audioRef.current.removeEventListener("ended", handleEnded);
+    };
+  }, []);
 
   return (
     <div key={href} className="space-y-5 relative group">
