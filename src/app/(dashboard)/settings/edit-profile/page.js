@@ -128,7 +128,7 @@ const EditProfile = () => {
         </div>
 
         <div className="space-y-10">
-          {user && user.role !== "brand" && (
+          {user && user.role === "creator" && (
             <>
               <ShowcaseInput
                 setUpdated={setUpdated}
