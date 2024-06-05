@@ -49,7 +49,7 @@ const EditProfile = () => {
     const formData = new FormData();
 
     Object.entries(localUser).forEach(([key, value]) => {
-      if (key !== "showreel" || key !== "credits") {
+      if (key !== "showcase" || key !== "credits") {
         formData.append(key, value);
       } else {
         formData.append(key, JSON.stringify(value));
