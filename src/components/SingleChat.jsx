@@ -70,7 +70,7 @@ const Body = ({ room }) => {
   useEffect(() => {
     const q = query(
       collection(db, "rooms", room.id, "messages"),
-      orderBy("createdAt", "desc"),
+      orderBy("createdAt"),
       limit(50)
     );
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
@@ -79,8 +79,7 @@ const Body = ({ room }) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
 
-      const sortedMessages = messages.sort((a, b) => a.createdAt - b.createdAt);
-      setMessages(sortedMessages);
+      setMessages(messages);
     });
     return () => unsubscribe;
   }, [room]);
