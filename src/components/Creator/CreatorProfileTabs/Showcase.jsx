@@ -35,12 +35,15 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
       setAudioPlaying(false);
     };
 
-    audioRef.current.addEventListener("ended", handleEnded);
+    audioRef.current && audioRef.current.addEventListener("ended", handleEnded);
 
     return () => {
-      audioRef.current.removeEventListener("ended", handleEnded);
+      audioRef.current &&
+        audioRef.current.removeEventListener("ended", handleEnded);
     };
   }, []);
+
+  console.log(audio_preview_url);
 
   return (
     <div key={href} className="space-y-5 relative group">
@@ -59,35 +62,39 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
           width={25}
           className="absolute right-4 bottom-4"
         />
-        {audioPlaying ? (
-          <button
-            onClick={pause}
-            className="absolute transform left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 transition hover:opacity-90"
-          >
-            <FontAwesomeIcon
-              className="h-20 w-20 text-queen-white"
-              icon={faPauseCircle}
-            />
-          </button>
-        ) : (
-          <button
-            onClick={play}
-            className="absolute transform left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 transition hover:opacity-90"
-          >
-            <FontAwesomeIcon
-              className="h-20 w-20 text-queen-white"
-              icon={faPlayCircle}
-            />
-          </button>
+        {audio_preview_url && (
+          <>
+            {audioPlaying ? (
+              <button
+                onClick={pause}
+                className="absolute transform left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 transition hover:opacity-90"
+              >
+                <FontAwesomeIcon
+                  className="h-20 w-20 text-queen-white"
+                  icon={faPauseCircle}
+                />
+              </button>
+            ) : (
+              <button
+                onClick={play}
+                className="absolute transform left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 transition hover:opacity-90"
+              >
+                <FontAwesomeIcon
+                  className="h-20 w-20 text-queen-white"
+                  icon={faPlayCircle}
+                />
+              </button>
+            )}
+            <audio
+              ref={audioRef}
+              className="absolute left-4 bottom-4 max-w-48 hidden"
+              controls
+            >
+              <source src={audio_preview_url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </>
         )}
-        <audio
-          ref={audioRef}
-          className="absolute left-4 bottom-4 max-w-48 hidden"
-          controls
-        >
-          <source src={audio_preview_url} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
       </div>
       <div>
         <p
