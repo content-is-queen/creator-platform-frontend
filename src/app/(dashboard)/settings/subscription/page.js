@@ -1,17 +1,13 @@
 "use client";
 
 import Form from "@/components/Form";
-import Button from "@/components/Button";
+import CheckoutForm from "@/components/CheckoutForm";
 
 const Subscription = () => {
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
-        <Form.Input name="payment_method">Cancel subscription</Form.Input>
-
-        <Button type="submit" as="button">
-          Save Changes
-        </Button>
+        <CheckoutForm />
       </div>
     </Form>
   );

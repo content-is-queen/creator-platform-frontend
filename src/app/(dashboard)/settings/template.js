@@ -26,7 +26,7 @@ const Template = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(subscribed && { href: "/settings/billing", label: "Billing" }),
+    { href: "/settings/subscription", label: "Subscription" },
   ];
 
   return (
