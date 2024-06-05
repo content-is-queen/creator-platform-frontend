@@ -1,6 +1,9 @@
 import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
 import { useUser } from "@/context/UserContext";
-import Button from "@/components/Button";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPauseCircle, faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Empty = () => {
   const pathname = usePathname();
@@ -10,6 +13,85 @@ const Empty = () => {
   }
 
   return <>No shows</>;
+};
+
+const Show = ({ href, audio_preview_url, role, name, cover }) => {
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const audioRef = useRef();
+
+  const play = () => {
+    audioRef.current.play();
+    setAudioPlaying(true);
+  };
+
+  const pause = () => {
+    audioRef.current.pause();
+    audioRef.currentTime = 0;
+    setAudioPlaying(false);
+  };
+
+  return (
+    <div key={href} className="space-y-5 relative group">
+      <div className="relative overflow-hidden rounded-2xl">
+        <img
+          src={cover.url || ""}
+          alt={`${name} cover`}
+          className="object-cover w-full transition group-hover:scale-105"
+          height={200}
+          width={200}
+        />
+        <img
+          src="/images/spotify.svg"
+          alt="Spotify"
+          height={25}
+          width={25}
+          className="absolute right-4 bottom-4"
+        />
+        {audioPlaying ? (
+          <button
+            onClick={pause}
+            className="absolute transform left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 transition hover:opacity-90"
+          >
+            <FontAwesomeIcon
+              className="h-20 w-20 text-queen-white"
+              icon={faPauseCircle}
+            />
+          </button>
+        ) : (
+          <button
+            onClick={play}
+            className="absolute transform left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 transition hover:opacity-90"
+          >
+            <FontAwesomeIcon
+              className="h-20 w-20 text-queen-white"
+              icon={faPlayCircle}
+            />
+          </button>
+        )}
+        <audio
+          ref={audioRef}
+          className="absolute left-4 bottom-4 max-w-48 hidden"
+          controls
+        >
+          <source src={audio_preview_url} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div>
+        <p
+          href={href}
+          className="truncate inline-block max-w-60 w-full leading-none "
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {name}
+        </p>
+        <span className="text-queen-black/60 block text-sm leading-none">
+          {role}
+        </span>
+      </div>
+    </div>
+  );
 };
 
 const Showcase = () => {
@@ -29,38 +111,8 @@ const Showcase = () => {
     <div>
       {showcase.length > 0 ? (
         <div className="grid grid-cols-3 gap-6">
-          {showcase.map(({ name, href, cover, role }) => (
-            <div key={href} className="space-y-5 relative group">
-              <div className="relative overflow-hidden rounded-2xl">
-                <img
-                  src={cover.url || ""}
-                  alt={`${name} cover`}
-                  className="object-cover w-full transition group-hover:scale-105"
-                  height={200}
-                  width={200}
-                />
-                <img
-                  src="/images/spotify.svg"
-                  alt="Spotify"
-                  height={25}
-                  width={25}
-                  className="absolute right-4 bottom-4"
-                />
-              </div>
-              <div>
-                <a
-                  href={href}
-                  className="truncate inline-block max-w-60 w-full leading-none after:absolute after:w-full after:h-full after:left-0 after:top-0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="sr-only">Listen to</span> {name}
-                </a>
-                <span className="text-queen-black/60 block text-sm leading-none">
-                  {role}
-                </span>
-              </div>
-            </div>
+          {showcase.map((show) => (
+            <Show key={show.href} {...show} />
           ))}
         </div>
       ) : (

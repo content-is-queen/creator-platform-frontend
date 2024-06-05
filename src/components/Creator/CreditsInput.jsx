@@ -39,14 +39,14 @@ const CreditsInput = ({ setLocalUser, handleChange }) => {
     const accessToken = await getSpotifyAccessToken();
 
     const {
-      data: { name, images },
+      data: { name, images, audio_preview_url },
     } = await axios.get(`https://api.spotify.com/v1/episodes/${id}?market=GB`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
-    return { name, cover: images[0] };
+    return { name, cover: images[0], audio_preview_url };
   };
 
   const add = async () => {
