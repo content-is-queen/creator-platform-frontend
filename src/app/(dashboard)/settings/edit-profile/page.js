@@ -50,7 +50,7 @@ const EditProfile = () => {
 
     Object.entries(localUser).forEach(([key, value]) => {
       if (typeof value !== "string") {
-        formData.append(key, JSON.stringify(value));
+        formData.append(key, value); // Append file directly to formData
       } else {
         formData.append(key, value);
       }
