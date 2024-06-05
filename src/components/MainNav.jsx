@@ -139,7 +139,6 @@ const MainNav = () => {
   useEffect(() => {
     onMessage(messaging, async (payload) => {
       setIsNewNotification(true);
-      toast(payload?.notification?.title);
     });
   }, []);
   return (
