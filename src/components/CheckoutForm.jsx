@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+
 import API from "@/api/api";
 import Button from "./Button";
 
+import { useUser } from "@/context/UserContext";
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
-const CheckoutForm = (className) => {
+const CheckoutForm = ({ className }) => {
   const [loading, setLoading] = useState(false);
+  const { user } = useUser();
 
   const handleClick = async () => {
     setLoading(true);
@@ -17,11 +21,10 @@ const CheckoutForm = (className) => {
       const response = await API.post("/payments/create-checkout-session", {});
 
       if (response.status !== 200) {
-        throw new Error("Failed to create checkout session front end");
+        throw new Error("Failed to create checkout session");
       }
 
       const sessionId = response.data.id; // Extract session ID from response data
-
       const stripe = await stripePromise;
 
       // Redirect to the Stripe Checkout page
@@ -32,20 +35,11 @@ const CheckoutForm = (className) => {
       if (error) {
         throw new Error("An error occurred during checkout");
       }
-
-      // Call API to update user subscription status upon successful checkout
-      const updateResponse = await API.post(
-        `/auth/userSubscription/sCxCtR8YPfWyrZGVkwyzcTNcF5N2`,
+      // Wait until checkout is successful before updating subscription
+      const updateResponse = await API.put(
+        `auth/userSubscription/${user.uid}`,
         { subscribed: true }
       );
-
-      // Add session id
-
-      if (updateResponse.status === 200) {
-        console.log("User subscription status updated successfully");
-      } else {
-        throw new Error("Failed to update user subscription status");
-      }
     } catch (error) {
       console.error("Checkout error:", error);
     } finally {
@@ -60,7 +54,8 @@ const CheckoutForm = (className) => {
       onClick={handleClick}
       className={className}
     >
-      {loading && <Button.Spinner />}Subscribe
+      {loading && <Button.Spinner />}
+      Subscribe
     </Button>
   );
 };

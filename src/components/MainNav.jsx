@@ -126,18 +126,14 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {standard && (
+              {standard && user && user?.role !== "admin" && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade to plus
                   </Button>
                 </li>
               )}
-              {user?.role === "admin" && (
-                <li>
-                  <CreateUserForm />
-                </li>
-              )}
+
               <li>
                 <button
                   type="button"

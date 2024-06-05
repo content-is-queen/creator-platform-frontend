@@ -111,7 +111,7 @@ const CreateUserForm = () => {
       <Button
         type="button"
         as="button"
-        variant="yellow"
+        variant="brown"
         onClick={() => setIsOpen(true)}
       >
         Create User
