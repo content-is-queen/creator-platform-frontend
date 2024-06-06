@@ -10,7 +10,7 @@ import { useUser } from "@/context/UserContext";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
-const CheckoutForm = ({ className }) => {
+const CheckoutForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
 
@@ -35,11 +35,6 @@ const CheckoutForm = ({ className }) => {
       if (error) {
         throw new Error("An error occurred during checkout");
       }
-      // Wait until checkout is successful before updating subscription
-      const updateResponse = await API.put(
-        `auth/userSubscription/${user.uid}`,
-        { subscribed: true }
-      );
     } catch (error) {
       console.error("Checkout error:", error);
     } finally {
@@ -54,8 +49,9 @@ const CheckoutForm = ({ className }) => {
       onClick={handleClick}
       className={className}
       size="lg"
+      variant={variant}
     >
-      {loading && <Button.Spinner />}
+      {loading && <Button.Spinner dark />}
       Upgrade to plus
     </Button>
   );

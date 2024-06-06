@@ -7,21 +7,21 @@ import Tabs from "../../Tabs";
 import Showcase from "./Showcase";
 import Credits from "./Credits";
 
-const OPTIONS = [
-  {
-    label: "Showcase",
-    id: "showcase",
-    children: <Showcase />,
-  },
-  {
-    label: "Credits",
-    id: "credits",
-    theme: "orange",
-    children: <Credits />,
-  },
-];
+const CreatorProfileTabs = ({ meta }) => {
+  const OPTIONS = [
+    {
+      label: "Showcase",
+      id: "showcase",
+      children: <Showcase meta={meta} />,
+    },
+    {
+      label: "Credits",
+      id: "credits",
+      theme: "orange",
+      children: <Credits meta={meta} />,
+    },
+  ];
 
-const CreatorProfileTabs = () => {
   const [active, setActive] = useState(OPTIONS[0]);
 
   useEffect(() => {}, [active]);

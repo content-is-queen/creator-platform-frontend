@@ -127,7 +127,7 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {standard && user && user?.role !== "admin" && (
+              {!user?.subscribed && user && user?.role !== "admin" && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade account

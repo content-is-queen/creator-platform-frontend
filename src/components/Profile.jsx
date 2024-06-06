@@ -17,7 +17,9 @@ const Profile = ({ user: publicUser }) => {
   return (
     <>
       <ProfileHero user={user} />
-      {user && user?.role === "creator" && <CreatorProfileTabs />}
+      {user && user?.role === "creator" && (
+        <CreatorProfileTabs meta={user?.meta} />
+      )}
       {user && user?.role === "brand" && (
         <BrandProfileOpportunities user={user} />
       )}

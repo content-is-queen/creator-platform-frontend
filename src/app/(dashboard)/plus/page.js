@@ -50,7 +50,7 @@ const Plus = () => {
               {user ? COPY[user.role].lead : <LoadingPlaceholder.Bar />}
             </span>
           </Text>
-          <CheckoutForm className="bg-queen-yellow text-queen-black" />
+          <CheckoutForm variant="yellow" />
         </div>
       </Block>
       <Block
@@ -62,7 +62,7 @@ const Plus = () => {
         small
       >
         <div className="space-y-3 max-w-md">
-          <DecorativeText className="text-5xl">What's included:</DecorativeText>
+          <DecorativeText className="text-5xl">Why plus:</DecorativeText>
           <Text size="xl">
             {user ? (
               COPY[user.role].included[0].lead
@@ -78,7 +78,7 @@ const Plus = () => {
             )}
           </Text>
         </div>
-        <CheckoutForm className="bg-queen-yellow text-queen-black mt-8" />
+        <CheckoutForm variant="yellow" className="mt-8" />
       </Block>
     </>
   );

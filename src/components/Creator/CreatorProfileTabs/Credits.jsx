@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
 import ButtonText from "@/components/ButtonText";
 import Heading from "@/components/Heading";
 
@@ -42,11 +39,12 @@ const Empty = () => {
   return <>No credits</>;
 };
 
-const Credits = () => {
+const Credits = ({ meta }) => {
   const LIMIT = 3;
-  const pathname = usePathname();
 
-  const { user } = useUser();
+  const { user: localUser } = useUser();
+
+  const user = meta ? meta : localUser;
   const credits = user?.credits ? JSON.parse(user.credits) : [];
 
   const [viewMore, setViewMore] = useState(false);

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
-import Heading from "@/components/Heading";
 import StatsPanel from "@/components/StatsPanel";
 import Section from "@/components/Section";
 import Text from "@/components/Text";

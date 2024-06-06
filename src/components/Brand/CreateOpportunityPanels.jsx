@@ -37,7 +37,7 @@ const CreateOpportunityPanels = () => {
           <Panel
             key={name}
             className={clsx(
-              "flex flex-col justify-between basis-1/3 max-w-sm mx-auto relative group-",
+              "flex flex-col justify-between basis-1/3 max-w-sm mx-auto relative transition-all bottom-0 hover:bottom-1",
               classes.panel
             )}
           >

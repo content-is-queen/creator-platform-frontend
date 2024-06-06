@@ -21,7 +21,7 @@ const ProfileIcon = ({
     >
       {imageUrl ? (
         <img
-          className="w-full h-full object-cover"
+          className="w-full h-full object-top object-cover"
           height={20}
           width={20}
           src={imageUrl}

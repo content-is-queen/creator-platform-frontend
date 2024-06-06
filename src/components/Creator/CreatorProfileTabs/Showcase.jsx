@@ -113,8 +113,11 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
   );
 };
 
-const Showcase = () => {
-  const { user } = useUser();
+const Showcase = ({ meta }) => {
+  const { user: localUser } = useUser();
+
+  const user = meta ? meta : localUser;
+
   const creditsToShow = user?.showcase ? JSON.parse(user.showcase) : [];
 
   const credits = user?.credits ? JSON.parse(user.credits) : [];

@@ -15,11 +15,11 @@ module.exports = {
       },
       colors: {
         "queen-blue": "#3667ED",
-        "queen-yellow": "#E5FC52",
+        "queen-yellow": { DEFAULT: "#E5FC52", dark: "#c4e204" },
         "queen-black": "#362921",
         "queen-gray": "#D7CDFB",
         "queen-white": "#F7F7F7",
-        "queen-orange": "#FF7300",
+        "queen-orange": { DEFAULT: "#FF7300", dark: "#e66800" },
         "queen-lilac": "#D7CDFB",
       },
       fontFamily: {
