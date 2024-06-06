@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
+import { useUser } from "@/context/UserContext";
 import API from "@/api/api";
 import useToken from "@/hooks/useToken";
 
