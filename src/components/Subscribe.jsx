@@ -24,6 +24,7 @@ const Subscribe = () => {
       );
 
       setUser({ ...user, subscribed: true });
+      localStorage.removeItem("userProfile");
     } catch (error) {
       console.error(error);
     }
