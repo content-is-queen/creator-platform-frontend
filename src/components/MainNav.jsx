@@ -25,8 +25,6 @@ const MainNav = () => {
 
   const { user, userLoaded, setUser } = useUser();
 
-  const standard = true;
-
   const pathname = usePathname();
 
   const handleIsUserClicked = () => {

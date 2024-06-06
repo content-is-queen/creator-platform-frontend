@@ -1,17 +1,25 @@
 "use client";
 
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { loadStripe } from "@stripe/stripe-js";
+
+import API from "@/api/api";
+import useToken from "@/hooks/useToken";
+import { useUser } from "@/context/UserContext";
+
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Text from "@/components/Text";
 import Block from "@/components/Block";
 import DecorativeText from "@/components/DecorativeText";
 import Heading from "@/components/Heading";
-
-import { useUser } from "@/context/UserContext";
 import Button from "@/components/Button";
 import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
 
 const Thankyou = () => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  const token = useToken();
+  const searchParams = useSearchParams();
 
   const COPY = {
     creator: {
@@ -33,6 +41,32 @@ const Thankyou = () => {
       },
     },
   };
+
+  const subscribe = async (session_id) => {
+    try {
+      const response = await API.post(
+        "/payments/subscribe",
+        { session_id, user_id: user.uid, email: user.email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUser({ ...user, subscribed: true });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const sessionId = searchParams.get("session_id");
+    if (sessionId && user) {
+      subscribe(sessionId);
+    }
+  }, [user]);
 
   return (
     <>

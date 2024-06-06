@@ -10,10 +10,10 @@ const Bar = ({ dark }) => (
 );
 
 const LoadingPlaceholder = ({ dark }) => (
-  <div className="flex flex-col gap-2">
+  <span className="flex flex-col gap-2">
     <Bar dark={dark} />
     <Bar dark={dark} />
-  </div>
+  </span>
 );
 
 export default LoadingPlaceholder;
