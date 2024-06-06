@@ -8,9 +8,14 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const { data } = await API.get("/auth/users");
+  try {
+    const { data } = await API.get("/auth/users");
 
-  return data.map(({ uid }) => ({ id: uid }));
+    return data.map(({ uid }) => ({ id: uid }));
+  } catch (error) {
+    console.error("Error fetching profiles during build:", error);
+    return [];
+  }
 }
 
 export const dynamicParams = false;

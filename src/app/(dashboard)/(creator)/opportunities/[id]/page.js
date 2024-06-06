@@ -17,13 +17,17 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const { data } = await API.get("/opportunities?limit=0");
-
-  return data.message.opportunities.map(({ opportunity_id }) => ({
-    id: opportunity_id,
-  }));
+  try {
+    const { data } = await API.get("/opportunities?limit=0");
+    const opportunities = data?.message?.opportunities || [];
+    return opportunities.map(({ opportunity_id }) => ({
+      id: opportunity_id,
+    }));
+  } catch (error) {
+    console.error("Error fetching opportunities during build:", error);
+    return [];
+  }
 }
-
 export const dynamicParams = false;
 
 export default async function Opportunity({ params: { id: opportunity_id } }) {
