@@ -9,7 +9,12 @@ const CreateOpportunityModal = () => {
 
   return (
     <>
-      <Button type="button" as="button" onClick={() => setIsOpen(true)}>
+      <Button
+        type="button"
+        as="button"
+        onClick={() => setIsOpen(true)}
+        variant="yellow"
+      >
         Create Opportunity
       </Button>
 

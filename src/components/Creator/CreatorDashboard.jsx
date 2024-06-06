@@ -36,21 +36,19 @@ const CreatorDashboard = () => {
     <>
       <div
         style={{ minHeight: "calc(100vh - var(--nav-height))" }}
-        className="flex justify-center items-center py-12 text-center md:py-20 bg-queen-blue bg-lilac-dots bg-repeat-x bg-[center_bottom_-4rem]"
+        className="flex justify-center items-center py-12 text-center md:py-32 bg-queen-blue bg-lilac-dots bg-repeat-x bg-[center_bottom_-4rem]"
       >
         <Container className="space-y-4 pb-20">
-          <Heading className="text-queen-white mb-12">Overview</Heading>
-
           <StatsPanel loading={loading} applications={applications} />
 
           {!loading && applications.length < 1 && (
-            <div className="space-y-6 max-w-lg text-queen-white pt-12 pb-20">
-              <p>
-                It looks like you haven’t applied for any opportunities yet. Why
-                don’t you check out the latest opportunities.
-              </p>
-              <Button variant="yellow" href="/opportunities">
-                View opportunities
+            <div className="space-y-6 max-w-md text-queen-white pt-10 pb-20 md:pb-0">
+              <Text size="lg" className="leading-6">
+                It looks like you haven’t applied for any opportunities yet.{" "}
+                <br /> Why don’t you check out our latest opportunities.
+              </Text>
+              <Button variant="yellow" href="/opportunities" size="lg">
+                Get started
               </Button>
             </div>
           )}

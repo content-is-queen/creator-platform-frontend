@@ -9,7 +9,6 @@ module.exports = {
       backgroundImage: {
         dots: "url('/images/CiQ_Pattern_02.svg')",
         "lilac-dots": "url('/images/CiQ_Pattern 4 lilac.svg')",
-        "orange-dots": "url('/images/CiQ_Pattern 4 orange.svg')",
         "blue-dots": "url('/images/CiQ_Pattern 4 blue.svg')",
         "orange-dots-circle": "url('/images/orange-dots-circle.svg')",
         "lilac-dots-circle": "url('/images/lilac-dots-circle.svg')",
@@ -27,6 +26,7 @@ module.exports = {
         heading: ["var(--font-anton)"],
         sans: ["var(--font-forma-deck)"],
         subheading: ["var(--font-forma-banner)"],
+        decorative: ["var(--font-swear-display)"],
       },
     },
   },

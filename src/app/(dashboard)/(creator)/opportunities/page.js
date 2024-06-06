@@ -9,7 +9,7 @@ const Opportunities = async () => {
 
   return (
     <Container size="2xl" className="mb-32">
-      <div className="text-center mt-20 mb-16">
+      <div className="text-center mt-24 mb-16">
         <Heading>Opportunities</Heading>
       </div>
 

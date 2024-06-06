@@ -118,7 +118,7 @@ const MainNav = () => {
                   key={href}
                   className={clsx(
                     twMerge(
-                      pathname !== href && "opacity-80",
+                      pathname !== href && "opacity-100",
                       "relative after:absolute after:h-[1px] after:w-0 after:bg-queen-yellow after:left-0 after:-bottom-1 hover:after:w-full transition-all",
                       pathname === href && "after:w-full"
                     )
@@ -130,7 +130,7 @@ const MainNav = () => {
               {standard && user && user?.role !== "admin" && (
                 <li>
                   <Button variant="yellow" href="/plus">
-                    Upgrade to plus
+                    Upgrade account
                   </Button>
                 </li>
               )}

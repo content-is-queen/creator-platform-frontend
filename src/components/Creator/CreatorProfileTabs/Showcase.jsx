@@ -97,14 +97,14 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
         )}
       </div>
       <div>
-        <p
+        <a
           href={href}
-          className="truncate inline-block max-w-60 w-full leading-none "
+          className="truncate inline-block max-w-60 w-full leading-none hover:underline"
           target="_blank"
           rel="noopener noreferrer"
         >
           {name}
-        </p>
+        </a>
         <span className="text-queen-black/60 block text-sm leading-none">
           {role}
         </span>

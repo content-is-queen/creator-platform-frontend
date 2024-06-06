@@ -53,9 +53,10 @@ const CheckoutForm = ({ className }) => {
       type="button"
       onClick={handleClick}
       className={className}
+      size="lg"
     >
       {loading && <Button.Spinner />}
-      Subscribe
+      Upgrade to plus
     </Button>
   );
 };

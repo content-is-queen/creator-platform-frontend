@@ -41,7 +41,7 @@ const AdminDashboard = () => {
       <Container size="5xl" className="space-y-20">
         <section>
           <div className="flex justify-between">
-            <Heading>Overview</Heading>
+            <Heading size="4xl">Overview</Heading>
 
             <div className="space-x-4">
               <CreateOpportunityModal />
