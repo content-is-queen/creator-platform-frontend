@@ -17,6 +17,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const messaging = getMessaging(app);
+let messaging = null;
+if (typeof window !== "undefined") {
+  const { getMessaging } = require("firebase/messaging");
+  messaging = getMessaging(app);
+}
 
 export { app, auth, db, messaging };

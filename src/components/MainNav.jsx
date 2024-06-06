@@ -15,10 +15,16 @@ import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
 import Button from "./Button";
 import CreateUserForm from "./Admin/CreateUserForm";
+import API from "@/api/api";
+import useToken from "@/hooks/useToken";
+import NotificationsList from "./NotificationsList";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
+  const [isBellClicked, setIsBellClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
+  const [notificationList, setNotificationsList] = useState([]);
+  const { token } = useToken();
 
   const router = useRouter();
 
@@ -29,6 +35,45 @@ const MainNav = () => {
   const handleIsUserClicked = () => {
     if (!user) return;
     setIsUserClicked((prev) => !prev);
+  };
+  const handleClearAll = async () => {
+    try {
+      await API("/notifications/clear", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      handleIsBellClicked();
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+  const handleIsBellClicked = async () => {
+    if (!user) return;
+    if (isBellClicked === false) {
+      if (token) {
+        try {
+          const response = await API("/notifications/all", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const { data } = response.data;
+          setNotificationsList(data);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          setNotifications(response);
+        } catch (error) {
+          console.error("Error fetching notifications:", error);
+        }
+      }
+    }
+    setIsBellClicked((prev) => !prev);
   };
 
   const handleToggle = () => {
@@ -129,7 +174,7 @@ const MainNav = () => {
               <li>
                 <button
                   type="button"
-                  onClick={handleIsUserClicked}
+                  onClick={handleIsBellClicked}
                   className="flex text-sm  rounded-full md:me-0 focus:ring-4"
                   id="user-menu-button"
                   aria-expanded="false"
@@ -157,6 +202,41 @@ const MainNav = () => {
               </li>
             </ul>
           </div>
+          {isBellClicked && (
+            <div>
+              <div
+                id="dropdownNotification"
+                class="z-2000 w-full absolute max-w-sm max-h-md bg-white divide-y divide-gray-100 rounded-lg shadow"
+                aria-labelledby="dropdownNotificationButton"
+                style={{
+                  maxHeight: "60vh",
+                  overflowY: "auto",
+                  zIndex: "20000",
+                }}
+              >
+                <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
+                  Notifications
+                </div>
+                {notificationList?.length > 0 &&
+                  notificationList?.map((item) => {
+                    console.log();
+                    return <NotificationsList key={item.id} data={item} />;
+                  })}
+                {notificationList.length === 0 && (
+                  <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
+                    Your notification inbox is empty.
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={handleClearAll}
+                  class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 w-full"
+                >
+                  <div class="inline-flex items-center ">Clear all</div>
+                </button>
+              </div>
+            </div>
+          )}
 
           {isUserClicked && (
             <SubMenu heading={<SubMenu.Heading>{user?.email}</SubMenu.Heading>}>

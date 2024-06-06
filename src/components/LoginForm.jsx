@@ -90,7 +90,6 @@ const LoginForm = () => {
         fcm_token,
         user_id: user.uid,
       };
-      console.log(fcm_token);
       await saveTokenToServer(data);
       router.push("/");
     } catch (error) {
