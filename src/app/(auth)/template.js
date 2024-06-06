@@ -12,7 +12,7 @@ const AuthTemplate = ({ children }) => {
     if (user?.first_name && userLoaded) {
       router.push("/");
     }
-  }, [userLoaded]);
+  }, [user]);
 
   return (
     <div className="grid min-h-screen md:grid-cols-12">

@@ -6,6 +6,8 @@ import Link from "next/link";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
+import { auth } from "@/firebase.config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -62,19 +64,25 @@ const SignUpForm = () => {
         }
       );
 
-      const {
-        data: {
-          data: { uid },
-        },
-      } = response;
+      if (response.status === 200) {
+        // Login the user if signup is successful
+        const {
+          data: {
+            data: { uid },
+          },
+        } = response;
 
-      const user = { ...data, uid, role: id };
+        const user = { ...data, uid, role: id };
 
-      const { password, ...userProfile } = user;
+        const { password, email, ...userProps } = user;
 
-      localStorage.setItem("userProfile", JSON.stringify(userProfile));
-      setUser(userProfile);
-      router.push("/verify");
+        await signInWithEmailAndPassword(auth, email, password);
+
+        const userProfile = { email, ...userProps };
+
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
+        setUser(userProfile);
+      }
     } catch (response) {
       setError({ message: "Something went wrong during sign up" });
       console.error(response);
