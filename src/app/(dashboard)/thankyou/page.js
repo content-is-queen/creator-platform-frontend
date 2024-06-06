@@ -69,7 +69,7 @@ const Thankyou = () => {
   }, [user]);
 
   return (
-    <>
+    <Suspense>
       <Block className="bg-queen-orange">
         <div className="text-center space-y-4">
           <DecorativeText className="relative top-1 text-queen-white text-5xl">
@@ -106,7 +106,7 @@ const Thankyou = () => {
           {user ? COPY[user.role].cta : <LoadingPlaceholder dark />}
         </div>
       </Block>
-    </>
+    </Suspense>
   );
 };
 
