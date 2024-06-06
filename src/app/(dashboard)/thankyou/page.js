@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { loadStripe } from "@stripe/stripe-js";
+import { Suspense } from "react";
 
 import API from "@/api/api";
 import useToken from "@/hooks/useToken";
