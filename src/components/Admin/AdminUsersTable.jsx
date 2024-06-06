@@ -17,7 +17,7 @@ const AdminUsersTable = ({ users }) => {
   const [checkAll, setCheckAll] = useState(false);
   const [errors, setError] = useState({});
 
-  const token = useToken();
+  const { token } = useToken();
 
   useEffect(() => {
     setLoading(false);
@@ -36,6 +36,26 @@ const AdminUsersTable = ({ users }) => {
       window.location.reload();
     } catch (error) {
       setError({ message: "There was an error deleting the user" });
+      console.error(error);
+    }
+  };
+
+  const deleteSelectedUsers = async () => {
+    setError({});
+    try {
+      await Promise.all(
+        selectedUsers.map((id) =>
+          API.delete(`/admin/delete/${id}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        )
+      );
+      window.location.reload();
+    } catch (error) {
+      setError({ message: "There was an error deleting the users" });
       console.error(error);
     }
   };
@@ -93,6 +113,15 @@ const AdminUsersTable = ({ users }) => {
         setFilteredData={setFilteredUsers}
         filter={{ keys: ["first_name", "last_name"], tag: "role" }}
       />
+
+      {selectedUsers.length > 0 && (
+        <button
+          onClick={deleteSelectedUsers}
+          className="px-4 py-1 w-full text-left border border-gray-500 rounded-md text-base"
+        >
+          Delete Selected
+        </button>
+      )}
 
       <div className="my-12 space-y-6">
         <Table>
