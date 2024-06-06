@@ -5,10 +5,10 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-
-import { auth } from "@/firebase.config";
+import { auth, messaging } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import { IoNotificationsOutline } from "react-icons/io5";
+import { MdOutlineNotificationAdd } from "react-icons/md"
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
@@ -18,12 +18,15 @@ import CreateUserForm from "./Admin/CreateUserForm";
 import API from "@/api/api";
 import useToken from "@/hooks/useToken";
 import NotificationsList from "./NotificationsList";
+import { onMessage } from "firebase/messaging";
+import { toast } from "react-toastify";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isBellClicked, setIsBellClicked] = useState(false);
   const [isToggleClicked, setIsToggleClicked] = useState(false);
   const [notificationList, setNotificationsList] = useState([]);
+  const [isNewNotification, setIsNewNotification] = useState(false);
   const { token } = useToken();
 
   const router = useRouter();
@@ -51,6 +54,7 @@ const MainNav = () => {
     }
   };
   const handleIsBellClicked = async () => {
+    setIsNewNotification(false);
     if (!user) return;
     if (isBellClicked === false) {
       if (token) {
@@ -132,7 +136,12 @@ const MainNav = () => {
       },
     ],
   };
-
+useEffect(()=>{
+  onMessage(messaging, async (payload) => {
+    setIsNewNotification(true);
+    toast(payload?.notification?.title);
+  });
+  }, []);
   return (
     <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
       <Container className="flex flex-wrap items-center justify-between text-sm w-full">
@@ -182,7 +191,8 @@ const MainNav = () => {
                   data-dropdown-placement="bottom"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <IoNotificationsOutline className="w-6 h-6" />
+                  {isNewNotification? <MdOutlineNotificationAdd className="w-6 h-6" /> : <IoNotificationsOutline className="w-6 h-6" />}
+
                 </button>
               </li>
               <li>

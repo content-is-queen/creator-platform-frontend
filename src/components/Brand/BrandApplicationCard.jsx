@@ -74,7 +74,7 @@ const BrandApplicationCard = ({
   };
   const acceptApplication = async (id) => {
     try {
-      const response = await API.patch(
+      const response = await API.put(
         `/applications/${id}`,
         {
           status: "accepted",
@@ -96,9 +96,28 @@ const BrandApplicationCard = ({
             "Something went wrong when accpeting the application"
         );
       }
+      if(response.data.status === 200){
+        if(user?.fcm_token){
+          await API.post(
+            `/notifications/send`,
+            {
+              status: "accepted",
+              token: user?.fcm_token,
+              user_id,
+              title: "Creator Platform Application Update",
+              body: "Your your application has been successfully reviewed and accepted"
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        }
 
       setMessage({ status: "accepted", room: response.data.roomId });
-
+      }
       // TODO: Add screen to take to conversation
     } catch (error) {
       console.error(error);

@@ -4,6 +4,7 @@ import "react-tailwindcss-select/dist/index.css";
 import Providers from "@/components/Providers";
 
 import localFont from "next/font/local";
+// import { NotificationsProvider } from "@/context/NotificationsContext";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
