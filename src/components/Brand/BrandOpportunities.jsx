@@ -15,6 +15,7 @@ import SpinnerScreen from "@/components/SpinnerScreen";
 
 import { useUser } from "@/context/UserContext";
 import useOpportunities from "@/hooks/useOpportunities";
+import Spinner from "../Spinner";
 
 register();
 
@@ -90,7 +91,12 @@ const BrandOpportunities = () => {
     }
   }, [filteredOpportunities, active]);
 
-  if (loading) return <SpinnerScreen />;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-44">
+        <Spinner className="h-6 w-6" />
+      </div>
+    );
 
   if (opportunities?.length > 0) {
     return (

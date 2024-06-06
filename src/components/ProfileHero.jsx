@@ -42,7 +42,7 @@ const ProfileHero = ({ user }) => {
               ))}
             </div>
           )}
-          <p className="text-sm mt-1">{user?.bio}</p>
+          <p className="mt-1">{user?.bio}</p>
         </div>
       </Container>
       <Dots className="absolute -right-48 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />

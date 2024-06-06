@@ -2,25 +2,29 @@
 
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+
 import API from "@/api/api";
+import Button from "./Button";
+
+import { useUser } from "@/context/UserContext";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);
+  const { user } = useUser();
 
-  const handleCheckout = async () => {
+  const handleClick = async () => {
     setLoading(true);
 
     try {
       const response = await API.post("/payments/create-checkout-session", {});
 
       if (response.status !== 200) {
-        throw new Error("Failed to create checkout session front end");
+        throw new Error("Failed to create checkout session");
       }
 
       const sessionId = response.data.id; // Extract session ID from response data
-
       const stripe = await stripePromise;
 
       // Redirect to the Stripe Checkout page
@@ -31,18 +35,6 @@ const CheckoutForm = () => {
       if (error) {
         throw new Error("An error occurred during checkout");
       }
-
-      // Call API to update user subscription status upon successful checkout
-      const updateResponse = await API.post(
-        `/auth/userSubscription/sCxCtR8YPfWyrZGVkwyzcTNcF5N2`,
-        { subscribed: true }
-      );
-
-      if (updateResponse.status === 200) {
-        console.log("User subscription status updated successfully");
-      } else {
-        throw new Error("Failed to update user subscription status");
-      }
     } catch (error) {
       console.error("Checkout error:", error);
     } finally {
@@ -51,11 +43,17 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleCheckout} disabled={loading}>
-        {loading ? "Processing..." : "Checkout"}
-      </button>
-    </div>
+    <Button
+      as="button"
+      type="button"
+      onClick={handleClick}
+      className={className}
+      size="lg"
+      variant={variant}
+    >
+      {loading && <Button.Spinner dark />}
+      Upgrade to plus
+    </Button>
   );
 };
 

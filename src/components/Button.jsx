@@ -6,19 +6,22 @@ import Link from "next/link";
 import GlobalSpinner from "./Spinner";
 
 const ButtonVariants = cva(
-  "inline-flex items-center leading-none font-subheading rounded-full uppercase hover:opacity-90 disabled:opacity-60 transition",
+  "inline-flex items-center leading-none font-subheading rounded-full uppercase disabled:opacity-80 transition",
   {
     variants: {
       variant: {
-        orange: "text-white bg-queen-orange font-bold",
-        yellow: "text-queen-black bg-queen-yellow font-bold",
-        brown: "text-white bg-queen-brown font-bold",
+        orange:
+          "text-white bg-queen-orange hover:bg-queen-orange-dark font-bold",
+        yellow:
+          "text-queen-black bg-queen-yellow hover:bg-queen-yellow-dark font-bold",
+        brown: "text-white bg-queen-black font-bold",
         blue: "text-white bg-queen-blue font-bold",
         white: "border border-queen-black/40 hover:bg-gray-50",
       },
       size: {
         sm: "px-4 py-0.5 text-xs",
         md: "px-6 py-1 text-sm",
+        lg: "px-8 py-2.5",
       },
     },
     defaultVariants: {
@@ -28,7 +31,9 @@ const ButtonVariants = cva(
   }
 );
 
-const Spinner = () => <GlobalSpinner className="text-white mr-3 h-3 w-3" />;
+const Spinner = ({ dark }) => (
+  <GlobalSpinner className="text-white mr-3 h-3 w-3" />
+);
 
 const Button = ({ variant, size, as, children, className, ...otherProps }) => {
   const Element = as || Link;
