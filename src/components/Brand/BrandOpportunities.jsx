@@ -77,18 +77,25 @@ const BrandOpportunities = () => {
     };
 
     // Filter opportunities by their statuses
-    setFilteredOpportunities(
+    const filtered =
       active.id === "all"
         ? opportunities
-        : opportunities.filter((i) => i.status === active.id)
-    );
+        : opportunities.filter((i) => i.status === active.id);
+
+    setFilteredOpportunities(filtered);
 
     // Swiper initialization
     if (opportunities && swiperContainer) {
       Object.assign(swiperContainer, params);
       swiperContainer.initialize();
+
+      // Reinitialize Swiper if necessary
+      if (filtered.length !== filteredOpportunities.length) {
+        swiperContainer.swiper.destroy(true, true);
+        swiperContainer.swiper.init();
+      }
     }
-  }, [filteredOpportunities, active]);
+  }, [opportunities, active]);
 
   if (loading) return <SpinnerScreen />;
 
