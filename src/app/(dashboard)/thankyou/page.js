@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-import API from "@/api/api";
-import useToken from "@/hooks/useToken";
 import { useUser } from "@/context/UserContext";
 
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
@@ -14,11 +11,10 @@ import DecorativeText from "@/components/DecorativeText";
 import Heading from "@/components/Heading";
 import Button from "@/components/Button";
 import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
+import Subscribe from "@/components/Subscribe";
 
 const Thankyou = () => {
-  const { user, setUser } = useUser();
-  const token = useToken();
-  const searchParams = useSearchParams();
+  const { user } = useUser();
 
   const COPY = {
     creator: {
@@ -41,34 +37,8 @@ const Thankyou = () => {
     },
   };
 
-  const subscribe = async (session_id) => {
-    try {
-      const response = await API.post(
-        "/payments/subscribe",
-        { session_id, user_id: user.uid, email: user.email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setUser({ ...user, subscribed: true });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    const sessionId = searchParams.get("session_id");
-    if (sessionId && user) {
-      subscribe(sessionId);
-    }
-  }, [user]);
-
   return (
-    <Suspense>
+    <>
       <Block className="bg-queen-orange">
         <div className="text-center space-y-4">
           <DecorativeText className="relative top-1 text-queen-white text-5xl">
@@ -105,7 +75,10 @@ const Thankyou = () => {
           {user ? COPY[user.role].cta : <LoadingPlaceholder dark />}
         </div>
       </Block>
-    </Suspense>
+      <Suspense>
+        <Subscribe />
+      </Suspense>
+    </>
   );
 };
 
