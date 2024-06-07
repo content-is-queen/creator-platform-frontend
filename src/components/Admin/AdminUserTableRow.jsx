@@ -14,7 +14,7 @@ const AdminUserTableRow = ({
   last_name,
   email,
   role,
-  isActivated,
+  disabled,
   selectedUsers,
   setSelectedUsers,
   handleActivation,
@@ -58,9 +58,9 @@ const AdminUserTableRow = ({
       <Table.Data>
         <div className="flex items-center">
           <div
-            className={`h-2.5 w-2.5 rounded-full ${isActivated ? "bg-green-500" : "bg-red-500"} me-2`}
+            className={`h-2.5 w-2.5 rounded-full ${disabled ? "bg-red-500" : "bg-green-500"} me-2`}
           ></div>{" "}
-          {isActivated ? "Activated" : "Deactivated"}
+          {disabled ? "Disabled" : "Activate"}
         </div>
       </Table.Data>
       <Table.Data>{email}</Table.Data>
@@ -81,12 +81,12 @@ const AdminUserTableRow = ({
                 onClick={() =>
                   handleActivation({
                     id: uid,
-                    activated: isActivated,
+                    activated: !disabled,
                   })
                 }
                 className="px-4 py-1 w-full text-left inline-block"
               >
-                {!isActivated ? "Activate" : "Deactivate"}
+                {disabled ? "Activate" : "Deactivate"}
               </button>
             </SubMenu.Item>
             <SubMenu.Item>
