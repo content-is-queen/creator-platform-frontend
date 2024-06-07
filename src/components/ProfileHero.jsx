@@ -15,7 +15,7 @@ const ProfileHero = ({ user }) => {
 
   const heading = user?.organisation_name
     ? user.organisation_name
-    : user.first_name + " " + user.last_name;
+    : user?.first_name + " " + user?.last_name;
 
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
