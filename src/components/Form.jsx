@@ -92,17 +92,17 @@ const Checkbox = ({
   description,
   ...otherProps
 }) => {
-  const [selected, setSelected] = useState([]);
+  const [checked, setChecked] = useState([]);
 
   const handleChange = (e) => {
-    setSelected((prev) => {
+    setChecked((prev) => {
       return e.target.checked
         ? [...prev, e.target.value]
         : prev.filter((i) => i !== e.target.value);
     });
   };
 
-  const disabled = selected.length === parseInt(max);
+  const disabled = checked.length === parseInt(max);
 
   return (
     <div key={name}>
@@ -120,7 +120,7 @@ const Checkbox = ({
                     id={option}
                     onChange={handleChange}
                     value={option}
-                    disabled={disabled && !selected.includes(option)}
+                    disabled={disabled && !checked.includes(option)}
                     {...otherProps}
                   />
                   <label for={name} className="text-sm">
@@ -152,7 +152,7 @@ const Checkbox = ({
                     id={category}
                     onChange={handleChange}
                     value={category}
-                    disabled={disabled && !selected.includes(category)}
+                    disabled={disabled && !checked.includes(category)}
                     {...otherProps}
                   />
                   <label for={name} className="text-sm">

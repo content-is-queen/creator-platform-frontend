@@ -4,7 +4,7 @@ import Form from "@/components/Form";
 import Button from "../Button";
 import { Error } from "@/components/Form";
 
-const ShowreelInput = ({ setLocalUser, localUser, handleChange }) => {
+const ShowreelInput = ({ setFormData, localUser, handleChange }) => {
   const [inputValue, setInputValue] = useState(
     localUser.profile_meta?.showreel || ""
   );
@@ -21,7 +21,7 @@ const ShowreelInput = ({ setLocalUser, localUser, handleChange }) => {
       return;
     }
 
-    setLocalUser((prev) => {
+    setFormData((prev) => {
       const newObj = prev;
       const { profile_meta } = newObj;
       newObj.profile_meta = { ...profile_meta, showreel: inputValue };
@@ -32,7 +32,7 @@ const ShowreelInput = ({ setLocalUser, localUser, handleChange }) => {
 
   const remove = () => {
     setError({});
-    setLocalUser((prev) => {
+    setFormData((prev) => {
       const newObj = prev;
       const { profile_meta } = newObj;
       newObj.profile_meta = { ...profile_meta, showreel: "" };

@@ -52,11 +52,10 @@ const CreateOpportunityForm = ({ type }) => {
     });
 
     try {
-      const response = await API.post("/opportunities", postData, {
-        headers: { "Content-Type": "application/json" },
-      });
-
-      window.location = "/";
+      // const response = await API.post("/opportunities", postData, {
+      //   headers: { "Content-Type": "application/json" },
+      // });
+      // window.location = "/";
     } catch (err) {
       setError({
         message: err.response.data.message,

@@ -15,7 +15,7 @@ const EditProfile = () => {
   const [errors, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [localUser, setLocalUser] = useState({});
+  const [formData, setFormData] = useState({});
 
   const { user, setUser } = useUser();
   const { token } = useToken();
@@ -28,7 +28,7 @@ const EditProfile = () => {
       const { name, value, files } = e.target;
       const newValue = files ? files[0] : value;
 
-      setLocalUser((prev) => ({
+      setFormData((prev) => ({
         ...prev,
         [name]: newValue,
       }));
@@ -36,7 +36,7 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
-    setLocalUser({
+    setFormData({
       first_name: user?.first_name || "",
       last_name: user?.last_name || "",
       imageUrl: user?.imageUrl || "",
@@ -48,7 +48,7 @@ const EditProfile = () => {
     setLoading(true);
     const formData = new FormData();
 
-    Object.entries(localUser).forEach(([key, value]) => {
+    Object.entries(formData).forEach(([key, value]) => {
       if (key === "showcase" || key === "credits") {
         formData.append(key, JSON.stringify(value));
       } else {
@@ -93,7 +93,7 @@ const EditProfile = () => {
         <div className="flex gap-x-6 w-full">
           <Form.Input
             name="first_name"
-            value={localUser.first_name}
+            value={formData.first_name}
             onChange={handleChange}
             className="w-full"
           >
@@ -101,7 +101,7 @@ const EditProfile = () => {
           </Form.Input>
           <Form.Input
             name="last_name"
-            value={localUser.last_name}
+            value={formData.last_name}
             onChange={handleChange}
             className="w-full"
           >
@@ -119,7 +119,7 @@ const EditProfile = () => {
           </Form.Input>
           <Form.Input
             name="bio"
-            value={localUser.bio}
+            value={formData.bio}
             rows={5}
             onChange={handleChange}
           >
@@ -132,13 +132,13 @@ const EditProfile = () => {
             <>
               <ShowcaseInput
                 setUpdated={setUpdated}
-                setLocalUser={setLocalUser}
+                setFormData={setFormData}
                 handleChange={handleChange}
               />
 
               <CreditsInput
                 setUpdated={setUpdated}
-                setLocalUser={setLocalUser}
+                setFormData={setFormData}
                 handleChange={handleChange}
               />
             </>

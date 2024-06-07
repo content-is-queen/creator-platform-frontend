@@ -45,6 +45,8 @@ const FIELDS = [
     rules: {
       required: "Role is required",
     },
+    as: "select",
+    options: ["admin", "creator", "brand"],
   },
   {
     name: "password",
@@ -111,7 +113,7 @@ const CreateUserForm = () => {
       <Button
         type="button"
         as="button"
-        variant="brown"
+        variant="white"
         onClick={() => setIsOpen(true)}
       >
         Create User
