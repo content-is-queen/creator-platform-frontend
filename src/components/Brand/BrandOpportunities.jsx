@@ -147,10 +147,10 @@ const BrandOpportunities = () => {
     <div className="text-center pt-28 pb-20">
       <Container className="space-y-2">
         <p className="font-subheading font-bold text-xl text-queen-black">
-          Find new talent
+          No projects
         </p>
         <div className="space-y-6 max-w-lg mx-auto">
-          <p>Select "Create opportunity" to get started</p>
+          <p>You haven't posted any projects yet</p>
         </div>
       </Container>
     </div>

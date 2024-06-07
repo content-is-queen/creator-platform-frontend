@@ -151,7 +151,7 @@
         "description": "Please describe your intended audience. Include any specific details about who you are aiming to reach with your content."
       },
       {
-        "name": "target",
+        "name": "target_audience",
         "type": "checkbox",
         "children": "Target Audience Characteristics (Choose up to 3)",
         "max": "3",
@@ -237,13 +237,13 @@
       { "name": "title", "type": "text", "children": "Title" },
       { "name": "description", "as": "textarea", "children": "Description" },
       {
-        "name": "target",
+        "name": "target_audience",
         "as": "textarea",
         "children": "Target Audience",
         "description": "Please describe your target audience. Include any specific details about who you are aiming to reach with your ad campaign."
       },
       {
-        "name": "target",
+        "name": "target_demographic",
         "type": "checkbox",
         "children": "Target Demographics (Select up to 3)",
         "max": "3",
@@ -284,8 +284,7 @@
               "Europe",
               "Asia",
               "Africa",
-              "Oceania",
-              "Specific Country"
+              "Oceania"
             ]
           },
           {

@@ -13,6 +13,10 @@ import Heading from "./Heading";
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
 
+  const heading = user?.organisation_name
+    ? user.organisation_name
+    : user?.first_name + " " + user?.last_name;
+
   return (
     <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
       <Container size="4xl" className="space-y-4">
@@ -29,11 +33,7 @@ const ProfileHero = ({ user }) => {
             size="3xl"
             className="font-heading uppercase text-2xl"
           >
-            {!user ? (
-              <LoadingPlaceholder />
-            ) : (
-              `${user?.first_name} ${user?.last_name}`
-            )}
+            {!user ? <LoadingPlaceholder /> : <>{heading}</>}
           </Heading>
           {user?.tags && (
             <div className="flex gap-2 my-2">

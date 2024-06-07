@@ -16,7 +16,7 @@ const ButtonVariants = cva(
           "text-queen-black bg-queen-yellow hover:bg-queen-yellow-dark font-bold",
         brown: "text-white bg-queen-black font-bold",
         blue: "text-white bg-queen-blue font-bold",
-        white: "border border-queen-black/40 hover:bg-gray-50",
+        white: "border border-queen-black/40 hover:bg-queen-black/5",
       },
       size: {
         sm: "px-4 py-0.5 text-xs",
