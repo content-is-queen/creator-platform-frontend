@@ -26,6 +26,17 @@ const CreateOpportunityForm = ({ type }) => {
       const { name, type, options } = current;
 
       if (type === "checkbox") {
+        if (options.some((i) => Object.hasOwn(i, "title"))) {
+          const allOptions = [];
+
+          options.forEach(({ categories }) => {
+            categories.forEach((category) => {
+              allOptions.push(category);
+            });
+          });
+
+          return [...acc, { [name]: allOptions }];
+        }
         return [...acc, { [name]: options }];
       }
 
@@ -52,10 +63,10 @@ const CreateOpportunityForm = ({ type }) => {
     });
 
     try {
-      // const response = await API.post("/opportunities", postData, {
-      //   headers: { "Content-Type": "application/json" },
-      // });
-      // window.location = "/";
+      const response = await API.post("/opportunities", postData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      window.location = "/";
     } catch (err) {
       setError({
         message: err.response.data.message,
