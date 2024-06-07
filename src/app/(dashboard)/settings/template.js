@@ -25,11 +25,11 @@ const Template = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && user.role !== "admin"
+    ...(user && !user?.subscribed && user?.role !== "admin"
       ? [
           {
-            href: "/settings/subscription",
-            label: "Subscription",
+            href: "https://billing.stripe.com/p/login/test_eVa5m286rcby6Oc6oo",
+            label: "Manage Subscription",
           },
         ]
       : []),
