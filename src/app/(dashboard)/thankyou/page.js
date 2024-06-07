@@ -83,4 +83,3 @@ const Thankyou = () => {
 };
 
 export default Thankyou;
-src / app / dashboard / thankyou / page.js;
