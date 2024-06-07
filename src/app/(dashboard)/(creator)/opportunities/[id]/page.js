@@ -32,7 +32,16 @@ export const dynamicParams = false;
 
 export default async function Opportunity({ params: { id: opportunity_id } }) {
   const {
-    data: { title, description, company, type, compensation, salary, user_id },
+    data: {
+      title,
+      description,
+      company,
+      type,
+      compensation,
+      salary,
+      user_id,
+      user_imageUrl,
+    },
   } = await API(`/opportunities/opportunityid/${opportunity_id}`);
 
   return (
@@ -47,7 +56,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
               Back to Dashboard
             </Link>{" "}
-            <ProfileIcon className="h-12 w-12" />
+            <ProfileIcon className="h-12 w-12" imageUrl={user_imageUrl} />
             <Heading size="3xl" className="mt-6 mb-1">
               {title}
             </Heading>

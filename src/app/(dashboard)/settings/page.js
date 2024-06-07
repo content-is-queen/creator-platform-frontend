@@ -1,12 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
+import useToken from "@/hooks/useToken";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
-import { useState } from "react";
-import API from "@/api/api";
-import useToken from "@/hooks/useToken";
 
 const General = () => {
   const { user, setUser } = useUser();
@@ -19,6 +19,12 @@ const General = () => {
   const [formData, setFormData] = useState({
     email: user?.email || "",
   });
+
+  useEffect(() => {
+    setFormData({
+      email: user?.email || "",
+    });
+  }, [user]);
 
   const handleChange = (e) => {
     !updated && setUpdated(true);

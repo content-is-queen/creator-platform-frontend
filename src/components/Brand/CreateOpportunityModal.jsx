@@ -9,15 +9,20 @@ const CreateOpportunityModal = () => {
 
   return (
     <>
-      <Button type="button" as="button" onClick={() => setIsOpen(true)}>
+      <Button
+        type="button"
+        as="button"
+        onClick={() => setIsOpen(true)}
+        variant="yellow"
+      >
         Create Opportunity
       </Button>
 
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Select an opportunity type"
-        size="6xl"
+        title="What type of project?"
+        className="max-w-5xl"
       >
         <CreateOpportunityPanels />
       </Modal>

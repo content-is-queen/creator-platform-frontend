@@ -5,25 +5,35 @@ import { usePathname } from "next/navigation";
 
 import Container from "@/components/Container";
 import Text from "@/components/Text";
-
-const LINKS = [
-  {
-    href: "/settings",
-    label: "General",
-  },
-  {
-    href: "/settings/edit-profile",
-    label: "Edit Profile",
-  },
-  {
-    href: "/settings/password",
-    label: "Password",
-  },
-  { href: "/settings/billing", label: "Billing" },
-];
+import { useUser } from "@/context/UserContext";
+import { useEffect } from "react";
 
 const Template = ({ children }) => {
   const pathname = usePathname();
+  const { user } = useUser();
+
+  const LINKS = [
+    {
+      href: "/settings",
+      label: "General",
+    },
+    {
+      href: "/settings/edit-profile",
+      label: "Edit Profile",
+    },
+    {
+      href: "/settings/password",
+      label: "Password",
+    },
+    ...(user && user.role !== "admin"
+      ? [
+          {
+            href: "/settings/subscription",
+            label: "Subscription",
+          },
+        ]
+      : []),
+  ];
 
   return (
     <Container size="4xl">

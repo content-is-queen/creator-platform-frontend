@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -13,7 +14,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
-import Button from "./Button";
+import Button from "@/components/Button";
 import CreateUserForm from "./Admin/CreateUserForm";
 
 const MainNav = () => {
@@ -85,6 +86,7 @@ const MainNav = () => {
         href: "/admin/users",
         label: "Users",
       },
+      { href: "/conversations", label: "Conversations" },
     ],
   };
 
@@ -97,7 +99,7 @@ const MainNav = () => {
         >
           <img
             src="/images/CiQ_Logo_Horizontal.svg"
-            className="h-10"
+            className="h-12"
             alt="Content is queen"
           />
         </Link>
@@ -108,29 +110,33 @@ const MainNav = () => {
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
-            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0">
+            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-6 rtl:space-x-reverse md:flex-row md:border-0">
               {LINKS[user?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
-                    pathname !== href && "opacity-80",
-                    pathname === href &&
-                      "relative after:absolute after:h-[1px] after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1"
+                    twMerge(
+                      pathname !== href && "opacity-100",
+                      "relative after:absolute after:h-[1px] after:w-0 after:bg-queen-yellow after:left-0 after:-bottom-1 hover:after:w-full transition-all",
+                      pathname === href && "after:w-full"
+                    )
                   )}
                 >
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user?.role === "admin" && (
+              {user && !user?.subscribed && user?.role !== "admin" && (
                 <li>
-                  <CreateUserForm />
+                  <Button variant="yellow" href="/plus">
+                    Upgrade account
+                  </Button>
                 </li>
               )}
+
               <li>
                 <button
                   type="button"
-                  onClick={handleIsUserClicked}
-                  className="flex text-sm  rounded-full md:me-0 focus:ring-4"
+                  className="flex text-sm rounded-full md:me-0 focus:ring-4"
                   id="user-menu-button"
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"

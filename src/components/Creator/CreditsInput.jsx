@@ -5,7 +5,7 @@ import Form, { Error } from "../Form";
 import Button from "../Button";
 import { useUser } from "@/context/UserContext";
 
-const CreditsInput = ({ setLocalUser, handleChange }) => {
+const CreditsInput = ({ setFormData, handleChange }) => {
   const [credits, setCredits] = useState([]);
   const [inputValue, setInputValue] = useState({ href: "", role: "" });
   const [errors, setError] = useState({});
@@ -91,7 +91,7 @@ const CreditsInput = ({ setLocalUser, handleChange }) => {
   }, [user]);
 
   useEffect(() => {
-    setLocalUser((prev) => {
+    setFormData((prev) => {
       return { ...prev, credits: credits };
     });
   }, [credits]);
