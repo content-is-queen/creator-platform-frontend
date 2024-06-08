@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
 import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
 
 const Template = ({ children }) => {
   const pathname = usePathname();
@@ -25,11 +24,11 @@ const Template = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && !user?.subscribed && user?.role !== "admin"
+    ...(user && user.role !== "admin"
       ? [
           {
-            href: "https://billing.stripe.com/p/login/test_eVa5m286rcby6Oc6oo",
-            label: "Manage Subscription",
+            href: "/settings/subscription",
+            label: "Subscription",
           },
         ]
       : []),

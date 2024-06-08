@@ -8,7 +8,8 @@
     "build:test": "APP_ENV=development next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "firebase deploy",
+    "deploy:production": "firebase --only hosting deploy",
+    "deploy:staging": "firebase deploy --only hosting -P staging",
     "prettier:check": "npx prettier ./src --check",
     "prettier:write": "npx prettier ./src --write"
   },
