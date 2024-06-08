@@ -11,6 +11,7 @@ import { useEffect } from "react";
 const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
+  console.log(user, "this is the user llllllllllllllll");
 
   const LINKS = [
     {
@@ -25,11 +26,19 @@ const Template = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && user.role !== "admin"
+    ...(user && user.role !== "admin" && user.role !== "super_admin"
       ? [
           {
             href: "/settings/subscription",
             label: "Subscription",
+          },
+        ]
+      : []),
+    ...(user && user.role === "super_admin"
+      ? [
+          {
+            href: "/settings/company",
+            label: "Edit Company Info",
           },
         ]
       : []),

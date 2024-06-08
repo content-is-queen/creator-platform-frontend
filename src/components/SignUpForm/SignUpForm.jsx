@@ -83,9 +83,11 @@ const SignUpForm = () => {
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
         setUser(userProfile);
       }
-    } catch (response) {
-      setError({ message: "Something went wrong during sign up" });
-      console.error(response);
+    } catch (error) {
+      setError({
+        message:
+          error.response?.data.message || "Something went wrong during sign up",
+      });
     } finally {
       setLoading(false);
     }
