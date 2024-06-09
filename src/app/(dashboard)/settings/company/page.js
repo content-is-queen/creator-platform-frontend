@@ -54,13 +54,12 @@ const Company = () => {
         name: formData.name,
         ...(imageUrl && { company_profile_picture: imageUrl }),
       };
-      const response = await API.post(`/admin/company`, dataToSubmit, {
+      const response = await API.put(`/admin/company`, dataToSubmit, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-      console.log(response);
       if (response?.status === 200) {
         setSuccess({ message: "Company info updated successfully" });
       } else {

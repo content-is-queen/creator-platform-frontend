@@ -6,13 +6,10 @@ import { usePathname } from "next/navigation";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
 import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
 
 const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
-  console.log(user, "this is the user llllllllllllllll");
-
   const LINKS = [
     {
       href: "/settings",
