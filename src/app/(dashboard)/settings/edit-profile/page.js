@@ -46,18 +46,18 @@ const EditProfile = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const formData = new FormData();
+    const dataToSend = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "showcase" || key === "credits") {
-        formData.append(key, JSON.stringify(value));
+        dataToSend.append(key, JSON.stringify(value));
       } else {
-        formData.append(key, value);
+        dataToSend.append(key, value);
       }
     });
 
     try {
-      const res = await API.put(`/auth/user`, formData, {
+      const res = await API.put(`/auth/user`, dataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -72,7 +72,7 @@ const EditProfile = () => {
 
         router.push("/profile");
       } else {
-        setError({ message: res.message });
+        setError({ message: res.data.message });
       }
     } catch (err) {
       console.error(err);
