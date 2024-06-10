@@ -70,33 +70,27 @@ const BrandOpportunities = () => {
 
   useEffect(() => {
     const swiperContainer = swiperRef.current;
-
+  
     const params = {
       slidesPerView: 3,
       spaceBetween: 20,
     };
-
+  
     // Filter opportunities by their statuses
-    const filtered =
-      active.id === "all"
-        ? opportunities
-        : opportunities.filter((i) => i.status === active.id);
-
+    const filtered = active.id === "all"
+      ? opportunities
+      : opportunities.filter((i) => i.status === active.id);
+  
+    // Update filtered opportunities
     setFilteredOpportunities(filtered);
-
+  
     // Swiper initialization
     if (opportunities && swiperContainer) {
       Object.assign(swiperContainer, params);
       swiperContainer.initialize();
-
-      // Reinitialize Swiper if necessary
-      if (filtered.length !== filteredOpportunities.length) {
-        swiperContainer.swiper.destroy(true, true);
-        swiperContainer.swiper.init();
-      }
     }
-  }, [opportunities, active]);
-
+  }, [active, opportunities]); // Include 'active' in the dependencies array
+  
   if (loading) return <SpinnerScreen />;
 
   if (opportunities?.length > 0) {
