@@ -1,7 +1,16 @@
+import { Fragment, useState } from 'react';
+import { Menu } from '@headlessui/react';
+
 const Item = ({ children }) => (
-  <li className="font-medium hover:bg-gray-50 hover:text-queen-blue">
-    {children}
-  </li>
+  <Menu.Item>
+    {({ active }) => (
+      <li
+        className={`font-medium hover:bg-gray-50 hover:text-queen-blue ${active ? 'bg-gray-50' : ''}`}
+      >
+        {children}
+      </li>
+    )}
+  </Menu.Item>
 );
 
 const Heading = ({ children }) => (
@@ -11,16 +20,19 @@ const Heading = ({ children }) => (
 );
 
 const SubMenu = ({ heading, children }) => (
-  <div className="z-50 text-sm list-none text-queen-black bg-white divide-y divide-gray-100 rounded-lg shadow-md absolute top-14 right-0">
-    {heading && heading}
-    <ul className="py-2" aria-labelledby="user-menu-button">
-      {children}
-    </ul>
-  </div>
+  <Menu>
+    {({ open }) => (
+      <Fragment>
+        {heading && heading}
+        <Menu.Items className="z-50 text-sm list-none text-queen-black bg-white divide-y divide-gray-100 rounded-lg shadow-md absolute top-14 right-0">
+          {children}
+        </Menu.Items>
+      </Fragment>
+    )}
+  </Menu>
 );
 
 export default SubMenu;
 
 SubMenu.Heading = Heading;
-
 SubMenu.Item = Item;
