@@ -17,28 +17,28 @@ const Company = () => {
   const { user, setUser } = useUser();
 
   const [formData, setFormData] = useState({
-    name: user?.name || "",
-    company_profile_picture: null,
+    organization_name: user?.name || "",
+    organization_logo: null,
   });
   const { token } = useToken();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    const newValue = name === "company_profile_picture" ? files[0] : value;
+    const newValue = name === "organization_logo" ? files[0] : value;
 
     const updatedFormData = { ...formData, [name]: newValue };
 
     const checkIsEmpty = (str) => str.trim().length === 0;
 
     const isEmpty =
-      checkIsEmpty(updatedFormData.name) ||
-      !updatedFormData.company_profile_picture;
+      checkIsEmpty(updatedFormData.organization_name) ||
+      !updatedFormData.organization_logo;
 
     setUpdated(!isEmpty);
     setFormData(updatedFormData);
   };
   const handleFileUpload = async (file) => {
-    const storageRef = ref(storage, `company_profile_pictures/${file.name}`);
+    const storageRef = ref(storage, `organization_logo/${file.name}`);
     await uploadBytes(storageRef, file);
     return getDownloadURL(storageRef);
   };
@@ -50,12 +50,12 @@ const Company = () => {
     try {
       let imageUrl = null;
 
-      if (formData.company_profile_picture) {
-        imageUrl = await handleFileUpload(formData.company_profile_picture);
+      if (formData.organization_logo) {
+        imageUrl = await handleFileUpload(formData.organization_logo);
       }
       const dataToSubmit = {
-        name: formData.name,
-        ...(imageUrl && { company_profile_picture: imageUrl }),
+        organization_name: formData.organization_name,
+        ...(imageUrl && { organization_logo: imageUrl }),
       };
       const response = await API.put(`/admin/company`, dataToSubmit, {
         headers: {
@@ -64,7 +64,7 @@ const Company = () => {
         },
       });
       if (response?.status === 200) {
-        setUser({ ...user, name: formData.name });
+        setUser({ ...user, organization_name: formData.organization_name });
         setSuccess({ message: "Company info updated successfully" });
       } else {
         setErrors({
@@ -84,24 +84,24 @@ const Company = () => {
 
   useEffect(() => {
     setFormData({
-      name: user?.name || "",
-      company_profile_picture: user?.company_profile_picture || null,
+      organization_name: user?.organization_name || "",
+      organization_logo: user?.organization_logo || null,
     });
   }, [user]);
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
         <Form.Input
-          name="name"
+          name="organization_name"
           type="text"
-          value={formData.name}
+          value={formData.organization_name}
           onChange={handleChange}
           className="relative"
         >
           Company Name
         </Form.Input>
         <Form.Input
-          name="company_profile_picture"
+          name="organization_logo"
           type="file"
           onChange={handleChange}
           accept="image/*"
