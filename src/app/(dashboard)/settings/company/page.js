@@ -1,20 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase.config";
+import { useUser } from "@/context/UserContext";
 
 const Company = () => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
+  const { user, setUser } = useUser();
+
   const [formData, setFormData] = useState({
-    name: "",
+    name: user?.name || "",
     company_profile_picture: null,
   });
   const { token } = useToken();
@@ -61,6 +64,7 @@ const Company = () => {
         },
       });
       if (response?.status === 200) {
+        setUser({ ...user, name: formData.name });
         setSuccess({ message: "Company info updated successfully" });
       } else {
         setErrors({
@@ -78,6 +82,12 @@ const Company = () => {
     }
   };
 
+  useEffect(() => {
+    setFormData({
+      name: user?.name || "",
+      company_profile_picture: user?.company_profile_picture || null,
+    });
+  }, [user]);
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
