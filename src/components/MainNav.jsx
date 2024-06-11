@@ -38,8 +38,6 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
-      setUser(null);
-      localStorage.removeItem("userProfile");
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -54,12 +52,6 @@ const MainNav = () => {
     ) {
       router.push("/login");
     }
-
-    console.log(
-      !loading &&
-        user === null &&
-        (pathname !== "/signup" || pathname !== "/login")
-    );
   }, [loading]);
 
   const LINKS = {
