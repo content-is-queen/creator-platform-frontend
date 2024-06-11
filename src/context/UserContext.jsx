@@ -51,12 +51,13 @@ export const UserProvider = ({ children }) => {
             ...userProfile,
           });
         }
+        setLoading(false);
       } else {
         localStorage.removeItem("userProfile");
         setUser(null);
+        setLoading(false);
       }
     });
-    setLoading(false);
   }, []);
 
   return (
