@@ -54,7 +54,7 @@ const MainNav = () => {
     ) {
       router.push("/login");
     }
-  }, []);
+  }, [loading]);
 
   const LINKS = {
     creator: [
