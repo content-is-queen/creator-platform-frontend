@@ -4,7 +4,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Table from "../Table";
-import SubMenu from "@/components/SubMenu";
+import { Menu } from "@headlessui/react";
 import ProfileIcon from "@/components/ProfileIcon";
 
 const AdminUserTableRow = ({
@@ -66,7 +66,7 @@ const AdminUserTableRow = ({
       <Table.Data>{email}</Table.Data>
       <Table.Data className="px-6 py-3 capitalize">{role}</Table.Data>
       <Table.Data className="px-6 py-3 relative">
-      <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="ml-auto pl-2 focus:outline-none">
               <FontAwesomeIcon icon={faEllipsisV} />
@@ -78,8 +78,8 @@ const AdminUserTableRow = ({
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                    } px-5 py-2 text-left inline-block`}
+                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                    } px-4 py-2 text-left inline-block`}
                     onClick={() =>
                       handleActivation({
                         id: uid,
@@ -95,8 +95,8 @@ const AdminUserTableRow = ({
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                    } px-5 py-2 text-left inline-block`}
+                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                    } px-4 py-2 text-left inline-block`}
                     onClick={() => handleDelete(uid)}
                   >
                     Delete

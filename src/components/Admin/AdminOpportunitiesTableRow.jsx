@@ -38,7 +38,10 @@ const AdminOpportunitiesRow = ({
             onChange={() => handleChange(opportunity_id)}
             checked={selectedOpportunities.includes(opportunity_id)}
           />
-          <label htmlFor={`checkbox-table-search-${opportunity_id}`} className="sr-only">
+          <label
+            htmlFor={`checkbox-table-search-${opportunity_id}`}
+            className="sr-only"
+          >
             checkbox
           </label>
         </div>

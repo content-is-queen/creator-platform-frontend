@@ -13,7 +13,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
-import SubMenu from "@/components/SubMenu";
+import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
 import CreateUserForm from "./Admin/CreateUserForm";
 
@@ -147,53 +147,50 @@ const MainNav = () => {
                 </button>
               </li>
               <li>
-                <ProfileIcon
-                  className="md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8"
-                  type="button"
-                  as="button"
-                  onClick={handleIsUserClicked}
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  data-dropdown-toggle="user-dropdown"
-                  data-dropdown-placement="bottom"
-                  imageUrl={user?.imageUrl}
-                >
-                  <span className="sr-only">Open user menu</span>
-                </ProfileIcon>
+                <Menu as="div" className="relative">
+                  <Menu.Button>
+                    <ProfileIcon
+                      className="md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8"
+                      type="button"
+                      as="button"
+                      imageUrl={user?.imageUrl}
+                    >
+                      <span className="sr-only">Open user menu</span>
+                    </ProfileIcon>
+                  </Menu.Button>
+                  <Menu.Items className="absolute z-50 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                    <Menu.Item as="div">
+                      <div className="px-4 py-2 text-sm">{user?.email}</div>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link
+                        href="/profile"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Profile
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link
+                        href="/settings"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Settings
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <button
+                        onClick={handleSignOut}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
               </li>
             </ul>
           </div>
-
-          {isUserClicked && (
-            <SubMenu heading={<SubMenu.Heading>{user?.email}</SubMenu.Heading>}>
-              <SubMenu.Item>
-                <Link
-                  href="/profile"
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Profile
-                </Link>
-              </SubMenu.Item>
-
-              <SubMenu.Item>
-                <Link
-                  href="/settings"
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Settings
-                </Link>
-              </SubMenu.Item>
-
-              <SubMenu.Item>
-                <button
-                  onClick={handleSignOut}
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Logout
-                </button>
-              </SubMenu.Item>
-            </SubMenu>
-          )}
           <button
             data-collapse-toggle="navbar-user"
             type="button"
