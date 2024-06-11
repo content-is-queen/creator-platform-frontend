@@ -1,9 +1,7 @@
 import { useState } from "react";
-
+import { Menu } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-
-import SubMenu from "../SubMenu";
 import Table from "../Table";
 
 const AdminOpportunitiesRow = ({
@@ -13,7 +11,6 @@ const AdminOpportunitiesRow = ({
   full_name,
   opportunity_id,
   numberOfApplications,
-  setError,
   selectedOpportunities,
   setSelectedOpportunities,
   handleDelete,
@@ -35,13 +32,13 @@ const AdminOpportunitiesRow = ({
       <Table.Data>
         <div className="flex items-center">
           <input
-            id="checkbox-table-search-1"
+            id={`checkbox-table-search-${opportunity_id}`}
             type="checkbox"
             className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
             onChange={() => handleChange(opportunity_id)}
             checked={selectedOpportunities.includes(opportunity_id)}
           />
-          <label htmlFor="checkbox-table-search-1" className="sr-only">
+          <label htmlFor={`checkbox-table-search-${opportunity_id}`} className="sr-only">
             checkbox
           </label>
         </div>
@@ -54,26 +51,34 @@ const AdminOpportunitiesRow = ({
       <Table.Data>{deadline}</Table.Data>
       <Table.Data>{numberOfApplications}</Table.Data>
       <Table.Data>
-        <button
-          type="button"
-          className="ml-auto pl-2"
-          onClick={() => handleMenuToggle(opportunity_id)}
-        >
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </button>
-        {openMenuId === opportunity_id && (
-          <SubMenu>
-            <SubMenu.Item>
-              <button
-                type="button"
-                onClick={() => handleDelete(opportunity_id)}
-                className="px-4 py-1 w-full text-left inline-block"
-              >
-                Delete
-              </button>
-            </SubMenu.Item>
-          </SubMenu>
-        )}
+        <Menu as="div" className="relative inline-block text-left">
+          <div>
+            <Menu.Button
+              className="ml-auto pl-2 focus:outline-none"
+              onClick={() => handleMenuToggle(opportunity_id)}
+            >
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </Menu.Button>
+          </div>
+          {openMenuId === opportunity_id && (
+            <Menu.Items className="absolute z-50 right-0 w-30 mt-1 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                      } px-4 py-2 w-full text-left`}
+                      onClick={() => handleDelete(opportunity_id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          )}
+        </Menu>
       </Table.Data>
     </Table.Row>
   );
