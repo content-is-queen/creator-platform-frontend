@@ -40,7 +40,6 @@ export const UserProvider = ({ children }) => {
             userProfile = JSON.parse(localStorage.getItem("userProfile"));
           } else {
             userProfile = await getUserProfile({ token });
-            console.log(userProfile);
             if (userProfile) {
               localStorage.setItem("userProfile", JSON.stringify(userProfile));
             }
