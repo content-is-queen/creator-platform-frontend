@@ -1,10 +1,8 @@
-import { useState } from "react";
-
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { Menu } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import Table from "../Table";
-import { Menu } from "@headlessui/react";
 import ProfileIcon from "@/components/ProfileIcon";
 
 const AdminUserTableRow = ({
@@ -14,22 +12,16 @@ const AdminUserTableRow = ({
   last_name,
   email,
   role,
-  isActivated,
+  disabled,
   selectedUsers,
   setSelectedUsers,
   handleActivation,
   handleDelete,
 }) => {
-  const [openMenuId, setOpenMenuId] = useState(null);
-
   const handleChange = (uid) => {
     selectedUsers.includes(uid)
       ? setSelectedUsers((prev) => prev.filter((i) => !i.includes(uid)))
       : setSelectedUsers((prev) => [...prev, uid]);
-  };
-
-  const handleMenuToggle = (id) => {
-    setOpenMenuId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -58,9 +50,9 @@ const AdminUserTableRow = ({
       <Table.Data>
         <div className="flex items-center">
           <div
-            className={`h-2.5 w-2.5 rounded-full ${isActivated ? "bg-green-500" : "bg-red-500"} me-2`}
+            className={`h-2.5 w-2.5 rounded-full ${disabled ? "bg-red-500" : "bg-green-500"} me-2`}
           ></div>{" "}
-          {isActivated ? "Activated" : "Deactivated"}
+          {disabled ? "Disabled" : "Activate"}
         </div>
       </Table.Data>
       <Table.Data>{email}</Table.Data>

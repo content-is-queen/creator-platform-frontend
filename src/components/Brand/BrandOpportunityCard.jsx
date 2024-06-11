@@ -1,14 +1,14 @@
 import { Suspense, useState } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-
 import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
 import { Menu } from "@headlessui/react";
+import Kebab from "../Kebab";
+import ApplicationsModal from "@/components/Brand/ApplicationsModal";
+
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
 import SpinnerScreen from "../SpinnerScreen";
@@ -57,7 +57,7 @@ const BrandOpportunityCard = (props) => {
           </p>
           <Menu as="div" className="relative">
             <Menu.Button className="ml-auto pl-2 focus:outline-none">
-              <FontAwesomeIcon icon={faEllipsisV} />
+              <Kebab />
             </Menu.Button>
             <Menu.Items className="absolute z-50 left-1/2 transform -translate-x-1/2 mt-1 w-30 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus:outline-none">
               <div className="px-1 py-1">

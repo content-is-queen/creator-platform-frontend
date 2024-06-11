@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Menu } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+
 import Table from "../Table";
+import Kebab from "../Kebab";
 
 const AdminOpportunitiesRow = ({
   title,
@@ -55,14 +57,12 @@ const AdminOpportunitiesRow = ({
       <Table.Data>{numberOfApplications}</Table.Data>
       <Table.Data>
         <Menu as="div" className="relative inline-block text-left">
-          <div>
-            <Menu.Button
-              className="ml-auto pl-2 focus:outline-none"
-              onClick={() => handleMenuToggle(opportunity_id)}
-            >
-              <FontAwesomeIcon icon={faEllipsisV} />
-            </Menu.Button>
-          </div>
+          <Menu.Button
+            className="ml-auto pl-2 focus:outline-none"
+            onClick={() => handleMenuToggle(opportunity_id)}
+          >
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </Menu.Button>
           {openMenuId === opportunity_id && (
             <Menu.Items className="absolute z-50 right-0 w-30 mt-1 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1">

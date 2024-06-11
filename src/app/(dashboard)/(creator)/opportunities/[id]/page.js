@@ -38,6 +38,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
       company,
       type,
       compensation,
+      application_instructions,
       salary,
       user_id,
       user_imageUrl,
@@ -70,6 +71,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
 
           <ApplicationProposalForm
             opportunityId={opportunity_id}
+            application_instructions={application_instructions}
             brandId={user_id}
           />
         </div>
