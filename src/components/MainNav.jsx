@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -13,8 +14,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import SubMenu from "@/components/SubMenu";
-import Button from "./Button";
-import CreateUserForm from "./Admin/CreateUserForm";
+import Button from "@/components/Button";
 
 const MainNav = () => {
   const [isUserClicked, setIsUserClicked] = useState(false);
@@ -22,7 +22,7 @@ const MainNav = () => {
 
   const router = useRouter();
 
-  const { user, userLoaded, setUser } = useUser();
+  const { user, setUser, loading } = useUser();
 
   const pathname = usePathname();
 
@@ -48,13 +48,13 @@ const MainNav = () => {
 
   useEffect(() => {
     if (
-      userLoaded &&
+      !loading &&
       !user &&
       (pathname !== "/signup" || pathname !== "/login")
     ) {
       router.push("/login");
     }
-  }, [userLoaded]);
+  }, [loading]);
 
   const LINKS = {
     creator: [
@@ -85,75 +85,100 @@ const MainNav = () => {
         href: "/admin/users",
         label: "Users",
       },
+      { href: "/conversations", label: "Conversations" },
+    ],
+    super_admin: [
+      {
+        href: "/",
+        label: "Dashboard",
+      },
+      {
+        href: "/admin/opportunities",
+        label: "Opportunities",
+      },
+      {
+        href: "/admin/users",
+        label: "Users",
+      },
+      { href: "/conversations", label: "Conversations" },
     ],
   };
 
   return (
-    <nav className="bg-queen-blue text-queen-yellow border-gray-200 py-4">
+    <nav
+      className={clsx(
+        "bg-queen-blue text-queen-yellow py-4",
+        isToggleClicked && "fixed w-full h-screen z-10"
+      )}
+    >
       <Container className="flex flex-wrap items-center justify-between text-sm w-full">
         <Link
           href="/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
+          className="flex items-center gap-x-3 rtl:space-x-reverse"
         >
           <img
             src="/images/CiQ_Logo_Horizontal.svg"
-            className="h-10"
+            className="h-12 hidden md:block"
+            alt="Content is queen"
+          />
+          <img
+            src="/images/CiQ_Logo_Stacked.svg"
+            width={100}
+            className="md:hidden"
             alt="Content is queen"
           />
         </Link>
-        <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex items-center md:order-2 space-x-3 md:space-x-auto rtl:space-x-reverse">
           <div
             className={`${
               isToggleClicked ? "block" : "hidden"
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
-            <ul className="flex flex-col items-center py-2 leading-none border uppercase md:space-x-8 rtl:space-x-reverse md:flex-row md:border-0">
+            <ul
+              className={clsx(
+                "flex flex-col items-center py-2 leading-none uppercase md:space-x-6 rtl:space-x-reverse md:flex-row md:border-0",
+                isToggleClicked &&
+                  "fixed w-full left-0 top-20 z-10 space-y-6 bg-queen-blue pt-16 pb-20"
+              )}
+            >
               {LINKS[user?.role]?.map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
-                    pathname !== href && "opacity-80",
-                    pathname === href &&
-                      "relative after:absolute after:h-[1px] after:w-full after:bg-queen-yellow after:left-0 after:-bottom-1"
+                    twMerge(
+                      pathname !== href && "opacity-100",
+                      "relative md:after:absolute md:after:h-[1px] md:after:w-0 md:after:bg-queen-yellow md:after:left-0 md:after:-bottom-1 md:hover:after:w-full transition-all",
+                      pathname === href && "after:w-full"
+                    )
                   )}
                 >
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user?.role === "admin" && (
-                <li>
-                  <CreateUserForm />
-                </li>
-              )}
+              {user &&
+                !user?.subscribed &&
+                user?.role !== "admin" &&
+                user?.role !== "super_admin" && (
+                  <li>
+                    <Button variant="yellow" href="/plus">
+                      Upgrade account
+                    </Button>
+                  </li>
+                )}
+
               <li>
                 <button
                   type="button"
-                  onClick={handleIsUserClicked}
-                  className="flex text-sm  rounded-full md:me-0 focus:ring-4"
+                  className="flex text-sm rounded-full md:me-0 focus:ring-4"
                   id="user-menu-button"
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
                   data-dropdown-placement="bottom"
                 >
-                  <span className="sr-only">Open user menu</span>
-                  <IoNotificationsOutline className="w-6 h-6" />
+                  <span className="uppercase md:sr-only">Notifications</span>
+                  <IoNotificationsOutline className="w-6 h-6 hidden md:block" />
                 </button>
-              </li>
-              <li>
-                <ProfileIcon
-                  className="md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8"
-                  type="button"
-                  as="button"
-                  onClick={handleIsUserClicked}
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  data-dropdown-toggle="user-dropdown"
-                  data-dropdown-placement="bottom"
-                  imageUrl={user?.imageUrl}
-                >
-                  <span className="sr-only">Open user menu</span>
-                </ProfileIcon>
               </li>
             </ul>
           </div>
@@ -188,31 +213,46 @@ const MainNav = () => {
               </SubMenu.Item>
             </SubMenu>
           )}
-          <button
-            data-collapse-toggle="navbar-user"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-queen-yellow rounded-lg md:hidden hover:bg-queen-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            onClick={handleToggle}
-            aria-controls="navbar-user"
-            aria-expanded="false"
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#E5FC52"
-              viewBox="0 0 17 14"
+          <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
+            <ProfileIcon
+              className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
+              type="button"
+              as="button"
+              onClick={handleIsUserClicked}
+              id="user-menu-button"
+              aria-expanded="false"
+              data-dropdown-toggle="user-dropdown"
+              data-dropdown-placement="bottom"
+              imageUrl={user?.imageUrl}
             >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
+              <span className="sr-only">User menu</span>
+            </ProfileIcon>
+            <button
+              data-collapse-toggle="navbar-user"
+              type="button"
+              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-queen-yellow rounded-lg md:hidden hover:bg-queen-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              onClick={handleToggle}
+              aria-controls="navbar-user"
+              aria-expanded="false"
+            >
+              <span className="sr-only">Main menu</span>
+              <svg
+                className="w-5 h-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#E5FC52"
+                viewBox="0 0 17 14"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M1 1h15M1 7h15M1 13h15"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </Container>
     </nav>

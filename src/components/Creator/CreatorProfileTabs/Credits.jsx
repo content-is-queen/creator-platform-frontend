@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
 import ButtonText from "@/components/ButtonText";
 import Heading from "@/components/Heading";
 
@@ -42,10 +39,12 @@ const Empty = () => {
   return <>No credits</>;
 };
 
-const Credits = () => {
+const Credits = ({ meta }) => {
   const LIMIT = 3;
 
-  const { user } = useUser();
+  const { user: localUser } = useUser();
+
+  const user = meta ? meta : localUser;
   const credits = user?.credits ? JSON.parse(user.credits) : [];
 
   const [viewMore, setViewMore] = useState(false);
@@ -86,9 +85,6 @@ const Credits = () => {
       ) : (
         <Empty />
       )}
-      <button className="bg-queen-yellow text-queen-black flex gap-x-4 items-center justify-center h-12 w-12 p-4 rounded-full fixed right-10 bottom-10 shadow-xl">
-        <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
-      </button>
     </>
   );
 };

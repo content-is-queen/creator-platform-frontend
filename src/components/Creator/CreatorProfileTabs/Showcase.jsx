@@ -97,14 +97,14 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
         )}
       </div>
       <div>
-        <p
+        <a
           href={href}
-          className="truncate inline-block max-w-60 w-full leading-none "
+          className="truncate inline-block max-w-60 w-full leading-none hover:underline"
           target="_blank"
           rel="noopener noreferrer"
         >
           {name}
-        </p>
+        </a>
         <span className="text-queen-black/60 block text-sm leading-none">
           {role}
         </span>
@@ -113,8 +113,11 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
   );
 };
 
-const Showcase = () => {
-  const { user } = useUser();
+const Showcase = ({ meta }) => {
+  const { user: localUser } = useUser();
+
+  const user = meta ? meta : localUser;
+
   const creditsToShow = user?.showcase ? JSON.parse(user.showcase) : [];
 
   const credits = user?.credits ? JSON.parse(user.credits) : [];
@@ -129,7 +132,7 @@ const Showcase = () => {
   return (
     <div>
       {showcase.length > 0 ? (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {showcase.map((show) => (
             <Show key={show.href} {...show} />
           ))}

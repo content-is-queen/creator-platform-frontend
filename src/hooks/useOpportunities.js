@@ -7,7 +7,7 @@ const useOpportunities = (args, cb) => {
   const [loading, setLoading] = useState(true);
   const [errors, setError] = useState({});
 
-  let path = "/opportunities";
+  let path = "/opportunities?limit=0";
 
   if (args?.opportunity_id) {
     path = `/opportunities/opportunityid/${args.opportunity_id}`;

@@ -80,7 +80,7 @@ const BrandApplicationCard = ({
           status: "accepted",
           user_id: user_id,
           creator_id: uid,
-          opportunity_title: opportunityTitle,
+          opportunityTitle: opportunityTitle,
         },
         {
           headers: {
@@ -97,9 +97,7 @@ const BrandApplicationCard = ({
         );
       }
 
-      setMessage({ status: "accepted", room: response.data.roomId });
-
-      // TODO: Add screen to take to conversation
+      setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
       console.error(error);
     }
@@ -173,6 +171,7 @@ const BrandApplicationCard = ({
               type="button"
               variant="blue"
               size="sm"
+              target="_blank"
               href={`/profile/${user_id}`}
             >
               View profile

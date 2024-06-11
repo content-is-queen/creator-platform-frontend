@@ -13,8 +13,12 @@ import Heading from "./Heading";
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
 
+  const heading = user?.organisation_name
+    ? user.organisation_name
+    : user?.first_name + " " + user?.last_name;
+
   return (
-    <div className="bg-queen-blue text-white relative pt-28 pb-20 overflow-hidden">
+    <div className="bg-queen-blue text-white relative pt-16 pb-20 overflow-hidden md:pt-28">
       <Container size="4xl" className="space-y-4">
         <ProfileIcon imageUrl={user?.imageUrl} className="h-20 w-20" />
         {pathname === "/profile" && (
@@ -23,17 +27,9 @@ const ProfileHero = ({ user }) => {
           </Button>
         )}
 
-        <div className="max-w-96">
-          <Heading
-            color="white"
-            size="3xl"
-            className="font-heading uppercase text-2xl"
-          >
-            {!user ? (
-              <LoadingPlaceholder />
-            ) : (
-              `${user?.first_name} ${user?.last_name}`
-            )}
+        <div className="max-w-96 relative z-10">
+          <Heading color="white" size="3xl" className="font-heading uppercase">
+            {!user ? <LoadingPlaceholder /> : <>{heading}</>}
           </Heading>
           {user?.tags && (
             <div className="flex gap-2 my-2">
@@ -42,10 +38,10 @@ const ProfileHero = ({ user }) => {
               ))}
             </div>
           )}
-          <p className="text-sm mt-1">{user?.bio}</p>
+          <p className="mt-1">{user?.bio}</p>
         </div>
       </Container>
-      <Dots className="absolute -right-48 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />
+      <Dots className="absolute -right-64 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />
     </div>
   );
 };

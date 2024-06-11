@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Form from "@/components/Form";
-import Button from "@/components/Button";
+
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+import Form from "@/components/Form";
+import Button from "@/components/Button";
 
 const Password = () => {
   const [errors, setError] = useState({});

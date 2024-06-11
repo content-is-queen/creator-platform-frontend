@@ -14,14 +14,14 @@ const ProfileIcon = ({
   return (
     <Element
       className={twMerge(
-        "h-8 w-8 bg-queen-black rounded-full overflow-hidden flex justify-center items-center",
+        "h-8 w-8 bg-queen-black rounded-full overflow-hidden flex justify-center shrink-0 items-center",
         className
       )}
       {...otherProps}
     >
       {imageUrl ? (
         <img
-          className="w-full h-full object-cover"
+          className="w-full h-full object-top object-cover"
           height={20}
           width={20}
           src={imageUrl}

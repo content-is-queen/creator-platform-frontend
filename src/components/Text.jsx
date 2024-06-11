@@ -21,8 +21,8 @@ const TextVariants = cva("", {
   },
 });
 
-const Text = ({ tag = "p", size, color, className, children }) => {
-  const Tag = tag;
+const Text = ({ as = "p", size, color, className, children }) => {
+  const Tag = as;
 
   return (
     <Tag className={clsx(TextVariants({ size, color }), className)}>

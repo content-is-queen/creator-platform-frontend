@@ -3,7 +3,7 @@ import Form, { Error } from "../Form";
 import Button from "../Button";
 import { useUser } from "@/context/UserContext";
 
-const ShowcaseInput = ({ setLocalUser, handleChange }) => {
+const ShowcaseInput = ({ setFormData, handleChange }) => {
   const [shows, setShows] = useState([]);
   const [credits, setCredits] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -53,7 +53,7 @@ const ShowcaseInput = ({ setLocalUser, handleChange }) => {
   }, [user]);
 
   useEffect(() => {
-    setLocalUser((prev) => {
+    setFormData((prev) => {
       return { ...prev, showcase: shows };
     });
   }, [shows]);

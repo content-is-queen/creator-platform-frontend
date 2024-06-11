@@ -6,7 +6,7 @@ const Dashboard = ({ children }) => {
   const { user } = useUser();
 
   if (user) {
-    return children.find((i) => i.type.role === user?.role);
+    return children.find((child) => child.type.roles?.includes(user.role));
   }
 
   return null;

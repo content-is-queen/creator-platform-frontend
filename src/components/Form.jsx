@@ -42,7 +42,7 @@ const Select = ({ name, options, children, ...otherProps }) => {
 
   return (
     <div key={name}>
-      <label className="uppercase" for={name}>
+      <label className="uppercase" htmlFor={name}>
         {children}
       </label>
       <select
@@ -52,7 +52,7 @@ const Select = ({ name, options, children, ...otherProps }) => {
         id={name}
         {...otherProps}
       >
-        <option value="" selected disabled>
+        <option value="" defaultValue="" disabled>
           Select
         </option>
         {options.map((option, index) => (
@@ -92,23 +92,23 @@ const Checkbox = ({
   description,
   ...otherProps
 }) => {
-  const [selected, setSelected] = useState([]);
+  const [checked, setChecked] = useState([]);
 
   const handleChange = (e) => {
-    setSelected((prev) => {
+    setChecked((prev) => {
       return e.target.checked
         ? [...prev, e.target.value]
         : prev.filter((i) => i !== e.target.value);
     });
   };
 
-  const disabled = selected.length === parseInt(max);
+  const disabled = checked.length === parseInt(max);
 
   return (
     <div key={name}>
       <Text className="mb-4 uppercase">{children}</Text>
       <div className="space-y grid grid-cols-2 gap-6">
-        {options.map((option) => {
+        {options.map((option, index) => {
           if (typeof option === "string") {
             return (
               <div key={option} className="-mb-6">
@@ -120,10 +120,10 @@ const Checkbox = ({
                     id={option}
                     onChange={handleChange}
                     value={option}
-                    disabled={disabled && !selected.includes(option)}
+                    disabled={disabled && !checked.includes(option)}
                     {...otherProps}
                   />
-                  <label for={name} className="text-sm">
+                  <label htmlFor={name} className="text-sm">
                     {option}
                   </label>
                 </div>
@@ -131,7 +131,7 @@ const Checkbox = ({
             );
           }
           return (
-            <div className="items-center gap-3 w-full" key={option}>
+            <div className="items-center gap-3 w-full" key={option.title}>
               {description && (
                 <span className="block text-sm text-queen-black/80">
                   {description}
@@ -142,20 +142,20 @@ const Checkbox = ({
               </span>
               {option.categories.map((category) => (
                 <div
-                  key={category}
+                  key={`${category}-${option.title}-${index}`}
                   className="inline-flex items-center gap-3 w-full"
                 >
                   <input
                     type="checkbox"
                     className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
-                    name={name}
+                    name={category}
                     id={category}
                     onChange={handleChange}
                     value={category}
-                    disabled={disabled && !selected.includes(category)}
+                    disabled={disabled && !checked.includes(category)}
                     {...otherProps}
                   />
-                  <label for={name} className="text-sm">
+                  <label htmlFor={name} className="text-sm">
                     {category}
                   </label>
                 </div>
@@ -170,7 +170,7 @@ const Checkbox = ({
 
 const Textarea = ({ name, children, description, ...otherProps }) => (
   <div>
-    <label className="uppercase" for={name}>
+    <label className="uppercase" htmlFor={name}>
       {children}
     </label>
     {description && (
@@ -197,7 +197,7 @@ const Input = ({
   <div className={className}>
     <label
       className={clsx(label === "md" ? "uppercase" : "text-sm")}
-      for={name}
+      htmlFor={name}
     >
       {children}
     </label>

@@ -53,12 +53,13 @@ const AuthInputController = ({
               {children}
             </label>
             {name === "password" && (
-              <div
+              <button
+                type="button"
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
                 onClick={togglePasswordVisibility}
               >
                 {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-              </div>
+              </button>
             )}
             {errors[name] && (
               <p className="text-sm text-red-600 mt-1">

@@ -59,26 +59,8 @@ const LoginForm = () => {
     const { email, password } = data;
 
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
 
-      const { user } = response;
-
-      const userProfile = await getUserProfile({ user });
-
-      if (!userProfile) {
-        setError({
-          message: "Sorry but there was some trouble logging you in",
-        });
-
-        auth.signOut();
-        throw new Error("Something went wrong when getting the user profile");
-      }
-
-      localStorage.setItem("userProfile", JSON.stringify(userProfile));
-      setUser({
-        email,
-        ...userProfile,
-      });
       router.push("/");
     } catch (error) {
       console.error(error);
