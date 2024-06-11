@@ -23,7 +23,7 @@ export const getUserProfile = async (args) => {
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [userLoaded, setUserLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -48,17 +48,16 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem("userProfile");
         setUser(null);
       }
-      setUserLoaded(true);
+      setLoading(false);
     });
-  }, [userLoaded]);
+  }, []);
 
   return (
     <UserContext.Provider
       value={{
         user,
         setUser,
-        userLoaded,
-        setUserLoaded,
+        loading,
       }}
     >
       {children}
@@ -67,6 +66,6 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => {
-  const { user, setUser, userLoaded, setUserLoaded } = useContext(UserContext);
-  return { user, setUser, userLoaded, setUserLoaded };
+  const { user, setUser, loading } = useContext(UserContext);
+  return { user, setUser, loading };
 };

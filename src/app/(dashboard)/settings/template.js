@@ -10,7 +10,6 @@ import { useUser } from "@/context/UserContext";
 const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
-
   const LINKS = [
     {
       href: "/settings",
@@ -24,11 +23,19 @@ const Template = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && user.role !== "admin"
+    ...(user && user.role !== "admin" && user.role !== "super_admin"
       ? [
           {
             href: "/settings/subscription",
             label: "Subscription",
+          },
+        ]
+      : []),
+    ...(user && user.role === "super_admin"
+      ? [
+          {
+            href: "/settings/company",
+            label: "Edit Company Info",
           },
         ]
       : []),

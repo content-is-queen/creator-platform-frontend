@@ -73,4 +73,4 @@ const AdminDashboard = () => {
 
 export default AdminDashboard;
 
-AdminDashboard.role = "admin";
+AdminDashboard.roles = ["admin", "super_admin"];

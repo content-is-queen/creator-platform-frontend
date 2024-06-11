@@ -11,11 +11,11 @@ import { register } from "swiper/element/bundle";
 import Tabs from "@/components/Tabs";
 import Container from "../Container";
 import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
-import SpinnerScreen from "@/components/SpinnerScreen";
 
 import { useUser } from "@/context/UserContext";
 import useOpportunities from "@/hooks/useOpportunities";
 import Spinner from "../Spinner";
+import { set } from "lodash";
 
 register();
 
@@ -43,6 +43,7 @@ const BrandOpportunities = () => {
 
   const [active, setActive] = useState(OPTIONS[0]);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
+  const [arrows, setArrows] = useState({ left: false, right: false });
 
   const { opportunities, setOpportunities, loading } = useOpportunities(
     { user_id: user.uid },
@@ -72,9 +73,35 @@ const BrandOpportunities = () => {
   useEffect(() => {
     const swiperContainer = swiperRef.current;
 
+    const handleSwiperProgress = (event) => {
+      const [swiper, progress] = event.detail;
+      console.log(swiper);
+
+      if (swiper.isBeginning) {
+        setArrows({ left: false, right: true });
+      }
+
+      if (swiper.isEnd) {
+        setArrows({ left: true, right: false });
+      }
+
+      if (swiper.isBeginning && swiper.isEnd) {
+        setArrows({ left: false, right: false });
+      }
+    };
+
     const params = {
       slidesPerView: 3,
       spaceBetween: 20,
+      breakpoints: {
+        425: { slidesPerView: 1 },
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
     };
 
     // Filter opportunities by their statuses
@@ -88,7 +115,16 @@ const BrandOpportunities = () => {
     if (opportunities && swiperContainer) {
       Object.assign(swiperContainer, params);
       swiperContainer.initialize();
+
+      swiperContainer.addEventListener("swiperprogress", handleSwiperProgress);
     }
+
+    return () =>
+      swiperContainer &&
+      swiperContainer.removeEventListener(
+        "swiperprogress",
+        handleSwiperProgress
+      );
   }, [filteredOpportunities, active]);
 
   if (loading)
@@ -105,8 +141,8 @@ const BrandOpportunities = () => {
         <div className="relative">
           <swiper-container ref={swiperRef} init="false" class="my-6">
             {filteredOpportunities.length > 0 ? (
-              filteredOpportunities.map((opportunity, index) => (
-                <swiper-slide key={index}>
+              filteredOpportunities.map((opportunity) => (
+                <swiper-slide key={opportunity.opportunity_id}>
                   <div className="m-0.5">
                     <BrandOpportunityCard {...opportunity} />
                   </div>
@@ -120,22 +156,27 @@ const BrandOpportunities = () => {
           </swiper-container>
           {filteredOpportunities.length > 0 && (
             <>
-              <button
-                type="button"
-                onClick={handlePrev}
-                className={clsx(
-                  "absolute -left-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
-                )}
-              >
-                <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="absolute -right-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
-              >
-                <FontAwesomeIcon icon={faArrowRight} />
-              </button>
+              {arrows.left && (
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className={clsx(
+                    "absolute -left-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
+                  )}
+                >
+                  <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
+                </button>
+              )}
+
+              {arrows.right && (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="absolute -right-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
+                >
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              )}
             </>
           )}
         </div>

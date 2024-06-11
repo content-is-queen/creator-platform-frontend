@@ -80,7 +80,7 @@ const BrandApplicationCard = ({
           status: "accepted",
           user_id: user_id,
           creator_id: uid,
-          opportunity_title: opportunityTitle,
+          opportunityTitle: opportunityTitle,
         },
         {
           headers: {

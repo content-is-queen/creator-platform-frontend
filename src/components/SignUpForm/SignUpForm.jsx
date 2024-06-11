@@ -27,8 +27,6 @@ const SignUpForm = () => {
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
-  const router = useRouter();
-  const { setUser } = useUser();
 
   const [active, setActive] = useState(formData[0]);
   const [step, setStep] = useState(1);
@@ -74,18 +72,13 @@ const SignUpForm = () => {
 
         const user = { ...data, uid, role: id };
 
-        const { password, email, ...userProps } = user;
+        const { password, email } = user;
 
         await signInWithEmailAndPassword(auth, email, password);
-
-        const userProfile = { email, ...userProps };
-
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
-        setUser(userProfile);
       }
-    } catch (response) {
+    } catch ({ response }) {
       setError({ message: "Something went wrong during sign up" });
-      console.error(response);
+      console.error(response.data);
     } finally {
       setLoading(false);
     }
