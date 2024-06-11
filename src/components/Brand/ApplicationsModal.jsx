@@ -52,11 +52,13 @@ const ApplicationsModal = ({
   };
 
   useEffect(() => {
-    getApplicationsById(opportunityId);
-
     if (applications.length > 0) {
-      setArrows({ left: true, right: true });
+      setArrows({ left: false, right: true });
     }
+  }, [loading]);
+
+  useEffect(() => {
+    getApplicationsById(opportunityId);
 
     const swiperContainer = swiperRef.current;
     const handleSwiperProgress = (event) => {
