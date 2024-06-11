@@ -75,4 +75,4 @@ const CreatorDashboard = () => {
 
 export default CreatorDashboard;
 
-CreatorDashboard.role = "creator";
+CreatorDashboard.roles = ["creator"];

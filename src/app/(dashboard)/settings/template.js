@@ -6,12 +6,10 @@ import { usePathname } from "next/navigation";
 import Container from "@/components/Container";
 import Text from "@/components/Text";
 import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
 
 const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
-
   const LINKS = [
     {
       href: "/settings",
@@ -25,11 +23,19 @@ const Template = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && user.role !== "admin"
+    ...(user && user.role !== "admin" && user.role !== "super_admin"
       ? [
           {
             href: "/settings/subscription",
             label: "Subscription",
+          },
+        ]
+      : []),
+    ...(user && user.role === "super_admin"
+      ? [
+          {
+            href: "/settings/company",
+            label: "Edit Company Info",
           },
         ]
       : []),

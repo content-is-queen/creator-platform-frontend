@@ -87,6 +87,21 @@ const MainNav = () => {
       },
       { href: "/conversations", label: "Conversations" },
     ],
+    super_admin: [
+      {
+        href: "/",
+        label: "Dashboard",
+      },
+      {
+        href: "/admin/opportunities",
+        label: "Opportunities",
+      },
+      {
+        href: "/admin/users",
+        label: "Users",
+      },
+      { href: "/conversations", label: "Conversations" },
+    ],
   };
 
   return (
@@ -141,13 +156,16 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user && !user?.subscribed && user?.role !== "admin" && (
-                <li>
-                  <Button variant="yellow" href="/plus">
-                    Upgrade account
-                  </Button>
-                </li>
-              )}
+              {user &&
+                !user?.subscribed &&
+                user?.role !== "admin" &&
+                user?.role !== "super_admin" && (
+                  <li>
+                    <Button variant="yellow" href="/plus">
+                      Upgrade account
+                    </Button>
+                  </li>
+                )}
 
               <li>
                 <button

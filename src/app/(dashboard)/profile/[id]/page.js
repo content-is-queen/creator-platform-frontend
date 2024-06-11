@@ -12,7 +12,9 @@ export async function generateStaticParams() {
     const { data } = await API.get("/auth/users");
 
     // Don't build a profile for admin users
-    const filteredUsers = data.filter((user) => user.role !== "admin");
+    const filteredUsers = data.filter(
+      (user) => user.role !== ("admin" || "super_admin")
+    );
 
     return filteredUsers.map(({ uid }) => ({ id: uid }));
   } catch (error) {
