@@ -59,7 +59,7 @@ const CreatorDashboard = () => {
             Applications
           </Text>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             {applications.map((application) => (
               <CreatorApplicationCard
                 key={application.application_id}
