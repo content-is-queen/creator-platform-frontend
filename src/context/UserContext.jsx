@@ -15,7 +15,11 @@ export const getUserProfile = async (args) => {
       },
     });
 
-    return response.data.message;
+    if (response.status === 200) {
+      return response.data;
+    }
+
+    throw new Error("Something went wrong when getting the users profile");
   } catch (error) {
     console.error(error);
   }
@@ -26,29 +30,33 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
+    onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
         let userProfile;
+        const token = await authUser.getIdToken(true);
 
-        if (localStorage.getItem("userProfile")) {
-          userProfile = JSON.parse(localStorage.getItem("userProfile"));
-        } else {
-          userProfile = await getUserProfile({ user });
-
-          if (userProfile) {
-            localStorage.setItem("userProfile", JSON.stringify(userProfile));
+        if (token) {
+          if (localStorage.getItem("userProfile")) {
+            userProfile = JSON.parse(localStorage.getItem("userProfile"));
+          } else {
+            userProfile = await getUserProfile({ token });
+            console.log(userProfile);
+            if (userProfile) {
+              localStorage.setItem("userProfile", JSON.stringify(userProfile));
+            }
           }
+
+          setUser({
+            email: authUser.email,
+            ...userProfile,
+          });
         }
 
-        setUser({
-          email: user.email,
-          ...userProfile,
-        });
+        setLoading(false);
       } else {
         localStorage.removeItem("userProfile");
         setUser(null);
       }
-      setLoading(false);
     });
   }, []);
 
