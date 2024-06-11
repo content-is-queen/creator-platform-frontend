@@ -49,11 +49,17 @@ const MainNav = () => {
   useEffect(() => {
     if (
       !loading &&
-      !user &&
+      user === null &&
       (pathname !== "/signup" || pathname !== "/login")
     ) {
       router.push("/login");
     }
+
+    console.log(
+      !loading &&
+        user === null &&
+        (pathname !== "/signup" || pathname !== "/login")
+    );
   }, [loading]);
 
   const LINKS = {

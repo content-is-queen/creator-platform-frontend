@@ -2,15 +2,13 @@
 
 import { Suspense, useState } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-
 import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
 import SubMenu from "@/components/SubMenu";
+import Kebab from "../Kebab";
 import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 
 import API from "@/api/api";
@@ -68,13 +66,8 @@ const BrandOpportunityCard = (props) => {
           <p className="text-lg text-queen-black capitalize truncate max-w-full w-60">
             {title}
           </p>
-          <button
-            type="button"
-            className="ml-auto pl-2"
-            onClick={subMenuToggle}
-          >
-            <FontAwesomeIcon icon={faEllipsisV} />
-          </button>
+
+          <Kebab onClick={subMenuToggle} />
 
           {menuOpen && (
             <SubMenu>
