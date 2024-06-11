@@ -11,7 +11,6 @@ import { register } from "swiper/element/bundle";
 import Tabs from "@/components/Tabs";
 import Container from "../Container";
 import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
-import SpinnerScreen from "@/components/SpinnerScreen";
 
 import { useUser } from "@/context/UserContext";
 import useOpportunities from "@/hooks/useOpportunities";
@@ -75,6 +74,14 @@ const BrandOpportunities = () => {
     const params = {
       slidesPerView: 3,
       spaceBetween: 20,
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
     };
 
     // Filter opportunities by their statuses
@@ -105,8 +112,8 @@ const BrandOpportunities = () => {
         <div className="relative">
           <swiper-container ref={swiperRef} init="false" class="my-6">
             {filteredOpportunities.length > 0 ? (
-              filteredOpportunities.map((opportunity, index) => (
-                <swiper-slide key={index}>
+              filteredOpportunities.map((opportunity) => (
+                <swiper-slide key={opportunity.opportunity_id}>
                   <div className="m-0.5">
                     <BrandOpportunityCard {...opportunity} />
                   </div>
@@ -120,6 +127,7 @@ const BrandOpportunities = () => {
           </swiper-container>
           {filteredOpportunities.length > 0 && (
             <>
+              {/** Only render if first slide is not in view */}
               <button
                 type="button"
                 onClick={handlePrev}
@@ -129,6 +137,8 @@ const BrandOpportunities = () => {
               >
                 <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
               </button>
+              {/** Only render if there is a next slide*/}
+
               <button
                 type="button"
                 onClick={handleNext}

@@ -124,7 +124,7 @@ const MainNav = () => {
               className={clsx(
                 "flex flex-col items-center py-2 leading-none uppercase md:space-x-6 rtl:space-x-reverse md:flex-row md:border-0",
                 isToggleClicked &&
-                  "fixed w-full left-0 top-20 z-10 space-y-4 bg-queen-blue pt-16 pb-20"
+                  "fixed w-full left-0 top-20 z-10 space-y-6 bg-queen-blue pt-16 pb-20"
               )}
             >
               {LINKS[user?.role]?.map(({ href, label }) => (

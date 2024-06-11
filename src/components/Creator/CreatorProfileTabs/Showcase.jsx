@@ -132,7 +132,7 @@ const Showcase = ({ meta }) => {
   return (
     <div>
       {showcase.length > 0 ? (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {showcase.map((show) => (
             <Show key={show.href} {...show} />
           ))}

@@ -22,32 +22,36 @@ const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
         <LoadingPlaceholder />
       ) : (
         <>
-          <div className="flex gap-x-6 items-center">
+          <div className="flex gap-x-2 md:gap-x-4 items-center">
             <ProfileIcon />
-            <p className="truncate w-32">{opportunity?.title}</p>
+            <p className="truncate w-full max-w-20 md:max-w-32">
+              {opportunity?.title}
+            </p>
           </div>
 
-          <Tag>{status}</Tag>
-          {modalOpen && (
-            <Modal
-              open={modalOpen}
-              onClose={() => setModalOpen(false)}
-              title="Application"
+          <div className="flex gap-2 items-center">
+            <Tag>{status}</Tag>
+            {modalOpen && (
+              <Modal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                title="Application"
+              >
+                {proposal}
+              </Modal>
+            )}
+            <Button
+              variant="white"
+              size="sm"
+              as="button"
+              type="button"
+              onClick={() => {
+                setModalOpen(true);
+              }}
             >
-              {proposal}
-            </Modal>
-          )}
-          <Button
-            variant="white"
-            size="sm"
-            as="button"
-            type="button"
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            View
-          </Button>
+              View
+            </Button>
+          </div>
         </>
       )}
     </Card>
