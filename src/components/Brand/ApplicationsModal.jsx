@@ -44,8 +44,8 @@ const ApplicationsModal = ({
     try {
       const { data } = await API.get(`/applications/opportunity/${id}`);
       setApplications(data?.filter((i) => i.status === "pending"));
-    } catch (error) {
-      console.error(error);
+    } catch ({ response }) {
+      console.error(response.message);
     } finally {
       setloading(false);
     }
@@ -63,7 +63,6 @@ const ApplicationsModal = ({
     const swiperContainer = swiperRef.current;
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
-      console.log(swiper.isBeginning);
 
       if (swiper.isBeginning) {
         setArrows({ left: false, right: true });
@@ -88,7 +87,7 @@ const ApplicationsModal = ({
         "swiperprogress",
         handleSwiperProgress
       );
-  }, [applications]);
+  }, []);
 
   if (loading) {
     return <SpinnerScreen />;
