@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 
 const AuthTemplate = ({ children }) => {
-  const { user, userLoaded } = useUser();
+  const { user } = useUser();
   const router = useRouter();
 
   useLayoutEffect(() => {
-    if (user?.first_name && userLoaded) {
+    if (user?.first_name) {
       router.push("/");
     }
   }, [user]);

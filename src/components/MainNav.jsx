@@ -22,7 +22,7 @@ const MainNav = () => {
 
   const router = useRouter();
 
-  const { user, userLoaded, setUser } = useUser();
+  const { user, setUser, loading } = useUser();
 
   const pathname = usePathname();
 
@@ -48,13 +48,13 @@ const MainNav = () => {
 
   useEffect(() => {
     if (
-      userLoaded &&
+      !loading &&
       !user &&
       (pathname !== "/signup" || pathname !== "/login")
     ) {
       router.push("/login");
     }
-  }, [userLoaded]);
+  }, []);
 
   const LINKS = {
     creator: [
