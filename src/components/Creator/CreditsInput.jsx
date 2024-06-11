@@ -80,8 +80,15 @@ const CreditsInput = ({ setFormData, handleChange }) => {
 
   const remove = (href) => {
     setError({});
+    // Remove the credit from the credits state
     setCredits((prev) => prev.filter((i) => i.href !== href));
     handleChange();
+
+    // Remove the credit from the showcase state if it exists
+    setFormData((prev) => ({
+      ...prev,
+      showcase: prev.showcase.filter((show) => show !== href),
+    }));
   };
 
   useEffect(() => {
