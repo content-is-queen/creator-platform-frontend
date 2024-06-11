@@ -15,7 +15,6 @@ import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
 import { useUser } from "@/context/UserContext";
 import useOpportunities from "@/hooks/useOpportunities";
 import Spinner from "../Spinner";
-import { set } from "lodash";
 
 register();
 
