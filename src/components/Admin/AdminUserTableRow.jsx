@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { Menu } from "@headlessui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import Table from "../Table";
-import SubMenu from "@/components/SubMenu";
 import ProfileIcon from "@/components/ProfileIcon";
-import Kebab from "../Kebab";
 
 const AdminUserTableRow = ({
   uid,
@@ -18,16 +18,10 @@ const AdminUserTableRow = ({
   handleActivation,
   handleDelete,
 }) => {
-  const [openMenuId, setOpenMenuId] = useState(null);
-
   const handleChange = (uid) => {
     selectedUsers.includes(uid)
       ? setSelectedUsers((prev) => prev.filter((i) => !i.includes(uid)))
       : setSelectedUsers((prev) => [...prev, uid]);
-  };
-
-  const handleMenuToggle = (id) => {
-    setOpenMenuId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -64,34 +58,46 @@ const AdminUserTableRow = ({
       <Table.Data>{email}</Table.Data>
       <Table.Data className="px-6 py-3 capitalize">{role}</Table.Data>
       <Table.Data className="px-6 py-3 relative">
-        <Kebab onClick={() => handleMenuToggle(uid)} />
-        {openMenuId === uid && (
-          <SubMenu>
-            <SubMenu.Item>
-              <button
-                type="button"
-                onClick={() =>
-                  handleActivation({
-                    id: uid,
-                    activated: !disabled,
-                  })
-                }
-                className="px-4 py-1 w-full text-left inline-block"
-              >
-                {disabled ? "Activate" : "Deactivate"}
-              </button>
-            </SubMenu.Item>
-            <SubMenu.Item>
-              <button
-                type="button"
-                onClick={() => handleDelete(uid)}
-                className="px-4 py-1 w-full text-left inline-block"
-              >
-                Delete
-              </button>
-            </SubMenu.Item>
-          </SubMenu>
-        )}
+        <Menu as="div" className="relative inline-block text-left">
+          <div>
+            <Menu.Button className="ml-auto pl-2 focus:outline-none">
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </Menu.Button>
+          </div>
+          <Menu.Items className="absolute z-50 right-0 w-31 mt-1 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <div className="py-1">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                    } px-4 py-2 text-left inline-block`}
+                    onClick={() =>
+                      handleActivation({
+                        id: uid,
+                        activated: isActivated,
+                      })
+                    }
+                  >
+                    {!isActivated ? "Activate" : "Deactivate"}
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                    } px-4 py-2 text-left inline-block`}
+                    onClick={() => handleDelete(uid)}
+                  >
+                    Delete
+                  </button>
+                )}
+              </Menu.Item>
+            </div>
+          </Menu.Items>
+        </Menu>
       </Table.Data>
     </Table.Row>
   );

@@ -13,12 +13,11 @@ import { IoNotificationsOutline } from "react-icons/io5";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
-import SubMenu from "@/components/SubMenu";
+import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
 
 const MainNav = () => {
-  const [isUserClicked, setIsUserClicked] = useState(false);
-  const [isToggleClicked, setIsToggleClicked] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
 
@@ -26,13 +25,8 @@ const MainNav = () => {
 
   const pathname = usePathname();
 
-  const handleIsUserClicked = () => {
-    if (!user) return;
-    setIsUserClicked((prev) => !prev);
-  };
-
   const handleToggle = () => {
-    setIsToggleClicked((prev) => !prev);
+    setIsMenuOpen((prev) => !prev);
   };
 
   const handleSignOut = async () => {
@@ -54,12 +48,6 @@ const MainNav = () => {
     ) {
       router.push("/login");
     }
-
-    console.log(
-      !loading &&
-        user === null &&
-        (pathname !== "/signup" || pathname !== "/login")
-    );
   }, [loading]);
 
   const LINKS = {
@@ -114,7 +102,7 @@ const MainNav = () => {
     <nav
       className={clsx(
         "bg-queen-blue text-queen-yellow py-4",
-        isToggleClicked && "fixed w-full h-screen z-10"
+        isMenuOpen && "fixed w-full h-screen z-10"
       )}
     >
       <Container className="flex flex-wrap items-center justify-between text-sm w-full">
@@ -137,14 +125,14 @@ const MainNav = () => {
         <div className="flex items-center md:order-2 space-x-3 md:space-x-auto rtl:space-x-reverse">
           <div
             className={`${
-              isToggleClicked ? "block" : "hidden"
+              isMenuOpen ? "block" : "hidden"
             } items-center justify-between w-full md:flex md:w-auto md:order-1`}
             id="navbar-user"
           >
             <ul
               className={clsx(
                 "flex flex-col items-center py-2 leading-none uppercase md:space-x-6 rtl:space-x-reverse md:flex-row md:border-0",
-                isToggleClicked &&
+                isMenuOpen &&
                   "fixed w-full left-0 top-20 z-10 space-y-6 bg-queen-blue pt-16 pb-20"
               )}
             >
@@ -189,50 +177,52 @@ const MainNav = () => {
             </ul>
           </div>
 
-          {isUserClicked && (
-            <SubMenu heading={<SubMenu.Heading>{user?.email}</SubMenu.Heading>}>
-              <SubMenu.Item>
-                <Link
-                  href="/profile"
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Profile
-                </Link>
-              </SubMenu.Item>
-
-              <SubMenu.Item>
-                <Link
-                  href="/settings"
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Settings
-                </Link>
-              </SubMenu.Item>
-
-              <SubMenu.Item>
-                <button
-                  onClick={handleSignOut}
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Logout
-                </button>
-              </SubMenu.Item>
-            </SubMenu>
-          )}
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
-            <ProfileIcon
-              className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
-              type="button"
-              as="button"
-              onClick={handleIsUserClicked}
-              id="user-menu-button"
-              aria-expanded="false"
-              data-dropdown-toggle="user-dropdown"
-              data-dropdown-placement="bottom"
-              imageUrl={user?.imageUrl}
-            >
-              <span className="sr-only">User menu</span>
-            </ProfileIcon>
+            <Menu as="div" className="relative">
+              <Menu.Button>
+                <ProfileIcon
+                  className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
+                  type="button"
+                  as="button"
+                  id="user-menu-button"
+                  aria-expanded="false"
+                  data-dropdown-toggle="user-dropdown"
+                  data-dropdown-placement="bottom"
+                  imageUrl={user?.imageUrl}
+                >
+                  <span className="sr-only">User menu</span>
+                </ProfileIcon>
+              </Menu.Button>
+              <Menu.Items className="absolute z-50 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+                <Menu.Item as="div" className="text-queen-black/60">
+                  <div className="px-4 py-2 text-sm">{user?.email}</div>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Profile
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="/settings"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Settings
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <button
+                    onClick={handleSignOut}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </Menu.Item>
+              </Menu.Items>
+            </Menu>
             <button
               data-collapse-toggle="navbar-user"
               type="button"

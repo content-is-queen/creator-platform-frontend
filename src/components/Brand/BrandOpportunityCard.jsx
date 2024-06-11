@@ -1,5 +1,3 @@
-"use client";
-
 import { Suspense, useState } from "react";
 
 import Card from "@/components/Card";
@@ -7,7 +5,7 @@ import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
-import SubMenu from "@/components/SubMenu";
+import { Menu } from "@headlessui/react";
 import Kebab from "../Kebab";
 import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 
@@ -18,7 +16,6 @@ import useToken from "@/hooks/useToken";
 
 const BrandOpportunityCard = (props) => {
   const token = useToken();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
 
@@ -34,10 +31,6 @@ const BrandOpportunityCard = (props) => {
   } = props;
 
   const statusLabel = status.replace("_", " ");
-
-  const editOpportunity = () => {
-    setIsEditOpen(true);
-  };
 
   const deleteOpportunity = async (id) => {
     try {
@@ -55,10 +48,6 @@ const BrandOpportunityCard = (props) => {
     }
   };
 
-  const subMenuToggle = () => {
-    setMenuOpen((prev) => !prev);
-  };
-
   return (
     <>
       <Card className="inline-block space-y-4 w-full max-w-sm relative">
@@ -66,22 +55,27 @@ const BrandOpportunityCard = (props) => {
           <p className="text-lg text-queen-black capitalize truncate max-w-full w-60">
             {title}
           </p>
-
-          <Kebab onClick={subMenuToggle} />
-
-          {menuOpen && (
-            <SubMenu>
-              <SubMenu.Item>
-                <button
-                  type="button"
-                  onClick={() => deleteOpportunity(opportunity_id)}
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Delete
-                </button>
-              </SubMenu.Item>
-            </SubMenu>
-          )}
+          <Menu as="div" className="relative">
+            <Menu.Button className="ml-auto pl-2 focus:outline-none">
+              <Kebab />
+            </Menu.Button>
+            <Menu.Items className="absolute z-50 left-1/2 transform -translate-x-1/2 mt-1 w-30 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus:outline-none">
+              <div className="px-1 py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                      } group flex rounded-md items-center w-full px-5 py-2 text-sm`}
+                      onClick={() => deleteOpportunity(opportunity_id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Menu>
         </div>
 
         <div className="flex gap-6 items-center">
