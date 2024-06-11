@@ -8,12 +8,15 @@ import useToken from "@/hooks/useToken";
 import Search from "@/components/Search";
 import AdminUserTableRow from "./AdminUserTableRow";
 import { Error } from "@/components/Form";
+import SubMenu from "../SubMenu";
 import Table from "@/components/Table";
+import Kebab from "../Kebab";
 
 const AdminUsersTable = ({ users }) => {
   const [loading, setLoading] = useState(true);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [errors, setError] = useState({});
 
@@ -114,16 +117,9 @@ const AdminUsersTable = ({ users }) => {
         filter={{ keys: ["first_name", "last_name"], tag: "role" }}
       />
 
-      {selectedUsers.length > 0 && (
-        <button
-          onClick={deleteSelectedUsers}
-          className="px-4 py-1 w-full text-left border border-gray-500 rounded-md text-base"
-        >
-          Delete Selected
-        </button>
-      )}
-
       <div className="my-12 space-y-6">
+        {errors?.message && <Error>{errors?.message}</Error>}
+
         <Table>
           <Table.Head>
             <tr>
@@ -152,6 +148,27 @@ const AdminUsersTable = ({ users }) => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Role
+              </th>
+              <th scope="col" className="px-6 py-3">
+                {selectedUsers.length > 0 && (
+                  <>
+                    <Kebab onClick={() => setIsOpen(!isOpen)} />
+
+                    {isOpen && (
+                      <SubMenu>
+                        <SubMenu.Item>
+                          <button
+                            type="button"
+                            onClick={deleteSelectedUsers}
+                            className="px-4 py-1 w-full text-left inline-block"
+                          >
+                            Delete
+                          </button>
+                        </SubMenu.Item>
+                      </SubMenu>
+                    )}
+                  </>
+                )}
               </th>
             </tr>
           </Table.Head>
@@ -184,7 +201,6 @@ const AdminUsersTable = ({ users }) => {
             </Table.Body>
           )}
         </Table>
-        {errors?.message && <Error>{errors?.message}</Error>}
       </div>
     </>
   );

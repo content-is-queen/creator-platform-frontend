@@ -1,10 +1,8 @@
 import { useState } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-
 import SubMenu from "../SubMenu";
 import Table from "../Table";
+import Kebab from "../Kebab";
 
 const AdminOpportunitiesRow = ({
   title,
@@ -54,13 +52,7 @@ const AdminOpportunitiesRow = ({
       <Table.Data>{deadline}</Table.Data>
       <Table.Data>{numberOfApplications}</Table.Data>
       <Table.Data>
-        <button
-          type="button"
-          className="ml-auto pl-2"
-          onClick={() => handleMenuToggle(opportunity_id)}
-        >
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </button>
+        <Kebab onClick={() => handleMenuToggle(opportunity_id)} />
         {openMenuId === opportunity_id && (
           <SubMenu>
             <SubMenu.Item>

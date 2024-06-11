@@ -1,11 +1,9 @@
 import { useState } from "react";
 
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import Table from "../Table";
 import SubMenu from "@/components/SubMenu";
 import ProfileIcon from "@/components/ProfileIcon";
+import Kebab from "../Kebab";
 
 const AdminUserTableRow = ({
   uid,
@@ -66,13 +64,7 @@ const AdminUserTableRow = ({
       <Table.Data>{email}</Table.Data>
       <Table.Data className="px-6 py-3 capitalize">{role}</Table.Data>
       <Table.Data className="px-6 py-3 relative">
-        <button
-          type="button"
-          className="ml-auto pl-2"
-          onClick={() => handleMenuToggle(uid)}
-        >
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </button>
+        <Kebab onClick={() => handleMenuToggle(uid)} />
         {openMenuId === uid && (
           <SubMenu>
             <SubMenu.Item>
