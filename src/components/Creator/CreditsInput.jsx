@@ -82,6 +82,16 @@ const CreditsInput = ({ setFormData, handleChange }) => {
     setError({});
     setCredits((prev) => prev.filter((i) => i.href !== href));
     handleChange();
+
+    // Remove the credit from both credits and showcase states
+    setFormData((prev) => {
+      const removedCredit = prev.credits.find((credit) => credit.href === href);
+      return {
+        ...prev,
+        credits: prev.credits.filter((credit) => credit.href !== href),
+        showcase: prev.showcase.filter((show) => show !== removedCredit?.name),
+      };
+    });
   };
 
   useEffect(() => {
