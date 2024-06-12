@@ -1,17 +1,18 @@
 "use client";
 
 import API from "@/api/api";
-
 import { useState } from "react";
-
 import { useUser } from "@/context/UserContext";
-
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import useToken from "@/hooks/useToken";
 
-const ApplicationProposalForm = ({ opportunityId }) => {
+const ApplicationProposalForm = ({
+  opportunityId,
+  brandId,
+  application_instructions,
+}) => {
   const { user } = useUser();
   const token = useToken();
 
@@ -21,7 +22,7 @@ const ApplicationProposalForm = ({ opportunityId }) => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (opportunityId, brandId) => {
+  const handleSubmit = async () => {
     setError({});
     setLoading(true);
 
@@ -67,19 +68,15 @@ const ApplicationProposalForm = ({ opportunityId }) => {
         onClose={() => setIsOpen(false)}
         title="Apply"
       >
-        <Form
-          errors={errors}
-          setError={setError}
-          handleSubmit={() => handleSubmit(opportunityId, user.uid)}
-        >
+        <Form errors={errors} setError={setError} handleSubmit={handleSubmit}>
           <Form.Textarea
             name="proposal"
             onChange={(e) => setProposal(e.target.value)}
             rows={10}
-            minlength="5"
+            minLength={5}
             required
           >
-            Write how you will approach the opportuity
+            {application_instructions || "Write a cover letter"}
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">

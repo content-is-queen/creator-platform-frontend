@@ -1,6 +1,5 @@
-"use client";
-
 import { Suspense, useState } from "react";
+import { Menu } from "@headlessui/react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +9,6 @@ import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import Modal from "@/components/Modal";
-import SubMenu from "@/components/SubMenu";
 import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 
 import API from "@/api/api";
@@ -20,17 +18,21 @@ import useToken from "@/hooks/useToken";
 
 const BrandOpportunityCard = (props) => {
   const token = useToken();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
 
-  const { compensation, deadline, status, title, opportunity_id } = props;
+  const {
+    compensation,
+    deadline,
+    status,
+    title,
+    opportunity_id,
+    salary,
+    end_date,
+    budget,
+  } = props;
 
   const statusLabel = status.replace("_", " ");
-
-  const editOpportunity = () => {
-    setIsEditOpen(true);
-  };
 
   const deleteOpportunity = async (id) => {
     try {
@@ -48,47 +50,34 @@ const BrandOpportunityCard = (props) => {
     }
   };
 
-  const subMenuToggle = () => {
-    setMenuOpen((prev) => !prev);
-  };
-
   return (
     <>
       <Card className="inline-block space-y-4 w-full max-w-sm relative">
-        <div className="flex gap-x-3 content-start items-center">
+        <div className="flex gap-x-3 content-start items-center justify-between">
           <p className="text-lg text-queen-black capitalize truncate max-w-full w-60">
             {title}
           </p>
-          <button
-            type="button"
-            className="ml-auto pl-2"
-            onClick={subMenuToggle}
-          >
-            <FontAwesomeIcon icon={faEllipsisV} />
-          </button>
-
-          {menuOpen && (
-            <SubMenu>
-              <SubMenu.Item>
-                <button
-                  type="button"
-                  onClick={() => editOpportunity(opportunity_id)}
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Edit
-                </button>
-              </SubMenu.Item>
-              <SubMenu.Item>
-                <button
-                  type="button"
-                  onClick={() => deleteOpportunity(opportunity_id)}
-                  className="px-4 py-1 w-full text-left inline-block"
-                >
-                  Delete
-                </button>
-              </SubMenu.Item>
-            </SubMenu>
-          )}
+          <Menu as="div" className="relative">
+            <Menu.Button className="ml-auto pl-2 focus:outline-none">
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </Menu.Button>{" "}
+            <Menu.Items className="absolute z-50 left-1/2 transform -translate-x-1/2 mt-1 w-30 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus:outline-none">
+              <div className="px-1 py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                      } group flex rounded-md items-center w-full px-5 py-2 text-sm`}
+                      onClick={() => deleteOpportunity(opportunity_id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Menu>
         </div>
 
         <div className="flex gap-6 items-center">
@@ -97,7 +86,7 @@ const BrandOpportunityCard = (props) => {
               Compensation
             </Text>
             <Text as="span" size="sm">
-              {compensation}
+              {compensation || salary || budget}
             </Text>
           </div>
           <div className="flex flex-col">
@@ -105,7 +94,7 @@ const BrandOpportunityCard = (props) => {
               Deadline
             </Text>
             <Text as="span" size="sm">
-              {deadline}
+              {deadline || end_date}
             </Text>
           </div>
           <div>

@@ -17,18 +17,32 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const { data } = await API.get("/opportunities?limit=0");
-
-  return data.message.opportunities.map(({ opportunity_id }) => ({
-    id: opportunity_id,
-  }));
+  try {
+    const { data } = await API.get("/opportunities?limit=0");
+    const opportunities = data?.message?.opportunities || [];
+    return opportunities.map(({ opportunity_id }) => ({
+      id: opportunity_id,
+    }));
+  } catch (error) {
+    console.error("Error fetching opportunities during build:", error);
+    return [];
+  }
 }
-
 export const dynamicParams = false;
 
 export default async function Opportunity({ params: { id: opportunity_id } }) {
   const {
-    data: { title, description, company, type, compensation, user_id },
+    data: {
+      title,
+      description,
+      company,
+      type,
+      compensation,
+      application_instructions,
+      salary,
+      user_id,
+      user_imageUrl,
+    },
   } = await API(`/opportunities/opportunityid/${opportunity_id}`);
 
   return (
@@ -43,19 +57,21 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
               Back to Dashboard
             </Link>{" "}
-            <ProfileIcon className="h-12 w-12" />
+            <ProfileIcon className="h-12 w-12" imageUrl={user_imageUrl} />
             <Heading size="3xl" className="mt-6 mb-1">
               {title}
             </Heading>
             <Text size="sm" className="capitalize">
-              {company} &bull; {type} &bull; {compensation}
+              {company || "Company"} &bull; {type} &bull;{" "}
+              {compensation || salary}
             </Text>
           </div>
 
-          <div className="space-y-5 min-h-24">{description}</div>
+          <div className="space-y-5 min-h-24 max-w-lg">{description}</div>
 
           <ApplicationProposalForm
             opportunityId={opportunity_id}
+            application_instructions={application_instructions}
             brandId={user_id}
           />
         </div>

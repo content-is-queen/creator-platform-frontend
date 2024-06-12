@@ -29,7 +29,7 @@ const StatsPanel = ({ applications, loading }) => {
   return (
     <div
       className={clsx(
-        "mx-auto w-72 flex items-center justify-center max-w-full",
+        "mx-auto w-72 flex items-center justify-center flex-wrap md:flex-nowrap",
         loading && "animate-pulse"
       )}
     >

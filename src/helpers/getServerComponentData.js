@@ -37,7 +37,7 @@ export const getOpportunities = async () => {
   }
 
   try {
-    const { data } = await API.get("/opportunities");
+    const { data } = await API.get("/opportunities?limit=0");
     return data.message.opportunities;
   } catch (error) {
     console.log("Error: Getting opportunties:", error);

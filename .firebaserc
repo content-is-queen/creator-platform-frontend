@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "contentisqueen-97ae5"
-  }
+    "default": "creator-platform---production",
+    "staging": "contentisqueen-97ae5"
+  },
+  "targets": {},
+  "etags": {}
 }

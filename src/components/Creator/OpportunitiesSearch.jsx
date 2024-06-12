@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Search from "@/components/Search";
 import OpportunityCard from "@/components/OpportunityCard";
 import Spinner from "../Spinner";
+import Text from "../Text";
 
 const OpportunitiesSearch = ({ opportunities: initialOpportunities }) => {
   const [opportunities, setOpportunities] = useState(initialOpportunities);
@@ -31,7 +32,7 @@ const OpportunitiesSearch = ({ opportunities: initialOpportunities }) => {
           </div>
         ) : (
           <>
-            {filteredOpportunities.length > 0 ? (
+            {filteredOpportunities?.length > 0 ? (
               <>
                 {filteredOpportunities.map((opportunity) => (
                   <div key={opportunity.opportunity_id}>
@@ -40,7 +41,7 @@ const OpportunitiesSearch = ({ opportunities: initialOpportunities }) => {
                 ))}
               </>
             ) : (
-              <div className="text-center">No opportunities found</div>
+              <Text className="text-center">There are no opportunities</Text>
             )}
           </>
         )}

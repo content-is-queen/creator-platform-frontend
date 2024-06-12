@@ -8,9 +8,19 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const { data } = await API.get("/auth/users");
+  try {
+    const { data } = await API.get("/auth/users");
 
-  return data.map(({ uid }) => ({ id: uid }));
+    // Don't build a profile for admin users
+    const filteredUsers = data.filter(
+      (user) => user.role !== ("admin" || "super_admin")
+    );
+
+    return filteredUsers.map(({ uid }) => ({ id: uid })) || [];
+  } catch (error) {
+    console.error("Error fetching profiles during build:", error);
+    return [];
+  }
 }
 
 export const dynamicParams = false;

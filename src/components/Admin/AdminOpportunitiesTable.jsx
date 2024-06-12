@@ -66,7 +66,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
   };
 
   const handleCheckAll = () => {
-    const deselect = selectedOpportunities.length === opportunities.length;
+    const deselect = selectedOpportunities?.length === opportunities.length;
 
     deselect
       ? setSelectedOpportunities(() => {
@@ -91,6 +91,8 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
       />
 
       <div className="my-12 space-y-6">
+        {errors?.message && <Error>{errors?.message}</Error>}
+
         <Table>
           <Table.Head>
             <tr>
@@ -153,7 +155,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
             </Table.Body>
           )}
         </Table>
-        {errors?.message && <Error>{errors?.message}</Error>}
       </div>
     </>
   );

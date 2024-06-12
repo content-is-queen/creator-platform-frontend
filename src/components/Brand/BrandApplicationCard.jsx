@@ -7,7 +7,6 @@ import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
-import Tag from "@/components/Tag";
 import Heading from "@/components/Heading";
 import { useUser } from "@/context/UserContext";
 
@@ -19,7 +18,7 @@ const BrandApplicationCard = ({
   proposal,
   user_id,
 }) => {
-  const token = useToken();
+  const { token } = useToken();
   const {
     user: { uid },
   } = useUser();
@@ -32,7 +31,7 @@ const BrandApplicationCard = ({
 
       const { data } = res;
       setUser(data.message);
-    } catch (error) {
+    } catch ({ error }) {
       throw new Error("Something went wrong when getting the user");
     }
   };
@@ -80,7 +79,7 @@ const BrandApplicationCard = ({
           status: "accepted",
           user_id: user_id,
           creator_id: uid,
-          opportunity_title: opportunityTitle,
+          opportunityTitle: opportunityTitle,
         },
         {
           headers: {
@@ -97,10 +96,7 @@ const BrandApplicationCard = ({
         );
       }
 
-      setMessage({ status: "accepted", room: response.data.room });
-      console.log(response);
-
-      // TODO: Add screen to take to conversation
+      setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
       console.error(error);
     }
@@ -174,6 +170,7 @@ const BrandApplicationCard = ({
               type="button"
               variant="blue"
               size="sm"
+              target="_blank"
               href={`/profile/${user_id}`}
             >
               View profile

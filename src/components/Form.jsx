@@ -1,4 +1,6 @@
-import { forwardRef } from "react";
+"use client";
+
+import { forwardRef, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
@@ -14,22 +16,6 @@ export const inputStyles = {
   ].join(" "),
 };
 
-const Select = ({ name, options, children }) => (
-  <div key={name}>
-    <label className="uppercase" for={name}>
-      {children}
-    </label>
-    <select className="w-full" name={name} id={name}>
-      <option value="" selected disabled>
-        Select
-      </option>
-      {options.map((option, index) => (
-        <option key={`${option}-${index}`}>{option}</option>
-      ))}
-    </select>
-  </div>
-);
-
 export const Error = ({ children }) => (
   <div className="border-l-red-600 border-l-4 bg-red-50 text-queen-black/90 text-sm mt-4 py-2 px-4 rounded-sm">
     <p>{children}</p>
@@ -42,32 +28,154 @@ export const Success = ({ children }) => (
   </div>
 );
 
-const Checkbox = ({ name, options, children }) => (
-  <div key={name}>
-    <Text className="mb-4 uppercase">{children}</Text>
-    <div className="space-y">
-      {options.map((option) => (
-        <div className="inline-flex items-center gap-3 w-full" key={option}>
-          <input
-            type="checkbox"
-            className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-            name={option}
-            id={option}
-          />
-          <label for={name} className="text-sm">
-            {option}
-          </label>
-        </div>
-      ))}
+const Select = ({ name, options, children, ...otherProps }) => {
+  const [showInput, setShowInput] = useState(false);
+
+  const handleChange = (e) => {
+    if (e.target.value === "Other") {
+      setShowInput(true);
+      return;
+    }
+
+    setShowInput(false);
+  };
+
+  return (
+    <div key={name}>
+      <label className="uppercase" htmlFor={name}>
+        {children}
+      </label>
+      <select
+        onChange={handleChange}
+        className={clsx("w-full", showInput && "border-b-0")}
+        name={showInput ? "" : name}
+        id={name}
+        {...otherProps}
+      >
+        <option value="" defaultValue="" disabled>
+          Select
+        </option>
+        {options.map((option, index) => (
+          <option key={`${option}-${index}`}>{option}</option>
+        ))}
+      </select>
+      {showInput && <Form.Input name={name} className="mt-4" />}
     </div>
+  );
+};
+
+const Datalist = ({ name, options, children, ...otherProps }) => (
+  <div className="w-full">
+    <label htmlFor={name} className="uppercase">
+      {children}
+    </label>
+    <input
+      list={`${name}-options`}
+      name={name}
+      id={name}
+      className={clsx("w-full", inputStyles.input)}
+      {...otherProps}
+    />
+    <datalist id={`${name}-options`}>
+      {options.map((option, index) => (
+        <option key={`${option}-${index}`} value={option} />
+      ))}
+    </datalist>
   </div>
 );
 
-const Textarea = ({ name, children, ...otherProps }) => (
+const Checkbox = ({
+  name,
+  options,
+  children,
+  max,
+  description,
+  ...otherProps
+}) => {
+  const [checked, setChecked] = useState([]);
+
+  const handleChange = (e) => {
+    setChecked((prev) => {
+      return e.target.checked
+        ? [...prev, e.target.value]
+        : prev.filter((i) => i !== e.target.value);
+    });
+  };
+
+  const disabled = checked.length === parseInt(max);
+
+  return (
+    <div key={name}>
+      <Text className="mb-4 uppercase">{children}</Text>
+      <div className="space-y grid grid-cols-2 gap-6">
+        {options.map((option, index) => {
+          if (typeof option === "string") {
+            return (
+              <div key={option} className="-mb-6">
+                <div className="inline-flex items-center gap-x-3 w-full">
+                  <input
+                    type="checkbox"
+                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    name={option}
+                    id={option}
+                    onChange={handleChange}
+                    value={option}
+                    disabled={disabled && !checked.includes(option)}
+                    {...otherProps}
+                  />
+                  <label htmlFor={name} className="text-sm">
+                    {option}
+                  </label>
+                </div>
+              </div>
+            );
+          }
+          return (
+            <div className="items-center gap-3 w-full" key={option.title}>
+              {description && (
+                <span className="block text-sm text-queen-black/80">
+                  {description}
+                </span>
+              )}
+              <span className="font-subheading mb-2 inline-block text-sm">
+                {option.title}
+              </span>
+              {option.categories.map((category) => (
+                <div
+                  key={`${category}-${option.title}-${index}`}
+                  className="inline-flex items-center gap-3 w-full"
+                >
+                  <input
+                    type="checkbox"
+                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    name={category}
+                    id={category}
+                    onChange={handleChange}
+                    value={category}
+                    disabled={disabled && !checked.includes(category)}
+                    {...otherProps}
+                  />
+                  <label htmlFor={name} className="text-sm">
+                    {category}
+                  </label>
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const Textarea = ({ name, children, description, ...otherProps }) => (
   <div>
-    <label className="uppercase" for={name}>
+    <label className="uppercase" htmlFor={name}>
       {children}
     </label>
+    {description && (
+      <span className="block text-sm text-queen-black/80">{description}</span>
+    )}
     <textarea
       name={name}
       rows={6}
@@ -89,14 +197,13 @@ const Input = ({
   <div className={className}>
     <label
       className={clsx(label === "md" ? "uppercase" : "text-sm")}
-      for={name}
+      htmlFor={name}
     >
       {children}
     </label>
     {description && (
       <span className="block text-sm text-queen-black/80">{description}</span>
     )}
-
     <input
       type={type}
       className={inputStyles.input}
@@ -145,6 +252,8 @@ Form.Textarea = Textarea;
 Form.Checkbox = Checkbox;
 
 Form.Select = Select;
+
+Form.Datalist = Datalist;
 
 Form.Success = Success;
 

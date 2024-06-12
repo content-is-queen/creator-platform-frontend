@@ -1,56 +1,60 @@
 import { useEffect, useState } from "react";
-
 import Form, { Error } from "../Form";
 import Button from "../Button";
+import { useUser } from "@/context/UserContext";
 
-const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
-  const [shows, setShows] = useState(localUser?.profile_meta?.showcase || []);
+const ShowcaseInput = ({ setFormData, handleChange }) => {
+  const [shows, setShows] = useState([]);
+  const [credits, setCredits] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [errors, setError] = useState({});
 
+  const { user } = useUser();
+
   const add = () => {
     setError({});
-
-    if (
-      inputValue.trim("").length === 0 ||
-      !inputValue.startsWith("https://open.spotify.com/episode/") ||
-      !inputValue.startsWith("https://podcasts.apple.com/gb/podcast/")
-    ) {
-      setError({
-        message: "Please enter a valid Spotify or Apple podcast episode url",
-      });
-      return;
-    }
-
-    if (shows.find((i) => i.url == inputValue)) {
-      setError({ message: "You can't add the same url twice" });
-      return;
-    }
 
     if (shows.length === 6) {
       setError({ message: "You can only add up to 6 episodes" });
       return;
     }
 
-    setShows((prev) => [...prev, { url: inputValue }]);
+    if (!credits.includes(inputValue)) {
+      setError({ message: "Please select one of your credits" });
+      return;
+    }
+
+    setShows((prev) => [...prev, inputValue]);
 
     // Clear input when an entry is added
     setInputValue("");
     handleChange();
   };
 
-  const remove = (url) => {
+  const remove = (show) => {
     setError({});
-    setShows((prev) => prev.filter((i) => i.url !== url));
+    setShows((prev) => prev.filter((i) => i !== show));
     handleChange();
   };
 
   useEffect(() => {
-    setLocalUser((prev) => {
-      const newObj = prev;
-      const { profile_meta } = newObj;
-      newObj.profile_meta = { ...profile_meta, showcase: shows };
-      return newObj;
+    if (user && user.showcase) {
+      setShows(JSON.parse(user.showcase));
+    }
+
+    if (user && user.credits) {
+      setCredits(() => {
+        // Set credits to an array of titles for mapping
+        return JSON.parse(user.credits).map((credit) => {
+          return credit.name;
+        });
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setFormData((prev) => {
+      return { ...prev, showcase: shows };
     });
   }, [shows]);
 
@@ -59,8 +63,7 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
       <div className="mb-4">
         <p className="uppercase">Showcase</p>
         <span className="block text-sm text-queen-black/80">
-          Add up to 6 Spotify or Apple podacast episodes by inserting their
-          episode link
+          Add up to 6 of your credits
         </span>
       </div>
 
@@ -70,13 +73,14 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
             key={index}
             className="flex items-center border-b border-queen-black/10 pb-5 my-5"
           >
-            <span className="w-full block">{show.url}</span>
+            <span className="w-full block max-w-lg truncate">{show}</span>
             <Button
               type="button"
               variant="white"
               as="button"
+              className="ml-auto"
               onClick={() => {
-                remove(show.url);
+                remove(show);
               }}
             >
               Remove
@@ -85,11 +89,10 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
         ))}
 
       <div className="flex items-center gap-x-6">
-        <Form.Input
-          className="w-full"
+        <Form.Datalist
           name="showcase"
           value={inputValue}
-          placeholder="https://open.spotify.com/episode/1AndIV5yEGBgW41BmQuYkQ?si=d01cf36e51544969"
+          options={credits}
           onChange={(e) => setInputValue(e.target.value)}
         />
         <Button type="button" variant="white" as="button" onClick={add}>
@@ -101,4 +104,5 @@ const ShowcaseInput = ({ setLocalUser, localUser, handleChange }) => {
     </div>
   );
 };
+
 export default ShowcaseInput;

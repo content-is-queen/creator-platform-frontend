@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import API from "@/api/api";
 
@@ -53,7 +53,13 @@ const Conversations = () => {
       style={{ height: "calc(100vh - var(--nav-height)" }}
     >
       <Container className="pt-8 grid gap-6 grid-cols-12">
-        <ChatList rooms={rooms} active={activeChat} setActive={setActiveChat} />
+        <Suspense>
+          <ChatList
+            rooms={rooms}
+            active={activeChat}
+            setActive={setActiveChat}
+          />
+        </Suspense>
         {activeChat ? (
           <SingleChat room={activeChat || null} />
         ) : (
