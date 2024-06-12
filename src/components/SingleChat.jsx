@@ -25,44 +25,36 @@ import clsx from "clsx";
 import Button from "./Button";
 import ProfileIcon from "./ProfileIcon";
 
-const Message = ({ children, currentUser }) => {
+const Header = ({ room }) => {
+  const { user } = useUser();
+
+  const participant = room.userProfiles.find((i) => i.userId != user.uid);
   return (
-    <div className={clsx("flex items-center", currentUser && "justify-end")}>
-      {!currentUser && <ProfileIcon className="mr-2" />}
-      <div
-        className={clsx(
-          "py-3 px-4 text-queen-black",
-          currentUser
-            ? "bg-queen-gray/80 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl"
-            : "bg-queen-white rounded-br-3xl rounded-tr-3xl rounded-tl-xl"
-        )}
-      >
-        {children}
+    <div className="sticky top-0 flex items-center space-x-4 rtl:space-x-reverse border-solid px-8 py-4 shadow-sm">
+      <div>
+        <div className="flex-shrink-0">
+          <ProfileIcon
+            imageUrl={participant.profileImage}
+            className="h-12 w-12 flex-shrink-0"
+          />
+        </div>
+      </div>
+      <div>
+        <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
+          {participant.fullName}
+        </span>
+        <span className="text-sm text-gray-500 truncate block">
+          {room.opportunityTitle}
+        </span>
       </div>
     </div>
   );
 };
 
-const Header = ({ room }) => (
-  <div className="sticky top-0 flex items-center space-x-4 rtl:space-x-reverse border-solid px-8 py-4 shadow-sm">
-    <div>
-      <div className="flex-shrink-0">
-        <ProfileIcon className="h-12 w-12 flex-shrink-0" />
-      </div>
-    </div>
-    <div>
-      <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
-        {room.fullName}
-      </span>
-      <span className="text-sm text-gray-500 truncate block">
-        Opportunity name
-      </span>
-    </div>
-  </div>
-);
-
 const Body = ({ room }) => {
   const { user } = useUser();
+
+  const participant = room.userProfiles.find((i) => i.userId != user.uid);
 
   const [messages, setMessages] = useState([]);
   const messageBody = useRef();
@@ -101,11 +93,36 @@ const Body = ({ room }) => {
       <div className="w-full flex flex-col justify-between">
         <div className="flex flex-col space-y-8">
           {messages.length > 0 &&
-            messages.map((item) => (
-              <Message key={item.id} currentUser={item.uid === user.uid}>
-                {item.message}
-              </Message>
-            ))}
+            messages.map((item) => {
+              const currentUser = item.uid === user.uid;
+
+              return (
+                <div
+                  key={item.id}
+                  className={clsx(
+                    "flex items-center",
+                    currentUser && "justify-end"
+                  )}
+                >
+                  {!currentUser && (
+                    <ProfileIcon
+                      imageUrl={participant.profileImage}
+                      className="mr-2"
+                    />
+                  )}
+                  <div
+                    className={clsx(
+                      "py-3 px-4 text-queen-black",
+                      currentUser
+                        ? "bg-queen-gray/80 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl"
+                        : "bg-queen-white rounded-br-3xl rounded-tr-3xl rounded-tl-xl"
+                    )}
+                  >
+                    {item.message}
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>

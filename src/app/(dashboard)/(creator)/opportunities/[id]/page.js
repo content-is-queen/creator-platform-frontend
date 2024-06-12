@@ -62,7 +62,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               {title}
             </Heading>
             <Text size="sm" className="capitalize">
-              {company || "Company"} &bull; {type} &bull;{" "}
+              {organisation_name || "Company"} &bull; {type} &bull;{" "}
               {compensation || salary}
             </Text>
           </div>
