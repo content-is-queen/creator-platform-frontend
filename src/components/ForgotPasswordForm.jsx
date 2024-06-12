@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import useToken from "@/hooks/useToken";
 import { useForm } from "react-hook-form";
 import API from "@/api/api";
 
@@ -9,7 +8,6 @@ import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
 import { Success, Error } from "@/components/Form";
-import axios from "axios";
 
 const FIELDS = [
   {
@@ -27,7 +25,6 @@ const FIELDS = [
 ];
 
 const ForgotPasswordForm = () => {
-  const { token } = useToken();
   const {
     handleSubmit,
     control,
@@ -36,43 +33,29 @@ const ForgotPasswordForm = () => {
 
   const [errors, setError] = useState({});
   const [success, setSuccess] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     setError({});
     setSuccess({});
+    setLoading(true);
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_KEY}/v1/auth/forgot`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await API.post("/auth/forgot", data);
 
-      if (response.data.message === "Password reset email sent successfully") {
+      if (response.status === 200) {
         setSuccess({
           message: "Please check your email for password reset instructions.",
         });
         return;
       }
 
-      if (response.data.status > 200) {
-        setError({
-          message: "Something went wrong. try again.",
-        });
-        return;
-      }
-
-      return response.data;
+      throw new Error("Something went wrong. Try again");
     } catch (error) {
       setError({
-        message:
-          error.response?.data?.message ||
-          "Something went wrong. User sign up failed.",
+        message: error.response.data.message,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,7 +79,8 @@ const ForgotPasswordForm = () => {
           ))}
         </div>
         <Button as="button" type="submit" className="mt-8">
-          send password recovery link
+          {loading && <Button.Spinner />}
+          Send password recovery link
         </Button>
       </form>
       {errors?.message && <Error>{errors.message}</Error>}

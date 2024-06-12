@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import useToken from "@/hooks/useToken";
+import API from "@/api/api";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
 import { Success, Error } from "@/components/Form";
-import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+
 const FIELDS = [
   {
     name: "password",
@@ -16,20 +17,18 @@ const FIELDS = [
     children: "Password",
     rules: {
       required: "Password is required",
-      pattern: {
-        value: /^.{8}$/,
-        message: "Password must be exactly 8 characters long",
+      minLength: {
+        value: 6,
+        message: "Password must be at least 6 characters",
       },
     },
   },
 ];
 
 const ResetPasswordForm = () => {
-  const [decodedToken, setDecodedToken] = useState(null);
   const searchParams = useSearchParams();
   const tokenParam = searchParams.get("token");
   const router = useRouter();
-  const { token } = useToken();
 
   const {
     handleSubmit,
@@ -39,6 +38,8 @@ const ResetPasswordForm = () => {
 
   const [errors, setError] = useState({});
   const [success, setSuccess] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(null);
 
   function parseJwt(token) {
     if (!token) {
@@ -52,18 +53,19 @@ const ResetPasswordForm = () => {
   useEffect(() => {
     if (tokenParam) {
       let data = parseJwt(tokenParam);
-      setDecodedToken(data);
+      setToken(data);
     }
   }, [tokenParam]);
 
   const onSubmit = async (data) => {
     setError({});
     setSuccess({});
-    if (decodedToken !== null) {
-      const { uid } = decodedToken;
+    setLoading(true);
+    if (token) {
+      const { uid } = token;
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_KEY}/v1/auth/reset`,
+        const response = await API.post(
+          "/auth/reset",
           { ...data, uid },
           {
             headers: {
@@ -93,6 +95,8 @@ const ResetPasswordForm = () => {
         setError({
           message: error.response?.data?.message || "Something went wrong.",
         });
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -115,7 +119,8 @@ const ResetPasswordForm = () => {
           ))}
         </div>
         <Button as="button" type="submit" className="mt-8">
-          Send new password
+          {loading && <Button.Spinner />}
+          Change password
         </Button>
       </form>
       {errors?.message && <Error>{errors.message}</Error>}
