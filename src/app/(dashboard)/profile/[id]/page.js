@@ -16,7 +16,7 @@ export async function generateStaticParams() {
       (user) => user.role !== ("admin" || "super_admin")
     );
 
-    return filteredUsers.map(({ uid }) => ({ id: uid }));
+    return filteredUsers.map(({ uid }) => ({ id: uid })) || [];
   } catch (error) {
     console.error("Error fetching profiles during build:", error);
     return [];

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import useToken from "@/hooks/useToken";
 import { useForm } from "react-hook-form";
 import API from "@/api/api";
 
@@ -26,7 +25,6 @@ const FIELDS = [
 ];
 
 const ForgotPasswordForm = () => {
-  const { token } = useToken();
   const {
     handleSubmit,
     control,
@@ -35,35 +33,29 @@ const ForgotPasswordForm = () => {
 
   const [errors, setError] = useState({});
   const [success, setSuccess] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     setError({});
     setSuccess({});
+    setLoading(true);
     try {
-      const response = await API.post(`/auth/reset`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.message === "Password reset email sent successfully") {
+      const response = await API.post("/auth/forgot", data);
+
+      if (response.status === 200) {
         setSuccess({
           message: "Please check your email for password reset instructions.",
         });
         return;
       }
-      if (response.status > 200) {
-        setError({
-          message: "Something went wrong. User sign up failed.",
-        });
-        return;
-      }
-      return response;
+
+      throw new Error("Something went wrong. Try again");
     } catch (error) {
       setError({
-        message: error.message || "Something went wrong. User sign up failed.",
+        message: error.response.data.message,
       });
-      console.error("Sign up error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,7 +79,8 @@ const ForgotPasswordForm = () => {
           ))}
         </div>
         <Button as="button" type="submit" className="mt-8">
-          send password recovery link
+          {loading && <Button.Spinner />}
+          Send password recovery link
         </Button>
       </form>
       {errors?.message && <Error>{errors.message}</Error>}

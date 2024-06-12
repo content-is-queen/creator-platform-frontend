@@ -15,7 +15,6 @@ import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
 import { useUser } from "@/context/UserContext";
 import useOpportunities from "@/hooks/useOpportunities";
 import Spinner from "../Spinner";
-import { set } from "lodash";
 
 register();
 
@@ -74,8 +73,7 @@ const BrandOpportunities = () => {
     const swiperContainer = swiperRef.current;
 
     const handleSwiperProgress = (event) => {
-      const [swiper, progress] = event.detail;
-      console.log(swiper);
+      const [swiper] = event.detail;
 
       if (swiper.isBeginning) {
         setArrows({ left: false, right: true });

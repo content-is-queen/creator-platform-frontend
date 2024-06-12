@@ -26,6 +26,7 @@ const ApplicationsModal = ({
 }) => {
   const [applications, setApplications] = useState([]);
   const [loading, setloading] = useState(true);
+  const [arrows, setArrows] = useState({ left: false, right: false });
 
   const swiperRef = useRef(null);
 
@@ -43,27 +44,50 @@ const ApplicationsModal = ({
     try {
       const { data } = await API.get(`/applications/opportunity/${id}`);
       setApplications(data?.filter((i) => i.status === "pending"));
-    } catch (error) {
-      console.error(error);
+    } catch ({ response }) {
+      console.error(response.message);
     } finally {
       setloading(false);
     }
   };
 
   useEffect(() => {
-    getApplicationsById(opportunityId);
-  }, []);
-
-  useEffect(() => {}, [applications]);
+    if (applications.length > 0) {
+      setArrows({ left: false, right: true });
+    }
+  }, [loading]);
 
   useEffect(() => {
-    if (swiperRef.current) {
-      console.log(swiperRef);
-      swiperRef.current.addEventListener("swiperslidechange", (e) => {
-        console.log("slide changed");
-      });
+    getApplicationsById(opportunityId);
+
+    const swiperContainer = swiperRef.current;
+    const handleSwiperProgress = (event) => {
+      const [swiper] = event.detail;
+
+      if (swiper.isBeginning) {
+        setArrows({ left: false, right: true });
+      }
+
+      if (swiper.isEnd) {
+        setArrows({ left: true, right: false });
+      }
+
+      if (swiper.isBeginning && swiper.isEnd) {
+        setArrows({ left: false, right: false });
+      }
+    };
+
+    if (swiperContainer) {
+      swiperContainer.addEventListener("swiperprogress", handleSwiperProgress);
     }
-  }, [swiperRef]);
+
+    return () =>
+      swiperContainer &&
+      swiperContainer.removeEventListener(
+        "swiperprogress",
+        handleSwiperProgress
+      );
+  }, []);
 
   if (loading) {
     return <SpinnerScreen />;
@@ -99,22 +123,26 @@ const ApplicationsModal = ({
                   </swiper-slide>
                 ))}
               </swiper-container>
-              <button
-                type="button"
-                onClick={handlePrev}
-                className={clsx(
-                  "absolute -left-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
-                )}
-              >
-                <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="absolute -right-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
-              >
-                <FontAwesomeIcon icon={faArrowRight} />
-              </button>
+              {arrows.left && (
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className={clsx(
+                    "absolute -left-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
+                  )}
+                >
+                  <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
+                </button>
+              )}
+              {arrows.right && (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="absolute -right-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
+                >
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              )}
             </>
           ) : (
             <Card>
