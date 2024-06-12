@@ -130,13 +130,12 @@ const EditProfile = () => {
         <div className="space-y-10">
           {user && user.role === "creator" && (
             <>
-              <ShowcaseInput
+              <CreditsInput
                 setUpdated={setUpdated}
                 setFormData={setFormData}
                 handleChange={handleChange}
               />
-
-              <CreditsInput
+              <ShowcaseInput
                 setUpdated={setUpdated}
                 setFormData={setFormData}
                 handleChange={handleChange}

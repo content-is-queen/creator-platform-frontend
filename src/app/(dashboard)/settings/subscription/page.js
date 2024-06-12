@@ -38,7 +38,6 @@ const Subscription = () => {
       })();
     }
   }, [token]);
-  // TODO: check if user is subscribed
   return (
     <Form className="mx-auto">
       <div className="space-y-10">

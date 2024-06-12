@@ -99,7 +99,11 @@ const CreditsInput = ({ setFormData, handleChange }) => {
   return (
     <div>
       <div>
-        <p className="uppercase mb-4">Credits</p>
+        <p className="uppercase">Credits</p>
+        <p className="text-sm text-queen-black/80 mb-4">
+          Add your spotify episode link. It should look something like this:
+          https://open.spotify.com/episode/3645233
+        </p>
       </div>
 
       {credits.length > 0 &&
@@ -147,7 +151,7 @@ const CreditsInput = ({ setFormData, handleChange }) => {
             }
             label="sm"
           >
-            Episode Link
+            Spotify Episode Link
           </Form.Input>
           <Form.Input
             className="w-full"
