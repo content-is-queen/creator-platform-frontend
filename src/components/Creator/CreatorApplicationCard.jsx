@@ -34,6 +34,8 @@ const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
             {modalOpen && (
               <Modal
                 open={modalOpen}
+                align="left"
+                className="min-h-64"
                 onClose={() => setModalOpen(false)}
                 title="Application"
               >

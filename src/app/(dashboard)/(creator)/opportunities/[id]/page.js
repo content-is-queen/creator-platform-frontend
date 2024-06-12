@@ -37,6 +37,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
       description,
       company,
       type,
+      organisation_name,
       compensation,
       application_instructions,
       salary,
@@ -62,7 +63,7 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               {title}
             </Heading>
             <Text size="sm" className="capitalize">
-              {organisation_name || "Company"} &bull; {type} &bull;{" "}
+              {organisation_name || company} &bull; {type} &bull;{" "}
               {compensation || salary}
             </Text>
           </div>

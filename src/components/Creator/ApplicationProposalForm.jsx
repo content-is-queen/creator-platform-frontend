@@ -53,7 +53,7 @@ const ApplicationProposalForm = ({
   };
 
   if (status === "submitted") {
-    return <>Thank you for your application.</>;
+    return <Form.Success>Your application was sent successfully.</Form.Success>;
   }
 
   return (

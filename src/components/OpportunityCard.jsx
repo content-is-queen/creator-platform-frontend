@@ -8,6 +8,7 @@ import ProfileIcon from "./ProfileIcon";
 
 const OpportunityCard = ({
   company,
+  organisation_name,
   compensation,
   salary,
   type,
@@ -22,7 +23,7 @@ const OpportunityCard = ({
       <Link href={`/profile/${user_id}`} className="flex gap-2 items-center">
         <ProfileIcon className="h-6 w-6" imageUrl={user_imageUrl} />
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
-          {company}
+          {organisation_name || company}
         </span>
       </Link>
       <div className="flex gap-y-2 gap-x-3 item-center flex-wrap basis-1/4 md:basis-auto">
