@@ -31,7 +31,7 @@ const AdminUserTableRow = ({
           <input
             id={`checkbox-table-search-${uid}`}
             type="checkbox"
-            checked={selectedUsers.includes(uid)}
+            defaultChecked={selectedUsers.includes(uid)}
             className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
             onChange={() => handleChange(uid)}
           />

@@ -55,7 +55,7 @@ const Template = ({ children }) => {
                   <li key={href} className="py-1">
                     <Link
                       href={href}
-                      className={pathname != href && "opacity-70"}
+                      className={pathname === href ? undefined : "opacity-70"}
                     >
                       {label}
                     </Link>

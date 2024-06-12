@@ -38,7 +38,7 @@ const AdminOpportunitiesRow = ({
             type="checkbox"
             className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
             onChange={() => handleChange(opportunity_id)}
-            checked={selectedOpportunities.includes(opportunity_id)}
+            defaultChecked={selectedOpportunities.includes(opportunity_id)}
           />
           <label
             htmlFor={`checkbox-table-search-${opportunity_id}`}

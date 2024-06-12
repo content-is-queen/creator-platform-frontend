@@ -102,7 +102,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
                     id="checkbox-all-search"
                     type="checkbox"
                     className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-                    checked={checkAll}
+                    defaultChecked={checkAll}
                     onClick={() => handleCheckAll()}
                   />
                   <label htmlFor="checkbox-all-search" className="sr-only">
@@ -128,7 +128,9 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
             </tr>
           </Table.Head>
           {loading ? (
-            <Table.Loading />
+            <Table.Body>
+              <Table.Loading />
+            </Table.Body>
           ) : (
             <Table.Body>
               {filteredOpportunities && filteredOpportunities.length > 0 ? (

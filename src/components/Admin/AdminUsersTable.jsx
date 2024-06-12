@@ -128,7 +128,7 @@ const AdminUsersTable = ({ users }) => {
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
-                    checked={checkAll}
+                    defaultChecked={checkAll}
                     onClick={() => handleCheckAll()}
                     className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
                   />
@@ -173,7 +173,9 @@ const AdminUsersTable = ({ users }) => {
             </tr>
           </Table.Head>
           {loading ? (
-            <Table.Loading />
+            <Table.Body>
+              <Table.Loading />
+            </Table.Body>
           ) : (
             <Table.Body>
               {filteredUsers && filteredUsers.length > 0 ? (
