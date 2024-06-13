@@ -14,7 +14,7 @@ const Subscribe = () => {
     try {
       const response = await API.post(
         "/payments/subscribe",
-        { session_id, user_id: user.uid, email: user.email },
+        { subscription_id, session_id, user_id: user.uid, email: user.email },
         {
           headers: {
             "Content-Type": "application/json",
@@ -23,13 +23,21 @@ const Subscribe = () => {
         }
       );
 
-      const updatedUser = { ...user, subscribed: true };
+      const updatedUser = {
+        ...user,
+        subscribed: true,
+        subscriptionId: subscription_id,
+      };
       setUser(updatedUser);
       if (localStorage.getItem("userProfile")) {
         const userProfile = JSON.parse(localStorage.getItem("userProfile"));
         localStorage.setItem(
           "userProfile",
-          JSON.stringify({ ...userProfile, subscribed: true })
+          JSON.stringify({
+            ...userProfile,
+            subscribed: true,
+            subscriptionId: subscription_id,
+          })
         );
       }
     } catch (error) {
