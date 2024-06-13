@@ -17,7 +17,7 @@ const Company = () => {
   const { user, setUser } = useUser();
 
   const [formData, setFormData] = useState({
-    organization_name: user?.name || "",
+    organization_name: user?.organisation_name || "", // Corrected property name here
     organization_logo: null,
   });
   const { token } = useToken();
@@ -37,11 +37,13 @@ const Company = () => {
     setUpdated(!isEmpty);
     setFormData(updatedFormData);
   };
+
   const handleFileUpload = async (file) => {
     const storageRef = ref(storage, `organization_logo/${file.name}`);
     await uploadBytes(storageRef, file);
     return getDownloadURL(storageRef);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -54,7 +56,7 @@ const Company = () => {
         imageUrl = await handleFileUpload(formData.organization_logo);
       }
       const dataToSubmit = {
-        organization_name: formData.organization_name,
+        organisation_name: formData.organization_name, // Corrected property name here
         ...(imageUrl && { organization_logo: imageUrl }),
       };
       const response = await API.put(`/admin/company`, dataToSubmit, {
@@ -64,7 +66,7 @@ const Company = () => {
         },
       });
       if (response?.status === 200) {
-        setUser({ ...user, organization_name: formData.organization_name });
+        setUser({ ...user, organisation_name: formData.organization_name }); // Corrected property name here
         setSuccess({ message: "Company info updated successfully" });
       } else {
         setErrors({
@@ -83,11 +85,15 @@ const Company = () => {
   };
 
   useEffect(() => {
+    console.log("User object:", user);
+    console.log("Organization Name:", user?.organisation_name); // Check if organisation_name is present
+
     setFormData({
-      organization_name: user?.organization_name || "",
+      organization_name: user?.organisation_name || "", // Corrected property name here
       organization_logo: user?.organization_logo || null,
     });
   }, [user]);
+
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
@@ -112,7 +118,7 @@ const Company = () => {
           type="submit"
           as="button"
           onClick={handleSubmit}
-          {...(!updated && { disabled: false })}
+          disabled={!updated} // Simplified disabled condition
         >
           {loading && <Button.Spinner />} Update Company Info
         </Button>
