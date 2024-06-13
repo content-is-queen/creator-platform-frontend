@@ -65,6 +65,7 @@ const Body = ({ room }) => {
       orderBy("createdAt"),
       limit(50)
     );
+
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const messages = [];
       QuerySnapshot.forEach((doc) => {

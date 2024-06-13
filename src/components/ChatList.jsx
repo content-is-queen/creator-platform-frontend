@@ -21,7 +21,7 @@ const ChatList = ({ active, setActive, rooms }) => {
       );
       setActive(createdRoom);
     }
-  }, [rooms]);
+  }, []);
   return (
     <ul
       className="bg-white rounded-3xl shadow-md col-span-4 overflow-y-auto"
@@ -32,8 +32,9 @@ const ChatList = ({ active, setActive, rooms }) => {
 
         // Convert firebase timestamp
         const firbaseTime = new Date(
-          room.timeSent._seconds * 1000 + room.timeSent._nanoseconds / 1000000
+          room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
         );
+
         const date = firbaseTime.toDateString();
 
         const atTime = firbaseTime.toLocaleTimeString();
