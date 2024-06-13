@@ -2,7 +2,8 @@
 
 import { Suspense, useEffect, useState } from "react";
 
-import API from "@/api/api";
+import { query, collection, where, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 import Container from "@/components/Container";
 import ChatList from "@/components/ChatList";
@@ -32,18 +33,26 @@ const Conversations = () => {
   const { user } = useUser();
 
   const [activeChat, setActiveChat] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [rooms, setRooms] = useState([]);
-
-  const getRooms = async (id) => {
-    try {
-      const { data } = await API.get(`/messages/user-rooms/${id}`);
-      setRooms(data);
-    } catch (err) {}
-  };
 
   useEffect(() => {
     if (user) {
-      getRooms(user.uid);
+      const q = query(
+        collection(db, "rooms"),
+        where("userIds", "array-contains", user.uid)
+      );
+
+      const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+        const rooms = [];
+        QuerySnapshot.forEach((doc) => {
+          rooms.push({ ...doc.data(), id: doc.id });
+        });
+
+        setRooms(rooms);
+        setLoading(false);
+      });
+      return () => unsubscribe;
     }
   }, [user]);
 
@@ -53,17 +62,21 @@ const Conversations = () => {
       style={{ height: "calc(100vh - var(--nav-height)" }}
     >
       <Container className="pt-8 grid gap-6 grid-cols-12">
-        <Suspense>
-          <ChatList
-            rooms={rooms}
-            active={activeChat}
-            setActive={setActiveChat}
-          />
-        </Suspense>
-        {activeChat ? (
-          <SingleChat room={activeChat || null} />
+        {loading ? (
+          <></>
         ) : (
-          <Empty rooms={rooms} />
+          <>
+            <ChatList
+              rooms={rooms}
+              active={activeChat}
+              setActive={setActiveChat}
+            />
+            {activeChat ? (
+              <SingleChat room={activeChat || null} />
+            ) : (
+              <Empty rooms={rooms} />
+            )}
+          </>
         )}
       </Container>
     </div>
