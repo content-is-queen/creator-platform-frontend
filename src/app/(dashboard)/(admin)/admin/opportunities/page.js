@@ -4,7 +4,6 @@ import Container from "@/components/Container";
 import AdminOpportunitiesTable from "@/components/Admin/AdminOpportunitiesTable";
 
 const getOpportunities = async () => {
-  // Prevent build failing during workflows build test
   if (process.env.APP_ENV === "development") {
     return [];
   }

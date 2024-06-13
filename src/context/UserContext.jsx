@@ -25,6 +25,19 @@ export const getUserProfile = async (args) => {
   }
 };
 
+export const saveTokenToServer = async ({ fcm_token, user_id }) => {
+  try {
+    const response = await API.post("/notifications/save", {
+      fcm_token,
+      user_id,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);

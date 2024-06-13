@@ -5,13 +5,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase.config";
-import { getUserProfile, useUser } from "@/context/UserContext";
+import { auth, messaging } from "@/firebase.config";
+import {
+  getUserProfile,
+  saveTokenToServer,
+  useUser,
+} from "@/context/UserContext";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
 import { Error } from "@/components/Form";
+import { getToken } from "firebase/messaging";
 
 const FIELDS = [
   {
@@ -57,10 +62,18 @@ const LoginForm = () => {
     setLoading(true);
     setError({});
     const { email, password } = data;
-
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      const { user } = response;
+      const VITE_APP_VAPID_KEY = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
+      const fcm_token = await getToken(messaging, {
+        vapidKey: VITE_APP_VAPID_KEY,
+      });
+      const data = {
+        fcm_token,
+        user_id: user.uid,
+      };
+      await saveTokenToServer(data);
       router.push("/");
     } catch (error) {
       console.error(error);
