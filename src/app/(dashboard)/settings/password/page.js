@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -10,6 +9,7 @@ import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const Password = () => {
+  const { token } = useToken();
   const [errors, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
@@ -20,19 +20,11 @@ const Password = () => {
     old_password: "",
     password: "",
   });
-  const { token } = useToken();
+
   const handleChange = (e) => {
-    const checkIsEmpty = (str) => {
-      return str.trim().length === 0;
-    };
-
-    const isEmpty =
-      checkIsEmpty(formData.old_password) || checkIsEmpty(formData.password);
-
-    setUpdated(!isEmpty);
-
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setUpdated(true);
   };
 
   const handleToggleOldPasswordVisibility = () => {
@@ -49,17 +41,20 @@ const Password = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(false);
+    setLoading(true);
     setError({});
     setSuccess({});
+
     if (formData.old_password === formData.password) {
       setError({
         message: "You cannot use the same password as before",
       });
+      setLoading(false);
       return;
     }
+
     try {
-      const response = await API.post(`/auth/password`, formData, {
+      const response = await API.post("/auth/password", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -68,18 +63,18 @@ const Password = () => {
 
       if (response?.status === 200) {
         setSuccess({
-          message: "Password update successfully",
+          message: "Password updated successfully",
         });
-        return;
       } else {
         setError({
           message:
-            response.message || "Something went wrong. User sign up failed.",
+            response.message || "Something went wrong. Password update failed.",
         });
       }
     } catch (error) {
       setError({
-        message: error.message || "Something went wrong. User sign up failed.",
+        message:
+          error.message || "Something went wrong. Password update failed.",
       });
     } finally {
       setLoading(false);
@@ -125,21 +120,13 @@ const Password = () => {
           type="submit"
           as="button"
           onClick={handleSubmit}
-          {...(!updated && { disabled: true })}
+          disabled={!updated}
         >
           {loading && <Button.Spinner />} Update Password
         </Button>
       </div>
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
-      {success?.message && (
-        <div className="border border-green-700 bg-green-100 text-green-700 text-sm mt-4 py-2 px-4">
-          <p>{success.message}</p>
-        </div>
-      )}
+      {errors?.message && <Form.Error>{errors.message}</Form.Error>}
+      {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );
 };
