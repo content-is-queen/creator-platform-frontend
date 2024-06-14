@@ -10,8 +10,8 @@ const AdminOpportunitiesRow = ({
   title,
   status,
   deadline,
-  full_name,
-  opportunity_id,
+  fullName,
+  opportunityId,
   numberOfApplications,
   selectedOpportunities,
   setSelectedOpportunities,
@@ -34,14 +34,14 @@ const AdminOpportunitiesRow = ({
       <Table.Data>
         <div className="flex items-center">
           <input
-            id={`checkbox-table-search-${opportunity_id}`}
+            id={`checkbox-table-search-${opportunityId}`}
             type="checkbox"
             className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-            onChange={() => handleChange(opportunity_id)}
-            defaultChecked={selectedOpportunities.includes(opportunity_id)}
+            onChange={() => handleChange(opportunityId)}
+            defaultChecked={selectedOpportunities.includes(opportunityId)}
           />
           <label
-            htmlFor={`checkbox-table-search-${opportunity_id}`}
+            htmlFor={`checkbox-table-search-${opportunityId}`}
             className="sr-only"
           >
             checkbox
@@ -52,18 +52,18 @@ const AdminOpportunitiesRow = ({
         {title}
       </Table.Data>
       <Table.Data>{status}</Table.Data>
-      <Table.Data>{full_name}</Table.Data>
+      <Table.Data>{fullName}</Table.Data>
       <Table.Data>{deadline}</Table.Data>
       <Table.Data>{numberOfApplications}</Table.Data>
       <Table.Data>
         <Menu as="div" className="relative inline-block text-left">
           <Menu.Button
             className="ml-auto pl-2 focus:outline-none"
-            onClick={() => handleMenuToggle(opportunity_id)}
+            onClick={() => handleMenuToggle(opportunityId)}
           >
             <FontAwesomeIcon icon={faEllipsisV} />
           </Menu.Button>
-          {openMenuId === opportunity_id && (
+          {openMenuId === opportunityId && (
             <Menu.Items className="absolute z-50 right-0 w-30 mt-1 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1">
                 <Menu.Item>
@@ -72,7 +72,7 @@ const AdminOpportunitiesRow = ({
                       className={`${
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                       } px-4 py-2 w-full text-left`}
-                      onClick={() => handleDelete(opportunity_id)}
+                      onClick={() => handleDelete(opportunityId)}
                     >
                       Delete
                     </button>

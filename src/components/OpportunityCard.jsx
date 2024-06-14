@@ -8,22 +8,22 @@ import ProfileIcon from "./ProfileIcon";
 
 const OpportunityCard = ({
   company,
-  organisation_name,
+  organizationName,
   compensation,
   salary,
   type,
   title,
   description,
-  opportunity_id,
-  user_imageUrl,
-  user_id,
+  opportunityId,
+  profilePhoto,
+  userId,
 }) => (
   <Card className="flex flex-wrap md:block">
     <div className="flex flex-col md:flex-row items-start md:items-center gap-2.5 justify-between md:mb-4">
-      <Link href={`/profile/${user_id}`} className="flex gap-2 items-center">
-        <ProfileIcon className="h-6 w-6" imageUrl={user_imageUrl} />
+      <Link href={`/profile/${userId}`} className="flex gap-2 items-center">
+        <ProfileIcon className="h-6 w-6" profilePhoto={profilePhoto} />
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
-          {organisation_name || company}
+          {organizationName || company}
         </span>
       </Link>
       <div className="flex gap-y-2 gap-x-3 item-center flex-wrap basis-1/4 md:basis-auto">
@@ -56,7 +56,7 @@ const OpportunityCard = ({
         {description}
       </Text>
 
-      <Button variant="white" href={`/opportunities/${opportunity_id}`}>
+      <Button variant="white" href={`/opportunities/${opportunityId}`}>
         View
       </Button>
     </div>

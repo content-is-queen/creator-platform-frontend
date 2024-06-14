@@ -13,20 +13,20 @@ import Text from "@/components/Text";
 import ApplicationProposalForm from "@/components/Creator/ApplicationProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
 
-export default async function Opportunity({ params: { id: opportunity_id } }) {
-  const { data } = await API(`/opportunities/opportunityid/${opportunity_id}`);
+export default async function Opportunity({ params: { id: opportunityId } }) {
+  const { data } = await API(`/opportunities/opportunityid/${opportunityId}`);
 
   const {
     title,
     description,
     company,
     type,
-    organisation_name,
+    organizationName,
     compensation,
-    application_instructions,
+    applicationInstructions,
     salary,
-    user_id,
-    user_imageUrl,
+    userId,
+    profilePhoto,
   } = data;
 
   if (!data) {
@@ -45,12 +45,12 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
               Back to Dashboard
             </Link>{" "}
-            <ProfileIcon className="h-12 w-12" imageUrl={user_imageUrl} />
+            <ProfileIcon className="h-12 w-12" profilePhoto={profilePhoto} />
             <Heading size="3xl" className="mt-6 mb-1">
               {title}
             </Heading>
             <Text size="sm" className="capitalize">
-              {organisation_name || company} &bull; {type} &bull;{" "}
+              {organizationName || company} &bull; {type} &bull;{" "}
               {compensation || salary}
             </Text>
           </div>
@@ -58,9 +58,9 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
           <div className="space-y-5 min-h-24 max-w-lg">{description}</div>
 
           <ApplicationProposalForm
-            opportunityId={opportunity_id}
-            application_instructions={application_instructions}
-            brandId={user_id}
+            opportunityId={opportunityId}
+            applicationInstructions={applicationInstructions}
+            brandId={userId}
           />
         </div>
       </Container>

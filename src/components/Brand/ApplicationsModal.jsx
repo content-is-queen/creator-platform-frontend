@@ -117,7 +117,7 @@ const ApplicationsModal = ({
                       setApplications={setApplications}
                       applications={applications}
                       opportunityTitle={opportunityTitle}
-                      opportunity_id={opportunityId}
+                      opportunityId={opportunityId}
                       {...application}
                     />
                   </swiper-slide>

@@ -11,7 +11,7 @@ import Spinner from "../Spinner";
 
 const BrandProfileOpportunities = ({ user: { uid } }) => {
   const { opportunities, setOpportunities, loading } = useOpportunities({
-    user_id: uid,
+    userId: uid,
   });
 
   return (
@@ -27,9 +27,9 @@ const BrandProfileOpportunities = ({ user: { uid } }) => {
         <div className="grid grid-cols-2 gap-4">
           {opportunities?.length > 0 ? (
             opportunities.map(
-              ({ title, compensation, deadline, type, opportunity_id }) => (
+              ({ title, compensation, deadline, type, opportunityId }) => (
                 <Card
-                  key={opportunity_id}
+                  key={opportunityId}
                   className="flex items-center justify-between col-span-full"
                 >
                   <div className="grid grid-cols-12 w-full gap-x-6">
@@ -52,7 +52,7 @@ const BrandProfileOpportunities = ({ user: { uid } }) => {
                     <div className="col-span-2">
                       <Button
                         variant="white"
-                        href={`/opportunities/${opportunity_id}`}
+                        href={`/opportunities/${opportunityId}`}
                       >
                         View
                       </Button>
