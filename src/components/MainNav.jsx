@@ -21,7 +21,7 @@ const MainNav = () => {
 
   const router = useRouter();
 
-  const { user, loading } = useUser();
+  const { user, setUser, loading } = useUser();
 
   const pathname = usePathname();
 
@@ -32,6 +32,8 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
+      localStorage.removeItem("userProfile");
+      setUser(null);
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -148,7 +150,7 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user && !user?.subscribed && !user?.role.includes("admin") && (
+              {user && !user?.subscribed && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade account
