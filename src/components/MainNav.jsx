@@ -32,8 +32,8 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
-      localStorage.removeItem("userProfile");
       setUser(null);
+      localStorage.removeItem("userProfile");
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -43,7 +43,7 @@ const MainNav = () => {
   useEffect(() => {
     if (
       !loading &&
-      user === null &&
+      !user &&
       (pathname !== "/signup" || pathname !== "/login")
     ) {
       router.push("/login");

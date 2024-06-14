@@ -8,6 +8,9 @@ export const UserContext = createContext(null);
 export const getUserProfile = async (args) => {
   const token = args?.token ? args.token : await getIdToken(args.user);
 
+  if (localStorage.getItem("userProfile"))
+    return JSON.parse(localStorage.getItem("userProfile"));
+
   try {
     const response = await API.get("/auth/user", {
       headers: {
@@ -17,14 +20,13 @@ export const getUserProfile = async (args) => {
     });
 
     if (response.status === 200) {
-      console.log(response.data);
       localStorage.setItem("userProfile", JSON.stringify(response.data));
       return response.data;
     }
 
     throw new Error("There was an error getting your account");
   } catch (error) {
-    console.error(error);
+    console.error(error.response.data);
     return null;
   }
 };
@@ -39,9 +41,7 @@ export const UserProvider = ({ children }) => {
         const token = await authUser.getIdToken(true);
 
         if (token) {
-          const userProfile = localStorage.getItem("userProfile")
-            ? JSON.parse(localStorage.getItem("userProfile"))
-            : await getUserProfile({ token });
+          const userProfile = await getUserProfile({ token });
 
           if (userProfile) {
             setUser(userProfile);

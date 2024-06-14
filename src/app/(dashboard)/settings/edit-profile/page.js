@@ -65,8 +65,12 @@ const EditProfile = () => {
 
       if (res.status === 200) {
         // Update local user profile on successful update
-        const userProfile = await getUserProfile({ token });
-        setUser(userProfile);
+        setUser({ ...user, ...formData });
+
+        localStorage.setItem(
+          "userProfile",
+          JSON.stringify({ ...user, formData })
+        );
 
         router.push("/profile");
       } else {
