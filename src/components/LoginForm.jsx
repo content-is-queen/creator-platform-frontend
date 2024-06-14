@@ -6,11 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, messaging } from "@/firebase.config";
-import {
-  getUserProfile,
-  saveTokenToServer,
-  useUser,
-} from "@/context/UserContext";
+import { saveTokenToServer } from "@/context/UserContext";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -51,8 +47,6 @@ const LoginForm = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const { setUser } = useUser();
-
   const [errors, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -71,7 +65,7 @@ const LoginForm = () => {
       });
       const data = {
         fcmToken,
-        user_id: user.uid,
+        userId: user.uid,
       };
       await saveTokenToServer(data);
       router.push("/");

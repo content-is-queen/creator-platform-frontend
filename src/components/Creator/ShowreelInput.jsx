@@ -6,7 +6,7 @@ import { Error } from "@/components/Form";
 
 const ShowreelInput = ({ setFormData, localUser, handleChange }) => {
   const [inputValue, setInputValue] = useState(
-    localUser.profile_meta?.showreel || ""
+    localUser.profileMeta?.showreel || ""
   );
   const [errors, setError] = useState({});
 
@@ -23,8 +23,8 @@ const ShowreelInput = ({ setFormData, localUser, handleChange }) => {
 
     setFormData((prev) => {
       const newObj = prev;
-      const { profile_meta } = newObj;
-      newObj.profile_meta = { ...profile_meta, showreel: inputValue };
+      const { profileMeta } = newObj;
+      newObj.profileMeta = { ...profileMeta, showreel: inputValue };
       return newObj;
     });
     handleChange();
@@ -34,8 +34,8 @@ const ShowreelInput = ({ setFormData, localUser, handleChange }) => {
     setError({});
     setFormData((prev) => {
       const newObj = prev;
-      const { profile_meta } = newObj;
-      newObj.profile_meta = { ...profile_meta, showreel: "" };
+      const { profileMeta } = newObj;
+      newObj.profileMeta = { ...profileMeta, showreel: "" };
       return newObj;
     });
     handleChange();
@@ -49,8 +49,8 @@ const ShowreelInput = ({ setFormData, localUser, handleChange }) => {
           Insert a link to your Soundcloud showreel
         </span>
       </div>
-      {localUser.profile_meta?.showreel &&
-      localUser.profile_meta?.showreel != "" ? (
+      {localUser.profileMeta?.showreel &&
+      localUser.profileMeta?.showreel != "" ? (
         <div className="flex items-center border-b border-queen-black/10 pb-5">
           <span className="w-full block">{inputValue}</span>
           <Button type="button" variant="white" as="button" onClick={remove}>

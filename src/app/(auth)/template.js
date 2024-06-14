@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 
@@ -8,7 +8,7 @@ const AuthTemplate = ({ children }) => {
   const { user } = useUser();
   const router = useRouter();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (user?.firstName) {
       router.push("/");
     }

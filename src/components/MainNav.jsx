@@ -68,9 +68,6 @@ const MainNav = () => {
           });
           const { data } = response.data;
           setNotificationsList(data);
-          if (!response.ok) {
-            console.log();
-          }
         } catch (error) {
           console.error("Error fetching notifications:", error);
         }
@@ -147,12 +144,10 @@ const MainNav = () => {
   };
 
   useEffect(() => {
-    // const messagingInstance = getMessaging();
     console.log(messaging, "Messaging");
     onMessage(messaging, (payload) => {
       console.log("Message received. ", payload);
       setIsNewNotification(true);
-      // Optionally, show a notification
       if (payload.notification) {
         new Notification(payload.notification.title, {
           body: payload.notification.body,
@@ -214,7 +209,7 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user && !user?.subscribed && !user?.role.includes("admin") && (
+              {user && !user?.subscribed && !user?.role?.includes("admin") && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade account

@@ -25,11 +25,11 @@ export const getUserProfile = async (args) => {
   }
 };
 
-export const saveTokenToServer = async ({ fcmToken, user_id }) => {
+export const saveTokenToServer = async ({ fcmToken, userId }) => {
   try {
     const response = await API.post("/notifications/save", {
       fcmToken,
-      user_id,
+      userId,
     });
 
     return response.data.message;
