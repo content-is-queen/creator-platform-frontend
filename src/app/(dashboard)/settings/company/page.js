@@ -19,12 +19,14 @@ const Company = () => {
 
   const [formData, setFormData] = useState({
     organizationName: user?.organizationName || "",
+    organizationBio: user?.organizationBio || "",
     organizationLogo: null,
   });
 
   useEffect(() => {
     setFormData({
       organizationName: user?.organizationName || "",
+      organizationBio: user?.organizationBio || "",
       organizationLogo: null,
     });
   }, [user]);
@@ -66,6 +68,7 @@ const Company = () => {
 
       const dataToSubmit = {
         organizationName: formData.organizationName,
+        organizationBio: formData.organizationBio,
         ...(profilePhoto && { organizationLogo: profilePhoto }),
       };
 
@@ -77,7 +80,11 @@ const Company = () => {
       });
 
       if (response?.status === 200) {
-        setUser({ ...user, organizationName: formData.organizationName });
+        setUser({
+          ...user,
+          organizationName: formData.organizationName,
+          organizationBio: formData.organizationBio,
+        });
         setSuccess({ message: "Company info updated successfully" });
       } else {
         setErrors({
@@ -106,6 +113,15 @@ const Company = () => {
           className="relative"
         >
           Company Name
+        </Form.Input>
+        <Form.Input
+          name="organizationBio"
+          type="text"
+          value={formData.organizationBio}
+          onChange={handleChange}
+          className="relative"
+        >
+          Company Bio
         </Form.Input>
         <Form.Input
           name="organizationLogo"
