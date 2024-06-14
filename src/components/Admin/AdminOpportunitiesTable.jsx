@@ -10,27 +10,6 @@ import AdminOpportunitiesRow from "./AdminOpportunitiesTableRow";
 import Table from "../Table";
 import { Error } from "../Form";
 
-const TableBody = (props) => {
-  const { data } = props;
-  if (data && data.length > 0) {
-    return data.map((opportunity) => (
-      <AdminOpportunitiesRow
-        {...props}
-        {...opportunity}
-        key={opportunity?.opportunity_id}
-      />
-    ));
-  }
-
-  return (
-    <tr>
-      <td colSpan="7" className="text-center">
-        No opportunities found
-      </td>
-    </tr>
-  );
-};
-
 const AdminOpportunitiesTable = ({ opportunities }) => {
   const [loading, setLoading] = useState(true);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
@@ -76,7 +55,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
       : setSelectedOpportunities(
           opportunities.map((opportunity) => {
             setCheckAll(true);
-            return opportunity.opportunity_id;
+            return opportunity.opportunityId;
           })
         );
   };
@@ -143,7 +122,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
                       setSelectedOpportunities={setSelectedOpportunities}
                       selectedOpportunities={selectedOpportunities}
                       {...opportunity}
-                      key={opportunity.opportunity_id}
+                      key={opportunity.opportunityId}
                     />
                   ))}
                 </>

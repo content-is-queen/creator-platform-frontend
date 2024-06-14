@@ -40,7 +40,7 @@ const Conversations = () => {
     if (user) {
       const q = query(
         collection(db, "rooms"),
-        where("userIds", "array-contains", user.uid)
+        where("participantIds", "array-contains", user.uid)
       );
 
       const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
