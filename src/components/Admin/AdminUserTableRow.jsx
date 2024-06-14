@@ -75,11 +75,11 @@ const AdminUserTableRow = ({
                     onClick={() =>
                       handleActivation({
                         id: uid,
-                        activated: isActivated,
+                        activated: !disabled,
                       })
                     }
                   >
-                    {!isActivated ? "Activate" : "Deactivate"}
+                    {disabled ? "Activate" : "Deactivate"}
                   </button>
                 )}
               </Menu.Item>

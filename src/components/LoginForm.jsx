@@ -66,11 +66,11 @@ const LoginForm = () => {
       const response = await signInWithEmailAndPassword(auth, email, password);
       const { user } = response;
       const VITE_APP_VAPID_KEY = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
-      const fcm_token = await getToken(messaging, {
+      const fcmToken = await getToken(messaging, {
         vapidKey: VITE_APP_VAPID_KEY,
       });
       const data = {
-        fcm_token,
+        fcmToken,
         user_id: user.uid,
       };
       await saveTokenToServer(data);

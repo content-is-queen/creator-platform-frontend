@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 import API from "@/api/api";
 
 import Link from "next/link";
@@ -11,40 +13,25 @@ import Text from "@/components/Text";
 import ApplicationProposalForm from "@/components/Creator/ApplicationProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
 
-export async function generateStaticParams() {
-  // Prevent build failing during workflows build test
-  if (process.env.APP_ENV === "development") {
-    return [];
-  }
-
-  try {
-    const { data } = await API.get("/opportunities?limit=0");
-    const opportunities = data?.message?.opportunities || [];
-    return opportunities.map(({ opportunity_id }) => ({
-      id: opportunity_id,
-    }));
-  } catch (error) {
-    console.error("Error fetching opportunities during build:", error);
-    return [];
-  }
-}
-export const dynamicParams = false;
-
 export default async function Opportunity({ params: { id: opportunity_id } }) {
+  const { data } = await API(`/opportunities/opportunityid/${opportunity_id}`);
+
   const {
-    data: {
-      title,
-      description,
-      company,
-      type,
-      organisation_name,
-      compensation,
-      application_instructions,
-      salary,
-      user_id,
-      user_imageUrl,
-    },
-  } = await API(`/opportunities/opportunityid/${opportunity_id}`);
+    title,
+    description,
+    company,
+    type,
+    organisation_name,
+    compensation,
+    application_instructions,
+    salary,
+    user_id,
+    user_imageUrl,
+  } = data;
+
+  if (!data) {
+    return notFound();
+  }
 
   return (
     <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">

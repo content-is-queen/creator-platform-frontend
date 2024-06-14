@@ -12,9 +12,10 @@ import { useUser } from "@/context/UserContext";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { MdOutlineNotificationAdd } from "react-icons/md";
 import { getMessaging, onMessage } from "firebase/messaging";
+import { Menu } from "@headlessui/react";
+
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
-import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
 import NotificationsList from "./NotificationsList";
 import useToken from "@/hooks/useToken";
@@ -70,7 +71,6 @@ const MainNav = () => {
           if (!response.ok) {
             console.log();
           }
-          // setNotifications(response);
         } catch (error) {
           console.error("Error fetching notifications:", error);
         }
@@ -214,16 +214,13 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user &&
-                !user?.subscribed &&
-                user?.role !== "admin" &&
-                user?.role !== "super_admin" && (
-                  <li>
-                    <Button variant="yellow" href="/plus">
-                      Upgrade account
-                    </Button>
-                  </li>
-                )}
+              {user && !user?.subscribed && !user?.role.includes("admin") && (
+                <li>
+                  <Button variant="yellow" href="/plus">
+                    Upgrade account
+                  </Button>
+                </li>
+              )}
 
               <li>
                 <button
