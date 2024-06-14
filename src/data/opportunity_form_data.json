@@ -45,27 +45,27 @@
         "children": "Company Name"
       },
       {
-        "name": "company_website",
+        "name": "companyWebsite",
         "type": "url",
         "children": "Company Website"
       },
       {
-        "name": "company_description",
+        "name": "companyDescription",
         "as": "textarea",
         "children": "Company Description"
       },
       {
-        "name": "company_contact_name",
+        "name": "companyContactName",
         "type": "text",
         "children": "Contact Name"
       },
       {
-        "name": "company_contact_email",
+        "name": "companyContactEmail",
         "type": "email",
         "children": "Contact Email"
       },
       {
-        "name": "company_contact_tel",
+        "name": "companyContactTel",
         "type": "tel",
         "children": "Contact Number"
       },
@@ -132,7 +132,7 @@
         "children": "Application Deadline"
       },
       {
-        "name": "application_instructions",
+        "name": "applicationInstructions",
         "as": "textarea",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
@@ -151,7 +151,7 @@
         "description": "Please describe your intended audience. Include any specific details about who you are aiming to reach with your content."
       },
       {
-        "name": "target_audience",
+        "name": "targetAudience",
         "type": "checkbox",
         "children": "Target Audience Characteristics (Choose up to 3)",
         "max": "3",
@@ -201,13 +201,13 @@
         ]
       },
       {
-        "name": "content_duration",
+        "name": "contentDuration",
         "type": "text",
         "placeholder": "e.g. 30 minutes, 1 hour",
         "children": "Expected Duration of Content"
       },
       {
-        "name": "content_type",
+        "name": "contentType",
         "as": "select",
         "children": "Type of Content",
         "options": [
@@ -218,12 +218,12 @@
         ]
       },
       {
-        "name": "key_message",
+        "name": "keyMessage",
         "as": "textarea",
         "children": "Key Message or Theme"
       },
       {
-        "name": "application_instructions",
+        "name": "applicationInstructions",
         "as": "textarea",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
@@ -237,13 +237,13 @@
       { "name": "title", "type": "text", "children": "Title" },
       { "name": "description", "as": "textarea", "children": "Description" },
       {
-        "name": "target_audience",
+        "name": "targetAudience",
         "as": "textarea",
         "children": "Target Audience",
         "description": "Please describe your target audience. Include any specific details about who you are aiming to reach with your ad campaign."
       },
       {
-        "name": "target_demographic",
+        "name": "targetDemographic",
         "type": "checkbox",
         "children": "Target Demographics (Select up to 3)",
         "max": "3",
@@ -337,7 +337,7 @@
         ]
       },
       {
-        "name": "ad_type",
+        "name": "adType",
         "as": "select",
         "children": "Ad Type",
         "options": ["Host-read Ad", "Pre-recorded Ad", "Sponsorship", "Other"]
@@ -361,13 +361,13 @@
         "children": "Budget for Ad Campaign"
       },
       {
-        "name": "start_date",
+        "name": "startDate",
         "type": "date",
         "children": "Campaign Start Date"
       },
-      { "name": "end_date", "type": "date", "children": "Campaign End Date" },
+      { "name": "endDate", "type": "date", "children": "Campaign End Date" },
       {
-        "name": "application_instructions",
+        "name": "applicationInstructions",
         "as": "textarea",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"

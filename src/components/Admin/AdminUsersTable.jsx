@@ -114,7 +114,7 @@ const AdminUsersTable = ({ users }) => {
         data={users}
         filteredData={filteredUsers}
         setFilteredData={setFilteredUsers}
-        filter={{ keys: ["first_name", "last_name"], tag: "role" }}
+        filter={{ keys: ["firstName", "lastName"], tag: "role" }}
       />
 
       <div className="my-12 space-y-6">

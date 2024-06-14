@@ -56,7 +56,7 @@ const ChatList = ({ active, setActive, rooms }) => {
               >
                 <div className="shrink-0">
                   <ProfileIcon
-                    imageUrl={participant.profileImage}
+                    profilePhoto={participant.profileImage}
                     className="lg:h-14 lg:w-14"
                   />
                 </div>

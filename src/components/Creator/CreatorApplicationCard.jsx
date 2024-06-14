@@ -9,9 +9,9 @@ import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 
-const CreatorApplicationCard = ({ status, opportunity_id, proposal }) => {
+const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
   const { opportunities: opportunity, loading } = useOpportunities({
-    opportunity_id: opportunity_id,
+    opportunityId: opportunityId,
   });
 
   const [modalOpen, setModalOpen] = useState(false);

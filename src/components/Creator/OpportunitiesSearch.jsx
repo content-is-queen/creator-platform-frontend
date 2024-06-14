@@ -35,7 +35,7 @@ const OpportunitiesSearch = ({ opportunities: initialOpportunities }) => {
             {filteredOpportunities?.length > 0 ? (
               <>
                 {filteredOpportunities.map((opportunity) => (
-                  <div key={opportunity.opportunity_id}>
+                  <div key={opportunity.opportunityId}>
                     <OpportunityCard {...opportunity} />
                   </div>
                 ))}

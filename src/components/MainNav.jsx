@@ -177,7 +177,7 @@ const MainNav = () => {
               <Menu.Button>
                 <ProfileIcon
                   className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
-                  imageUrl={user?.imageUrl}
+                  profilePhoto={user?.profilePhoto}
                 >
                   <span className="sr-only">User menu</span>
                 </ProfileIcon>
