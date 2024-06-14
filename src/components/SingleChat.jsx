@@ -34,7 +34,7 @@ const Header = ({ room }) => {
       <div>
         <div className="flex-shrink-0">
           <ProfileIcon
-            profilePhoto={participant.profileImage}
+            profilePhoto={participant.profilePhoto}
             className="h-12 w-12 flex-shrink-0"
           />
         </div>
@@ -107,7 +107,7 @@ const Body = ({ room }) => {
                 >
                   {!currentUser && (
                     <ProfileIcon
-                      profilePhoto={participant.profileImage}
+                      profilePhoto={participant.profilePhoto}
                       className="mr-2"
                     />
                   )}
