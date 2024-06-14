@@ -9,6 +9,8 @@ export const inputStyles = {
     "placeholder:uppercase py-3 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer",
   label:
     "uppercase peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 uppercase",
+    select:
+    "block w-full py-3 px-0 border-0 border-b border-queen-black bg-transparent appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer",
 };
 
 const AuthInputController = ({
@@ -18,12 +20,16 @@ const AuthInputController = ({
   rules,
   errors,
   control,
+  as,
+  options,
   ...otherProps
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prevState) => !prevState);
   };
+
+
   return (
     <div className="relative z-0 w-full group">
       <Controller
@@ -33,33 +39,65 @@ const AuthInputController = ({
         rules={rules}
         render={({ field }) => (
           <>
-            <input
-              type={
-                name === "password" && !isPasswordVisible ? "password" : "text"
-              }
-              className={clsx(
-                twMerge(
-                  inputStyles.input,
-                  errors[name] ? "border-red-600" : "border-queen-black",
-                  className
-                )
-              )}
-              placeholder=""
-              id={name}
-              {...field}
-              {...otherProps}
-            />
-            <label htmlFor={name} className={inputStyles.label}>
-              {children}
-            </label>
-            {name === "password" && (
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
-                onClick={togglePasswordVisibility}
-              >
-                {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-              </button>
+            {as === "select" ? (
+              <>
+                <label htmlFor={name} className={inputStyles.label}>
+                  {children}
+                </label>
+                <select
+                  className={clsx(
+                    twMerge(
+                      inputStyles.select,
+                      errors[name] ? "border-red-600" : "border-queen-black",
+                      className
+                    )
+                  )}
+                  {...field}
+                  {...otherProps}
+                >
+                  <option value="" disabled>
+                    Select {children.toLowerCase()}
+                  </option>
+                  {options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : (
+              <>
+                <input
+                  type={
+                    name === "password" && !isPasswordVisible
+                      ? "password"
+                      : "text"
+                  }
+                  className={clsx(
+                    twMerge(
+                      inputStyles.input,
+                      errors[name] ? "border-red-600" : "border-queen-black",
+                      className
+                    )
+                  )}
+                  placeholder=""
+                  id={name}
+                  {...field}
+                  {...otherProps}
+                />
+                <label htmlFor={name} className={inputStyles.label}>
+                  {children}
+                </label>
+                {name === "password" && (
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                )}
+              </>
             )}
             {errors[name] && (
               <p className="text-sm text-red-600 mt-1">
@@ -74,3 +112,8 @@ const AuthInputController = ({
 };
 
 export default AuthInputController;
+
+
+
+
+
