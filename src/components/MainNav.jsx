@@ -21,7 +21,7 @@ const MainNav = () => {
 
   const router = useRouter();
 
-  const { user, setUser, loading } = useUser();
+  const { user, loading } = useUser();
 
   const pathname = usePathname();
 
@@ -148,16 +148,13 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user &&
-                !user?.subscribed &&
-                user?.role !== "admin" &&
-                user?.role !== "super_admin" && (
-                  <li>
-                    <Button variant="yellow" href="/plus">
-                      Upgrade account
-                    </Button>
-                  </li>
-                )}
+              {user && !user?.subscribed && !user?.role.includes("admin") && (
+                <li>
+                  <Button variant="yellow" href="/plus">
+                    Upgrade account
+                  </Button>
+                </li>
+              )}
 
               <li>
                 <button

@@ -21,7 +21,7 @@ const ChatList = ({ active, setActive, rooms }) => {
       );
       setActive(createdRoom);
     }
-  }, [rooms]);
+  }, []);
   return (
     <ul
       className="bg-white rounded-3xl shadow-md col-span-4 overflow-y-auto"
@@ -29,6 +29,17 @@ const ChatList = ({ active, setActive, rooms }) => {
     >
       {rooms.map((room) => {
         const participant = room.userProfiles.find((i) => i.userId != user.uid);
+
+        // Convert firebase timestamp
+        const firbaseTime = new Date(
+          room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
+        );
+
+        const date = firbaseTime.toDateString();
+
+        const atTime = firbaseTime.toLocaleTimeString();
+
+        const timeSent = moment(`${date} ${atTime}`).fromNow();
 
         return (
           <li key={room.id} className="first:rounded-t-3xl overflow-hidden">
@@ -56,7 +67,7 @@ const ChatList = ({ active, setActive, rooms }) => {
                       {participant.fullName}
                     </p>
                     <div className="text-xs text-queen-black/60 justify-self-end">
-                      {moment(room.timeSent).format("dddd")}
+                      {timeSent}
                     </div>
                   </div>
 
