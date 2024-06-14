@@ -23,15 +23,11 @@ const Subscribe = () => {
         }
       );
 
-      const updatedUser = { ...user, subscribed: true };
-      setUser(updatedUser);
-      if (localStorage.getItem("userProfile")) {
-        const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-        localStorage.setItem(
-          "userProfile",
-          JSON.stringify({ ...userProfile, subscribed: true })
-        );
-      }
+      setUser({ ...user, subscribed: true });
+      localStorage.setItem(
+        "userProfile",
+        JSON.stringify({ ...user, subscribed: true })
+      );
     } catch (error) {
       console.error(error);
     }
