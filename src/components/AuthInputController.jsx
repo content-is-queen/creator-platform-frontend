@@ -9,7 +9,7 @@ export const inputStyles = {
     "placeholder:uppercase py-3 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer",
   label:
     "uppercase peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 uppercase",
-    select:
+  select:
     "block w-full py-3 px-0 border-0 border-b border-queen-black bg-transparent appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue peer",
 };
 
@@ -28,7 +28,6 @@ const AuthInputController = ({
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prevState) => !prevState);
   };
-
 
   return (
     <div className="relative z-0 w-full group">
@@ -112,8 +111,3 @@ const AuthInputController = ({
 };
 
 export default AuthInputController;
-
-
-
-
-
