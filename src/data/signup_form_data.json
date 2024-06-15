@@ -34,14 +34,14 @@
         "title": "Tell us a little bit about you and your podcast",
         "fields": [
           {
-            "name": "first_name",
+            "name": "firstName",
             "children": "First Name",
             "rules": {
               "required": "First name is required"
             }
           },
           {
-            "name": "last_name",
+            "name": "lastName",
             "children": "Last Name",
             "rules": {
               "required": "Last name is required"
@@ -55,11 +55,11 @@
             }
           },
           {
-            "name": "podcast_name",
+            "name": "podcastName",
             "children": "Podacast Name (optional)"
           },
           {
-            "name": "podcast_url",
+            "name": "podcastUrl",
             "type": "url",
             "children": "Link To Podcast (optional)"
           }
@@ -119,21 +119,21 @@
         "title": "Tell us a bit about you and your organisation",
         "fields": [
           {
-            "name": "organisation_name",
+            "name": "organizationName",
             "children": "Organization Name",
             "rules": {
               "required": "Organization name is required"
             }
           },
           {
-            "name": "first_name",
+            "name": "firstName",
             "children": "First Name",
             "rules": {
               "required": "First name is required"
             }
           },
           {
-            "name": "last_name",
+            "name": "lastName",
             "children": "Last Name",
             "rules": {
               "required": "Last name is required"

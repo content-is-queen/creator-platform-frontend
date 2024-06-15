@@ -10,27 +10,6 @@ import AdminOpportunitiesRow from "./AdminOpportunitiesTableRow";
 import Table from "../Table";
 import { Error } from "../Form";
 
-const TableBody = (props) => {
-  const { data } = props;
-  if (data && data.length > 0) {
-    return data.map((opportunity) => (
-      <AdminOpportunitiesRow
-        {...props}
-        {...opportunity}
-        key={opportunity?.opportunity_id}
-      />
-    ));
-  }
-
-  return (
-    <tr>
-      <td colSpan="7" className="text-center">
-        No opportunities found
-      </td>
-    </tr>
-  );
-};
-
 const AdminOpportunitiesTable = ({ opportunities }) => {
   const [loading, setLoading] = useState(true);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
@@ -65,22 +44,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
     }
   };
 
-  const handleCheckAll = () => {
-    const deselect = selectedOpportunities?.length === opportunities.length;
-
-    deselect
-      ? setSelectedOpportunities(() => {
-          setCheckAll(false);
-          return [];
-        })
-      : setSelectedOpportunities(
-          opportunities.map((opportunity) => {
-            setCheckAll(true);
-            return opportunity.opportunity_id;
-          })
-        );
-  };
-
   return (
     <>
       <Search
@@ -96,20 +59,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         <Table>
           <Table.Head>
             <tr>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-                    defaultChecked={checkAll}
-                    onClick={() => handleCheckAll()}
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
+              <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3">
                 Title
               </th>
@@ -143,7 +93,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
                       setSelectedOpportunities={setSelectedOpportunities}
                       selectedOpportunities={selectedOpportunities}
                       {...opportunity}
-                      key={opportunity.opportunity_id}
+                      key={opportunity.opportunityId}
                     />
                   ))}
                 </>

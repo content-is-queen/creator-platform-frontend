@@ -34,7 +34,7 @@ const Header = ({ room }) => {
       <div>
         <div className="flex-shrink-0">
           <ProfileIcon
-            imageUrl={participant.profileImage}
+            profilePhoto={participant.profilePhoto}
             className="h-12 w-12 flex-shrink-0"
           />
         </div>
@@ -65,6 +65,7 @@ const Body = ({ room }) => {
       orderBy("createdAt"),
       limit(50)
     );
+
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const messages = [];
       QuerySnapshot.forEach((doc) => {
@@ -106,7 +107,7 @@ const Body = ({ room }) => {
                 >
                   {!currentUser && (
                     <ProfileIcon
-                      imageUrl={participant.profileImage}
+                      profilePhoto={participant.profilePhoto}
                       className="mr-2"
                     />
                   )}

@@ -11,7 +11,7 @@ import useToken from "@/hooks/useToken";
 const ApplicationProposalForm = ({
   opportunityId,
   brandId,
-  application_instructions,
+  applicationInstructions,
 }) => {
   const { user } = useUser();
   const token = useToken();
@@ -27,9 +27,9 @@ const ApplicationProposalForm = ({
     setLoading(true);
 
     const data = {
-      opportunity_id: opportunityId,
-      user_id: user.uid,
-      creator_id: brandId,
+      opportunityId: opportunityId,
+      userId: user.uid,
+      creatorId: brandId,
       proposal: proposal,
     };
 
@@ -76,7 +76,7 @@ const ApplicationProposalForm = ({
             minLength={5}
             required
           >
-            {application_instructions || "Write a cover letter"}
+            {applicationInstructions || "Write a cover letter"}
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase.config";
-import { getUserProfile, useUser } from "@/context/UserContext";
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -46,8 +45,6 @@ const LoginForm = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const { setUser } = useUser();
-
   const [errors, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -57,20 +54,12 @@ const LoginForm = () => {
     setLoading(true);
     setError({});
     const { email, password } = data;
-
     try {
       await signInWithEmailAndPassword(auth, email, password);
-
-      router.push("/");
     } catch (error) {
-      console.error(error);
-
-      if (error.code === 400) {
-        setError({ message: "Your login credentials are incorrect" });
-      } else
-        setError({
-          message: "Something went wrong when signing in",
-        });
+      setError({
+        message: "Something went wrong when signing in",
+      });
     } finally {
       setLoading(false);
     }
