@@ -76,8 +76,12 @@ const Company = () => {
         },
       });
 
-      if (response?.status === 200) {
-        setUser({ ...user, organizationName: formData.organizationName });
+      if (response.status === 200) {
+        setUser({
+          ...user,
+          organizationName: formData.organizationName,
+          organizationBio: formData.organizationBio,
+        });
         setSuccess({ message: "Company info updated successfully" });
       } else {
         setErrors({
