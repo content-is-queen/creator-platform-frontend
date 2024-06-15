@@ -9,12 +9,12 @@ const useOpportunities = (args, cb) => {
 
   let path = "/opportunities?limit=0";
 
-  if (args?.opportunity_id) {
-    path = `/opportunities/opportunityid/${args.opportunity_id}`;
+  if (args?.opportunityId) {
+    path = `/opportunities/opportunityid/${args.opportunityId}`;
   }
 
-  if (args?.user_id) {
-    path = `/opportunities/id/${args.user_id}`;
+  if (args?.userId) {
+    path = `/opportunities/id/${args.userId}`;
   }
 
   useEffect(() => {

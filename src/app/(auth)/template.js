@@ -9,7 +9,7 @@ const AuthTemplate = ({ children }) => {
   const router = useRouter();
 
   useLayoutEffect(() => {
-    if (user?.first_name) {
+    if (user?.firstName) {
       router.push("/");
     }
   }, [user]);

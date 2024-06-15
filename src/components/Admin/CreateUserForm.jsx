@@ -12,7 +12,7 @@ import Modal from "../Modal";
 
 const FIELDS = [
   {
-    name: "first_name",
+    name: "firstName",
     type: "text",
     children: "First Name",
     rules: {
@@ -20,7 +20,7 @@ const FIELDS = [
     },
   },
   {
-    name: "last_name",
+    name: "lastName",
     type: "text",
     children: "Last Name",
     rules: {
