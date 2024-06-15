@@ -70,8 +70,10 @@ const AdminUserTableRow = ({
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                    } px-4 py-2 text-left inline-block`}
+                      active
+                        ? "bg-gray-100 text-queen-black"
+                        : "text-queen-black/80"
+                    } px-4 py-2 text-left block`}
                     onClick={() =>
                       handleActivation({
                         id: uid,
@@ -87,8 +89,10 @@ const AdminUserTableRow = ({
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                    } px-4 py-2 text-left inline-block`}
+                      active
+                        ? "bg-gray-100 text-queen-black"
+                        : "text-queen-black/80"
+                    } px-4 py-2 text-left block w-full`}
                     onClick={() => handleDelete(uid)}
                   >
                     Delete

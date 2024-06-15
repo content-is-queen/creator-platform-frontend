@@ -5,8 +5,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
+<<<<<<< HEAD
 import { auth, messaging } from "@/firebase.config";
 import { saveTokenToServer } from "@/context/UserContext";
+=======
+import { auth } from "@/firebase.config";
+>>>>>>> main
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -57,6 +61,7 @@ const LoginForm = () => {
     setError({});
     const { email, password } = data;
     try {
+<<<<<<< HEAD
       const response = await signInWithEmailAndPassword(auth, email, password);
       const { user } = response;
       const VITE_APP_VAPID_KEY = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
@@ -69,15 +74,13 @@ const LoginForm = () => {
       };
       await saveTokenToServer(data);
       router.push("/");
+=======
+      await signInWithEmailAndPassword(auth, email, password);
+>>>>>>> main
     } catch (error) {
-      console.error(error);
-
-      if (error.code === 400) {
-        setError({ message: "Your login credentials are incorrect" });
-      } else
-        setError({
-          message: "Something went wrong when signing in",
-        });
+      setError({
+        message: "Something went wrong when signing in",
+      });
     } finally {
       setLoading(false);
     }

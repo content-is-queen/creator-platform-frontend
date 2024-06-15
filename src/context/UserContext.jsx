@@ -8,20 +8,26 @@ export const UserContext = createContext(null);
 export const getUserProfile = async (args) => {
   const token = args?.token ? args.token : await getIdToken(args.user);
 
+  if (localStorage.getItem("userProfile"))
+    return JSON.parse(localStorage.getItem("userProfile"));
+
   try {
     const response = await API.get("/auth/user", {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     });
 
     if (response.status === 200) {
+      localStorage.setItem("userProfile", JSON.stringify(response.data));
       return response.data;
     }
 
-    throw new Error("Something went wrong when getting the users profile");
+    throw new Error("There was an error getting your account");
   } catch (error) {
-    console.error(error);
+    console.error(error.response.data);
+    return null;
   }
 };
 
@@ -45,24 +51,16 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
-        let userProfile;
         const token = await authUser.getIdToken(true);
 
         if (token) {
-          if (localStorage.getItem("userProfile")) {
-            userProfile = JSON.parse(localStorage.getItem("userProfile"));
-          } else {
-            userProfile = await getUserProfile({ token });
-            if (userProfile) {
-              localStorage.setItem("userProfile", JSON.stringify(userProfile));
-            }
-          }
+          const userProfile = await getUserProfile({ token });
 
-          setUser({
-            email: authUser.email,
-            ...userProfile,
-          });
+          if (userProfile) {
+            setUser(userProfile);
+          }
         }
+
         setLoading(false);
       } else {
         localStorage.removeItem("userProfile");

@@ -17,7 +17,6 @@ const AdminUsersTable = ({ users }) => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [checkAll, setCheckAll] = useState(false);
   const [errors, setError] = useState({});
 
   const { token } = useToken();
@@ -61,22 +60,6 @@ const AdminUsersTable = ({ users }) => {
       setError({ message: "There was an error deleting the users" });
       console.error(error);
     }
-  };
-
-  const handleCheckAll = () => {
-    const deselect = selectedUsers.length === users.length;
-
-    deselect
-      ? setSelectedUsers(() => {
-          setCheckAll(false);
-          return [];
-        })
-      : setSelectedUsers(
-          users.map((user) => {
-            setCheckAll(true);
-            return user.uid;
-          })
-        );
   };
 
   const handleActivation = async ({ activated, id }) => {
@@ -123,20 +106,7 @@ const AdminUsersTable = ({ users }) => {
         <Table>
           <Table.Head>
             <tr>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    defaultChecked={checkAll}
-                    onClick={() => handleCheckAll()}
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
+              <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3">
                 User
               </th>

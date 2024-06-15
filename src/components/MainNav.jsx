@@ -79,6 +79,8 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
+      setUser(null);
+      localStorage.removeItem("userProfile");
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -88,7 +90,7 @@ const MainNav = () => {
   useEffect(() => {
     if (
       !loading &&
-      user === null &&
+      !user &&
       (pathname !== "/signup" || pathname !== "/login")
     ) {
       router.push("/login");
@@ -209,7 +211,7 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user && !user?.subscribed && !user?.role?.includes("admin") && (
+              {user && !user?.subscribed && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade account
