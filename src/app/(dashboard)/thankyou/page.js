@@ -12,6 +12,7 @@ import Heading from "@/components/Heading";
 import Button from "@/components/Button";
 import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
 import Subscribe from "@/components/Subscribe";
+import { notFound } from "next/navigation";
 
 const Thankyou = () => {
   const { user } = useUser();
@@ -36,6 +37,10 @@ const Thankyou = () => {
       },
     },
   };
+
+  if (user.role === "admin" || user.role === "super_admin") {
+    return notFound();
+  }
 
   return (
     <>

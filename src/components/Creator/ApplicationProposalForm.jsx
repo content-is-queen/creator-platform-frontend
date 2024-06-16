@@ -70,18 +70,18 @@ const ApplicationProposalForm = ({
         onClose={() => setIsOpen(false)}
         className="max-w-2xl"
       >
-        <Subheading size="lg" className="mb-2">
-          Write proposal
-        </Subheading>
+        <Subheading size="lg">Write proposal</Subheading>
         <Form errors={errors} setError={setError} handleSubmit={handleSubmit}>
           <Form.Textarea
             name="proposal"
             onChange={(e) => setProposal(e.target.value)}
             rows={10}
             minLength={5}
+            className="normal-case"
             required
           >
-            {applicationInstructions || "Write a cover letter"}
+            {applicationInstructions ||
+              "Explain why you should be hired for this opportunity"}
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">

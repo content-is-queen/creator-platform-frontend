@@ -37,20 +37,41 @@ const Campaign = ({
 
       <div>
         <Subheading>About the Ad</Subheading>
-        <Text>Type</Text>
-        <Text>{adType}</Text>
-        <Text>Length</Text>
-        <Text>{length}</Text>
-        <Text>Budget</Text>
-        <Text>{budget}</Text>
+        <div className="flex gap-1">
+          <Text size="sm">Type</Text>
+          <Text size="sm" color="muted">
+            {adType}
+          </Text>
+        </div>
+
+        <div className="flex gap-1">
+          <Text size="sm">Length</Text>
+          <Text size="sm" color="muted">
+            {length}
+          </Text>
+        </div>
+        <div className="flex gap-1">
+          <Text size="sm">Budget</Text>
+          <Text size="sm" color="muted">
+            {budget}
+          </Text>
+        </div>
       </div>
 
       <div>
         <Subheading>Duration</Subheading>
-        <Text>Start Date</Text>
-        <Text>{startDate}</Text>
-        <Text>End Date</Text>
-        <Text>{endDate}</Text>
+        <div className="flex gap-1">
+          <Text size="sm">Start Date</Text>
+          <Text size="sm" color="muted">
+            {startDate}
+          </Text>
+        </div>
+        <div className="flex gap-1">
+          <Text size="sm">End Date</Text>
+          <Text size="sm" color="muted">
+            {endDate}
+          </Text>
+        </div>
       </div>
     </div>
   </div>

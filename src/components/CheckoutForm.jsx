@@ -12,6 +12,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
 const CheckoutForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);
+  const { user } = useUser();
 
   const handleClick = async () => {
     setLoading(true);
@@ -51,7 +52,7 @@ const CheckoutForm = ({ className, variant }) => {
       variant={variant}
     >
       {loading && <Button.Spinner dark />}
-      Upgrade to plus
+      Upgrade to {user?.role} +
     </Button>
   );
 };

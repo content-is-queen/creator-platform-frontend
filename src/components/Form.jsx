@@ -4,6 +4,7 @@ import { forwardRef, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const inputStyles = {
   input: [
@@ -168,9 +169,18 @@ const Checkbox = ({
   );
 };
 
-const Textarea = ({ name, children, description, ...otherProps }) => (
+const Textarea = ({
+  name,
+  children,
+  className,
+  description,
+  ...otherProps
+}) => (
   <div>
-    <label className="uppercase" htmlFor={name}>
+    <label
+      className={twMerge(clsx("uppercase mb-6", className))}
+      htmlFor={name}
+    >
       {children}
     </label>
     {description && (

@@ -1,7 +1,7 @@
 {
   "job": {
     "label": "Job",
-    "description": "A piece of work, especially a specific task done as part of the routine of one's occupation or for an agreed price",
+    "description": "Post freelance, full-time, or contract audio jobs. Find skilled audio professionals to join your team or tackle your next project.",
     "fields": [
       {
         "name": "title",
@@ -110,7 +110,7 @@
   },
   "pitch": {
     "label": "Pitch",
-    "description": "An introductory presentation that provides a quick summary of yourself.",
+    "description": "Invite creators to pitch for commissions, grants, competitions, or radio segments. Discover unique ideas and innovative content.",
     "fields": [
       { "name": "title", "type": "text", "children": "Project Title" },
       {
@@ -200,7 +200,7 @@
   },
   "campaign": {
     "label": "Advertising Campaign",
-    "description": "An advertising campaign is a series of advertisement messages that share a single idea",
+    "description": "Launch marketing campaigns with top audio creators. Connect your brand with engaging and diverse voices to amplify your message.",
     "fields": [
       { "name": "title", "type": "text", "children": "Title" },
       { "name": "description", "as": "textarea", "children": "Description" },
