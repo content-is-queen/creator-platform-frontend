@@ -55,7 +55,7 @@ const ApplicationsModal = ({
     if (applications.length > 0) {
       setArrows({ left: false, right: true });
     }
-  }, [loading]);
+  }, [applications]);
 
   useEffect(() => {
     getApplicationsById(opportunityId);

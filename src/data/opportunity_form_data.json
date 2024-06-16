@@ -29,7 +29,7 @@
         "children": "Category"
       },
       {
-        "name": "contract_type",
+        "name": "contractType",
         "as": "select",
         "children": "Contract Type",
         "options": ["Freelance", "Full-time", "Part-time", "Contract"]
