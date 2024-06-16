@@ -110,20 +110,17 @@ const ApplicationsModal = ({
                 slides-per-view="1"
                 class="w-full max-h-screen"
               >
-                {applications.map((application, index) => {
-                  return (
-                    <swiper-slide key={index} class="p-1">
-                      <BrandApplicationCard
-                        key={`application-${index}`}
-                        setApplications={setApplications}
-                        applications={applications}
-                        opportunityTitle={opportunityTitle}
-                        opportunityId={opportunityId}
-                        {...application}
-                      />
-                    </swiper-slide>
-                  );
-                })}
+                {applications.map((application) => (
+                  <swiper-slide key={application.applicationId} class="p-1">
+                    <BrandApplicationCard
+                      setApplications={setApplications}
+                      applications={applications}
+                      opportunityTitle={opportunityTitle}
+                      opportunityId={opportunityId}
+                      {...application}
+                    />
+                  </swiper-slide>
+                ))}
               </swiper-container>
               {arrows.left && (
                 <button

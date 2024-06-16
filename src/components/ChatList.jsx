@@ -33,7 +33,7 @@ const ChatList = ({ active, setActive, rooms }) => {
 
         // Convert firebase timestamp
         const firbaseTime = new Date(
-          room.timeSent?.seconds * 1000 + room.timeSent?.nanoseconds / 1000000
+          room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
         );
 
         const date = firbaseTime.toDateString();
