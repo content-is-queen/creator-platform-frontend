@@ -28,13 +28,13 @@ const ApplicationProposalForm = ({
 
     const data = {
       opportunityId: opportunityId,
-      userId: user.uid,
+      authorId: user.uid,
       creatorId: brandId,
       proposal: proposal,
     };
 
     try {
-      const response = await API.post(`/applications`, data, {
+      await API.post(`/applications`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

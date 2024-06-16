@@ -16,7 +16,7 @@ const BrandApplicationCard = ({
   applicationId,
   opportunityTitle,
   proposal,
-  userId,
+  authorId,
 }) => {
   const { token } = useToken();
   const {
@@ -28,7 +28,6 @@ const BrandApplicationCard = ({
   const getUser = async (id) => {
     try {
       const res = await API.get(`/auth/user/${id}`);
-
       const { data } = res;
       setUser(data.message);
     } catch ({ error }) {
@@ -37,7 +36,7 @@ const BrandApplicationCard = ({
   };
 
   useEffect(() => {
-    getUser(userId);
+    getUser(authorId);
   }, []);
 
   const rejectApplication = async (id) => {
@@ -46,7 +45,8 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "rejected",
-          userId: userId,
+
+          authorId,
           creatorId: uid,
         },
         {
@@ -77,7 +77,7 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "accepted",
-          userId: userId,
+          authorId,
           creatorId: uid,
           opportunityTitle: opportunityTitle,
         },
@@ -171,7 +171,7 @@ const BrandApplicationCard = ({
               variant="blue"
               size="sm"
               target="_blank"
-              href={`/profile/${userId}`}
+              href={`/profile/${authorId}`}
             >
               View profile
             </Button>
