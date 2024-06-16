@@ -1,22 +1,23 @@
 "use client";
 
+import { notFound } from "next/navigation";
+
+import { useUser } from "@/context/UserContext";
+
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Text from "@/components/Text";
 import CheckoutForm from "@/components/CheckoutForm";
 import Block from "@/components/Block";
-import Card from "@/components/Card";
 import DecorativeText from "@/components/DecorativeText";
 import Heading from "@/components/Heading";
-
-import { useUser } from "@/context/UserContext";
-import Button from "@/components/Button";
 
 const Plus = () => {
   const { user } = useUser();
 
   const COPY = {
     creator: {
-      lead: "Apply for unlimited opportunities",
+      title: "Elevate Your Audio Journey",
+      lead: "Unlock unlimited opportunities, exclusive resources, and a global network",
       included: [
         {
           lead: "Unlimited opportunities",
@@ -25,7 +26,8 @@ const Plus = () => {
       ],
     },
     brand: {
-      lead: "Post unlimited projects",
+      title: "Amplify Your Reach  ",
+      lead: "Unlimited postings, exclusive insights, and a direct connection to top-tier creators",
       included: [
         {
           lead: "Find talent",
@@ -35,15 +37,19 @@ const Plus = () => {
     },
   };
 
+  if ((user && user?.role === "admin") || user?.role === "super)admin") {
+    return notFound();
+  }
+
   return (
     <>
       <Block className="bg-queen-blue">
         <div className="text-center space-y-4">
           <DecorativeText className="relative top-2 text-queen-orange text-5xl">
-            Sign up
+            Upgrade
           </DecorativeText>
           <Heading color="white" size="5xl">
-            Unlock the full experience
+            {user ? COPY[user.role].title : <LoadingPlaceholder.Bar />}
           </Heading>
           <Text className="text-queen-white" size="xl">
             <span>

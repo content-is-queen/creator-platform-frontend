@@ -1,10 +1,12 @@
 import plurise from "@/helpers/plurise";
 import clsx from "clsx";
 
+import Subheading from "./Subheading";
+
 const Stat = ({ value, label }) => (
   <div className="bg-queen-white shadow-lg text-center rounded-full text-queen-black shrink-0 inline-flex w-1/2 pb-[50%] relative border-queen-blue border">
     <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col">
-      <span className="font-subheading font-bold text-3xl">{value}</span>
+      <Subheading size="3xl">{value}</Subheading>
       <span className="text-sm text-queen-black/80">{label}</span>
     </div>
   </div>
