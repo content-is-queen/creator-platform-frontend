@@ -52,7 +52,7 @@ const Select = ({ name, options, children, ...otherProps }) => {
         id={name}
         {...otherProps}
       >
-        <option value="" defaultValue="" disabled>
+        <option value="Select" defaultValue="Select">
           Select
         </option>
         {options.map((option, index) => (

@@ -40,36 +40,6 @@
         "children": "Location"
       },
       {
-        "name": "company",
-        "type": "text",
-        "children": "Company Name"
-      },
-      {
-        "name": "companyWebsite",
-        "type": "url",
-        "children": "Company Website"
-      },
-      {
-        "name": "companyDescription",
-        "as": "textarea",
-        "children": "Company Description"
-      },
-      {
-        "name": "companyContactName",
-        "type": "text",
-        "children": "Contact Name"
-      },
-      {
-        "name": "companyContactEmail",
-        "type": "email",
-        "children": "Contact Email"
-      },
-      {
-        "name": "companyContactTel",
-        "type": "tel",
-        "children": "Contact Number"
-      },
-      {
         "name": "experience",
         "as": "select",
         "children": "Experience Level",
@@ -133,7 +103,6 @@
       },
       {
         "name": "applicationInstructions",
-        "as": "textarea",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
       }
@@ -224,7 +193,6 @@
       },
       {
         "name": "applicationInstructions",
-        "as": "textarea",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
       }
@@ -368,7 +336,6 @@
       { "name": "endDate", "type": "date", "children": "Campaign End Date" },
       {
         "name": "applicationInstructions",
-        "as": "textarea",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
       }

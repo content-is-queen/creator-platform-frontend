@@ -5,7 +5,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
+<<<<<<< Updated upstream
 import { auth } from "@/firebase.config";
+=======
+import { auth, messaging } from "@/firebase.config";
+import { saveTokenToServer } from "@/context/UserContext";
+>>>>>>> Stashed changes
 
 import Text from "@/components/Text";
 import Button from "@/components/Button";
@@ -55,7 +60,21 @@ const LoginForm = () => {
     setError({});
     const { email, password } = data;
     try {
+<<<<<<< Updated upstream
       await signInWithEmailAndPassword(auth, email, password);
+=======
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const VITE_APP_VAPID_KEY = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
+      const fcmToken = await getToken(messaging, {
+        vapidKey: VITE_APP_VAPID_KEY,
+      });
+      const data = {
+        fcmToken,
+        userId: user.uid,
+      };
+      await saveTokenToServer(data);
+      router.push("/");
+>>>>>>> Stashed changes
     } catch (error) {
       setError({
         message: "Something went wrong when signing in",

@@ -7,6 +7,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Panel from "@/components/Panel";
 
 import formData from "@/data/opportunity_form_data.json";
+import Subheading from "../Subheading";
 
 const CreateOpportunityPanels = () => {
   return (
@@ -42,10 +43,8 @@ const CreateOpportunityPanels = () => {
             )}
           >
             <div>
-              <h2 className="text-xl font-subheading font-bold my-3">
-                {opp.label}
-              </h2>
-              <p className="text-sm">{opp.description}</p>
+              <Subheading as="h2" size="xl" className="my-3"></Subheading>
+              <p className="text-sm"> {opp.label}</p>
             </div>
             <Link
               href={{

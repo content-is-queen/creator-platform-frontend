@@ -3,6 +3,7 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import CreateOpportunityPanels from "./CreateOpportunityPanels";
 import Button from "../Button";
+import Heading from "../Heading";
 
 const CreateOpportunityModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +22,9 @@ const CreateOpportunityModal = () => {
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        title="What type of project?"
         className="max-w-5xl"
       >
+        <Heading>Project type</Heading>
         <CreateOpportunityPanels />
       </Modal>
     </>

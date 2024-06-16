@@ -3,14 +3,17 @@
 import API from "@/api/api";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
+import useToken from "@/hooks/useToken";
+
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
-import useToken from "@/hooks/useToken";
+import Text from "../Text";
+import Subheading from "../Subheading";
 
 const ApplicationProposalForm = ({
   opportunityId,
-  brandId,
+  authorId,
   applicationInstructions,
 }) => {
   const { user } = useUser();
@@ -28,8 +31,8 @@ const ApplicationProposalForm = ({
 
     const data = {
       opportunityId: opportunityId,
-      userId: user.uid,
-      creatorId: brandId,
+      creatorId: user.uid,
+      authorId: authorId,
       proposal: proposal,
     };
 
@@ -53,21 +56,23 @@ const ApplicationProposalForm = ({
   };
 
   if (status === "submitted") {
-    return <Form.Success>Your application was sent successfully.</Form.Success>;
+    return <Form.Success>Your application was sent successfully</Form.Success>;
   }
 
   return (
     <>
       <Button as="button" type="submit" onClick={() => setIsOpen(true)}>
-        Send Proposal
+        Send A Proposal
       </Button>
 
       <Modal
-        align="left"
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Apply"
+        className="max-w-2xl"
       >
+        <Subheading size="lg" className="mb-2">
+          Write proposal
+        </Subheading>
         <Form errors={errors} setError={setError} handleSubmit={handleSubmit}>
           <Form.Textarea
             name="proposal"
@@ -80,7 +85,7 @@ const ApplicationProposalForm = ({
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
-            {loading && <Button.Spinner />} Apply
+            {loading && <Button.Spinner />} Submit
           </Button>
         </Form>
       </Modal>
