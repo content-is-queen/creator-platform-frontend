@@ -131,6 +131,13 @@ const Checkbox = ({
               </div>
             );
           }
+
+          const categoryChecked = checked.filter((i) =>
+            option.categories.includes(i)
+          );
+
+          const categoryDisabled =
+            categoryChecked.length === parseInt(option.max);
           return (
             <div className="items-center gap-3 w-full" key={option.title}>
               {description && (
@@ -153,7 +160,7 @@ const Checkbox = ({
                     id={category}
                     onChange={handleChange}
                     value={category}
-                    disabled={disabled && !checked.includes(category)}
+                    disabled={categoryDisabled && !checked.includes(category)}
                     {...otherProps}
                   />
                   <label htmlFor={name} className="text-sm">
