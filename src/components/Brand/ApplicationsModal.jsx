@@ -55,7 +55,7 @@ const ApplicationsModal = ({
     if (applications.length > 0) {
       setArrows({ left: false, right: true });
     }
-  }, [loading]);
+  }, [applications]);
 
   useEffect(() => {
     getApplicationsById(opportunityId);
@@ -110,10 +110,9 @@ const ApplicationsModal = ({
                 slides-per-view="1"
                 class="w-full max-h-screen"
               >
-                {applications.map((application, index) => (
-                  <swiper-slide key={index} class="p-1">
+                {applications.map((application) => (
+                  <swiper-slide key={application.applicationId} class="p-1">
                     <BrandApplicationCard
-                      key={`application-${index}`}
                       setApplications={setApplications}
                       applications={applications}
                       opportunityTitle={opportunityTitle}

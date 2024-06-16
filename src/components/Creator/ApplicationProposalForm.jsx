@@ -37,7 +37,7 @@ const ApplicationProposalForm = ({
     };
 
     try {
-      const response = await API.post(`/applications`, data, {
+      await API.post(`/applications`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
