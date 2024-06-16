@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 import Container from "@/components/Container";
-import Text from "@/components/Text";
-import { useUser } from "@/context/UserContext";
+import Subheading from "@/components/Subheading";
 
 const Template = ({ children }) => {
   const pathname = usePathname();
@@ -47,9 +47,9 @@ const Template = ({ children }) => {
         <div className="flex gap-12">
           <div className="w-full max-w-40">
             <div className="border-b border-queen-black/20 pb-4 mb-4">
-              <Text size="lg" className="font-subheading font-bold mb-2">
+              <Subheading size="lg" className="mb-2">
                 Settings
-              </Text>
+              </Subheading>
               <ul>
                 {LINKS.map(({ href, label }) => (
                   <li key={href} className="py-1">

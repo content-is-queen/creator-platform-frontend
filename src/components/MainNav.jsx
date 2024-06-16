@@ -62,7 +62,7 @@ const MainNav = () => {
     brand: [
       {
         href: "/",
-        label: "Projects",
+        label: "Opportunities",
       },
       { href: "/conversations", label: "Conversations" },
     ],
@@ -150,13 +150,15 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user && !user?.subscribed && (
-                <li>
-                  <Button variant="yellow" href="/plus">
-                    Upgrade account
-                  </Button>
-                </li>
-              )}
+              {user &&
+                Object.hasOwn(user, "subscribed") &&
+                !user?.subscribed && (
+                  <li>
+                    <Button variant="yellow" href="/plus">
+                      Upgrade to {user.role} +
+                    </Button>
+                  </li>
+                )}
 
               <li>
                 <button
