@@ -178,7 +178,7 @@ const MainNav = () => {
 
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
             <Menu as="div" className="relative">
-              <Menu.Button>
+              <Menu.Button className="align-middle">
                 <ProfileIcon
                   className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
                   profilePhoto={user?.profilePhoto}

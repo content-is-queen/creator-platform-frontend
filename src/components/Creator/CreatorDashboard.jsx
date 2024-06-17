@@ -20,7 +20,7 @@ const CreatorDashboard = () => {
     async function getApplications() {
       try {
         const { data } = await API.get("/applications");
-        setApplications(data.message.filter((i) => i.userId === user.uid));
+        setApplications(data.message.filter((i) => i.creatorId === user.uid));
       } catch (err) {
         console.error(err);
       } finally {
