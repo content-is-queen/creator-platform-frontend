@@ -47,7 +47,7 @@ const FIELDS = [
       required: "Role is required",
     },
     as: "select",
-    options: ["admin", "creator", "brand"],
+    options: ["Admin", "Creator", "Brand"],
   },
   {
     name: "password",
