@@ -32,6 +32,8 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
+      setUser(null);
+      localStorage.removeItem("userProfile");
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -41,7 +43,7 @@ const MainNav = () => {
   useEffect(() => {
     if (
       !loading &&
-      user === null &&
+      !user &&
       (pathname !== "/signup" || pathname !== "/login")
     ) {
       router.push("/login");
@@ -60,7 +62,7 @@ const MainNav = () => {
     brand: [
       {
         href: "/",
-        label: "Projects",
+        label: "Opportunities",
       },
       { href: "/conversations", label: "Conversations" },
     ],
@@ -149,12 +151,11 @@ const MainNav = () => {
                 </li>
               ))}
               {user &&
-                !user?.subscribed &&
-                user?.role !== "admin" &&
-                user?.role !== "super_admin" && (
+                Object.hasOwn(user, "subscribed") &&
+                !user?.subscribed && (
                   <li>
                     <Button variant="yellow" href="/plus">
-                      Upgrade account
+                      Upgrade to {user.role} +
                     </Button>
                   </li>
                 )}
@@ -177,10 +178,10 @@ const MainNav = () => {
 
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
             <Menu as="div" className="relative">
-              <Menu.Button>
+              <Menu.Button className="align-middle">
                 <ProfileIcon
                   className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
-                  imageUrl={user?.imageUrl}
+                  profilePhoto={user?.profilePhoto}
                 >
                   <span className="sr-only">User menu</span>
                 </ProfileIcon>

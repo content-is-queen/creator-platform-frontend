@@ -9,10 +9,11 @@ import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
 import { Error, Success } from "@/components/Form";
 import Modal from "../Modal";
+import Subheading from "../Subheading";
 
 const FIELDS = [
   {
-    name: "first_name",
+    name: "firstName",
     type: "text",
     children: "First Name",
     rules: {
@@ -20,7 +21,7 @@ const FIELDS = [
     },
   },
   {
-    name: "last_name",
+    name: "lastName",
     type: "text",
     children: "Last Name",
     rules: {
@@ -121,9 +122,11 @@ const CreateUserForm = () => {
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Create a new user"
-        size="2xl"
+        className="max-w-2xl"
       >
+        <Subheading size="lg" className="mb-2">
+          Create a new user
+        </Subheading>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
           <div className="space-y-6">
             {FIELDS.map(({ children, name, ...otherProps }) => (

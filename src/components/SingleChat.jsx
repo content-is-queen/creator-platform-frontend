@@ -24,6 +24,8 @@ import clsx from "clsx";
 
 import Button from "./Button";
 import ProfileIcon from "./ProfileIcon";
+import Subheading from "./Subheading";
+import Text from "./Text";
 
 const Header = ({ room }) => {
   const { user } = useUser();
@@ -34,18 +36,16 @@ const Header = ({ room }) => {
       <div>
         <div className="flex-shrink-0">
           <ProfileIcon
-            imageUrl={participant.profileImage}
+            profilePhoto={participant.profilePhoto}
             className="h-12 w-12 flex-shrink-0"
           />
         </div>
       </div>
       <div>
-        <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
-          {participant.fullName}
-        </span>
-        <span className="text-sm text-gray-500 truncate block">
+        <Subheading className="truncate">{participant.fullName}</Subheading>
+        <Text size="sm" color="muted" className="truncate">
           {room.opportunityTitle}
-        </span>
+        </Text>
       </div>
     </div>
   );
@@ -107,7 +107,7 @@ const Body = ({ room }) => {
                 >
                   {!currentUser && (
                     <ProfileIcon
-                      imageUrl={participant.profileImage}
+                      profilePhoto={participant.profilePhoto}
                       className="mr-2"
                     />
                   )}

@@ -43,7 +43,7 @@ const CreateOpportunityForm = ({ type }) => {
       return [...acc, name];
     }, "");
 
-    const postData = { type: type, user_id: userId };
+    const postData = { type: type, userId: userId };
 
     keys.forEach((key) => {
       if (typeof key === "object") {

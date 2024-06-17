@@ -37,9 +37,9 @@ const EditProfile = () => {
 
   useEffect(() => {
     setFormData({
-      first_name: user?.first_name || "",
-      last_name: user?.last_name || "",
-      imageUrl: user?.imageUrl || "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      profilePhoto: user?.profilePhoto || "",
       bio: user?.bio || "",
     });
   }, [user]);
@@ -64,11 +64,15 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        // Update local user profile on successful update
-        const userProfile = await getUserProfile({ token });
-        localStorage.removeItem("userProfile");
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
-        setUser({ ...user, ...userProfile });
+        setUser({ ...user, ...formData });
+
+        localStorage.setItem(
+          "userProfile",
+          JSON.stringify({
+            ...user,
+            ...formData,
+          })
+        );
 
         router.push("/profile");
       } else {
@@ -92,16 +96,16 @@ const EditProfile = () => {
       <div className="space-y-10">
         <div className="flex gap-x-6 w-full">
           <Form.Input
-            name="first_name"
-            value={formData.first_name}
+            name="firstName"
+            value={formData.firstName}
             onChange={handleChange}
             className="w-full"
           >
             First Name
           </Form.Input>
           <Form.Input
-            name="last_name"
-            value={formData.last_name}
+            name="lastName"
+            value={formData.lastName}
             onChange={handleChange}
             className="w-full"
           >
@@ -110,7 +114,7 @@ const EditProfile = () => {
         </div>
         <div className="space-y-10">
           <Form.Input
-            name="imageUrl"
+            name="profilePhoto"
             type="file"
             onChange={handleChange}
             accept="image/*"

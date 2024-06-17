@@ -13,10 +13,10 @@ import { useUser } from "@/context/UserContext";
 const BrandApplicationCard = ({
   setApplications,
   applications,
-  application_id,
+  applicationId,
   opportunityTitle,
   proposal,
-  user_id,
+  creatorId,
 }) => {
   const { token } = useToken();
   const {
@@ -28,7 +28,6 @@ const BrandApplicationCard = ({
   const getUser = async (id) => {
     try {
       const res = await API.get(`/auth/user/${id}`);
-
       const { data } = res;
       setUser(data.message);
     } catch ({ error }) {
@@ -37,7 +36,7 @@ const BrandApplicationCard = ({
   };
 
   useEffect(() => {
-    getUser(user_id);
+    getUser(creatorId);
   }, []);
 
   const rejectApplication = async (id) => {
@@ -46,8 +45,9 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "rejected",
-          user_id: user_id,
-          creator_id: uid,
+
+          authorId: uid,
+          creatorId,
         },
         {
           headers: {
@@ -65,7 +65,7 @@ const BrandApplicationCard = ({
       }
 
       setApplications(
-        applications.filter((i) => i.application_id !== application_id)
+        applications.filter((i) => i.applicationId !== applicationId)
       );
     } catch (error) {
       console.error(error);
@@ -77,9 +77,9 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "accepted",
-          user_id: user_id,
-          creator_id: uid,
-          opportunityTitle,
+          authorId: uid,
+          creatorId,
+          opportunityTitle: opportunityTitle,
         },
         {
           headers: {
@@ -115,7 +115,7 @@ const BrandApplicationCard = ({
             </p>
             <p className="text-queen-black/80">
               What are you waiting for? Why don't you head over and start the
-              conversation with <b>{user.first_name}</b>.
+              conversation with <b>{user.firstName}</b>.
             </p>
           </div>
           <Button href={`/conversations/?room=${message.room}`}>
@@ -131,7 +131,7 @@ const BrandApplicationCard = ({
                   <LoadingPlaceholder dark />
                 ) : (
                   <>
-                    {user.first_name} {user.last_name}
+                    {user.firstName} {user.lastName}
                   </>
                 )}
               </Heading>
@@ -154,7 +154,7 @@ const BrandApplicationCard = ({
               as="button"
               variant="white"
               size="sm"
-              onClick={() => rejectApplication(application_id)}
+              onClick={() => rejectApplication(applicationId)}
             >
               Reject
             </Button>
@@ -162,7 +162,7 @@ const BrandApplicationCard = ({
               type="button"
               as="button"
               size="sm"
-              onClick={() => acceptApplication(application_id)}
+              onClick={() => acceptApplication(applicationId)}
             >
               Accept
             </Button>
@@ -171,7 +171,7 @@ const BrandApplicationCard = ({
               variant="blue"
               size="sm"
               target="_blank"
-              href={`/profile/${user_id}`}
+              href={`/profile/${creatorId}`}
             >
               View profile
             </Button>

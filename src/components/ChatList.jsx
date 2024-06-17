@@ -8,6 +8,7 @@ import clsx from "clsx";
 import ProfileIcon from "./ProfileIcon";
 import { useUser } from "@/context/UserContext";
 import { useSearchParams } from "next/navigation";
+import Subheading from "./Subheading";
 
 const ChatList = ({ active, setActive, rooms }) => {
   const { user } = useUser();
@@ -56,16 +57,16 @@ const ChatList = ({ active, setActive, rooms }) => {
               >
                 <div className="shrink-0">
                   <ProfileIcon
-                    imageUrl={participant.profileImage}
+                    profilePhoto={participant.profilePhoto}
                     className="lg:h-14 lg:w-14"
                   />
                 </div>
 
                 <div className="py-3 flex-1">
                   <div className="flex gap-4 justify-between items-center">
-                    <p className="text-sm  text-queen-black font-subheading font-bold truncate leading-3">
+                    <Subheading size="sm" className="truncate">
                       {participant.fullName}
-                    </p>
+                    </Subheading>
                     <div className="text-xs text-queen-black/60 justify-self-end">
                       {timeSent}
                     </div>

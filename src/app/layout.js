@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`bg-queen-white ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
+      className={`bg-queen-white text-queen-black ${formaDJRBanner.variable} ${formaDJRDeck.variable}`}
     >
       <link rel="icon" href="/images/favicon.svg" />
       <link rel="apple-touch-icon" href="/images/touch-icon.png" />

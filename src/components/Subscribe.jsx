@@ -10,11 +10,11 @@ const Subscribe = () => {
   const token = useToken();
   const searchParams = useSearchParams();
 
-  const subscribe = async (session_id) => {
+  const subscribe = async (sessionId) => {
     try {
       const response = await API.post(
         "/payments/subscribe",
-        { subscription_id, session_id, user_id: user.uid, email: user.email },
+        { sessionId, userId: user.uid, email: user.email },
         {
           headers: {
             "Content-Type": "application/json",
@@ -23,30 +23,18 @@ const Subscribe = () => {
         }
       );
 
-      const updatedUser = {
-        ...user,
-        subscribed: true,
-        subscriptionId: subscription_id,
-      };
-      setUser(updatedUser);
-      if (localStorage.getItem("userProfile")) {
-        const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-        localStorage.setItem(
-          "userProfile",
-          JSON.stringify({
-            ...userProfile,
-            subscribed: true,
-            subscriptionId: subscription_id,
-          })
-        );
-      }
+      setUser({ ...user, subscribed: true });
+      localStorage.setItem(
+        "userProfile",
+        JSON.stringify({ ...user, subscribed: true })
+      );
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    const sessionId = searchParams.get("session_id");
+    const sessionId = searchParams.get("sessionId");
     if (sessionId && user) {
       subscribe(sessionId);
     }

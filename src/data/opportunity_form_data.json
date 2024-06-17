@@ -1,7 +1,7 @@
 {
   "job": {
     "label": "Job",
-    "description": "A piece of work, especially a specific task done as part of the routine of one's occupation or for an agreed price",
+    "description": "Post freelance, full-time, or contract audio jobs. Find skilled audio professionals to join your team or tackle your next project.",
     "fields": [
       {
         "name": "title",
@@ -29,7 +29,7 @@
         "children": "Category"
       },
       {
-        "name": "contract_type",
+        "name": "contractType",
         "as": "select",
         "children": "Contract Type",
         "options": ["Freelance", "Full-time", "Part-time", "Contract"]
@@ -38,36 +38,6 @@
         "name": "location",
         "type": "text",
         "children": "Location"
-      },
-      {
-        "name": "company",
-        "type": "text",
-        "children": "Company Name"
-      },
-      {
-        "name": "company_website",
-        "type": "url",
-        "children": "Company Website"
-      },
-      {
-        "name": "company_description",
-        "as": "textarea",
-        "children": "Company Description"
-      },
-      {
-        "name": "company_contact_name",
-        "type": "text",
-        "children": "Contact Name"
-      },
-      {
-        "name": "company_contact_email",
-        "type": "email",
-        "children": "Contact Email"
-      },
-      {
-        "name": "company_contact_tel",
-        "type": "tel",
-        "children": "Contact Number"
       },
       {
         "name": "experience",
@@ -132,8 +102,7 @@
         "children": "Application Deadline"
       },
       {
-        "name": "application_instructions",
-        "as": "textarea",
+        "name": "applicationInstructions",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
       }
@@ -141,7 +110,7 @@
   },
   "pitch": {
     "label": "Pitch",
-    "description": "An introductory presentation that provides a quick summary of yourself.",
+    "description": "Invite creators to pitch for commissions, grants, competitions, or radio segments. Discover unique ideas and innovative content.",
     "fields": [
       { "name": "title", "type": "text", "children": "Project Title" },
       {
@@ -151,10 +120,9 @@
         "description": "Please describe your intended audience. Include any specific details about who you are aiming to reach with your content."
       },
       {
-        "name": "target_audience",
+        "name": "targetAudience",
         "type": "checkbox",
-        "children": "Target Audience Characteristics (Choose up to 3)",
-        "max": "3",
+        "children": "Target Audience Characteristics",
         "options": [
           {
             "title": "Age Group:",
@@ -166,6 +134,7 @@
           },
           {
             "title": "Interests",
+            "max": "3",
             "categories": [
               "Technology and Gadgets",
               "Health and Fitness",
@@ -201,13 +170,13 @@
         ]
       },
       {
-        "name": "content_duration",
+        "name": "contentDuration",
         "type": "text",
         "placeholder": "e.g. 30 minutes, 1 hour",
         "children": "Expected Duration of Content"
       },
       {
-        "name": "content_type",
+        "name": "contentType",
         "as": "select",
         "children": "Type of Content",
         "options": [
@@ -218,13 +187,12 @@
         ]
       },
       {
-        "name": "key_message",
+        "name": "keyMessage",
         "as": "textarea",
         "children": "Key Message or Theme"
       },
       {
-        "name": "application_instructions",
-        "as": "textarea",
+        "name": "applicationInstructions",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
       }
@@ -232,18 +200,18 @@
   },
   "campaign": {
     "label": "Advertising Campaign",
-    "description": "An advertising campaign is a series of advertisement messages that share a single idea",
+    "description": "Launch marketing campaigns with top audio creators. Connect your brand with engaging and diverse voices to amplify your message.",
     "fields": [
       { "name": "title", "type": "text", "children": "Title" },
       { "name": "description", "as": "textarea", "children": "Description" },
       {
-        "name": "target_audience",
+        "name": "targetAudience",
         "as": "textarea",
         "children": "Target Audience",
         "description": "Please describe your target audience. Include any specific details about who you are aiming to reach with your ad campaign."
       },
       {
-        "name": "target_demographic",
+        "name": "targetDemographic",
         "type": "checkbox",
         "children": "Target Demographics (Select up to 3)",
         "max": "3",
@@ -337,7 +305,7 @@
         ]
       },
       {
-        "name": "ad_type",
+        "name": "adType",
         "as": "select",
         "children": "Ad Type",
         "options": ["Host-read Ad", "Pre-recorded Ad", "Sponsorship", "Other"]
@@ -361,14 +329,13 @@
         "children": "Budget for Ad Campaign"
       },
       {
-        "name": "start_date",
+        "name": "startDate",
         "type": "date",
         "children": "Campaign Start Date"
       },
-      { "name": "end_date", "type": "date", "children": "Campaign End Date" },
+      { "name": "endDate", "type": "date", "children": "Campaign End Date" },
       {
-        "name": "application_instructions",
-        "as": "textarea",
+        "name": "applicationInstructions",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
       }

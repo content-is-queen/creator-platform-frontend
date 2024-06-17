@@ -4,6 +4,7 @@ import { forwardRef, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const inputStyles = {
   input: [
@@ -52,7 +53,7 @@ const Select = ({ name, options, children, ...otherProps }) => {
         id={name}
         {...otherProps}
       >
-        <option value="" defaultValue="" disabled>
+        <option value="Select" defaultValue="Select">
           Select
         </option>
         {options.map((option, index) => (
@@ -130,6 +131,13 @@ const Checkbox = ({
               </div>
             );
           }
+
+          const categoryChecked = checked.filter((i) =>
+            option.categories.includes(i)
+          );
+
+          const categoryDisabled =
+            categoryChecked.length === parseInt(option.max);
           return (
             <div className="items-center gap-3 w-full" key={option.title}>
               {description && (
@@ -152,7 +160,7 @@ const Checkbox = ({
                     id={category}
                     onChange={handleChange}
                     value={category}
-                    disabled={disabled && !checked.includes(category)}
+                    disabled={categoryDisabled && !checked.includes(category)}
                     {...otherProps}
                   />
                   <label htmlFor={name} className="text-sm">
@@ -168,9 +176,18 @@ const Checkbox = ({
   );
 };
 
-const Textarea = ({ name, children, description, ...otherProps }) => (
+const Textarea = ({
+  name,
+  children,
+  className,
+  description,
+  ...otherProps
+}) => (
   <div>
-    <label className="uppercase" htmlFor={name}>
+    <label
+      className={twMerge(clsx("uppercase mb-6", className))}
+      htmlFor={name}
+    >
       {children}
     </label>
     {description && (
