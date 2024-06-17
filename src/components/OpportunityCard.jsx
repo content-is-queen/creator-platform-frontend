@@ -21,7 +21,7 @@ const OpportunityCard = ({
 }) => (
   <Card className="flex flex-wrap md:block">
     <div className="flex flex-col md:flex-row items-start md:items-center gap-2.5 justify-between md:mb-4">
-      <Link href={`/profile/${userId}`} className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center">
         <ProfileIcon
           className="h-6 w-6"
           profilePhoto={organizationLogo || profilePhoto}
@@ -29,7 +29,7 @@ const OpportunityCard = ({
         <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
           {organizationName || company}
         </span>
-      </Link>
+      </div>
       <div className="flex gap-y-2 gap-x-3 item-center flex-wrap basis-1/4 md:basis-auto">
         <div className="flex gap-x-1 flex-col md:flex-row">
           <Text as="span" size="sm">
