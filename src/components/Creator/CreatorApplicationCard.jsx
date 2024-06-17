@@ -16,8 +16,6 @@ const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
     opportunityId: opportunityId,
   });
 
-  console.log(opportunity);
-
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
