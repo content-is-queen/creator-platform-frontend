@@ -16,6 +16,8 @@ const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
     opportunityId: opportunityId,
   });
 
+  console.log(opportunity);
+
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -25,7 +27,7 @@ const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
       ) : (
         <>
           <div className="flex gap-x-2 md:gap-x-4 items-center">
-            <ProfileIcon />
+            <ProfileIcon profilePhoto={opportunity.profilePhoto} />
             <p className="truncate w-full max-w-20 md:max-w-32">
               {opportunity.title}
             </p>
