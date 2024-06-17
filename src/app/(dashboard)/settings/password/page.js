@@ -125,21 +125,13 @@ const Password = () => {
           type="submit"
           as="button"
           onClick={handleSubmit}
-          {...(!updated && { disabled: true })}
+          disabled={!updated}
         >
           {loading && <Button.Spinner />} Update Password
         </Button>
       </div>
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
-      {success?.message && (
-        <div className="border border-green-700 bg-green-100 text-green-700 text-sm mt-4 py-2 px-4">
-          <p>{success.message}</p>
-        </div>
-      )}
+      {errors?.message && <Form.Error>{error.message}</Form.Error>}
+      {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );
 };

@@ -8,6 +8,8 @@ import ProfileIcon from "@/components/ProfileIcon";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
+import Subheading from "../Subheading";
+import Text from "../Text";
 
 const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
   const { opportunities: opportunity, loading } = useOpportunities({
@@ -23,9 +25,9 @@ const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
       ) : (
         <>
           <div className="flex gap-x-2 md:gap-x-4 items-center">
-            <ProfileIcon />
+            <ProfileIcon profilePhoto={opportunity.profilePhoto} />
             <p className="truncate w-full max-w-20 md:max-w-32">
-              {opportunity?.title}
+              {opportunity.title}
             </p>
           </div>
 
@@ -34,11 +36,13 @@ const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
             {modalOpen && (
               <Modal
                 open={modalOpen}
-                align="left"
-                className="min-h-64"
+                className="min-h-64 max-w-2xl"
                 onClose={() => setModalOpen(false)}
-                title="Application"
               >
+                <Subheading size="xl">{opportunity.title}</Subheading>
+                <Text size="sm" className="capitalize mb-6">
+                  Application
+                </Text>
                 {proposal}
               </Modal>
             )}

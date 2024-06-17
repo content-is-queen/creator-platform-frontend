@@ -8,6 +8,7 @@ import clsx from "clsx";
 import ProfileIcon from "./ProfileIcon";
 import { useUser } from "@/context/UserContext";
 import { useSearchParams } from "next/navigation";
+import Subheading from "./Subheading";
 
 const ChatList = ({ active, setActive, rooms }) => {
   const { user } = useUser();
@@ -32,7 +33,7 @@ const ChatList = ({ active, setActive, rooms }) => {
 
         // Convert firebase timestamp
         const firbaseTime = new Date(
-          room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
+          room.timeSent?.seconds * 1000 + room.timeSent?.nanoseconds / 1000000
         );
 
         const date = firbaseTime.toDateString();
@@ -63,9 +64,9 @@ const ChatList = ({ active, setActive, rooms }) => {
 
                 <div className="py-3 flex-1">
                   <div className="flex gap-4 justify-between items-center">
-                    <p className="text-sm  text-queen-black font-subheading font-bold truncate leading-3">
+                    <Subheading size="sm" className="truncate -mb-1">
                       {participant.fullName}
-                    </p>
+                    </Subheading>
                     <div className="text-xs text-queen-black/60 justify-self-end">
                       {timeSent}
                     </div>

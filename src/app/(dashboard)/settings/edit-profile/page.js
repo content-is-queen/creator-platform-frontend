@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "@/api/api";
-import { getUserProfile, useUser } from "@/context/UserContext";
+import { useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
 
 import Form from "@/components/Form";
@@ -64,12 +64,16 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        // Update local user profile on successful update
-        setUser({ ...user, ...formData });
+        const profilePhoto = res.data.data.profilePhoto;
+        setUser({ ...user, ...formData, profilePhoto });
 
         localStorage.setItem(
           "userProfile",
-          JSON.stringify({ ...user, formData })
+          JSON.stringify({
+            ...user,
+            ...formData,
+            profilePhoto,
+          })
         );
 
         router.push("/profile");

@@ -44,22 +44,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
     }
   };
 
-  const handleCheckAll = () => {
-    const deselect = selectedOpportunities?.length === opportunities.length;
-
-    deselect
-      ? setSelectedOpportunities(() => {
-          setCheckAll(false);
-          return [];
-        })
-      : setSelectedOpportunities(
-          opportunities.map((opportunity) => {
-            setCheckAll(true);
-            return opportunity.opportunityId;
-          })
-        );
-  };
-
   return (
     <>
       <Search
@@ -75,20 +59,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         <Table>
           <Table.Head>
             <tr>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-                    defaultChecked={checkAll}
-                    onClick={() => handleCheckAll()}
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
+              <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3">
                 Title
               </th>

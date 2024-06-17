@@ -1,18 +1,19 @@
 import AuthInputController from "@/components/AuthInputController";
 import AuthRadioController from "@/components/AuthRadioController";
+import AuthCheckboxController from "@/components/AuthCheckboxController";
 
 const SignUpFormStep = ({ fields, errors, control }) => {
   return (
     <div className="space-y-6">
-      {fields.map(({ children, options, name, type, ...otherProps }) => {
-        let Component;
+      {fields.map(({ children, options, as, name, type, ...otherProps }) => {
+        let Component = AuthInputController;
 
-        switch (name) {
-          case "goals":
-            Component = AuthRadioController;
-            break;
-          default:
-            Component = AuthInputController;
+        if (as === "radio") {
+          Component = AuthRadioController;
+        }
+
+        if (as === "checkbox") {
+          Component = AuthCheckboxController;
         }
 
         return (

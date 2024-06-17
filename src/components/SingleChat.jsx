@@ -24,6 +24,8 @@ import clsx from "clsx";
 
 import Button from "./Button";
 import ProfileIcon from "./ProfileIcon";
+import Subheading from "./Subheading";
+import Text from "./Text";
 
 const Header = ({ room }) => {
   const { user } = useUser();
@@ -40,12 +42,12 @@ const Header = ({ room }) => {
         </div>
       </div>
       <div>
-        <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
+        <Subheading className="truncate -mb-1">
           {participant.fullName}
-        </span>
-        <span className="text-sm text-gray-500 truncate block">
+        </Subheading>
+        <Text size="sm" color="muted" className="truncate">
           {room.opportunityTitle}
-        </span>
+        </Text>
       </div>
     </div>
   );

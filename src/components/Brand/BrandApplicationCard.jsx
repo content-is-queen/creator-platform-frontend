@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
+import { useUser } from "@/context/UserContext";
 
+import Tag from "../Tag";
 import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "@/components/Heading";
-import { useUser } from "@/context/UserContext";
 
 const BrandApplicationCard = ({
   setApplications,
@@ -16,7 +17,7 @@ const BrandApplicationCard = ({
   applicationId,
   opportunityTitle,
   proposal,
-  userId,
+  creatorId,
 }) => {
   const { token } = useToken();
   const {
@@ -28,7 +29,6 @@ const BrandApplicationCard = ({
   const getUser = async (id) => {
     try {
       const res = await API.get(`/auth/user/${id}`);
-
       const { data } = res;
       setUser(data.message);
     } catch ({ error }) {
@@ -37,7 +37,7 @@ const BrandApplicationCard = ({
   };
 
   useEffect(() => {
-    getUser(userId);
+    getUser(creatorId);
   }, []);
 
   const rejectApplication = async (id) => {
@@ -46,8 +46,9 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "rejected",
-          userId: userId,
-          creatorId: uid,
+
+          authorId: uid,
+          creatorId,
         },
         {
           headers: {
@@ -77,8 +78,8 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "accepted",
-          userId: userId,
-          creatorId: uid,
+          authorId: uid,
+          creatorId,
           opportunityTitle: opportunityTitle,
         },
         {
@@ -92,13 +93,13 @@ const BrandApplicationCard = ({
       if (response?.error) {
         throw new Error(
           response.error ||
-            "Something went wrong when accpeting the application"
+            "Something went wrong when accepting the application"
         );
       }
 
       setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
-      console.error(error);
+      console.log(error.response.data.message);
     }
   };
 
@@ -140,9 +141,9 @@ const BrandApplicationCard = ({
               </Text>
             </div>
             <div className="flex gap-2 mt-1">
-              {/* {skills.map((skill) => (
-            <Tag key={skill}>{skill}</Tag>
-          ))} */}
+              {user?.interests.map((skill) => (
+                <Tag key={skill}>{skill}</Tag>
+              ))}
             </div>
           </div>
 
@@ -171,7 +172,7 @@ const BrandApplicationCard = ({
               variant="blue"
               size="sm"
               target="_blank"
-              href={`/profile/${userId}`}
+              href={`/profile/${creatorId}`}
             >
               View profile
             </Button>

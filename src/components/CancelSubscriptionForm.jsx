@@ -12,15 +12,27 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
 const CancelSubscriptionForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const handleClick = async () => {
     setLoading(true);
 
     try {
-      const response = await API.post("/payments/cancel-subscription", {
-        userId: user.uid,
-      });
+      if (confirm("Are you sure you want to cancel you subscription?")) {
+        await API.post("/payments/cancel-subscription", {
+          user_id: user.uid,
+        });
+
+        const updatedUser = { ...user, subscribed: false };
+        setUser(updatedUser);
+        if (localStorage.getItem("userProfile")) {
+          const userProfile = JSON.parse(localStorage.getItem("userProfile"));
+          localStorage.setItem(
+            "userProfile",
+            JSON.stringify({ ...userProfile, subscribed: false })
+          );
+        }
+      }
     } catch (error) {
       console.error("Cancel subscription  error:", error);
     } finally {
