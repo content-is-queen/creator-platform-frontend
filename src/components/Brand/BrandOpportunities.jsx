@@ -15,6 +15,8 @@ import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
 import { useUser } from "@/context/UserContext";
 import useOpportunities from "@/hooks/useOpportunities";
 import Spinner from "../Spinner";
+import Subheading from "../Subheading";
+import Text from "../Text";
 
 register();
 
@@ -185,11 +187,9 @@ const BrandOpportunities = () => {
   return (
     <div className="text-center pt-28 pb-20">
       <Container className="space-y-2">
-        <p className="font-subheading font-bold text-xl text-queen-black">
-          No projects
-        </p>
+        <Subheading size="xl">No projects</Subheading>
         <div className="space-y-6 max-w-lg mx-auto">
-          <p>You haven't posted any projects yet</p>
+          <Text>You haven't posted any projects yet</Text>
         </div>
       </Container>
     </div>
