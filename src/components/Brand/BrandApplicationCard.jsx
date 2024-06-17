@@ -93,13 +93,13 @@ const BrandApplicationCard = ({
       if (response?.error) {
         throw new Error(
           response.error ||
-            "Something went wrong when accpeting the application"
+            "Something went wrong when accepting the application"
         );
       }
 
       setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
-      console.error(error);
+      console.log(error.response.data.message);
     }
   };
 
