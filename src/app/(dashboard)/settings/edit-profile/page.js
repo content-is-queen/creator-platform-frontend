@@ -64,16 +64,13 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        const { profilePhoto, ...otherFormData } = formData;
-        const profilePhotoUrl = res.data?.data?.profilePhoto;
-        setUser({ ...user, profilePhoto: profilePhotoUrl, ...otherFormData });
+        setUser({ ...user, ...formData });
 
         localStorage.setItem(
           "userProfile",
           JSON.stringify({
             ...user,
-            profilePhoto: profilePhotoUrl,
-            otherFormData,
+            ...formData,
           })
         );
 
