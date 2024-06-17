@@ -64,12 +64,14 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        // Update local user profile on successful update
         setUser({ ...user, ...formData });
 
         localStorage.setItem(
           "userProfile",
-          JSON.stringify({ ...user, formData })
+          JSON.stringify({
+            ...user,
+            ...formData,
+          })
         );
 
         router.push("/profile");

@@ -1,31 +1,8 @@
 import { Dialog } from "@headlessui/react";
-import Heading from "@/components/Heading";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 
-const SIZES = {
-  md: "max-w-md",
-  "2xl": "max-w-2xl",
-  "3xl": "max-w-3xl",
-  "4xl": "max-w-4xl",
-  "5xl": "max-w-5xl",
-  "6xl": "max-w-6xl",
-  "7xl": "max-w-7xl",
-};
-
-const ALIGNMENT = {
-  left: "text-left",
-  center: "text-center",
-};
-
-const Modal = ({
-  align = "center",
-  size = "3xl",
-  title,
-  children,
-  className,
-  ...otherProps
-}) => (
+const Modal = ({ children, className, ...otherProps }) => (
   <Dialog className="relative z-50" {...otherProps}>
     <div className="fixed inset-0 bg-queen-black/75" aria-hidden="true" />
     <div className="fixed inset-0 flex w-screen justify-center p-4 lg:items-center">
@@ -33,17 +10,10 @@ const Modal = ({
         className={twMerge(
           clsx(
             "mx-auto w-full rounded-3xl bg-white pt-16 px-10 pb-10 overflow-y-auto",
-            SIZES[size],
             className
           )
         )}
       >
-        {title && (
-          <Heading size="3xl" className={clsx("mb-12", ALIGNMENT[align])}>
-            {title}
-          </Heading>
-        )}
-
         {children}
       </Dialog.Panel>
     </div>
