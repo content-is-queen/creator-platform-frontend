@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
+import { useUser } from "@/context/UserContext";
 
+import Tag from "../Tag";
 import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "@/components/Heading";
-import { useUser } from "@/context/UserContext";
 
 const BrandApplicationCard = ({
   setApplications,
@@ -140,9 +141,9 @@ const BrandApplicationCard = ({
               </Text>
             </div>
             <div className="flex gap-2 mt-1">
-              {/* {skills.map((skill) => (
-            <Tag key={skill}>{skill}</Tag>
-          ))} */}
+              {user?.interests.map((skill) => (
+                <Tag key={skill}>{skill}</Tag>
+              ))}
             </div>
           </div>
 

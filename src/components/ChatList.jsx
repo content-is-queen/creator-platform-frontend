@@ -33,7 +33,7 @@ const ChatList = ({ active, setActive, rooms }) => {
 
         // Convert firebase timestamp
         const firbaseTime = new Date(
-          room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
+          room.timeSent?.seconds * 1000 + room.timeSent?.nanoseconds / 1000000
         );
 
         const date = firbaseTime.toDateString();
@@ -64,7 +64,7 @@ const ChatList = ({ active, setActive, rooms }) => {
 
                 <div className="py-3 flex-1">
                   <div className="flex gap-4 justify-between items-center">
-                    <Subheading size="sm" className="truncate">
+                    <Subheading size="sm" className="truncate -mb-1">
                       {participant.fullName}
                     </Subheading>
                     <div className="text-xs text-queen-black/60 justify-self-end">

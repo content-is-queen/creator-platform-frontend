@@ -42,7 +42,9 @@ const Header = ({ room }) => {
         </div>
       </div>
       <div>
-        <Subheading className="truncate">{participant.fullName}</Subheading>
+        <Subheading className="truncate -mb-1">
+          {participant.fullName}
+        </Subheading>
         <Text size="sm" color="muted" className="truncate">
           {room.opportunityTitle}
         </Text>

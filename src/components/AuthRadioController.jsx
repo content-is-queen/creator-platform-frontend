@@ -20,9 +20,9 @@ const AuthRadioController = ({ name, errors, control, options }) => (
                     id={id}
                     onChange={onChange}
                     {...otherProps}
-                    value={id}
+                    value={option}
                   />
-                  <label for={id} className="text-sm">
+                  <label htmlFor={id} className="text-sm">
                     {option}
                   </label>
                   {errors[name] && (

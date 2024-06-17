@@ -31,9 +31,9 @@ const ProfileHero = ({ user }) => {
           <Heading color="white" size="3xl" className="font-heading uppercase">
             {!user ? <LoadingPlaceholder /> : <>{heading}</>}
           </Heading>
-          {user?.tags && (
+          {user?.interests && (
             <div className="flex gap-2 my-2">
-              {user?.tags?.map((tag) => (
+              {user.interests.map((tag) => (
                 <Tag key={tag}>{tag}</Tag>
               ))}
             </div>
