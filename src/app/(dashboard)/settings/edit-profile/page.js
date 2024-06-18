@@ -57,7 +57,7 @@ const EditProfile = () => {
     });
 
     try {
-      const res = await API.put(`/auth/user`, dataToSend, {
+      const res = await API.patch(`/auth/user`, dataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -188,7 +188,6 @@
       },
       {
         "name": "keyMessage",
-        "as": "textarea",
         "children": "Key Message or Theme"
       },
       {

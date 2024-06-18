@@ -52,7 +52,7 @@ const AdminUserTableRow = ({
           <div
             className={`h-2.5 w-2.5 rounded-full ${disabled ? "bg-red-500" : "bg-green-500"} me-2`}
           ></div>{" "}
-          {disabled ? "Disabled" : "Activate"}
+          {disabled ? "Disabled" : "Active"}
         </div>
       </Table.Data>
       <Table.Data>{email}</Table.Data>
