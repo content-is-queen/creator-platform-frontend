@@ -150,13 +150,16 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user && !user?.subscribed && (
-                <li>
-                  <Button variant="yellow" href="/plus">
-                    Upgrade to {user.role} +
-                  </Button>
-                </li>
-              )}
+              {user &&
+                !user?.subscribed &&
+                user?.role !== "super_admin" &&
+                user?.role !== "admin" && (
+                  <li>
+                    <Button variant="yellow" href="/plus">
+                      Upgrade to {user.role} +
+                    </Button>
+                  </li>
+                )}
 
               <li>
                 <button
