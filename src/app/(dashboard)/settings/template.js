@@ -12,7 +12,6 @@ import Modal from "@/components/Modal";
 import Button from "@/components/Button";
 import { Error, Success } from "@/components/Form";
 
-
 const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
@@ -116,23 +115,24 @@ const Template = ({ children }) => {
         size="2xl"
       >
         <form onSubmit={handleDeleteAccount} className="mt-10">
-        <div className="space-y-6">
-          <p className="mb-4">
-            Please type your full name to confirm you want to delete your account. This action cannot be undone.
-          </p>
-          <input
-            type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="Full Name"
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-          />
-        {errors?.message && <Error>{errors.message}</Error>}
-        </div>
-            <Button as="button" type="submit" className="mt-8">
-              {loading && <Button.Spinner />}
-              Confirm
-            </Button>
+          <div className="space-y-6">
+            <p className="mb-4">
+              Please type your full name to confirm you want to delete your
+              account. This action cannot be undone.
+            </p>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="Full Name"
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            />
+            {errors?.message && <Error>{errors.message}</Error>}
+          </div>
+          <Button as="button" type="submit" className="mt-8">
+            {loading && <Button.Spinner />}
+            Confirm
+          </Button>
         </form>
       </Modal>
     </Container>
