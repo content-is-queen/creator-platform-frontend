@@ -19,7 +19,7 @@ const CancelSubscriptionForm = ({ className, variant }) => {
 
     try {
       const response = await API.post("/payments/cancel-subscription", {
-        user_id: user.uid,
+        userId: user.uid,
       });
     } catch (error) {
       console.error("Cancel subscription  error:", error);

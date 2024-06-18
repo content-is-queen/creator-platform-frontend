@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 import API from "@/api/api";
 
 import Link from "next/link";
@@ -11,40 +13,25 @@ import Text from "@/components/Text";
 import ApplicationProposalForm from "@/components/Creator/ApplicationProposalForm";
 import ProfileIcon from "@/components/ProfileIcon";
 
-export async function generateStaticParams() {
-  // Prevent build failing during workflows build test
-  if (process.env.APP_ENV === "development") {
-    return [];
-  }
+export default async function Opportunity({ params: { id: opportunityId } }) {
+  const { data } = await API(`/opportunities/opportunityid/${opportunityId}`);
 
-  try {
-    const { data } = await API.get("/opportunities?limit=0");
-    const opportunities = data?.message?.opportunities || [];
-    return opportunities.map(({ opportunity_id }) => ({
-      id: opportunity_id,
-    }));
-  } catch (error) {
-    console.error("Error fetching opportunities during build:", error);
-    return [];
-  }
-}
-export const dynamicParams = false;
-
-export default async function Opportunity({ params: { id: opportunity_id } }) {
   const {
-    data: {
-      title,
-      description,
-      company,
-      type,
-      organisation_name,
-      compensation,
-      application_instructions,
-      salary,
-      user_id,
-      user_imageUrl,
-    },
-  } = await API(`/opportunities/opportunityid/${opportunity_id}`);
+    title,
+    description,
+    company,
+    type,
+    organizationName,
+    compensation,
+    applicationInstructions,
+    salary,
+    userId,
+    profilePhoto,
+  } = data;
+
+  if (!data) {
+    return notFound();
+  }
 
   return (
     <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
@@ -58,12 +45,12 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
               Back to Dashboard
             </Link>{" "}
-            <ProfileIcon className="h-12 w-12" imageUrl={user_imageUrl} />
+            <ProfileIcon className="h-12 w-12" profilePhoto={profilePhoto} />
             <Heading size="3xl" className="mt-6 mb-1">
               {title}
             </Heading>
             <Text size="sm" className="capitalize">
-              {organisation_name || company} &bull; {type} &bull;{" "}
+              {organizationName || company} &bull; {type} &bull;{" "}
               {compensation || salary}
             </Text>
           </div>
@@ -71,9 +58,9 @@ export default async function Opportunity({ params: { id: opportunity_id } }) {
           <div className="space-y-5 min-h-24 max-w-lg">{description}</div>
 
           <ApplicationProposalForm
-            opportunityId={opportunity_id}
-            application_instructions={application_instructions}
-            brandId={user_id}
+            opportunityId={opportunityId}
+            applicationInstructions={applicationInstructions}
+            brandId={userId}
           />
         </div>
       </Container>

@@ -45,7 +45,7 @@ const BrandOpportunities = () => {
   const [arrows, setArrows] = useState({ left: false, right: false });
 
   const { opportunities, setOpportunities, loading } = useOpportunities(
-    { user_id: user.uid },
+    { userId: user.uid },
     (data) => {
       setOpportunities(
         data.opportunities.filter((i) => i.status !== "archived")
@@ -140,7 +140,7 @@ const BrandOpportunities = () => {
           <swiper-container ref={swiperRef} init="false" class="my-6">
             {filteredOpportunities.length > 0 ? (
               filteredOpportunities.map((opportunity) => (
-                <swiper-slide key={opportunity.opportunity_id}>
+                <swiper-slide key={opportunity.opportunityId}>
                   <div className="m-0.5">
                     <BrandOpportunityCard {...opportunity} />
                   </div>

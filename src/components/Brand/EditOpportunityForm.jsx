@@ -14,7 +14,7 @@ import useToken from "@/hooks/useToken";
 
 const EditOpportunityForm = (props) => {
   const token = useToken();
-  const { type, opportunity_id } = props;
+  const { type, opportunityId } = props;
   const data = formData[type];
 
   const [updatedFields, setUpdatedFields] = useState({});
@@ -63,7 +63,7 @@ const EditOpportunityForm = (props) => {
     <Form
       errors={errors}
       setError={setError}
-      handleSubmit={() => handleSubmit(updatedFields, opportunity_id)}
+      handleSubmit={() => handleSubmit(updatedFields, opportunityId)}
     >
       <div className="space-y-10">
         {data.fields.map(({ children, name, type, options, as }) => {

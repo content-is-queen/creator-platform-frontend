@@ -76,9 +76,9 @@ const SignUpForm = () => {
 
         await signInWithEmailAndPassword(auth, email, password);
       }
-    } catch ({ response }) {
+    } catch (error) {
       setError({ message: "Something went wrong during sign up" });
-      console.error(response.data);
+      console.log(error);
     } finally {
       setLoading(false);
     }
