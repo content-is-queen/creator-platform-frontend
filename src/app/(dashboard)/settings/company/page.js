@@ -112,7 +112,7 @@ const Company = () => {
   };
 
   return (
-    <Form className="mx-auto">
+    <Form className="mx-auto" enctype="multipart/form-data">
       <div className="space-y-10">
         <Form.Input
           name="organizationName"

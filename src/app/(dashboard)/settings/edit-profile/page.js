@@ -57,7 +57,7 @@ const EditProfile = () => {
     });
 
     try {
-      const res = await API.patch(`/auth/user`, dataToSend, {
+      const res = await API.post(`/auth/user`, dataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -94,6 +94,7 @@ const EditProfile = () => {
       errors={errors}
       setError={setError}
       handleSubmit={handleSubmit}
+      enctype="multipart/form-data"
     >
       <div className="space-y-10">
         <div className="flex gap-x-6 w-full">
