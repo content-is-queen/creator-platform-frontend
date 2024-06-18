@@ -8,14 +8,19 @@ import Text from "@/components/Text";
 import { useUser } from "@/context/UserContext";
 import API from "@/api/api";
 import useToken from "@/hooks/useToken";
+import Modal from "@/components/Modal";
+import Button from "@/components/Button";
+import { Error, Success } from "@/components/Form";
+
 
 const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [fullName, setFullName] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setError] = useState({});
   const { token } = useToken();
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   console.log("User's input name:", fullName);
 
@@ -50,11 +55,14 @@ const Template = ({ children }) => {
       : []),
   ];
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
     if (fullName !== user.fullName) {
       setError("Full name does not match. Please try again.");
       return;
     }
+
+    setLoading(true);
 
     try {
       await API.post("/delete-account", { token });
@@ -62,6 +70,8 @@ const Template = ({ children }) => {
     } catch (error) {
       console.error("Failed to delete account:", error);
       setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,7 +100,7 @@ const Template = ({ children }) => {
             <button
               type="button"
               className="text-red-600"
-              onClick={() => setShowDeleteModal(true)}
+              onClick={() => setIsOpen(true)}
             >
               Delete account
             </button>
@@ -99,41 +109,32 @@ const Template = ({ children }) => {
         </div>
       </div>
 
-      {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Confirm Account Deletion</h2>
-            <p className="mb-4">
-              Please type your full name to confirm you want to delete your
-              account. This action cannot be undone.
-            </p>
-            <input
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Full Name"
-              className="w-full p-2 border border-gray-300 rounded mb-4"
-            />
-            {error && <p className="text-red-600 mb-4">{error}</p>}
-            <div className="flex justify-end gap-4">
-              <button
-                type="button"
-                className="bg-gray-200 p-2 rounded"
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="bg-red-600 text-white p-2 rounded"
-                onClick={handleDeleteAccount}
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
+      <Modal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Confirm Account Deletion"
+        size="2xl"
+      >
+        <form onSubmit={handleDeleteAccount} className="mt-10">
+        <div className="space-y-6">
+          <p className="mb-4">
+            Please type your full name to confirm you want to delete your account. This action cannot be undone.
+          </p>
+          <input
+            type="text"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="Full Name"
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+        {errors?.message && <Error>{errors.message}</Error>}
         </div>
-      )}
+            <Button as="button" type="submit" className="mt-8">
+              {loading && <Button.Spinner />}
+              Confirm
+            </Button>
+        </form>
+      </Modal>
     </Container>
   );
 };
