@@ -44,7 +44,8 @@ const General = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser({ ...user, email: formData.email });
+      setUser({ ...user, ...formData });
+      localStorage.setItem("userProfile", { ...user, ...formData });
       if (response.status === 200) {
         setSuccess({
           message: "Email updated successfully",
