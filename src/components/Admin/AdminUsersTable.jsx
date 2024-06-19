@@ -12,8 +12,9 @@ import SubMenu from "../SubMenu";
 import Table from "@/components/Table";
 import Kebab from "../Kebab";
 
-const AdminUsersTable = ({ users }) => {
+const AdminUsersTable = () => {
   const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,17 @@ const AdminUsersTable = ({ users }) => {
   const { token } = useToken();
 
   useEffect(() => {
-    setLoading(false);
+    (async () => {
+      try {
+        const { data } = await API.get("/admin/users");
+        setUsers(data);
+        setFilteredUsers(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   const handleDelete = async (id) => {
