@@ -10,17 +10,27 @@ import AdminOpportunitiesRow from "./AdminOpportunitiesTableRow";
 import Table from "../Table";
 import { Error } from "../Form";
 
-const AdminOpportunitiesTable = ({ opportunities }) => {
+const AdminOpportunitiesTable = () => {
   const [loading, setLoading] = useState(true);
+  const [opportunities, setOpportunities] = useState([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [selectedOpportunities, setSelectedOpportunities] = useState([]);
   const [errors, setError] = useState({});
-  const [checkAll, setCheckAll] = useState(false);
 
   const { token } = useToken();
 
   useEffect(() => {
-    setLoading(false);
+    (async () => {
+      try {
+        const { data } = await API.get("/admin/opportunities");
+        setOpportunities(data.message);
+        setFilteredOpportunities(data.message);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   const handleDelete = async (id) => {

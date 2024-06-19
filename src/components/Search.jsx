@@ -55,7 +55,7 @@ const Search = ({ data = [], setFilteredData, filter }) => {
 
   useEffect(() => {
     setTags(buildTags(data));
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     setFilteredData(
