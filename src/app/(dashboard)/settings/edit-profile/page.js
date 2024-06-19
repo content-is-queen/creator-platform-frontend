@@ -46,20 +46,21 @@ const EditProfile = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const dataToSend = new FormData();
+    const data = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "showcase" || key === "credits") {
-        dataToSend.append(key, JSON.stringify(value));
+        data.append(key, JSON.stringify(value));
       } else {
-        dataToSend.append(key, value);
+        data.append(key, value);
       }
     });
 
     try {
-      const res = await API.post(`/auth/user`, dataToSend, {
+      const res = await API.patch(`/auth/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 
@@ -94,7 +95,7 @@ const EditProfile = () => {
       errors={errors}
       setError={setError}
       handleSubmit={handleSubmit}
-      enctype="multipart/form-data"
+      encType="multipart/form-data"
     >
       <div className="space-y-10">
         <div className="flex gap-x-6 w-full">
@@ -151,7 +152,7 @@ const EditProfile = () => {
           )}
         </div>
 
-        <Button type="submit" as="button" {...(!updated && { disabled: true })}>
+        <Button type="submit" as="button" disabled={!updated}>
           {loading && <Button.Spinner />} Save Changes
         </Button>
       </div>
