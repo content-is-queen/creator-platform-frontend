@@ -45,32 +45,32 @@ const Header = ({ room }) => {
   const { user } = useUser();
 
   const participant = room.userProfiles.find((i) => i.userId != user.uid);
-  return   <div className="sticky top-0 flex items-center space-x-4 rtl:space-x-reverse border-solid px-8 py-4 shadow-sm">
-  <div>
-    <div className="flex-shrink-0">
-      <ProfileIcon
-      profilePhoto={participant.profilePhoto}
-      className="h-12 w-12 flex-shrink-0" />
+  return (
+    <div className="sticky top-0 flex items-center space-x-4 rtl:space-x-reverse border-solid px-8 py-4 shadow-sm">
+      <div>
+        <div className="flex-shrink-0">
+          <ProfileIcon
+            profilePhoto={participant.profilePhoto}
+            className="h-12 w-12 flex-shrink-0"
+          />
+        </div>
+      </div>
+      <div>
+        <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
+          {room.fullName}
+        </span>
+        <span className="text-sm text-gray-500 truncate block">
+          {room.opportunityTitle}
+        </span>
+      </div>
     </div>
-  </div>
-  <div>
-    <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
-      {room.fullName}
-    </span>
-    <span className="text-sm text-gray-500 truncate block">
-    {room.opportunityTitle}
-    </span>
-  </div>
-</div>
-}
-
-;
+  );
+};
 
 const Body = ({ room }) => {
   const { user } = useUser();
   const [messages, setMessages] = useState([]);
   const messageBody = useRef();
-
   useEffect(() => {
     const q = query(
       collection(db, "rooms", room.id, "messages"),
@@ -114,31 +114,26 @@ const Body = ({ room }) => {
                     item.message
                   ) : (
                     <div>
-                      {item?.file?.includes(
-                        "png" || "jpg" || "jpeg" || "svg"
-                      ) ? (
+                      {item?.image && (
                         <img
-                          src={item?.file}
+                          src={item?.image}
                           alt="file preview"
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = "default-icon-url";
                           }}
-                          onClick={() => window.open(item?.file, "_blank")}
                           style={{ cursor: "pointer" }}
                         />
-                      ) : (
+                      )}
+                      {item?.file && (
                         <img
-                          src={
-                            "https://www.iconpacks.net/icons/2/free-file-icon-1453-thumb.png"
-                          }
+                          src="/images/fileslogo.png"
                           alt="file preview"
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = "default-icon-url";
                           }}
-                          onClick={() => window.open(item?.file, "_blank")}
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: "pointer", width: "20%" }}
                         />
                       )}
                     </div>
@@ -159,17 +154,18 @@ const Footer = ({ room }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadLoader, setUploadLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [extansion, setExtansion] = useState("");
+  const imageExtensions = ["svg", "jpg", "jpeg", "png", "gif", ".bmp", ".tif"];
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    setExtansion(fileExtension);
     setUploadedFile(file);
-    console.log("File uploaded:", file);
   };
 
   const clearUploadedFile = () => {
     setUploadedFile(null);
-    document.getElementById("dropzone-file").value = "";
-    console.log("File cleared");
   };
   const sendMessage = async () => {
     if (message.trim() === "" && !uploadedFile) {
@@ -187,15 +183,21 @@ const Footer = ({ room }) => {
 
     if (uploadedFile) {
       setUploadLoader(true);
-      const storageRef = ref(storage, `messagefiles/${uploadedFile.name}`);
-      try {
-        await uploadBytes(storageRef, uploadedFile);
-        const downloadURL = await getDownloadURL(storageRef);
-        messageData.file = downloadURL;
-        setUploadLoader(false);
-        setIsModalOpen(false);
-      } catch (error) {
-        console.error("Error uploading file: ", error);
+      if (extansion) {
+        const storageRef = ref(storage, `messagefiles/${uploadedFile.name}`);
+        try {
+          await uploadBytes(storageRef, uploadedFile);
+          const downloadURL = await getDownloadURL(storageRef);
+          if (imageExtensions.includes(extansion)) {
+            messageData.image = downloadURL;
+          } else {
+            messageData.file = downloadURL;
+          }
+          setUploadLoader(false);
+          setIsModalOpen(false);
+        } catch (error) {
+          console.error("Error uploading file: ", error);
+        }
       }
     }
 
