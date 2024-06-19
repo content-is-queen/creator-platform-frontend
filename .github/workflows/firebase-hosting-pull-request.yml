@@ -13,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
 
           NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
@@ -35,10 +37,6 @@ jobs:
 
           # Stripe
           NEXT_PUBLIC_PK_TEST: ${{ secrets.NEXT_PUBLIC_PK_TEST }}
-
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CONTENTISQUEEN_97AE5 }}
