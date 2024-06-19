@@ -115,26 +115,34 @@ const Body = ({ room }) => {
                   ) : (
                     <div>
                       {item?.image && (
-                        <img
-                          src={item?.image}
-                          alt="file preview"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "default-icon-url";
-                          }}
-                          style={{ cursor: "pointer" }}
-                        />
+                        <a href={item?.image} target="_blank" rel="Image">
+                          <img
+                            src={item?.image}
+                            alt="file preview"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "default-icon-url";
+                            }}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </a>
                       )}
                       {item?.file && (
-                        <img
-                          src="/images/fileslogo.png"
-                          alt="file preview"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "default-icon-url";
-                          }}
-                          style={{ cursor: "pointer", width: "20%" }}
-                        />
+                        <a
+                          href={item?.file}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img
+                            src="/images/fileslogo.png"
+                            alt="file preview"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "default-icon-url";
+                            }}
+                            style={{ cursor: "pointer", width: "20%" }}
+                          />
+                        </a>
                       )}
                     </div>
                   )}
