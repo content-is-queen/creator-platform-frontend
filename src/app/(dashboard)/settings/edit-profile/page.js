@@ -57,10 +57,10 @@ const EditProfile = () => {
     });
 
     try {
-      const res = await API.patch(`/auth/user`, data, {
+      const res = await API.post(`/auth/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       });
 

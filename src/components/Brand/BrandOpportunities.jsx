@@ -120,11 +120,12 @@ const BrandOpportunities = () => {
     }
 
     return () =>
-      swiperContainer &&
-      swiperContainer.removeEventListener(
-        "swiperprogress",
-        handleSwiperProgress
-      );
+      swiperContainer
+        ? swiperContainer.removeEventListener(
+            "swiperprogress",
+            handleSwiperProgress
+          )
+        : null;
   }, [filteredOpportunities, active]);
 
   if (loading)
