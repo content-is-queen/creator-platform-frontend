@@ -3,7 +3,7 @@
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import { useRef, useState } from "react";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -13,7 +13,7 @@ import formData from "@/data/opportunity_form_data.json";
 const CreateOpportunityForm = ({ type }) => {
   const fields = formData[type].fields;
   const { user } = useUser();
-  const { token } = useToken();
+  const { token, subscribed } = useAuth();
 
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
@@ -153,7 +153,7 @@ const CreateOpportunityForm = ({ type }) => {
             </Form.Input>
           );
         })}
-        {user.subscribed && (
+        {user && subscribed && (
           <Form.Input
             name="link"
             type="link"

@@ -3,7 +3,7 @@
 import API from "@/api/api";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -16,7 +16,7 @@ const ApplicationProposalForm = ({
   applicationInstructions,
 }) => {
   const { user } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");

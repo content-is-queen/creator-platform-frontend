@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 import { useEffect, useState } from "react";
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import CheckoutForm from "@/components/CheckoutForm";
@@ -18,7 +18,7 @@ const Subscription = () => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
 
-  const { token } = useToken();
+  const { token, subscribed } = useAuth();
   const getSubscriptionInfo = async () => {
     try {
       const {
@@ -46,9 +46,10 @@ const Subscription = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && subscribed) {
       getSubscriptionInfo();
     }
+    setLoading(false);
   }, [token]);
 
   return (

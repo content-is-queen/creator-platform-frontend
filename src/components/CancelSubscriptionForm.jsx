@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import { useUser } from "@/context/UserContext";
 
 import Button from "./Button";
@@ -17,7 +17,7 @@ const CancelSubscriptionForm = ({
   const [loading, setLoading] = useState(false);
 
   const { user, setUser } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
 
   const handleClick = async () => {
     setLoading(true);

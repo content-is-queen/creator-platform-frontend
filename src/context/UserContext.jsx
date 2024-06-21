@@ -5,11 +5,11 @@ import API from "@/api/api";
 
 export const UserContext = createContext(null);
 
-export const getUserProfile = async (args) => {
+export const getUser = async (args) => {
   const token = args?.token ? args.token : await getIdToken(args.user);
 
-  if (localStorage.getItem("userProfile"))
-    return JSON.parse(localStorage.getItem("userProfile"));
+  if (localStorage.getItem("user"))
+    return JSON.parse(localStorage.getItem("user"));
 
   try {
     const response = await API.get("/auth/user", {
@@ -35,15 +35,14 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (authUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
         const token = await authUser.getIdToken(true);
-
         if (token) {
-          const userProfile = await getUserProfile({ token });
+          const user = await getUser({ token });
 
-          if (userProfile) {
-            setUser(userProfile);
+          if (user) {
+            setUser(user);
           }
         }
 
@@ -53,13 +52,16 @@ export const UserProvider = ({ children }) => {
         setLoading(false);
       }
     });
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem("userProfile", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
     } else {
-      localStorage.removeItem("userProfile");
+      localStorage.removeItem("user");
     }
   }, [user]);
 

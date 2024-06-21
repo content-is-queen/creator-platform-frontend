@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -20,7 +20,7 @@ const Password = () => {
     old_password: "",
     password: "",
   });
-  const { token } = useToken();
+  const { token } = useAuth();
   const handleChange = (e) => {
     const checkIsEmpty = (str) => {
       return str.trim().length === 0;

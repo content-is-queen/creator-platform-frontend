@@ -3,11 +3,11 @@ import { useSearchParams } from "next/navigation";
 
 import { useUser } from "@/context/UserContext";
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 const Subscribe = () => {
   const { user, setUser } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
   const searchParams = useSearchParams();
 
   const subscribe = async (sessionId) => {
@@ -22,8 +22,6 @@ const Subscribe = () => {
           },
         }
       );
-
-      setUser({ ...user, subscribed: true });
     } catch (error) {
       console.error(error);
     }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import API from "@/api/api";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Search from "@/components/Search";
 import AdminUserTableRow from "./AdminUserTableRow";
@@ -20,7 +20,7 @@ const AdminUsersTable = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState({});
 
-  const { token } = useToken();
+  const { token } = useAuth();
 
   useEffect(() => {
     (async () => {

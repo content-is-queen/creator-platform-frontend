@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase.config";
@@ -12,7 +12,7 @@ import Button from "@/components/Button";
 
 const Company = () => {
   const { user, setUser } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);

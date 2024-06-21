@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
@@ -74,7 +74,7 @@ const CreateUserForm = () => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { token } = useToken();
+  const { token } = useAuth();
 
   const onSubmit = async (data) => {
     setLoading(true);

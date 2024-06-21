@@ -1,3 +1,5 @@
+"use client";
+
 import MainNav from "@/components/MainNav";
 
 const Template = ({ children }) => (

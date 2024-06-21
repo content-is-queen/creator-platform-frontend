@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 
 import Search from "@/components/Search";
@@ -17,7 +17,7 @@ const AdminOpportunitiesTable = () => {
   const [selectedOpportunities, setSelectedOpportunities] = useState([]);
   const [error, setError] = useState({});
 
-  const { token } = useToken();
+  const { token } = useAuth();
 
   useEffect(() => {
     (async () => {

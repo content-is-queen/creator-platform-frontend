@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 
@@ -19,7 +19,7 @@ const BrandApplicationCard = ({
   proposal,
   creatorId,
 }) => {
-  const { token } = useToken();
+  const { token } = useAuth();
   const {
     user: { uid },
   } = useUser();

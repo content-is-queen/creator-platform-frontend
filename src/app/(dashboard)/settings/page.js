@@ -3,14 +3,14 @@
 import { useState, useEffect } from "react";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const General = () => {
   const { user, setUser } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);

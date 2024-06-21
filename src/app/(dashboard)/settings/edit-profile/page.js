@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "@/api/api";
-import { getUserProfile, useUser } from "@/context/UserContext";
-import useToken from "@/hooks/useToken";
+import { useUser } from "@/context/UserContext";
+import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
@@ -18,7 +18,7 @@ const EditProfile = () => {
   const [formData, setFormData] = useState({});
 
   const { user, setUser } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
   const router = useRouter();
 
   const handleChange = (e) => {
