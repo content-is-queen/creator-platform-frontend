@@ -20,22 +20,19 @@ const Company = () => {
   const [formData, setFormData] = useState({
     organizationName: user?.organizationName || "",
     organizationBio: user?.organizationBio || "",
-    organizationLogo: null,
   });
 
   useEffect(() => {
     setFormData({
       organizationName: user?.organizationName || "",
       organizationBio: user?.organizationBio || "",
-      organizationLogo: null,
     });
   }, [user]);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    const newValue = name === "organizationLogo" ? files[0] : value;
+    const { name, value } = e.target;
 
-    const updatedFormData = { ...formData, [name]: newValue };
+    const updatedFormData = { ...formData, [name]: value };
 
     const checkIsEmpty = (str) => str.trim().length === 0;
 
@@ -60,16 +57,9 @@ const Company = () => {
     setSuccess({});
 
     try {
-      let profilePhoto = null;
-
-      if (formData.organizationLogo) {
-        profilePhoto = await handleFileUpload(formData.organizationLogo);
-      }
-
       const dataToSubmit = {
         organizationName: formData.organizationName,
         organizationBio: formData.organizationBio,
-        ...(profilePhoto && { organizationLogo: profilePhoto }),
       };
 
       const response = await API.put("/admin/company", dataToSubmit, {

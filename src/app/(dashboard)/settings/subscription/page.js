@@ -16,7 +16,7 @@ import moment from "moment";
 const Subscription = () => {
   const [loading, setLoading] = useState(true);
   const [subscription, setSubscription] = useState(null);
-  const token = useToken();
+  const { token } = useToken();
   const { user } = useUser();
 
   const getSubscriptionInfo = async (subscriptionId) => {
