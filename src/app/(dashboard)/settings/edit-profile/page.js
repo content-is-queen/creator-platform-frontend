@@ -39,6 +39,7 @@ const EditProfile = () => {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
       bio: user?.bio || "",
+      goals: user?.goals || "",
     });
   }, [user]);
 
@@ -119,6 +120,16 @@ const EditProfile = () => {
             onChange={handleChange}
           >
             Bio
+          </Form.Input>
+        </div>
+        <div className="space-y-10">
+          <Form.Input
+            name="goals"
+            value={formData.goals}
+            rows={5}
+            onChange={handleChange}
+          >
+            Goals
           </Form.Input>
         </div>
 
