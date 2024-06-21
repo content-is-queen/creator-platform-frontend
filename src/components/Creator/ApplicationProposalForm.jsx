@@ -8,7 +8,6 @@ import useToken from "@/hooks/useToken";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
-import Text from "../Text";
 import Subheading from "../Subheading";
 
 const ApplicationProposalForm = ({
@@ -17,7 +16,7 @@ const ApplicationProposalForm = ({
   applicationInstructions,
 }) => {
   const { user } = useUser();
-  const token = useToken();
+  const { token } = useToken();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
