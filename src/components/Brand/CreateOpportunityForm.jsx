@@ -3,6 +3,7 @@
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import { useRef, useState } from "react";
+import useToken from "@/hooks/useToken";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -12,6 +13,7 @@ import formData from "@/data/opportunity_form_data.json";
 const CreateOpportunityForm = ({ type }) => {
   const fields = formData[type].fields;
   const { user } = useUser();
+  const { token } = useToken();
 
   const [errors, setError] = useState({});
   const [loading, setLoading] = useState(false);
@@ -64,7 +66,10 @@ const CreateOpportunityForm = ({ type }) => {
 
     try {
       const response = await API.post("/opportunities", postData, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
       window.location = "/";
     } catch (err) {

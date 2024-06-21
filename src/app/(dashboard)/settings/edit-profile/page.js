@@ -25,12 +25,11 @@ const EditProfile = () => {
     !updated && setUpdated(true);
 
     if (e?.target) {
-      const { name, value, files } = e.target;
-      const newValue = files ? files[0] : value;
+      const { name, value } = e.target;
 
       setFormData((prev) => ({
         ...prev,
-        [name]: newValue,
+        [name]: value,
       }));
     }
   };
@@ -39,7 +38,6 @@ const EditProfile = () => {
     setFormData({
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
-      profilePhoto: user?.profilePhoto || "",
       bio: user?.bio || "",
     });
   }, [user]);
@@ -57,7 +55,7 @@ const EditProfile = () => {
     });
 
     try {
-      const res = await API.patch(`/auth/user`, data, {
+      const res = await API.post(`/auth/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -65,15 +63,13 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        const profilePhoto = res.data.data.profilePhoto;
-        setUser({ ...user, ...formData, profilePhoto });
+        setUser({ ...user, ...formData });
 
         localStorage.setItem(
           "userProfile",
           JSON.stringify({
             ...user,
             ...formData,
-            profilePhoto,
           })
         );
 
@@ -95,7 +91,6 @@ const EditProfile = () => {
       errors={errors}
       setError={setError}
       handleSubmit={handleSubmit}
-      encType="multipart/form-data"
     >
       <div className="space-y-10">
         <div className="flex gap-x-6 w-full">
@@ -117,14 +112,6 @@ const EditProfile = () => {
           </Form.Input>
         </div>
         <div className="space-y-10">
-          <Form.Input
-            name="profilePhoto"
-            type="file"
-            onChange={handleChange}
-            accept="image/*"
-          >
-            Profile Picture
-          </Form.Input>
           <Form.Input
             name="bio"
             value={formData.bio}
