@@ -31,6 +31,7 @@
     "axios": "^1.7.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "date-fns": "^3.6.0",
     "debounce": "^2.0.0",
     "firebase": "^10.10.0",
     "flowbite": "^2.3.0",
