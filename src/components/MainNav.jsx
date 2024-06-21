@@ -7,19 +7,28 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { auth } from "@/firebase.config";
+import { auth, db } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import { IoNotificationsOutline } from "react-icons/io5";
-
+import { MdOutlineNotificationAdd } from "react-icons/md";
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
+import NotificationsList from "./NotificationsList";
+import API from "@/api/api";
+import useToken from "@/hooks/useToken";
+import { collection, onSnapshot } from "firebase/firestore";
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [isUserClicked, setIsUserClicked] = useState(false);
+  const [isBellClicked, setIsBellClicked] = useState(false);
+  const [isToggleClicked, setIsToggleClicked] = useState(false);
+  const [notificationList, setNotificationsList] = useState([]);
+  const [isNewNotification, setIsNewNotification] = useState(false);
   const router = useRouter();
+  const { token } = useToken();
 
   const { user, setUser, loading } = useUser();
 
@@ -37,6 +46,44 @@ const MainNav = () => {
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
+    }
+  };
+
+  const handleIsBellClicked = async () => {
+    setIsNewNotification(false);
+    if (!user) return;
+    if (isBellClicked === false) {
+      if (token) {
+        try {
+          const response = await API("/notifications/all", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const { data } = response.data;
+          setNotificationsList(data);
+        } catch (error) {
+          console.error("Error fetching notifications:", error);
+        }
+      }
+    }
+    setIsBellClicked((prev) => !prev);
+  };
+
+  const handleClearAll = async () => {
+    try {
+      await API("/notifications/clear", {
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsBellClicked(false);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
     }
   };
 
@@ -97,6 +144,19 @@ const MainNav = () => {
       { href: "/conversations", label: "Conversations" },
     ],
   };
+
+  useEffect(() => {
+    if (!user) return;
+
+    const notificationsRef = collection(db, `users/${user.uid}/notifications`);
+    const unsubscribe = onSnapshot(notificationsRef, (snapshot) => {
+      if (!snapshot.empty) {
+        setIsNewNotification(true);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   return (
     <nav
@@ -169,14 +229,53 @@ const MainNav = () => {
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
                   data-dropdown-placement="bottom"
+                  onClick={handleIsBellClicked}
                 >
                   <span className="uppercase md:sr-only">Notifications</span>
-                  <IoNotificationsOutline className="w-6 h-6 hidden md:block" />
+                  {isNewNotification ? (
+                    <MdOutlineNotificationAdd className="w-6 h-6" />
+                  ) : (
+                    <IoNotificationsOutline className="w-6 h-6" />
+                  )}
                 </button>
               </li>
             </ul>
           </div>
-
+          {isBellClicked && (
+            <div>
+              <div
+                id="dropdownNotification"
+                class="z-2000 w-full absolute max-w-sm max-h-md bg-white divide-y divide-gray-100 rounded-lg shadow"
+                aria-labelledby="dropdownNotificationButton"
+                style={{
+                  maxHeight: "60vh",
+                  overflowY: "auto",
+                  zIndex: "20000",
+                }}
+              >
+                <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
+                  Notifications
+                </div>
+                {notificationList?.length > 0 &&
+                  notificationList?.map((item) => {
+                    console.log();
+                    return <NotificationsList key={item.id} data={item} />;
+                  })}
+                {notificationList.length === 0 && (
+                  <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
+                    Your notification inbox is empty.
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={handleClearAll}
+                  class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 w-full"
+                >
+                  <div class="inline-flex items-center ">Clear all</div>
+                </button>
+              </div>
+            </div>
+          )}
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
             <Menu as="div" className="relative">
               <Menu.Button className="align-middle">
