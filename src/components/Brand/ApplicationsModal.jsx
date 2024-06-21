@@ -66,8 +66,6 @@ const ApplicationsModal = ({
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
 
-      console.log(event);
-
       if (swiper.isBeginning && applications.length > 1) {
         setArrows({ left: false, right: true });
       } else if (swiper.isEnd && applications.length > 1) {
