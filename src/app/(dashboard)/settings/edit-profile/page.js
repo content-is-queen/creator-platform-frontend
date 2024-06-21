@@ -8,7 +8,7 @@ import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
-import ShowcaseInput from "@/components/Creator/ShowcaseInput";
+
 import CreditsInput from "@/components/Creator/CreditsInput";
 
 const EditProfile = () => {
@@ -118,11 +118,6 @@ const EditProfile = () => {
           {user && user.role === "creator" && (
             <>
               <CreditsInput
-                setUpdated={setUpdated}
-                setFormData={setFormData}
-                handleChange={handleChange}
-              />
-              <ShowcaseInput
                 setUpdated={setUpdated}
                 setFormData={setFormData}
                 handleChange={handleChange}
