@@ -57,7 +57,7 @@ const Header = ({ room }) => {
       </div>
       <div>
         <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
-          {room.fullName}
+          {participant.fullName}
         </span>
         <span className="text-sm text-gray-500 truncate block">
           {room.opportunityTitle}
@@ -115,9 +115,10 @@ const Body = ({ room }) => {
                   ) : (
                     <div>
                       {item?.image && (
-                        <a href={item?.image} target="_blank" rel="Image">
+                        <a href={item.image} target="_blank" rel="Image">
                           <img
-                            src={item?.image}
+                            src={item.image}
+                            className="max-h-80"
                             alt="file preview"
                             onError={(e) => {
                               e.target.onerror = null;
@@ -158,17 +159,16 @@ const Body = ({ room }) => {
 const Footer = ({ room }) => {
   const { user } = useUser();
   const [message, setMessage] = useState("");
-  const [file, setFile] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadLoader, setUploadLoader] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [extansion, setExtansion] = useState("");
+  const [extenstion, setExtension] = useState("");
   const imageExtensions = ["svg", "jpg", "jpeg", "png", "gif", ".bmp", ".tif"];
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     const fileExtension = file.name.split(".").pop().toLowerCase();
-    setExtansion(fileExtension);
+    setExtension(fileExtension);
     setUploadedFile(file);
   };
 
@@ -191,17 +191,19 @@ const Footer = ({ room }) => {
 
     if (uploadedFile) {
       setUploadLoader(true);
-      if (extansion) {
+      if (extenstion) {
         const storageRef = ref(storage, `messagefiles/${uploadedFile.name}`);
         try {
           await uploadBytes(storageRef, uploadedFile);
           const downloadURL = await getDownloadURL(storageRef);
-          if (imageExtensions.includes(extansion)) {
+          if (imageExtensions.includes(extenstion)) {
             messageData.image = downloadURL;
           } else {
             messageData.file = downloadURL;
           }
           setUploadLoader(false);
+          setUploadedFile(null);
+          setExtension("");
           setIsModalOpen(false);
         } catch (error) {
           console.error("Error uploading file: ", error);
@@ -221,7 +223,6 @@ const Footer = ({ room }) => {
     });
 
     setMessage("");
-    setFile(null);
   };
 
   const handleChange = (e) => {
