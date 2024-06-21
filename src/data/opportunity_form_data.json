@@ -109,7 +109,7 @@
       {
         "name": "link",
         "children": "External link (optional)",
-        "description": "Link to external applications"
+        "description": "Link to an external opportunity"
       }
     ]
   },
