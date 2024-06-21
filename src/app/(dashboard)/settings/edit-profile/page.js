@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "@/api/api";
-import { useUser } from "@/context/UserContext";
+import { getUserProfile, useUser } from "@/context/UserContext";
 import useToken from "@/hooks/useToken";
 
 import Form from "@/components/Form";
@@ -63,23 +63,15 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        setUser({ ...user, ...formData });
-
-        localStorage.setItem(
-          "userProfile",
-          JSON.stringify({
-            ...user,
-            ...formData,
-          })
-        );
-
+        const { data } = res.data;
+        setUser({ ...user, ...data });
         router.push("/profile");
       } else {
         setError({ message: res.data.message });
       }
     } catch (err) {
       console.error(err);
-      setError({ message: err.message || "Server error" });
+      setError({ message: err.message });
     } finally {
       setLoading(false);
     }

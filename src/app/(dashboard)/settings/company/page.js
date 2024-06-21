@@ -76,14 +76,6 @@ const Company = () => {
           organizationBio: formData.organizationBio,
         });
 
-        localStorage.setItem(
-          "userProfile",
-          JSON.stringify({
-            ...user,
-            organizationName: formData.organizationName,
-            organizationBio: formData.organizationBio,
-          })
-        );
         setSuccess({ message: "Company info updated successfully" });
       } else {
         setErrors({

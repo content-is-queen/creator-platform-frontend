@@ -16,6 +16,7 @@ const CreateOpportunityForm = ({ type }) => {
   const { token } = useToken();
 
   const [errors, setError] = useState({});
+  const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
 
   const form = useRef();
@@ -64,6 +65,11 @@ const CreateOpportunityForm = ({ type }) => {
       postData[key] = formData.get(key);
     });
 
+    // Append external link if it's set
+    if (form.get("link")) {
+      postData.append("link");
+    }
+
     try {
       const response = await API.post("/opportunities", postData, {
         headers: {
@@ -71,6 +77,7 @@ const CreateOpportunityForm = ({ type }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setSuccess({ message: "Opportunity posted successfully" });
       window.location = "/";
     } catch (err) {
       setError({
@@ -88,6 +95,8 @@ const CreateOpportunityForm = ({ type }) => {
       ref={form}
       errors={errors}
       setError={setError}
+      success={success}
+      setSuccess={setSuccess}
       handleSubmit={() => handleSubmit(fields, user.uid)}
     >
       <div className="space-y-10">
@@ -144,6 +153,15 @@ const CreateOpportunityForm = ({ type }) => {
             </Form.Input>
           );
         })}
+        {user.subscribed && (
+          <Form.Input
+            name="link"
+            type="link"
+            description="Link to an external opportunity"
+          >
+            External link (optional)
+          </Form.Input>
+        )}
       </div>
 
       <Button as="button" type="submit" className="mt-8">

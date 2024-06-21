@@ -33,7 +33,6 @@ const MainNav = () => {
     try {
       auth.signOut();
       setUser(null);
-      localStorage.removeItem("userProfile");
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);

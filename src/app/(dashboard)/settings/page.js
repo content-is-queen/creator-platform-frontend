@@ -45,7 +45,6 @@ const General = () => {
         },
       });
       setUser({ ...user, ...formData });
-      localStorage.setItem("userProfile", { ...user, ...formData });
       if (response.status === 200) {
         setSuccess({
           message: "Email updated successfully",

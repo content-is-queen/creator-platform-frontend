@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 
 import API from "@/api/api";
 import Button from "./Button";
 
 import { useUser } from "@/context/UserContext";
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
 const CancelSubscriptionForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);
@@ -23,15 +20,7 @@ const CancelSubscriptionForm = ({ className, variant }) => {
           user_id: user.uid,
         });
 
-        const updatedUser = { ...user, subscribed: false };
-        setUser(updatedUser);
-        if (localStorage.getItem("userProfile")) {
-          const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-          localStorage.setItem(
-            "userProfile",
-            JSON.stringify({ ...userProfile, subscribed: false })
-          );
-        }
+        setUser({ ...user, subscribed: false });
       }
     } catch (error) {
       console.error("Cancel subscription  error:", error);

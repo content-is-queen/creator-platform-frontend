@@ -53,7 +53,7 @@ const CreditsInput = ({ setFormData, handleChange }) => {
     setError({});
 
     if (!inputValue.href.startsWith("https://open.spotify.com/episode/")) {
-      // Make sure href is a valid
+      // Make sure href is valid
       setError({ message: "Please enter a valid Spotify episode url" });
       return;
     }

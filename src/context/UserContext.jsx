@@ -20,11 +20,10 @@ export const getUserProfile = async (args) => {
     });
 
     if (response.status === 200) {
-      localStorage.setItem("userProfile", JSON.stringify(response.data));
       return response.data;
     }
 
-    throw new Error("There was an error getting your account");
+    throw new Error("There was an error getting your profile");
   } catch (error) {
     console.error(error.response.data);
     return null;
@@ -50,12 +49,19 @@ export const UserProvider = ({ children }) => {
 
         setLoading(false);
       } else {
-        localStorage.removeItem("userProfile");
         setUser(null);
         setLoading(false);
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("userProfile", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("userProfile");
+    }
+  }, [user]);
 
   return (
     <UserContext.Provider

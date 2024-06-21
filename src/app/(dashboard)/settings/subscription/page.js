@@ -20,7 +20,6 @@ const Subscription = () => {
   const { user } = useUser();
 
   const getSubscriptionInfo = async (subscriptionId) => {
-    if (subscription) return;
     try {
       const {
         data: { subscription },
