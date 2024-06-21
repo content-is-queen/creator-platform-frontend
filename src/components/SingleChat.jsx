@@ -15,13 +15,14 @@ import { db, storage } from "@/firebase.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaperPlane,
-  faImage,
+  faFile,
   faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import Button from "./Button";
 import ProfileIcon from "./ProfileIcon";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Modal from "./Modal";
 
 const Message = ({ children, currentUser }) => {
   return (
@@ -118,31 +119,17 @@ const Body = ({ room }) => {
                         <a href={item.image} target="_blank" rel="Image">
                           <img
                             src={item.image}
-                            className="max-h-80"
+                            className="max-h-44 !cursor-pointer"
                             alt="file preview"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = "default-icon-url";
-                            }}
-                            style={{ cursor: "pointer" }}
                           />
                         </a>
                       )}
                       {item?.file && (
-                        <a
-                          href={item?.file}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img
-                            src="/images/fileslogo.png"
-                            alt="file preview"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = "default-icon-url";
-                            }}
-                            style={{ cursor: "pointer", width: "20%" }}
-                          />
+                        <a href={item.file}>
+                          <FontAwesomeIcon icon={faFile} className="h-20" />
+                          <span className="block text-sm mt-2">
+                            Download {item.file.name}
+                          </span>
                         </a>
                       )}
                     </div>
@@ -160,7 +147,7 @@ const Footer = ({ room }) => {
   const { user } = useUser();
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [uploadLoader, setUploadLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [extenstion, setExtension] = useState("");
   const imageExtensions = ["svg", "jpg", "jpeg", "png", "gif", ".bmp", ".tif"];
@@ -172,9 +159,6 @@ const Footer = ({ room }) => {
     setUploadedFile(file);
   };
 
-  const clearUploadedFile = () => {
-    setUploadedFile(null);
-  };
   const sendMessage = async () => {
     if (message.trim() === "" && !uploadedFile) {
       return;
@@ -190,7 +174,7 @@ const Footer = ({ room }) => {
     }
 
     if (uploadedFile) {
-      setUploadLoader(true);
+      setLoading(true);
       if (extenstion) {
         const storageRef = ref(storage, `messagefiles/${uploadedFile.name}`);
         try {
@@ -201,7 +185,7 @@ const Footer = ({ room }) => {
           } else {
             messageData.file = downloadURL;
           }
-          setUploadLoader(false);
+          setLoading(false);
           setUploadedFile(null);
           setExtension("");
           setIsModalOpen(false);
@@ -235,98 +219,66 @@ const Footer = ({ room }) => {
 
   return (
     <div className="relative">
-      {isModalOpen && (
-        <div
-          id="popup-modal"
-          tabIndex="-1"
-          className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
-        >
-          <div className="relative p-4 w-full max-w-md">
-            <div className="relative bg-white rounded-lg shadow">
-              <button
-                type="button"
-                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-                onClick={() => setIsModalOpen(false)}
-              >
+      <Modal
+        open={isModalOpen}
+        onClose={() => {
+          setUploadedFile(null);
+          setIsModalOpen(false);
+        }}
+        className="max-w-xl"
+      >
+        <div data-upload-id="my-unique-id" className="text-center">
+          <div className="flex items-center justify-center w-full">
+            <label htmlFor="dropzone-file" className="dropzone">
+              <div className="flex flex-col items-center justify-center pt-5 pb-6 cursor-pointer">
                 <svg
-                  className="w-3 h-3"
+                  className="w-8 h-8 mb-4 text-queen-black/80"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
-                  viewBox="0 0 14 14"
+                  viewBox="0 0 20 16"
                 >
                   <path
                     stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                   />
                 </svg>
-              </button>
-              <div className="p-4 md:p-5 text-center">
-                <div data-upload-id="my-unique-id">
-                  <div className="flex items-center justify-center w-full">
-                    <label htmlFor="dropzone-file" className="dropzone">
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                          className="w-8 h-8 mb-4 text-gray-500"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 20 16"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                          />
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500">
-                          <span className="font-semibold">Click to upload</span>{" "}
-                          or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          SVG, PNG, JPG or GIF (MAX. 800x400px)
-                        </p>
-                      </div>
-                      <input
-                        id="dropzone-file"
-                        type="file"
-                        className="hidden"
-                        style={{ display: "none" }}
-                        onChange={handleFileChange}
-                      />
-                      {uploadedFile && (
-                        <div className="mt-4">
-                          <p>Uploaded file: {uploadedFile.name}</p>
-                        </div>
-                      )}
-                    </label>
-                  </div>{" "}
-                </div>
-                <button
-                  type="button"
-                  className="text-white bg-queen-blue hover:queen-yellow focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                  onClick={sendMessage}
-                >
-                  {uploadLoader && <Button.Spinner />}
-                  Send
-                </button>
-                <button
-                  type="button"
-                  className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
-                  onClick={clearUploadedFile}
-                >
-                  clear
-                </button>
+                <p className="mb-2 text-sm text-queen-black/80">
+                  <span className="font-semibold">Click to upload</span> or drag
+                  and drop
+                </p>
+                <p className="text-xs text-queen-black/80">
+                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                </p>
               </div>
-            </div>
+              <input
+                id="dropzone-file"
+                type="file"
+                className="!hidden"
+                onChange={handleFileChange}
+              />
+              {uploadedFile && (
+                <div className="mb-8">
+                  <p className="text-sm">{uploadedFile.name}</p>
+                </div>
+              )}
+            </label>
           </div>
+
+          {uploadedFile && (
+            <div className="flex gap-1 justify-center">
+              <Button type="button" as="button" onClick={sendMessage}>
+                {loading && <Button.Spinner />}
+                Send
+              </Button>
+            </div>
+          )}
         </div>
-      )}
+      </Modal>
+
       <div className="w-full p-8">
         <input
           type="text"
@@ -343,13 +295,6 @@ const Footer = ({ room }) => {
           onChange={handleFileChange}
         />
         <div className="absolute right-6 pr-4 items-center inset-y-0 hidden sm:flex">
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(!isModalOpen)}
-            className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
-          >
-            <FontAwesomeIcon className="h-6 w-6" icon={faImage} />
-          </button>
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
