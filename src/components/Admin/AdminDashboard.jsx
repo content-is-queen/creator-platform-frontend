@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Heading from "../Heading";
 import InfoCard from "../InfoCard";
@@ -14,7 +14,7 @@ import CreateUserForm from "./CreateUserForm";
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { token } = useToken();
+  const { token } = useAuth();
 
   useEffect(() => {
     if (token) {

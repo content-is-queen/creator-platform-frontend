@@ -1,6 +1,6 @@
 "use client";
 
-import moment from "moment";
+import { formatDistance } from "date-fns";
 
 import { useEffect } from "react";
 
@@ -32,15 +32,13 @@ const ChatList = ({ active, setActive, rooms }) => {
         const participant = room.userProfiles.find((i) => i.userId != user.uid);
 
         // Convert firebase timestamp
-        const firbaseTime = new Date(
-          room.timeSent?.seconds * 1000 + room.timeSent?.nanoseconds / 1000000
+        const timestamp = new Date(
+          room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
         );
 
-        const date = firbaseTime.toDateString();
+        const now = new Date();
 
-        const atTime = firbaseTime.toLocaleTimeString();
-
-        const timeSent = moment(`${date} ${atTime}`).fromNow();
+        const timeSent = formatDistance(timestamp, now, { addSuffix: true });
 
         return (
           <li key={room.id} className="first:rounded-t-3xl overflow-hidden">

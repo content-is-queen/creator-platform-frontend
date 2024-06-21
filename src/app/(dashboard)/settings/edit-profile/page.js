@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
@@ -12,13 +12,13 @@ import ShowcaseInput from "@/components/Creator/ShowcaseInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 
 const EditProfile = () => {
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [formData, setFormData] = useState({});
 
   const { user, setUser } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -63,23 +63,15 @@ const EditProfile = () => {
       });
 
       if (res.status === 200) {
-        setUser({ ...user, ...formData });
-
-        localStorage.setItem(
-          "userProfile",
-          JSON.stringify({
-            ...user,
-            ...formData,
-          })
-        );
-
+        const { data } = res.data;
+        setUser({ ...user, ...data });
         router.push("/profile");
       } else {
         setError({ message: res.data.message });
       }
     } catch (err) {
       console.error(err);
-      setError({ message: err.message || "Server error" });
+      setError({ message: err.message });
     } finally {
       setLoading(false);
     }
@@ -88,7 +80,7 @@ const EditProfile = () => {
   return (
     <Form
       className="mx-auto"
-      errors={errors}
+      error={error}
       setError={setError}
       handleSubmit={handleSubmit}
     >

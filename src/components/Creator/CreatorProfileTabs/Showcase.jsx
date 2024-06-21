@@ -43,8 +43,6 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
     };
   }, []);
 
-  console.log(audio_preview_url);
-
   return (
     <div key={href} className="space-y-5 relative group">
       <div className="relative overflow-hidden rounded-2xl">

@@ -3,7 +3,7 @@
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import { useRef, useState } from "react";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -13,9 +13,10 @@ import formData from "@/data/opportunity_form_data.json";
 const CreateOpportunityForm = ({ type }) => {
   const fields = formData[type].fields;
   const { user } = useUser();
-  const { token } = useToken();
+  const { token, subscribed } = useAuth();
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
+  const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
 
   const form = useRef();
@@ -64,6 +65,11 @@ const CreateOpportunityForm = ({ type }) => {
       postData[key] = formData.get(key);
     });
 
+    // Append external link if it's set
+    if (form.get("link")) {
+      postData.append("link");
+    }
+
     try {
       const response = await API.post("/opportunities", postData, {
         headers: {
@@ -71,6 +77,7 @@ const CreateOpportunityForm = ({ type }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setSuccess({ message: "Opportunity posted successfully" });
       window.location = "/";
     } catch (err) {
       setError({
@@ -86,8 +93,10 @@ const CreateOpportunityForm = ({ type }) => {
   return (
     <Form
       ref={form}
-      errors={errors}
+      error={error}
       setError={setError}
+      success={success}
+      setSuccess={setSuccess}
       handleSubmit={() => handleSubmit(fields, user.uid)}
     >
       <div className="space-y-10">
@@ -144,6 +153,15 @@ const CreateOpportunityForm = ({ type }) => {
             </Form.Input>
           );
         })}
+        {user && subscribed && (
+          <Form.Input
+            name="link"
+            type="link"
+            description="Link to an external opportunity"
+          >
+            External link (optional)
+          </Form.Input>
+        )}
       </div>
 
       <Button as="button" type="submit" className="mt-8">

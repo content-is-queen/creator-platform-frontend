@@ -23,7 +23,7 @@ const VerifyForm = () => {
     input4: "",
     input5: "",
   });
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
 
   const { user } = useUser();

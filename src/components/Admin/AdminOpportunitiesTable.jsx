@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 
 import Search from "@/components/Search";
@@ -15,9 +15,9 @@ const AdminOpportunitiesTable = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [selectedOpportunities, setSelectedOpportunities] = useState([]);
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
-  const { token } = useToken();
+  const { token } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -64,7 +64,7 @@ const AdminOpportunitiesTable = () => {
       />
 
       <div className="my-12 space-y-6">
-        {errors?.message && <Error>{errors?.message}</Error>}
+        {error?.message && <Error>{error?.message}</Error>}
 
         <Table>
           <Table.Head>
@@ -97,7 +97,7 @@ const AdminOpportunitiesTable = () => {
                 <>
                   {filteredOpportunities.map((opportunity) => (
                     <AdminOpportunitiesRow
-                      errors={errors}
+                      error={error}
                       setError={setError}
                       handleDelete={handleDelete}
                       setSelectedOpportunities={setSelectedOpportunities}

@@ -8,7 +8,7 @@ import { useUser } from "@/context/UserContext";
 const CreditsInput = ({ setFormData, handleChange }) => {
   const [credits, setCredits] = useState([]);
   const [inputValue, setInputValue] = useState({ href: "", role: "" });
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
   const { user } = useUser();
 
@@ -53,7 +53,7 @@ const CreditsInput = ({ setFormData, handleChange }) => {
     setError({});
 
     if (!inputValue.href.startsWith("https://open.spotify.com/episode/")) {
-      // Make sure href is a valid
+      // Make sure href is valid
       setError({ message: "Please enter a valid Spotify episode url" });
       return;
     }
@@ -169,7 +169,7 @@ const CreditsInput = ({ setFormData, handleChange }) => {
         </Button>
       </div>
 
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
     </div>
   );
 };

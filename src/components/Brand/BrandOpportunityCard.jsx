@@ -14,10 +14,10 @@ import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
 import SpinnerScreen from "../SpinnerScreen";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 const BrandOpportunityCard = (props) => {
-  const { token } = useToken();
+  const { token } = useAuth();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
 

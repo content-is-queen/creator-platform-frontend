@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase.config";

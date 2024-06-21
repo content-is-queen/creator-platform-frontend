@@ -1,40 +1,48 @@
 "use client";
 
 import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 
 import API from "@/api/api";
-import Button from "./Button";
-
+import useAuth from "@/hooks/useAuth";
 import { useUser } from "@/context/UserContext";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
+import Button from "./Button";
 
-const CancelSubscriptionForm = ({ className, variant }) => {
+const CancelSubscriptionForm = ({
+  className,
+  variant,
+  setError,
+  setSuccess,
+}) => {
   const [loading, setLoading] = useState(false);
+
   const { user, setUser } = useUser();
+  const { token } = useAuth();
 
   const handleClick = async () => {
     setLoading(true);
 
     try {
-      if (confirm("Are you sure you want to cancel you subscription?")) {
-        await API.post("/payments/cancel-subscription", {
-          user_id: user.uid,
-        });
+      if (confirm("Are you sure you want to cancel your subscription?")) {
+        const response = await API.post(
+          "/payments/cancel-subscription",
+          { userId: user.uid },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        const updatedUser = { ...user, subscribed: false };
-        setUser(updatedUser);
-        if (localStorage.getItem("userProfile")) {
-          const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-          localStorage.setItem(
-            "userProfile",
-            JSON.stringify({ ...userProfile, subscribed: false })
-          );
-        }
+        setUser({ ...user, subscribed: false });
+        setSuccess({ message: "Subscription cancelled successfuly" });
       }
     } catch (error) {
       console.error("Cancel subscription  error:", error);
+      setError({
+        message: "There was a problem cancelling your subscription",
+      });
     } finally {
       setLoading(false);
     }

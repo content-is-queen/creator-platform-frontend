@@ -9,6 +9,7 @@ import Link from "next/link";
 
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
+import useAuth from "@/hooks/useAuth";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 import ProfileIcon from "@/components/ProfileIcon";
@@ -22,6 +23,7 @@ const MainNav = () => {
   const router = useRouter();
 
   const { user, setUser, loading } = useUser();
+  const { subscribed } = useAuth();
 
   const pathname = usePathname();
 
@@ -33,7 +35,6 @@ const MainNav = () => {
     try {
       auth.signOut();
       setUser(null);
-      localStorage.removeItem("userProfile");
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -150,16 +151,13 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user &&
-                !user?.subscribed &&
-                user?.role !== "super_admin" &&
-                user?.role !== "admin" && (
-                  <li>
-                    <Button variant="yellow" href="/plus">
-                      Upgrade to {user.role} +
-                    </Button>
-                  </li>
-                )}
+              {user && !subscribed && (
+                <li>
+                  <Button variant="yellow" href="/plus">
+                    Upgrade to {user.role} +
+                  </Button>
+                </li>
+              )}
 
               <li>
                 <button

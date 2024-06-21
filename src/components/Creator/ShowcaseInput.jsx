@@ -7,7 +7,7 @@ const ShowcaseInput = ({ setFormData, handleChange }) => {
   const [shows, setShows] = useState([]);
   const [credits, setCredits] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
   const { user } = useUser();
 
@@ -100,7 +100,7 @@ const ShowcaseInput = ({ setFormData, handleChange }) => {
         </Button>
       </div>
 
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
     </div>
   );
 };
