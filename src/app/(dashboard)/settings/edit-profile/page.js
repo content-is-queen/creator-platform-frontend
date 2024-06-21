@@ -58,6 +58,7 @@ const EditProfile = () => {
       const res = await API.post(`/auth/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 

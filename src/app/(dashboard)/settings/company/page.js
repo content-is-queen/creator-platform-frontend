@@ -65,6 +65,7 @@ const Company = () => {
       const response = await API.put("/admin/company", dataToSubmit, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 
