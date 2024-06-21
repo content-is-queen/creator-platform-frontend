@@ -13,7 +13,7 @@ import Button from "@/components/Button";
 const Company = () => {
   const { user, setUser } = useUser();
   const { token } = useToken();
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -53,7 +53,7 @@ const Company = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrors({});
+    setError({});
     setSuccess({});
 
     try {
@@ -78,12 +78,12 @@ const Company = () => {
 
         setSuccess({ message: "Company info updated successfully" });
       } else {
-        setErrors({
+        setError({
           message: response.message || "Something went wrong. Update failed.",
         });
       }
     } catch (error) {
-      setErrors({
+      setError({
         message:
           error.response?.data.message ||
           "Something went wrong. Update failed.",
@@ -123,7 +123,7 @@ const Company = () => {
           {loading && <Button.Spinner />} Update Company Info
         </Button>
       </div>
-      {errors?.message && <Form.Error>{errors.message}</Form.Error>}
+      {error?.message && <Form.Error>{error.message}</Form.Error>}
       {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );

@@ -12,7 +12,7 @@ import ShowcaseInput from "@/components/Creator/ShowcaseInput";
 import CreditsInput from "@/components/Creator/CreditsInput";
 
 const EditProfile = () => {
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [formData, setFormData] = useState({});
@@ -80,7 +80,7 @@ const EditProfile = () => {
   return (
     <Form
       className="mx-auto"
-      errors={errors}
+      error={error}
       setError={setError}
       handleSubmit={handleSubmit}
     >

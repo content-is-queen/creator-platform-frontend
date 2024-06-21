@@ -15,7 +15,7 @@ const CreateOpportunityForm = ({ type }) => {
   const { user } = useUser();
   const { token } = useToken();
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -93,7 +93,7 @@ const CreateOpportunityForm = ({ type }) => {
   return (
     <Form
       ref={form}
-      errors={errors}
+      error={error}
       setError={setError}
       success={success}
       setSuccess={setSuccess}

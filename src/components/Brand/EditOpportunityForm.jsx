@@ -18,7 +18,7 @@ const EditOpportunityForm = (props) => {
   const data = formData[type];
 
   const [updatedFields, setUpdatedFields] = useState({});
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
   const changeHandler = (field, value) => {
@@ -61,7 +61,7 @@ const EditOpportunityForm = (props) => {
 
   return (
     <Form
-      errors={errors}
+      error={error}
       setError={setError}
       handleSubmit={() => handleSubmit(updatedFields, opportunityId)}
     >

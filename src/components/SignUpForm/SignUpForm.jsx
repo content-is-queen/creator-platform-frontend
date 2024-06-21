@@ -35,7 +35,7 @@ const SignUpForm = () => {
     Object.keys(formData[0].steps).length
   );
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
   const isLastStep = step === totalSteps;
 
@@ -167,7 +167,7 @@ const SignUpForm = () => {
           </Link>
         </Text>
       </form>
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
     </>
   );
 };

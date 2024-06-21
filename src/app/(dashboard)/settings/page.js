@@ -11,7 +11,7 @@ import Button from "@/components/Button";
 const General = () => {
   const { user, setUser } = useUser();
   const { token } = useToken();
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [success, setSuccess] = useState({});
@@ -75,7 +75,7 @@ const General = () => {
           {loading && <Button.Spinner />} Save Changes
         </Button>
       </div>
-      {errors?.message && <Form.Error>{errors.message}</Form.Error>}
+      {error?.message && <Form.Error>{error.message}</Form.Error>}
       {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );

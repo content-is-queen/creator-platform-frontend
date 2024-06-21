@@ -5,7 +5,7 @@ const useOpportunities = (args, cb) => {
   const [opportunities, setOpportunities] = useState([]);
   const [startAfterId, setStartAfterId] = useState("");
   const [loading, setLoading] = useState(true);
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
   let path = "/opportunities?limit=0";
 

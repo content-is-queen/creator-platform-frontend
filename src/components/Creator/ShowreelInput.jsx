@@ -8,7 +8,7 @@ const ShowreelInput = ({ setFormData, localUser, handleChange }) => {
   const [inputValue, setInputValue] = useState(
     localUser.profile_meta?.showreel || ""
   );
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
   const add = () => {
     setError({});
@@ -71,7 +71,7 @@ const ShowreelInput = ({ setFormData, localUser, handleChange }) => {
           </Button>
         </div>
       )}
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
     </div>
   );
 };

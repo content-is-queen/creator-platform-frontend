@@ -37,7 +37,7 @@ const ResetPasswordForm = () => {
     reset,
   } = useForm();
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState(null);
@@ -124,7 +124,7 @@ const ResetPasswordForm = () => {
           Change password
         </Button>
       </form>
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{errors.message}</Error>}
       {success?.message && <Success>{success.message}</Success>}
     </>
   );

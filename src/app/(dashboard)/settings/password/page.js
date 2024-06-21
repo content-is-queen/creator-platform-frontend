@@ -10,7 +10,7 @@ import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const Password = () => {
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -130,7 +130,7 @@ const Password = () => {
           {loading && <Button.Spinner />} Update Password
         </Button>
       </div>
-      {errors?.message && <Form.Error>{error.message}</Form.Error>}
+      {error?.message && <Form.Error>{error.message}</Form.Error>}
       {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );

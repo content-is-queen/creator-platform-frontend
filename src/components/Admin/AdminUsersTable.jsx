@@ -18,7 +18,7 @@ const AdminUsersTable = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
   const { token } = useToken();
 
@@ -112,7 +112,7 @@ const AdminUsersTable = () => {
       />
 
       <div className="my-12 space-y-6">
-        {errors?.message && <Error>{errors?.message}</Error>}
+        {error?.message && <Error>{error?.message}</Error>}
 
         <Table>
           <Table.Head>
@@ -163,7 +163,7 @@ const AdminUsersTable = () => {
                 <>
                   {filteredUsers.map((user) => (
                     <AdminUserTableRow
-                      errors={errors}
+                      error={error}
                       setError={setError}
                       selectedUsers={selectedUsers}
                       setSelectedUsers={setSelectedUsers}
