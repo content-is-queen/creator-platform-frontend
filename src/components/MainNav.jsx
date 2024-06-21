@@ -62,7 +62,7 @@ const MainNav = () => {
     brand: [
       {
         href: "/",
-        label: "Opportunities",
+        label: "Projects",
       },
       { href: "/conversations", label: "Conversations" },
     ],

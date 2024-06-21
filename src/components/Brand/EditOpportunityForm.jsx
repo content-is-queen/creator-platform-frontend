@@ -13,7 +13,7 @@ import formData from "@/data/opportunity_form_data.json";
 import useToken from "@/hooks/useToken";
 
 const EditOpportunityForm = (props) => {
-  const token = useToken();
+  const { token } = useToken();
   const { type, opportunityId } = props;
   const data = formData[type];
 

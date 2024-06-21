@@ -7,7 +7,7 @@ import useToken from "@/hooks/useToken";
 
 const Subscribe = () => {
   const { user, setUser } = useUser();
-  const token = useToken();
+  const { token } = useToken();
   const searchParams = useSearchParams();
 
   const subscribe = async (sessionId) => {

@@ -32,7 +32,10 @@ const BrandApplicationCard = ({
       const { data } = res;
       setUser(data.message);
     } catch ({ error }) {
-      throw new Error("Something went wrong when getting the user");
+      setApplications(
+        applications.filter((i) => i.applicationId !== applicationId)
+      );
+      console.error("Something went wrong when getting the user");
     }
   };
 

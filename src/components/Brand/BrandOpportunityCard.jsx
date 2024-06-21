@@ -17,7 +17,7 @@ import SpinnerScreen from "../SpinnerScreen";
 import useToken from "@/hooks/useToken";
 
 const BrandOpportunityCard = (props) => {
-  const token = useToken();
+  const { token } = useToken();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
 

@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import useToken from "@/hooks/useToken";
 import API from "@/api/api";
-import Form from "@/components/Form";
-import Button from "@/components/Button";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
+
+import Form from "@/components/Form";
+import Button from "@/components/Button";
 
 const Company = () => {
   const { user, setUser } = useUser();
@@ -20,29 +21,25 @@ const Company = () => {
   const [formData, setFormData] = useState({
     organizationName: user?.organizationName || "",
     organizationBio: user?.organizationBio || "",
-    organizationLogo: null,
   });
 
   useEffect(() => {
     setFormData({
       organizationName: user?.organizationName || "",
       organizationBio: user?.organizationBio || "",
-      organizationLogo: null,
     });
   }, [user]);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    const newValue = name === "organizationLogo" ? files[0] : value;
+    const { name, value } = e.target;
 
-    const updatedFormData = { ...formData, [name]: newValue };
+    const updatedFormData = { ...formData, [name]: value };
 
     const checkIsEmpty = (str) => str.trim().length === 0;
 
     const isEmpty =
-      checkIsEmpty(updatedFormData.organizationName) ||
-      !updatedFormData.organizationLogo;
-
+      checkIsEmpty(updatedFormData.organizationName) &&
+      updatedFormData.organizationBio;
     setUpdated(!isEmpty);
     setFormData(updatedFormData);
   };
@@ -60,16 +57,9 @@ const Company = () => {
     setSuccess({});
 
     try {
-      let profilePhoto = null;
-
-      if (formData.organizationLogo) {
-        profilePhoto = await handleFileUpload(formData.organizationLogo);
-      }
-
       const dataToSubmit = {
         organizationName: formData.organizationName,
         organizationBio: formData.organizationBio,
-        ...(profilePhoto && { organizationLogo: profilePhoto }),
       };
 
       const response = await API.put("/admin/company", dataToSubmit, {
@@ -112,7 +102,7 @@ const Company = () => {
   };
 
   return (
-    <Form className="mx-auto" encType="multipart/form-data">
+    <Form className="mx-auto">
       <div className="space-y-10">
         <Form.Input
           name="organizationName"
@@ -131,14 +121,6 @@ const Company = () => {
           className="relative"
         >
           Company Bio
-        </Form.Input>
-        <Form.Input
-          name="organizationLogo"
-          type="file"
-          onChange={handleChange}
-          accept="image/*"
-        >
-          Profile Picture
         </Form.Input>
         <Button
           type="submit"
