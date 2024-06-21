@@ -140,22 +140,14 @@ const BrandApplicationCard = ({
                 {opportunityTitle} &bull; Application
               </Text>
             </div>
-<div className="flex gap-2 mt-1">
-  {user?.interests?.length > 0 ? (
-    user.interests.map((skill) => <Tag key={skill}>{skill}</Tag>)
-  ) : (
-    <p>No interests listed.</p>
-  )}
-</div>
-
-            {/* {user?.interests ? (
+            {user?.interests ? (
               <div className="flex gap-2 mt-1">
                 {user.interests.map((skill) => (
                   <Tag key={skill}>{skill}</Tag>
                 ))}
               </div>
             ) : null}
-          </div> */}
+          </div>
 
           {!user ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
 
