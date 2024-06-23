@@ -9,7 +9,6 @@ import Modal from "@/components/Modal";
 import Button from "@/components/Button";
 import API from "@/api/api";
 
-
 import Container from "@/components/Container";
 import Subheading from "@/components/Subheading";
 
@@ -17,11 +16,11 @@ const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
   const { subscribed } = useAuth();
-    const [fullName, setFullName] = useState("");
-    const [errors, setError] = useState({});
-    const { token } = useAuth();
-    const [isOpen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [errors, setError] = useState({});
+  const { token } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const LINKS = [
     {
@@ -53,7 +52,6 @@ const Template = ({ children }) => {
         ]
       : []),
   ];
-
 
   return (
     <Container size="4xl">
@@ -95,7 +93,7 @@ const Template = ({ children }) => {
         title="Confirm Account Deletion"
         size="2xl"
       >
-        <form  className="mt-10">
+        <form className="mt-10">
           <div className="space-y-6">
             <p className="mb-4">
               Please type your full name to confirm you want to delete your
@@ -121,10 +119,3 @@ const Template = ({ children }) => {
 };
 
 export default Template;
-
-
-
-
-
-
-

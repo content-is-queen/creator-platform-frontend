@@ -10,27 +10,52 @@ import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 import CreditsInput from "@/components/Creator/CreditsInput";
+import inData from "@/data/signup_form_data.json";
+
+const interestOptions = inData
+  .filter((item) => item.id === "creator")
+  .map((item) => item.steps["4"].fields[0].options)
+  .flat();
 
 const EditProfile = () => {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    bio: "",
+    goals: "",
+    interests: [],
+  });
 
   const { user, setUser } = useUser();
   const { token } = useAuth();
   const router = useRouter();
 
+  // Handle text input changes
   const handleChange = (e) => {
     !updated && setUpdated(true);
 
     if (e?.target) {
-      const { name, value } = e.target;
+      const { name, value, type, checked } = e.target;
 
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      // Handle checkbox inputs
+      if (type === "checkbox") {
+        const updatedInterests = checked
+          ? [...formData.interests, value]
+          : formData.interests.filter((interest) => interest !== value);
+
+        setFormData((prev) => ({
+          ...prev,
+          interests: updatedInterests,
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
     }
   };
 
@@ -39,6 +64,8 @@ const EditProfile = () => {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
       bio: user?.bio || "",
+      goals: user?.goals || "",
+      interests: user?.interests || [],
     });
   }, [user]);
 
@@ -49,6 +76,11 @@ const EditProfile = () => {
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "showcase" || key === "credits") {
         data.append(key, JSON.stringify(value));
+      } else if (key === "interests") {
+        // Append each interest as a separate field
+        value.forEach((interest) => {
+          data.append("interests[]", interest);
+        });
       } else {
         data.append(key, value);
       }
@@ -112,6 +144,42 @@ const EditProfile = () => {
           >
             Bio
           </Form.Input>
+        </div>
+
+        <div className="space-y-10">
+          <Form.Input
+            name="goals"
+            value={formData.goals}
+            rows={5}
+            onChange={handleChange}
+          >
+            Goals
+          </Form.Input>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Interests
+          </label>
+          {interestOptions.map((option) => (
+            <div key={option} className="flex items-center">
+              <input
+                type="checkbox"
+                id={option}
+                value={option}
+                name="interests"
+                checked={formData.interests.includes(option)}
+                onChange={handleChange}
+                className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+              />
+              <label
+                htmlFor={option}
+                className="ml-2 block text-sm text-gray-900"
+              >
+                {option}
+              </label>
+            </div>
+          ))}
         </div>
 
         <div className="space-y-10">
