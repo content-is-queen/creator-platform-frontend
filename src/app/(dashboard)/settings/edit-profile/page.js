@@ -17,6 +17,11 @@ const interestOptions = inData
   .map((item) => item.steps["4"].fields[0].options)
   .flat();
 
+const goalsOptions = inData
+  .filter((item) => item.id === "creator")
+  .map((item) => item.steps["3"].fields[0].options)
+  .flat();
+
 const EditProfile = () => {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
@@ -49,6 +54,11 @@ const EditProfile = () => {
           if (updatedInterests.length < 3) {
             updatedInterests = [...updatedInterests, value];
           }
+        } else if (type === "radio" && name === "goals") {
+          setFormData((prev) => ({
+            ...prev,
+            goals: value,
+          }));
         } else {
           updatedInterests = updatedInterests.filter(
             (interest) => interest !== value
@@ -155,15 +165,29 @@ const EditProfile = () => {
           </Form.Input>
         </div>
 
-        <div className="space-y-10">
-          <Form.Input
-            name="goals"
-            value={formData.goals}
-            rows={5}
-            onChange={handleChange}
-          >
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
             Goals
-          </Form.Input>
+          </label>
+          {goalsOptions.map((option) => (
+            <div key={option} className="flex items-center">
+              <input
+                type="radio"
+                id={option}
+                value={option}
+                name="goals"
+                checked={formData.goals === option}
+                onChange={handleChange}
+                className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+              />
+              <label
+                htmlFor={option}
+                className="ml-2 block text-sm text-gray-900"
+              >
+                {option}
+              </label>
+            </div>
+          ))}
         </div>
 
         <div>
