@@ -1,27 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
-import Modal from "@/components/Modal";
-import Button from "@/components/Button";
 import API from "@/api/api";
-
 
 import Container from "@/components/Container";
 import Subheading from "@/components/Subheading";
+import Modal from "@/components/Modal";
+import Button from "@/components/Button";
+import Form from "@/components/Form";
 
 const Template = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
+  const { token } = useAuth();
+  const router = useRouter();
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState("");
   const { subscribed } = useAuth();
-    const [fullName, setFullName] = useState("");
-    const [errors, setError] = useState({});
-    const { token } = useAuth();
-    const [isOpen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
 
   const LINKS = [
     {
@@ -54,6 +56,46 @@ const Template = ({ children }) => {
       : []),
   ];
 
+  const handleDeleteAccount = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setErrors({});
+    setSuccess({});
+    try {
+      const response = await API.delete("/auth/delete-account", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          fullName: fullName.trim(),
+        },
+      });
+
+      if (response.status === 200) {
+        setSuccess({
+          message: "Account deleted successfully",
+        });
+        router.push("/login");
+      } else {
+        setErrors({
+          message: response.data.message || "Failed to delete account",
+        });
+      }
+    } catch (error) {
+      setErrors({
+        message:
+          error.response?.data.message ||
+          error?.message ||
+          "Failed to delete account. Please try again later.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFullNameChange = (event) => {
+    setFullName(event.target.value);
+  };
 
   return (
     <Container size="4xl">
@@ -93,9 +135,9 @@ const Template = ({ children }) => {
         open={isOpen}
         onClose={() => setIsOpen(false)}
         title="Confirm Account Deletion"
-        size="2xl"
+        className="min-h-64 max-w-2xl"
       >
-        <form  className="mt-10">
+        <Form className="mt-10" onSubmit={handleDeleteAccount}>
           <div className="space-y-6">
             <p className="mb-4">
               Please type your full name to confirm you want to delete your
@@ -104,27 +146,25 @@ const Template = ({ children }) => {
             <input
               type="text"
               value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Full Name"
-              className="w-full p-2 border border-gray-300 rounded mb-4"
+              onChange={handleFullNameChange}
+              className="border border-gray-300 rounded px-3 py-1 w-full mt-1"
+              required
             />
-            {errors?.message && <Error>{errors.message}</Error>}
+            <Button
+              as="button"
+              type="submit"
+              className="mt-8"
+              disabled={!fullName.trim()}
+            >
+              {loading && <Button.Spinner />} Confirm
+            </Button>
           </div>
-          <Button as="button" type="submit" className="mt-8">
-            {loading && <Button.Spinner />}
-            Confirm
-          </Button>
-        </form>
+          {errors?.message && <Form.Error>{errors.message}</Form.Error>}
+          {success?.message && <Form.Success>{success.message}</Form.Success>}
+        </Form>
       </Modal>
     </Container>
   );
 };
 
 export default Template;
-
-
-
-
-
-
-
