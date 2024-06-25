@@ -18,7 +18,6 @@ import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
 import NotificationsList from "./NotificationsList";
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
 import { collection, onSnapshot } from "firebase/firestore";
 
 const MainNav = () => {
