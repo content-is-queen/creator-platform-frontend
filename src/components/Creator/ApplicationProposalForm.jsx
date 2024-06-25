@@ -42,11 +42,11 @@ const ApplicationProposalForm = ({
           "Content-Type": "application/json",
         },
       });
-
       setStatus("submitted");
     } catch (err) {
+      console.log(err);
       setError({
-        message: "Something went wrong...",
+        message: err.response.data.message || "Something went wrong...",
       });
       console.error(err);
     } finally {
