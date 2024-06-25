@@ -5,13 +5,17 @@ import API from "@/api/api";
 
 export const UserContext = createContext(null);
 
-export const getUserProfile = async (args) => {
+export const getUser = async (args) => {
   const token = args?.token ? args.token : await getIdToken(args.user);
+
+  if (localStorage.getItem("user"))
+    return JSON.parse(localStorage.getItem("user"));
 
   try {
     const response = await API.get("/auth/user", {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     });
 
@@ -19,9 +23,10 @@ export const getUserProfile = async (args) => {
       return response.data;
     }
 
-    throw new Error("Something went wrong when getting the users profile");
+    throw new Error("There was an error getting your profile");
   } catch (error) {
-    console.error(error);
+    console.error(error.response.data);
+    return null;
   }
 };
 
@@ -30,34 +35,35 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (authUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
-        let userProfile;
         const token = await authUser.getIdToken(true);
-
         if (token) {
-          if (localStorage.getItem("userProfile")) {
-            userProfile = JSON.parse(localStorage.getItem("userProfile"));
-          } else {
-            userProfile = await getUserProfile({ token });
-            if (userProfile) {
-              localStorage.setItem("userProfile", JSON.stringify(userProfile));
-            }
-          }
+          const user = await getUser({ token });
 
-          setUser({
-            email: authUser.email,
-            ...userProfile,
-          });
+          if (user) {
+            setUser(user);
+          }
         }
+
         setLoading(false);
       } else {
-        localStorage.removeItem("userProfile");
         setUser(null);
         setLoading(false);
       }
     });
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
   return (
     <UserContext.Provider

@@ -7,9 +7,9 @@ import ProfileIcon from "@/components/ProfileIcon";
 
 const AdminUserTableRow = ({
   uid,
-  imageUrl,
-  first_name,
-  last_name,
+  profilePhoto,
+  firstName,
+  lastName,
   email,
   role,
   disabled,
@@ -41,9 +41,9 @@ const AdminUserTableRow = ({
         </div>
       </Table.Data>
       <Table.Data className="flex items-center font-subheading font-bold whitespace-nowrap">
-        <ProfileIcon imageUrl={imageUrl} />
+        <ProfileIcon profilePhoto={profilePhoto} />
         <div className="ps-6">
-          <div className="font-subheading">{first_name + " " + last_name}</div>
+          <div className="font-subheading">{firstName + " " + lastName}</div>
         </div>
       </Table.Data>
 
@@ -52,7 +52,7 @@ const AdminUserTableRow = ({
           <div
             className={`h-2.5 w-2.5 rounded-full ${disabled ? "bg-red-500" : "bg-green-500"} me-2`}
           ></div>{" "}
-          {disabled ? "Disabled" : "Activate"}
+          {disabled ? "Disabled" : "Active"}
         </div>
       </Table.Data>
       <Table.Data>{email}</Table.Data>
@@ -70,8 +70,10 @@ const AdminUserTableRow = ({
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                    } px-4 py-2 text-left inline-block`}
+                      active
+                        ? "bg-gray-100 text-queen-black"
+                        : "text-queen-black/80"
+                    } px-4 py-2 text-left block`}
                     onClick={() =>
                       handleActivation({
                         id: uid,
@@ -87,8 +89,10 @@ const AdminUserTableRow = ({
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                    } px-4 py-2 text-left inline-block`}
+                      active
+                        ? "bg-gray-100 text-queen-black"
+                        : "text-queen-black/80"
+                    } px-4 py-2 text-left block w-full`}
                     onClick={() => handleDelete(uid)}
                   >
                     Delete

@@ -34,14 +34,14 @@
         "title": "Tell us a little bit about you and your podcast",
         "fields": [
           {
-            "name": "first_name",
+            "name": "firstName",
             "children": "First Name",
             "rules": {
               "required": "First name is required"
             }
           },
           {
-            "name": "last_name",
+            "name": "lastName",
             "children": "Last Name",
             "rules": {
               "required": "Last name is required"
@@ -55,11 +55,11 @@
             }
           },
           {
-            "name": "podcast_name",
+            "name": "podcastName",
             "children": "Podacast Name (optional)"
           },
           {
-            "name": "podcast_url",
+            "name": "podcastUrl",
             "type": "url",
             "children": "Link To Podcast (optional)"
           }
@@ -70,6 +70,7 @@
         "fields": [
           {
             "name": "goals",
+            "as": "radio",
             "options": [
               "Finding work",
               "Monetising my podcast",
@@ -78,6 +79,46 @@
             "rules": {
               "required": "A goal is required"
             }
+          }
+        ]
+      },
+      "4": {
+        "title": "What are your interests?",
+        "fields": [
+          {
+            "name": "interests",
+            "as": "checkbox",
+            "max": "3",
+            "options": [
+              "Technology & Gadgets",
+              "Health & Fitness",
+              "Finance & Investing",
+              "Education & Learning",
+              "Travel & Adventure",
+              "Food & Cooking",
+              "Fashion & Beauty",
+              "Art & Design",
+              "Science & Nature",
+              "Home & Garden",
+              "Parenting & Family",
+              "Gaming & Esports",
+              "Cars & Motorcycles",
+              "History & Culture",
+              "Politics & Current Events",
+              "Literature & Books",
+              "Personal Development",
+              "Social Justice & Activism",
+              "Spiritulality & Religion",
+              "Environmental Issues",
+              "Business & Entrepreneurship",
+              "Relationships & Dating",
+              "Mental Health & Wellness",
+              "Hobbies & Crafts",
+              "Pet Care & Animal Lovers",
+              "DIY & Home Improvement",
+              "Entertainment (Movies, TV, Music)",
+              "Sports & Outdoor Activities"
+            ]
           }
         ]
       }
@@ -119,21 +160,21 @@
         "title": "Tell us a bit about you and your organisation",
         "fields": [
           {
-            "name": "organisation_name",
+            "name": "organizationName",
             "children": "Organization Name",
             "rules": {
               "required": "Organization name is required"
             }
           },
           {
-            "name": "first_name",
+            "name": "firstName",
             "children": "First Name",
             "rules": {
               "required": "First name is required"
             }
           },
           {
-            "name": "last_name",
+            "name": "lastName",
             "children": "Last Name",
             "rules": {
               "required": "Last name is required"
@@ -153,6 +194,7 @@
         "fields": [
           {
             "name": "goals",
+            "as": "radio",
             "options": ["Hiring", "Connecting with new talent", "Advertising"]
           }
         ],

@@ -3,22 +3,24 @@
 import API from "@/api/api";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
+import useAuth from "@/hooks/useAuth";
+
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
-import useToken from "@/hooks/useToken";
+import Subheading from "../Subheading";
 
 const ApplicationProposalForm = ({
   opportunityId,
-  brandId,
-  application_instructions,
+  authorId,
+  applicationInstructions,
 }) => {
   const { user } = useUser();
-  const token = useToken();
+  const { token } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,14 +29,14 @@ const ApplicationProposalForm = ({
     setLoading(true);
 
     const data = {
-      opportunity_id: opportunityId,
-      user_id: user.uid,
-      creator_id: brandId,
+      opportunityId: opportunityId,
+      creatorId: user.uid,
+      authorId: authorId,
       proposal: proposal,
     };
 
     try {
-      const response = await API.post(`/applications`, data, {
+      await API.post(`/applications`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -53,34 +55,36 @@ const ApplicationProposalForm = ({
   };
 
   if (status === "submitted") {
-    return <Form.Success>Your application was sent successfully.</Form.Success>;
+    return <Form.Success>Your application was sent successfully</Form.Success>;
   }
 
   return (
     <>
       <Button as="button" type="submit" onClick={() => setIsOpen(true)}>
-        Send Proposal
+        Send A Proposal
       </Button>
 
       <Modal
-        align="left"
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Apply"
+        className="max-w-2xl"
       >
-        <Form errors={errors} setError={setError} handleSubmit={handleSubmit}>
+        <Subheading size="lg">Write proposal</Subheading>
+        <Form error={error} setError={setError} handleSubmit={handleSubmit}>
           <Form.Textarea
             name="proposal"
             onChange={(e) => setProposal(e.target.value)}
             rows={10}
             minLength={5}
+            className="normal-case"
             required
           >
-            {application_instructions || "Write a cover letter"}
+            {applicationInstructions ||
+              "Explain why you should be hired for this opportunity"}
           </Form.Textarea>
 
           <Button as="button" type="submit" className="mt-8">
-            {loading && <Button.Spinner />} Apply
+            {loading && <Button.Spinner />} Submit
           </Button>
         </Form>
       </Modal>

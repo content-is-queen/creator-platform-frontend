@@ -1,80 +1,75 @@
+import { notFound } from "next/navigation";
+
 import API from "@/api/api";
 
 import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faExternalLink } from "@fortawesome/free-solid-svg-icons";
 
-import Heading from "@/components/Heading";
 import Container from "@/components/Container";
-import Text from "@/components/Text";
 import ApplicationProposalForm from "@/components/Creator/ApplicationProposalForm";
-import ProfileIcon from "@/components/ProfileIcon";
+import Job from "@/components/Opportunities/Job";
+import Campaign from "@/components/Opportunities/Campaign";
+import Pitch from "@/components/Opportunities/Pitch";
+import Button from "@/components/Button";
 
-export async function generateStaticParams() {
-  // Prevent build failing during workflows build test
-  if (process.env.APP_ENV === "development") {
-    return [];
+export default async function Opportunity({ params: { id: opportunityId } }) {
+  const { data } = await API(`/opportunities/opportunityid/${opportunityId}`);
+
+  const { type, applicationInstructions, userId, link } = data;
+
+  if (!data) {
+    return notFound();
   }
 
-  try {
-    const { data } = await API.get("/opportunities?limit=0");
-    const opportunities = data?.message?.opportunities || [];
-    return opportunities.map(({ opportunity_id }) => ({
-      id: opportunity_id,
-    }));
-  } catch (error) {
-    console.error("Error fetching opportunities during build:", error);
-    return [];
-  }
-}
-export const dynamicParams = false;
+  let Component;
 
-export default async function Opportunity({ params: { id: opportunity_id } }) {
-  const {
-    data: {
-      title,
-      description,
-      company,
-      type,
-      organisation_name,
-      compensation,
-      application_instructions,
-      salary,
-      user_id,
-      user_imageUrl,
-    },
-  } = await API(`/opportunities/opportunityid/${opportunity_id}`);
+  switch (type) {
+    case "pitch":
+      Component = Pitch;
+      break;
+    case "job":
+      Component = Job;
+      break;
+    case "campaign":
+      Component = Campaign;
+      break;
+  }
 
   return (
     <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
-        <div className="pt-20 pb-64 space-y-8">
+        <div className="pt-20 pb-64 space-y-12">
           <div>
             <Link
               href="/opportunities"
-              className="text-sm inline-flex items-center gap-1.5 mb-8"
+              className="text-sm inline-flex items-center gap-1.5"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
               Back to Dashboard
-            </Link>{" "}
-            <ProfileIcon className="h-12 w-12" imageUrl={user_imageUrl} />
-            <Heading size="3xl" className="mt-6 mb-1">
-              {title}
-            </Heading>
-            <Text size="sm" className="capitalize">
-              {organisation_name || company} &bull; {type} &bull;{" "}
-              {compensation || salary}
-            </Text>
+            </Link>
           </div>
 
-          <div className="space-y-5 min-h-24 max-w-lg">{description}</div>
+          <Component {...data} />
 
-          <ApplicationProposalForm
-            opportunityId={opportunity_id}
-            application_instructions={application_instructions}
-            brandId={user_id}
-          />
+          {link ? (
+            <Button
+              as="a"
+              href={link}
+              target="_blank"
+              className="items-center inline-flex gap-1"
+            >
+              Apply
+              <FontAwesomeIcon className="h-2.5" icon={faExternalLink} />
+            </Button>
+          ) : (
+            <ApplicationProposalForm
+              opportunityId={opportunityId}
+              applicationInstructions={applicationInstructions}
+              authorId={userId}
+            />
+          )}
         </div>
       </Container>
     </div>

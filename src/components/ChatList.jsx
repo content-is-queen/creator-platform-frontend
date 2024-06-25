@@ -1,6 +1,6 @@
 "use client";
 
-import moment from "moment";
+import { formatDistance } from "date-fns";
 
 import { useEffect } from "react";
 
@@ -8,6 +8,7 @@ import clsx from "clsx";
 import ProfileIcon from "./ProfileIcon";
 import { useUser } from "@/context/UserContext";
 import { useSearchParams } from "next/navigation";
+import Subheading from "./Subheading";
 
 const ChatList = ({ active, setActive, rooms }) => {
   const { user } = useUser();
@@ -31,15 +32,13 @@ const ChatList = ({ active, setActive, rooms }) => {
         const participant = room.userProfiles.find((i) => i.userId != user.uid);
 
         // Convert firebase timestamp
-        const firbaseTime = new Date(
+        const timestamp = new Date(
           room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
         );
 
-        const date = firbaseTime.toDateString();
+        const now = new Date();
 
-        const atTime = firbaseTime.toLocaleTimeString();
-
-        const timeSent = moment(`${date} ${atTime}`).fromNow();
+        const timeSent = formatDistance(timestamp, now, { addSuffix: true });
 
         return (
           <li key={room.id} className="first:rounded-t-3xl overflow-hidden">
@@ -56,16 +55,16 @@ const ChatList = ({ active, setActive, rooms }) => {
               >
                 <div className="shrink-0">
                   <ProfileIcon
-                    imageUrl={participant.profileImage}
+                    profilePhoto={participant.profilePhoto}
                     className="lg:h-14 lg:w-14"
                   />
                 </div>
 
                 <div className="py-3 flex-1">
                   <div className="flex gap-4 justify-between items-center">
-                    <p className="text-sm  text-queen-black font-subheading font-bold truncate leading-3">
+                    <Subheading size="sm" className="truncate -mb-1">
                       {participant.fullName}
-                    </p>
+                    </Subheading>
                     <div className="text-xs text-queen-black/60 justify-self-end">
                       {timeSent}
                     </div>

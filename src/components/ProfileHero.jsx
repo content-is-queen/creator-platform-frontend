@@ -13,14 +13,14 @@ import Heading from "./Heading";
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
 
-  const heading = user?.organisation_name
-    ? user.organisation_name
-    : user?.first_name + " " + user?.last_name;
+  const heading = user?.organizationName
+    ? user.organizationName
+    : user?.firstName + " " + user?.lastName;
 
   return (
     <div className="bg-queen-blue text-white relative pt-16 pb-20 overflow-hidden md:pt-28">
       <Container size="4xl" className="space-y-4">
-        <ProfileIcon imageUrl={user?.imageUrl} className="h-20 w-20" />
+        <ProfileIcon profilePhoto={user?.profilePhoto} className="h-20 w-20" />
         {pathname === "/profile" && (
           <Button href="/settings/edit-profile" variant="yellow">
             Edit Profile
@@ -31,9 +31,9 @@ const ProfileHero = ({ user }) => {
           <Heading color="white" size="3xl" className="font-heading uppercase">
             {!user ? <LoadingPlaceholder /> : <>{heading}</>}
           </Heading>
-          {user?.tags && (
+          {user?.interests && (
             <div className="flex gap-2 my-2">
-              {user?.tags?.map((tag) => (
+              {user.interests.map((tag) => (
                 <Tag key={tag}>{tag}</Tag>
               ))}
             </div>

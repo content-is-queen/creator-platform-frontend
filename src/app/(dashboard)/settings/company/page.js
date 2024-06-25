@@ -1,78 +1,89 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import useToken from "@/hooks/useToken";
+import { useState, useEffect } from "react";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
-import Form from "@/components/Form";
-import Button from "@/components/Button";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 
+import Form from "@/components/Form";
+import Button from "@/components/Button";
+
 const Company = () => {
-  const [errors, setErrors] = useState({});
+  const { user, setUser } = useUser();
+  const { token } = useAuth();
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const { user, setUser } = useUser();
 
   const [formData, setFormData] = useState({
-    organization_name: user?.name || "",
-    organization_logo: null,
+    organizationName: user?.organizationName || "",
+    organizationBio: user?.organizationBio || "",
   });
-  const { token } = useToken();
+
+  useEffect(() => {
+    setFormData({
+      organizationName: user?.organizationName || "",
+      organizationBio: user?.organizationBio || "",
+    });
+  }, [user]);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    const newValue = name === "organization_logo" ? files[0] : value;
+    const { name, value } = e.target;
 
-    const updatedFormData = { ...formData, [name]: newValue };
+    const updatedFormData = { ...formData, [name]: value };
 
     const checkIsEmpty = (str) => str.trim().length === 0;
 
     const isEmpty =
-      checkIsEmpty(updatedFormData.organization_name) ||
-      !updatedFormData.organization_logo;
-
+      checkIsEmpty(updatedFormData.organizationName) &&
+      updatedFormData.organizationBio;
     setUpdated(!isEmpty);
     setFormData(updatedFormData);
   };
+
   const handleFileUpload = async (file) => {
-    const storageRef = ref(storage, `organization_logo/${file.name}`);
+    const storageRef = ref(storage, `organizationLogo/${file.name}`);
     await uploadBytes(storageRef, file);
     return getDownloadURL(storageRef);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrors({});
+    setError({});
     setSuccess({});
-    try {
-      let imageUrl = null;
 
-      if (formData.organization_logo) {
-        imageUrl = await handleFileUpload(formData.organization_logo);
-      }
+    try {
       const dataToSubmit = {
-        organization_name: formData.organization_name,
-        ...(imageUrl && { organization_logo: imageUrl }),
+        organizationName: formData.organizationName,
+        organizationBio: formData.organizationBio,
       };
-      const response = await API.put(`/admin/company`, dataToSubmit, {
+
+      const response = await API.put("/admin/company", dataToSubmit, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
+
       if (response?.status === 200) {
-        setUser({ ...user, organization_name: formData.organization_name });
+        setUser({
+          ...user,
+          organizationName: formData.organizationName,
+          organizationBio: formData.organizationBio,
+        });
+
         setSuccess({ message: "Company info updated successfully" });
       } else {
-        setErrors({
+        setError({
           message: response.message || "Something went wrong. Update failed.",
         });
       }
     } catch (error) {
-      setErrors({
+      setError({
         message:
           error.response?.data.message ||
           "Something went wrong. Update failed.",
@@ -82,51 +93,38 @@ const Company = () => {
     }
   };
 
-  useEffect(() => {
-    setFormData({
-      organization_name: user?.organization_name || "",
-      organization_logo: user?.organization_logo || null,
-    });
-  }, [user]);
   return (
     <Form className="mx-auto">
       <div className="space-y-10">
         <Form.Input
-          name="organization_name"
+          name="organizationName"
           type="text"
-          value={formData.organization_name}
+          value={formData.organizationName}
           onChange={handleChange}
           className="relative"
         >
           Company Name
         </Form.Input>
         <Form.Input
-          name="organization_logo"
-          type="file"
+          name="organizationBio"
+          type="text"
+          value={formData.organizationBio}
           onChange={handleChange}
-          accept="image/*"
+          className="relative"
         >
-          Profile Picture
+          Company Bio
         </Form.Input>
         <Button
           type="submit"
           as="button"
           onClick={handleSubmit}
-          {...(!updated && { disabled: false })}
+          disabled={!updated}
         >
           {loading && <Button.Spinner />} Update Company Info
         </Button>
       </div>
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
-      {success?.message && (
-        <div className="border border-green-700 bg-green-100 text-green-700 text-sm mt-4 py-2 px-4">
-          <p>{success.message}</p>
-        </div>
-      )}
+      {error?.message && <Form.Error>{error.message}</Form.Error>}
+      {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );
 };

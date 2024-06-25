@@ -20,7 +20,7 @@ const CreatorDashboard = () => {
     async function getApplications() {
       try {
         const { data } = await API.get("/applications");
-        setApplications(data.message.filter((i) => i.user_id === user.uid));
+        setApplications(data.message.filter((i) => i.creatorId === user.uid));
       } catch (err) {
         console.error(err);
       } finally {
@@ -62,7 +62,7 @@ const CreatorDashboard = () => {
           <div className="grid md:grid-cols-2 gap-4">
             {applications.map((application) => (
               <CreatorApplicationCard
-                key={application.application_id}
+                key={application.applicationId}
                 {...application}
               />
             ))}

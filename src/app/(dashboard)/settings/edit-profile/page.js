@@ -3,80 +3,75 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "@/api/api";
-import { getUserProfile, useUser } from "@/context/UserContext";
-import useToken from "@/hooks/useToken";
+import { useUser } from "@/context/UserContext";
+import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
-import ShowcaseInput from "@/components/Creator/ShowcaseInput";
+
 import CreditsInput from "@/components/Creator/CreditsInput";
 
 const EditProfile = () => {
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [formData, setFormData] = useState({});
 
   const { user, setUser } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
   const router = useRouter();
 
   const handleChange = (e) => {
     !updated && setUpdated(true);
 
     if (e?.target) {
-      const { name, value, files } = e.target;
-      const newValue = files ? files[0] : value;
+      const { name, value } = e.target;
 
       setFormData((prev) => ({
         ...prev,
-        [name]: newValue,
+        [name]: value,
       }));
     }
   };
 
   useEffect(() => {
     setFormData({
-      first_name: user?.first_name || "",
-      last_name: user?.last_name || "",
-      imageUrl: user?.imageUrl || "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
       bio: user?.bio || "",
     });
   }, [user]);
 
   const handleSubmit = async () => {
     setLoading(true);
-    const dataToSend = new FormData();
+    const data = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "showcase" || key === "credits") {
-        dataToSend.append(key, JSON.stringify(value));
+        data.append(key, JSON.stringify(value));
       } else {
-        dataToSend.append(key, value);
+        data.append(key, value);
       }
     });
 
     try {
-      const res = await API.put(`/auth/user`, dataToSend, {
+      const res = await API.post(`/auth/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 
       if (res.status === 200) {
-        // Update local user profile on successful update
-        const userProfile = await getUserProfile({ token });
-        localStorage.removeItem("userProfile");
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
-        setUser({ ...user, ...userProfile });
-
+        const { data } = res.data;
+        setUser({ ...user, ...data });
         router.push("/profile");
       } else {
         setError({ message: res.data.message });
       }
     } catch (err) {
       console.error(err);
-      setError({ message: err.message || "Server error" });
+      setError({ message: err.message });
     } finally {
       setLoading(false);
     }
@@ -85,23 +80,23 @@ const EditProfile = () => {
   return (
     <Form
       className="mx-auto"
-      errors={errors}
+      error={error}
       setError={setError}
       handleSubmit={handleSubmit}
     >
       <div className="space-y-10">
         <div className="flex gap-x-6 w-full">
           <Form.Input
-            name="first_name"
-            value={formData.first_name}
+            name="firstName"
+            value={formData.firstName}
             onChange={handleChange}
             className="w-full"
           >
             First Name
           </Form.Input>
           <Form.Input
-            name="last_name"
-            value={formData.last_name}
+            name="lastName"
+            value={formData.lastName}
             onChange={handleChange}
             className="w-full"
           >
@@ -109,14 +104,6 @@ const EditProfile = () => {
           </Form.Input>
         </div>
         <div className="space-y-10">
-          <Form.Input
-            name="imageUrl"
-            type="file"
-            onChange={handleChange}
-            accept="image/*"
-          >
-            Profile Picture
-          </Form.Input>
           <Form.Input
             name="bio"
             value={formData.bio}
@@ -135,16 +122,11 @@ const EditProfile = () => {
                 setFormData={setFormData}
                 handleChange={handleChange}
               />
-              <ShowcaseInput
-                setUpdated={setUpdated}
-                setFormData={setFormData}
-                handleChange={handleChange}
-              />
             </>
           )}
         </div>
 
-        <Button type="submit" as="button" {...(!updated && { disabled: true })}>
+        <Button type="submit" as="button" disabled={!updated}>
           {loading && <Button.Spinner />} Save Changes
         </Button>
       </div>

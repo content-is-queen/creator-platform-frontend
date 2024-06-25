@@ -1,14 +1,23 @@
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+
+import { useUser } from "@/context/UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, faRemove, faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import Form, { Error } from "../Form";
 import Button from "../Button";
-import { useUser } from "@/context/UserContext";
 
 const CreditsInput = ({ setFormData, handleChange }) => {
+  const LIMIT = 6;
   const [credits, setCredits] = useState([]);
-  const [inputValue, setInputValue] = useState({ href: "", role: "" });
-  const [errors, setError] = useState({});
+  const [showcase, setShowcase] = useState([]);
+  const [inputValue, setInputValue] = useState({
+    href: "",
+    role: "",
+  });
+  const [error, setError] = useState({});
 
   const { user } = useUser();
 
@@ -52,17 +61,23 @@ const CreditsInput = ({ setFormData, handleChange }) => {
   const add = async () => {
     setError({});
 
+    // Make sure href is valid
     if (!inputValue.href.startsWith("https://open.spotify.com/episode/")) {
-      // Make sure href is a valid
       setError({ message: "Please enter a valid Spotify episode url" });
       return;
     }
 
+    // Check if episode has already been added
+    if (credits.find((i) => i.href === inputValue.href)) {
+      setError({ message: "This episode has already beena added" });
+      return;
+    }
+
+    // Check if both fields contain a value
     if (
       inputValue.href.trim("").length === 0 ||
       inputValue.role.trim("").length === 0
     ) {
-      // Check if both fields contain a value
       setError({ message: "Both fields must be filled in" });
       return;
     }
@@ -74,13 +89,38 @@ const CreditsInput = ({ setFormData, handleChange }) => {
     setCredits((prev) => [...prev, { ...inputValue, ...episodeDetails }]);
 
     // Clear input when an entry is added
-    setInputValue({ href: "", role: "" });
+    setInputValue({ href: "", role: "", showcase: false });
     handleChange();
   };
 
   const remove = (href) => {
     setError({});
     setCredits((prev) => prev.filter((i) => i.href !== href));
+    setShowcase((prev) => prev.filter((i) => i !== href));
+    handleChange();
+  };
+
+  const showcaseToggle = (href) => {
+    setError({});
+
+    // Check to see if showcase is equal to the limit
+    if (showcase.length === LIMIT) {
+      setError({
+        message: `You can only add up to ${LIMIT} episodes to your showcase`,
+      });
+      return;
+    }
+
+    const credit = credits.find((i) => i.href === href);
+
+    setShowcase((prev) => {
+      if (showcase.includes(href)) {
+        return prev.filter((i) => i !== href);
+      } else {
+        return [...prev, credit.href];
+      }
+    });
+
     handleChange();
   };
 
@@ -88,13 +128,23 @@ const CreditsInput = ({ setFormData, handleChange }) => {
     if (user && user.credits) {
       setCredits(JSON.parse(user.credits));
     }
+
+    if (user && user.showcase) {
+      setShowcase(JSON.parse(user.showcase));
+    }
   }, [user]);
 
   useEffect(() => {
     setFormData((prev) => {
-      return { ...prev, credits: credits };
+      return { ...prev, credits };
     });
   }, [credits]);
+
+  useEffect(() => {
+    setFormData((prev) => {
+      return { ...prev, showcase };
+    });
+  }, [showcase]);
 
   return (
     <div>
@@ -102,7 +152,8 @@ const CreditsInput = ({ setFormData, handleChange }) => {
         <p className="uppercase">Credits</p>
         <p className="text-sm text-queen-black/80 mb-4">
           Add your spotify episode link. It should look something like this:
-          https://open.spotify.com/episode/3645233
+          https://open.spotify.com/episode/3645233. Add an entry to your
+          showcase by selecting the star
         </p>
       </div>
 
@@ -117,22 +168,36 @@ const CreditsInput = ({ setFormData, handleChange }) => {
               <span className="font-bold text-sm">{role}</span>
             </div>
             <div className="flex items-center gap-4 ml-auto">
-              <img
-                src={cover.url}
-                height={70}
-                width={70}
-                alt=""
-                className="rounded"
-              />
+              <div className="relative rounded overflow-hidden">
+                <img src={cover.url} height={70} width={70} alt="" />
+                <button
+                  className="absolute -translate-y-1/2 -translate-x-1/2 left-1/2 top-1/2 focus:outline-queen-blue"
+                  type="button"
+                  onClick={() => showcaseToggle(href)}
+                >
+                  {showcase.includes(href) ? (
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      className="text-queen-yellow h-6"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      className="text-queen-white h-6 "
+                    />
+                  )}
+                </button>
+              </div>
               <Button
                 type="button"
                 variant="white"
                 as="button"
+                className="p-2"
                 onClick={() => {
                   remove(href);
                 }}
               >
-                Remove
+                <FontAwesomeIcon icon={faRemove} />
               </Button>
             </div>
           </div>
@@ -164,12 +229,18 @@ const CreditsInput = ({ setFormData, handleChange }) => {
             Role
           </Form.Input>
         </div>
-        <Button type="button" variant="white" as="button" onClick={add}>
-          Add
+        <Button
+          type="button"
+          variant="white"
+          className="p-2"
+          as="button"
+          onClick={add}
+        >
+          <FontAwesomeIcon icon={faPlus} />
         </Button>
       </div>
 
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
     </div>
   );
 };

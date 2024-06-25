@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -10,7 +10,7 @@ import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const Password = () => {
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -20,7 +20,7 @@ const Password = () => {
     old_password: "",
     password: "",
   });
-  const { token } = useToken();
+  const { token } = useAuth();
   const handleChange = (e) => {
     const checkIsEmpty = (str) => {
       return str.trim().length === 0;
@@ -125,21 +125,13 @@ const Password = () => {
           type="submit"
           as="button"
           onClick={handleSubmit}
-          {...(!updated && { disabled: true })}
+          disabled={!updated}
         >
           {loading && <Button.Spinner />} Update Password
         </Button>
       </div>
-      {errors?.message && (
-        <div className="border border-red-700 bg-red-100 text-red-700 text-sm mt-4 py-2 px-4">
-          <p>{errors.message}</p>
-        </div>
-      )}
-      {success?.message && (
-        <div className="border border-green-700 bg-green-100 text-green-700 text-sm mt-4 py-2 px-4">
-          <p>{success.message}</p>
-        </div>
-      )}
+      {error?.message && <Form.Error>{error.message}</Form.Error>}
+      {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );
 };

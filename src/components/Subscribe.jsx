@@ -3,18 +3,18 @@ import { useSearchParams } from "next/navigation";
 
 import { useUser } from "@/context/UserContext";
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 const Subscribe = () => {
   const { user, setUser } = useUser();
-  const token = useToken();
+  const { token } = useAuth();
   const searchParams = useSearchParams();
 
-  const subscribe = async (session_id) => {
+  const subscribe = async (sessionId) => {
     try {
       const response = await API.post(
         "/payments/subscribe",
-        { session_id, user_id: user.uid, email: user.email },
+        { sessionId, userId: user.uid, email: user.email },
         {
           headers: {
             "Content-Type": "application/json",
@@ -22,23 +22,13 @@ const Subscribe = () => {
           },
         }
       );
-
-      const updatedUser = { ...user, subscribed: true };
-      setUser(updatedUser);
-      if (localStorage.getItem("userProfile")) {
-        const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-        localStorage.setItem(
-          "userProfile",
-          JSON.stringify({ ...userProfile, subscribed: true })
-        );
-      }
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    const sessionId = searchParams.get("session_id");
+    const sessionId = searchParams.get("sessionId");
     if (sessionId && user) {
       subscribe(sessionId);
     }

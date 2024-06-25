@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const General = () => {
   const { user, setUser } = useUser();
-  const { token } = useToken();
-  const [errors, setError] = useState({});
+  const { token } = useAuth();
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [success, setSuccess] = useState({});
@@ -44,7 +44,7 @@ const General = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser({ ...user, email: formData.email });
+      setUser({ ...user, ...formData });
       if (response.status === 200) {
         setSuccess({
           message: "Email updated successfully",
@@ -75,7 +75,7 @@ const General = () => {
           {loading && <Button.Spinner />} Save Changes
         </Button>
       </div>
-      {errors?.message && <Form.Error>{errors.message}</Form.Error>}
+      {error?.message && <Form.Error>{error.message}</Form.Error>}
       {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );

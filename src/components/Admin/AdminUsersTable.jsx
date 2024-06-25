@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import API from "@/api/api";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Search from "@/components/Search";
 import AdminUserTableRow from "./AdminUserTableRow";
@@ -12,18 +12,28 @@ import SubMenu from "../SubMenu";
 import Table from "@/components/Table";
 import Kebab from "../Kebab";
 
-const AdminUsersTable = ({ users }) => {
+const AdminUsersTable = () => {
   const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [checkAll, setCheckAll] = useState(false);
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
-  const { token } = useToken();
+  const { token } = useAuth();
 
   useEffect(() => {
-    setLoading(false);
+    (async () => {
+      try {
+        const { data } = await API.get("/admin/users");
+        setUsers(data);
+        setFilteredUsers(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   const handleDelete = async (id) => {
@@ -63,22 +73,6 @@ const AdminUsersTable = ({ users }) => {
     }
   };
 
-  const handleCheckAll = () => {
-    const deselect = selectedUsers.length === users.length;
-
-    deselect
-      ? setSelectedUsers(() => {
-          setCheckAll(false);
-          return [];
-        })
-      : setSelectedUsers(
-          users.map((user) => {
-            setCheckAll(true);
-            return user.uid;
-          })
-        );
-  };
-
   const handleActivation = async ({ activated, id }) => {
     setError({});
     try {
@@ -114,29 +108,16 @@ const AdminUsersTable = ({ users }) => {
         data={users}
         filteredData={filteredUsers}
         setFilteredData={setFilteredUsers}
-        filter={{ keys: ["first_name", "last_name"], tag: "role" }}
+        filter={{ keys: ["firstName", "lastName"], tag: "role" }}
       />
 
       <div className="my-12 space-y-6">
-        {errors?.message && <Error>{errors?.message}</Error>}
+        {error?.message && <Error>{error?.message}</Error>}
 
         <Table>
           <Table.Head>
             <tr>
-              <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    defaultChecked={checkAll}
-                    onClick={() => handleCheckAll()}
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
+              <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3">
                 User
               </th>
@@ -182,7 +163,7 @@ const AdminUsersTable = ({ users }) => {
                 <>
                   {filteredUsers.map((user) => (
                     <AdminUserTableRow
-                      errors={errors}
+                      error={error}
                       setError={setError}
                       selectedUsers={selectedUsers}
                       setSelectedUsers={setSelectedUsers}

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileIcon = ({
-  imageUrl,
+  profilePhoto,
   children,
   className,
   as = "div",
@@ -19,12 +19,12 @@ const ProfileIcon = ({
       )}
       {...otherProps}
     >
-      {imageUrl ? (
+      {false ? (
         <img
           className="w-full h-full object-top object-cover"
           height={20}
           width={20}
-          src={imageUrl}
+          src={profilePhoto}
           alt=""
         />
       ) : (

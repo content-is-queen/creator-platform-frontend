@@ -3,6 +3,8 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import CreateOpportunityPanels from "./CreateOpportunityPanels";
 import Button from "../Button";
+import Heading from "../Heading";
+import Subheading from "../Subheading";
 
 const CreateOpportunityModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +23,11 @@ const CreateOpportunityModal = () => {
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        title="What type of project?"
         className="max-w-5xl"
       >
+        <Subheading size="xl" className="text-center mb-12">
+          Select an opportunity type
+        </Subheading>
         <CreateOpportunityPanels />
       </Modal>
     </>

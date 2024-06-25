@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
+import { useUser } from "@/context/UserContext";
 
+import Tag from "../Tag";
 import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "@/components/Heading";
-import { useUser } from "@/context/UserContext";
 
 const BrandApplicationCard = ({
   setApplications,
   applications,
-  application_id,
+  applicationId,
   opportunityTitle,
   proposal,
-  user_id,
+  creatorId,
 }) => {
-  const { token } = useToken();
+  const { token } = useAuth();
   const {
     user: { uid },
   } = useUser();
@@ -28,16 +29,18 @@ const BrandApplicationCard = ({
   const getUser = async (id) => {
     try {
       const res = await API.get(`/auth/user/${id}`);
-
       const { data } = res;
       setUser(data.message);
     } catch ({ error }) {
-      throw new Error("Something went wrong when getting the user");
+      setApplications(
+        applications.filter((i) => i.applicationId !== applicationId)
+      );
+      console.error("Something went wrong when getting the user");
     }
   };
 
   useEffect(() => {
-    getUser(user_id);
+    getUser(creatorId);
   }, []);
 
   const rejectApplication = async (id) => {
@@ -46,8 +49,9 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "rejected",
-          user_id: user_id,
-          creator_id: uid,
+
+          authorId: uid,
+          creatorId,
         },
         {
           headers: {
@@ -65,7 +69,7 @@ const BrandApplicationCard = ({
       }
 
       setApplications(
-        applications.filter((i) => i.application_id !== application_id)
+        applications.filter((i) => i.applicationId !== applicationId)
       );
     } catch (error) {
       console.error(error);
@@ -77,8 +81,8 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "accepted",
-          user_id: user_id,
-          creator_id: uid,
+          authorId: uid,
+          creatorId,
           opportunityTitle: opportunityTitle,
         },
         {
@@ -92,13 +96,13 @@ const BrandApplicationCard = ({
       if (response?.error) {
         throw new Error(
           response.error ||
-            "Something went wrong when accpeting the application"
+            "Something went wrong when accepting the application"
         );
       }
 
       setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
-      console.error(error);
+      console.log(error.response.data.message);
     }
   };
 
@@ -115,7 +119,7 @@ const BrandApplicationCard = ({
             </p>
             <p className="text-queen-black/80">
               What are you waiting for? Why don't you head over and start the
-              conversation with <b>{user.first_name}</b>.
+              conversation with <b>{user.firstName}</b>.
             </p>
           </div>
           <Button href={`/conversations/?room=${message.room}`}>
@@ -131,7 +135,7 @@ const BrandApplicationCard = ({
                   <LoadingPlaceholder dark />
                 ) : (
                   <>
-                    {user.first_name} {user.last_name}
+                    {user.firstName} {user.lastName}
                   </>
                 )}
               </Heading>
@@ -139,11 +143,13 @@ const BrandApplicationCard = ({
                 {opportunityTitle} &bull; Application
               </Text>
             </div>
-            <div className="flex gap-2 mt-1">
-              {/* {skills.map((skill) => (
-            <Tag key={skill}>{skill}</Tag>
-          ))} */}
-            </div>
+            {user?.interests ? (
+              <div className="flex gap-2 mt-1">
+                {user.interests.map((skill) => (
+                  <Tag key={skill}>{skill}</Tag>
+                ))}
+              </div>
+            ) : null}
           </div>
 
           {!user ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
@@ -154,7 +160,7 @@ const BrandApplicationCard = ({
               as="button"
               variant="white"
               size="sm"
-              onClick={() => rejectApplication(application_id)}
+              onClick={() => rejectApplication(applicationId)}
             >
               Reject
             </Button>
@@ -162,7 +168,7 @@ const BrandApplicationCard = ({
               type="button"
               as="button"
               size="sm"
-              onClick={() => acceptApplication(application_id)}
+              onClick={() => acceptApplication(applicationId)}
             >
               Accept
             </Button>
@@ -171,7 +177,7 @@ const BrandApplicationCard = ({
               variant="blue"
               size="sm"
               target="_blank"
-              href={`/profile/${user_id}`}
+              href={`/profile/${creatorId}`}
             >
               View profile
             </Button>

@@ -14,10 +14,10 @@ import ApplicationsModal from "@/components/Brand/ApplicationsModal";
 import API from "@/api/api";
 import EditOpportunityForm from "./EditOpportunityForm";
 import SpinnerScreen from "../SpinnerScreen";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 const BrandOpportunityCard = (props) => {
-  const token = useToken();
+  const { token } = useAuth();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
 
@@ -26,9 +26,9 @@ const BrandOpportunityCard = (props) => {
     deadline,
     status,
     title,
-    opportunity_id,
+    opportunityId,
     salary,
-    end_date,
+    endDate,
     budget,
   } = props;
 
@@ -69,7 +69,7 @@ const BrandOpportunityCard = (props) => {
                       className={`${
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                       } group flex rounded-md items-center w-full px-5 py-2 text-sm`}
-                      onClick={() => deleteOpportunity(opportunity_id)}
+                      onClick={() => deleteOpportunity(opportunityId)}
                     >
                       Delete
                     </button>
@@ -94,7 +94,7 @@ const BrandOpportunityCard = (props) => {
               Deadline
             </Text>
             <Text as="span" size="sm">
-              {deadline || end_date}
+              {deadline || endDate}
             </Text>
           </div>
           <div>
@@ -115,7 +115,7 @@ const BrandOpportunityCard = (props) => {
             <ApplicationsModal
               isApplicationsOpen={isApplicationsOpen}
               setIsApplicationsOpen={setIsApplicationsOpen}
-              opportunityId={opportunity_id}
+              opportunityId={opportunityId}
               opportunityTitle={title}
             />
           )}

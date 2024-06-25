@@ -35,7 +35,7 @@ const SignUpForm = () => {
     Object.keys(formData[0].steps).length
   );
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
 
   const isLastStep = step === totalSteps;
 
@@ -76,9 +76,9 @@ const SignUpForm = () => {
 
         await signInWithEmailAndPassword(auth, email, password);
       }
-    } catch ({ response }) {
+    } catch (error) {
       setError({ message: "Something went wrong during sign up" });
-      console.error(response.data);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -167,7 +167,7 @@ const SignUpForm = () => {
           </Link>
         </Text>
       </form>
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
     </>
   );
 };

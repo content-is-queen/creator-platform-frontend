@@ -3,16 +3,17 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
 import { Error, Success } from "@/components/Form";
 import Modal from "../Modal";
+import Subheading from "../Subheading";
 
 const FIELDS = [
   {
-    name: "first_name",
+    name: "firstName",
     type: "text",
     children: "First Name",
     rules: {
@@ -20,7 +21,7 @@ const FIELDS = [
     },
   },
   {
-    name: "last_name",
+    name: "lastName",
     type: "text",
     children: "Last Name",
     rules: {
@@ -68,12 +69,12 @@ const CreateUserForm = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { token } = useToken();
+  const { token } = useAuth();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -121,9 +122,11 @@ const CreateUserForm = () => {
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Create a new user"
-        size="2xl"
+        className="max-w-2xl"
       >
+        <Subheading size="lg" className="mb-2">
+          Create a new user
+        </Subheading>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
           <div className="space-y-6">
             {FIELDS.map(({ children, name, ...otherProps }) => (
@@ -143,7 +146,7 @@ const CreateUserForm = () => {
             Register
           </Button>
         </form>
-        {errors?.message && <Error>{errors.message}</Error>}
+        {error?.message && <Error>{error.message}</Error>}
         {success?.message && <Success>{success.message}</Success>}
       </Modal>
     </>

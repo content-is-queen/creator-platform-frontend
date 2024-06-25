@@ -3,6 +3,7 @@
 import clsx from "clsx";
 
 import { useEffect, useState, useRef, useCallback } from "react";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -52,42 +53,60 @@ const ApplicationsModal = ({
   };
 
   useEffect(() => {
-    if (applications.length > 0) {
+    if (applications.length > 1) {
       setArrows({ left: false, right: true });
     }
-  }, [loading]);
+  }, [applications]);
 
   useEffect(() => {
     getApplicationsById(opportunityId);
 
     const swiperContainer = swiperRef.current;
+
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
 
-      if (swiper.isBeginning) {
+      if (swiper.isBeginning && applications.length > 1) {
         setArrows({ left: false, right: true });
-      }
-
-      if (swiper.isEnd) {
+      } else if (swiper.isEnd && applications.length > 1) {
         setArrows({ left: true, right: false });
-      }
-
-      if (swiper.isBeginning && swiper.isEnd) {
+      } else {
         setArrows({ left: false, right: false });
       }
     };
 
+    const params = {
+      slidesPerView: 1,
+      spaceBetween: 25,
+      class: "w-full max-h-screen",
+    };
+
     if (swiperContainer) {
-      swiperContainer.addEventListener("swiperprogress", handleSwiperProgress);
+      swiperContainer.addEventListener(
+        "swiperslidechange",
+        handleSwiperProgress
+      );
+    }
+
+    // Swiper initialization
+    if (applications && swiperContainer) {
+      Object.assign(swiperContainer, params);
+      swiperContainer.initialize();
+
+      swiperContainer.addEventListener(
+        "swiperslidechange",
+        handleSwiperProgress
+      );
     }
 
     return () =>
-      swiperContainer &&
-      swiperContainer.removeEventListener(
-        "swiperprogress",
-        handleSwiperProgress
-      );
-  }, []);
+      swiperContainer
+        ? swiperContainer.removeEventListener(
+            "swiperslidechange",
+            handleSwiperProgress
+          )
+        : null;
+  }, [loading]);
 
   if (loading) {
     return <SpinnerScreen />;
@@ -102,53 +121,52 @@ const ApplicationsModal = ({
       <div className="fixed inset-0 bg-queen-black/75" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
         <Dialog.Panel className="w-screen max-w-xl relative">
-          {applications.length > 0 ? (
-            <>
-              <swiper-container
-                ref={swiperRef}
-                space-between="25"
-                slides-per-view="1"
-                class="w-full max-h-screen"
-              >
-                {applications.map((application, index) => (
-                  <swiper-slide key={index} class="p-1">
-                    <BrandApplicationCard
-                      key={`application-${index}`}
-                      setApplications={setApplications}
-                      applications={applications}
-                      opportunityTitle={opportunityTitle}
-                      opportunity_id={opportunityId}
-                      {...application}
+          <ErrorBoundary>
+            {applications.length > 0 ? (
+              <>
+                <swiper-container ref={swiperRef} init="false">
+                  {applications.map((application) => (
+                    <swiper-slide key={application.applicationId} class="p-1">
+                      <BrandApplicationCard
+                        setApplications={setApplications}
+                        applications={applications}
+                        opportunityTitle={opportunityTitle}
+                        opportunityId={opportunityId}
+                        {...application}
+                      />
+                    </swiper-slide>
+                  ))}
+                </swiper-container>
+                {arrows.left && (
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className={clsx(
+                      "absolute -left-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
+                    )}
+                  >
+                    <FontAwesomeIcon
+                      className="rotate-180"
+                      icon={faArrowRight}
                     />
-                  </swiper-slide>
-                ))}
-              </swiper-container>
-              {arrows.left && (
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  className={clsx(
-                    "absolute -left-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
-                  )}
-                >
-                  <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
-                </button>
-              )}
-              {arrows.right && (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="absolute -right-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
-                >
-                  <FontAwesomeIcon icon={faArrowRight} />
-                </button>
-              )}
-            </>
-          ) : (
-            <Card>
-              <Text className="text-center">No Applications were found</Text>
-            </Card>
-          )}
+                  </button>
+                )}
+                {arrows.right && (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="absolute -right-8 z-10 bg-queen-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2"
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </button>
+                )}
+              </>
+            ) : (
+              <Card>
+                <Text className="text-center">No Applications were found</Text>
+              </Card>
+            )}
+          </ErrorBoundary>
         </Dialog.Panel>
       </div>
     </Dialog>

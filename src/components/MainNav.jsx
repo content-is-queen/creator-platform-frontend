@@ -9,6 +9,7 @@ import Link from "next/link";
 
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
+import useAuth from "@/hooks/useAuth";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 import ProfileIcon from "@/components/ProfileIcon";
@@ -22,6 +23,7 @@ const MainNav = () => {
   const router = useRouter();
 
   const { user, setUser, loading } = useUser();
+  const { subscribed } = useAuth();
 
   const pathname = usePathname();
 
@@ -32,6 +34,7 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
+      setUser(null);
       router.push("/login");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -41,7 +44,7 @@ const MainNav = () => {
   useEffect(() => {
     if (
       !loading &&
-      user === null &&
+      !user &&
       (pathname !== "/signup" || pathname !== "/login")
     ) {
       router.push("/login");
@@ -148,16 +151,13 @@ const MainNav = () => {
                   <Link href={href}>{label}</Link>
                 </li>
               ))}
-              {user &&
-                !user?.subscribed &&
-                user?.role !== "admin" &&
-                user?.role !== "super_admin" && (
-                  <li>
-                    <Button variant="yellow" href="/plus">
-                      Upgrade account
-                    </Button>
-                  </li>
-                )}
+              {user && !subscribed && (
+                <li>
+                  <Button variant="yellow" href="/plus">
+                    Upgrade to {user.role} +
+                  </Button>
+                </li>
+              )}
 
               <li>
                 <button
@@ -177,10 +177,10 @@ const MainNav = () => {
 
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
             <Menu as="div" className="relative">
-              <Menu.Button>
+              <Menu.Button className="align-middle">
                 <ProfileIcon
                   className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
-                  imageUrl={user?.imageUrl}
+                  profilePhoto={user?.profilePhoto}
                 >
                   <span className="sr-only">User menu</span>
                 </ProfileIcon>
