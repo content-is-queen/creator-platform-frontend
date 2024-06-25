@@ -4,6 +4,7 @@ import "react-tailwindcss-select/dist/index.css";
 import Providers from "@/components/Providers";
 
 import localFont from "next/font/local";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
       <meta name="theme-color" content="#ffffff" />
 
       <body>
+        <ErrorBoundary></ErrorBoundary>
         <Providers>{children}</Providers>
       </body>
     </html>

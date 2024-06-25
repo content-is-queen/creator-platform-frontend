@@ -3,22 +3,16 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 import Text from "../Text";
 import Heading from "@/components/Heading";
-import clsx from "clsx";
 import Subheading from "../Subheading";
 
 const Job = ({
   title,
-  company,
-
   description,
   category,
-  contract_type,
   location,
   experience,
   skills,
-  education,
   salary,
-  terms,
   benefits,
   deadline,
 }) => (
@@ -38,7 +32,7 @@ const Job = ({
       </div>
       <div>
         <Subheading className=" mb-1">Skills</Subheading>
-        <ul className={clsx("")}>
+        <ul>
           {skills.map((skill) => (
             <li key={skill} className="flex gap-2 items-center">
               <span className="text-queen-black border border-queen-black/60 rounded-full h-4 w-4 flex items-center justify-center">

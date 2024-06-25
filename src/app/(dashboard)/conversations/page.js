@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase.config";
 
@@ -65,7 +65,7 @@ const Conversations = () => {
         {loading ? (
           <></>
         ) : (
-          <>
+          <ErrorBoundary>
             <ChatList
               rooms={rooms}
               active={activeChat}
@@ -76,7 +76,7 @@ const Conversations = () => {
             ) : (
               <Empty rooms={rooms} />
             )}
-          </>
+          </ErrorBoundary>
         )}
       </Container>
     </div>
