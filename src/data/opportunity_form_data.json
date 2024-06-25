@@ -223,6 +223,11 @@
         "children": "Budget for Pitch (optional)"
       },
       {
+        "name": "deadline",
+        "type": "date",
+        "children": "Application Deadline"
+      },
+      {
         "name": "key_message",
         "as": "textarea",
         "children": "Key Message or Theme"
