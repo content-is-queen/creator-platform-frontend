@@ -18,7 +18,7 @@ import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
 import NotificationsList from "./NotificationsList";
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 import { collection, onSnapshot } from "firebase/firestore";
 
 const MainNav = () => {
@@ -29,7 +29,7 @@ const MainNav = () => {
   const [notificationList, setNotificationsList] = useState([]);
   const [isNewNotification, setIsNewNotification] = useState(false);
   const router = useRouter();
-  const { token } = useToken();
+  const { token } = useAuth();
 
   const { user, setUser, loading } = useUser();
   const { subscribed } = useAuth();
