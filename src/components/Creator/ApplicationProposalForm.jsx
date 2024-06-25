@@ -3,7 +3,7 @@
 import API from "@/api/api";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -16,11 +16,11 @@ const ApplicationProposalForm = ({
   applicationInstructions,
 }) => {
   const { user } = useUser();
-  const { token } = useToken();
+  const { token } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -42,11 +42,11 @@ const ApplicationProposalForm = ({
           "Content-Type": "application/json",
         },
       });
-
       setStatus("submitted");
     } catch (err) {
+      console.log(err);
       setError({
-        message: "Something went wrong...",
+        message: err.response.data.message || "Something went wrong...",
       });
       console.error(err);
     } finally {
@@ -70,7 +70,7 @@ const ApplicationProposalForm = ({
         className="max-w-2xl"
       >
         <Subheading size="lg">Write proposal</Subheading>
-        <Form errors={errors} setError={setError} handleSubmit={handleSubmit}>
+        <Form error={error} setError={setError} handleSubmit={handleSubmit}>
           <Form.Textarea
             name="proposal"
             onChange={(e) => setProposal(e.target.value)}

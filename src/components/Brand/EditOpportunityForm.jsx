@@ -10,15 +10,15 @@ import Form from "@/components/Form";
 import { inputStyles } from "@/components/Form";
 
 import formData from "@/data/opportunity_form_data.json";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 const EditOpportunityForm = (props) => {
-  const { token } = useToken();
+  const { token } = useAuth();
   const { type, opportunityId } = props;
   const data = formData[type];
 
   const [updatedFields, setUpdatedFields] = useState({});
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
   const changeHandler = (field, value) => {
@@ -61,7 +61,7 @@ const EditOpportunityForm = (props) => {
 
   return (
     <Form
-      errors={errors}
+      error={error}
       setError={setError}
       handleSubmit={() => handleSubmit(updatedFields, opportunityId)}
     >

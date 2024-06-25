@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import API from "@/api/api";
-import useToken from "@/hooks/useToken";
+import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
@@ -69,12 +69,12 @@ const CreateUserForm = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { token } = useToken();
+  const { token } = useAuth();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -146,7 +146,7 @@ const CreateUserForm = () => {
             Register
           </Button>
         </form>
-        {errors?.message && <Error>{errors.message}</Error>}
+        {error?.message && <Error>{error.message}</Error>}
         {success?.message && <Success>{success.message}</Success>}
       </Modal>
     </>

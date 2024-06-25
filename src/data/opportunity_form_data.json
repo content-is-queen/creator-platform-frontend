@@ -105,11 +105,6 @@
         "name": "applicationInstructions",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
-      },
-      {
-        "name": "link",
-        "children": "External link (optional)",
-        "description": "Link to an external opportunity"
       }
     ]
   },
@@ -199,11 +194,6 @@
         "name": "applicationInstructions",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
-      },
-      {
-        "name": "link",
-        "children": "External link (optional)",
-        "description": "Link to external applications"
       }
     ]
   },
@@ -347,11 +337,6 @@
         "name": "applicationInstructions",
         "children": "Application Instruction (optional)",
         "description": "This is what creators will see when filling in an application form"
-      },
-      {
-        "name": "link",
-        "children": "External link (optional)",
-        "description": "Link to external applications"
       }
     ]
   }

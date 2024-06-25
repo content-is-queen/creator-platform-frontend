@@ -43,8 +43,6 @@ const Show = ({ href, audio_preview_url, role, name, cover }) => {
     };
   }, []);
 
-  console.log(audio_preview_url);
-
   return (
     <div key={href} className="space-y-5 relative group">
       <div className="relative overflow-hidden rounded-2xl">
@@ -123,7 +121,7 @@ const Showcase = ({ meta }) => {
   const credits = user?.credits ? JSON.parse(user.credits) : [];
 
   const showcase = credits.reduce((acc, current) => {
-    if (creditsToShow.includes(current.name)) {
+    if (creditsToShow.includes(current.href)) {
       return [...acc, current];
     }
     return [...acc];

@@ -233,7 +233,7 @@ const Input = ({
 
 const Form = forwardRef(function Form(
   {
-    errors,
+    error,
     setError,
     success,
     setSuccess,
@@ -256,7 +256,7 @@ const Form = forwardRef(function Form(
       >
         {children}
       </form>
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
       {success?.message && <Success>{success.message}</Success>}
     </>
   );

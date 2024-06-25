@@ -31,7 +31,7 @@ const ForgotPasswordForm = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const [errors, setError] = useState({});
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -83,7 +83,7 @@ const ForgotPasswordForm = () => {
           Send password recovery link
         </Button>
       </form>
-      {errors?.message && <Error>{errors.message}</Error>}
+      {error?.message && <Error>{error.message}</Error>}
       {success?.message && <Success>{success.message}</Success>}
     </>
   );
