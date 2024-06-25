@@ -218,6 +218,11 @@
         ]
       },
       {
+        "name": "budget",
+        "type": "text",
+        "children": "Budget for Pitch (optional)"
+      },
+      {
         "name": "key_message",
         "as": "textarea",
         "children": "Key Message or Theme"
