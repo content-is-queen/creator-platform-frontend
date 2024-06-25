@@ -4,15 +4,9 @@ import Subheading from "../Subheading";
 
 const Campaign = ({
   title,
-
   description,
-  category,
   targetAudience,
-  location,
-  experience,
-  education,
   adType,
-  benefits,
   length,
   budget,
   startDate,
@@ -44,18 +38,22 @@ const Campaign = ({
           </Text>
         </div>
 
-        <div className="flex gap-1">
-          <Text size="sm">Length</Text>
-          <Text size="sm" color="muted">
-            {length}
-          </Text>
-        </div>
-        <div className="flex gap-1">
-          <Text size="sm">Budget</Text>
-          <Text size="sm" color="muted">
-            {budget}
-          </Text>
-        </div>
+        {length && (
+          <div className="flex gap-1">
+            <Text size="sm">Length</Text>
+            <Text size="sm" color="muted">
+              {length}
+            </Text>
+          </div>
+        )}
+        {budget && (
+          <div className="flex gap-1">
+            <Text size="sm">Budget</Text>
+            <Text size="sm" color="muted">
+              {budget}
+            </Text>
+          </div>
+        )}
       </div>
 
       <div>
