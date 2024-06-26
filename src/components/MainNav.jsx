@@ -7,20 +7,22 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { auth } from "@/firebase.config";
+import { auth, db } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
-import { IoNotificationsOutline } from "react-icons/io5";
+import { Menu } from "@headlessui/react";
+import { collection, onSnapshot } from "firebase/firestore";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
-import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
+import Notifications from "./Notifications";
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [isNewNotification, setIsNewNotification] = useState(false);
   const router = useRouter();
+  const { token } = useAuth();
 
   const { user, setUser, loading } = useUser();
   const { subscribed } = useAuth();
@@ -99,6 +101,19 @@ const MainNav = () => {
     ],
   };
 
+  useEffect(() => {
+    if (!user) return;
+
+    const notificationsRef = collection(db, `users/${user.uid}/notifications`);
+    const unsubscribe = onSnapshot(notificationsRef, (snapshot) => {
+      if (!snapshot.empty) {
+        setIsNewNotification(true);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user]);
+
   return (
     <nav
       className={clsx(
@@ -160,21 +175,10 @@ const MainNav = () => {
               )}
 
               <li>
-                <button
-                  type="button"
-                  className="flex text-sm rounded-full md:me-0 focus:ring-4"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  data-dropdown-toggle="user-dropdown"
-                  data-dropdown-placement="bottom"
-                >
-                  <span className="uppercase md:sr-only">Notifications</span>
-                  <IoNotificationsOutline className="w-6 h-6 hidden md:block" />
-                </button>
+                <Notifications />
               </li>
             </ul>
           </div>
-
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
             <Menu as="div" className="relative">
               <Menu.Button className="align-middle">
