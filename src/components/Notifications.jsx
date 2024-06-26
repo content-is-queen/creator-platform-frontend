@@ -67,7 +67,7 @@ const Notifications = () => {
   }, [user]);
 
   return (
-    <Menu as="div" className="relative normal-case">
+    <Menu as="div" className="relative normal-case text-sm">
       <Menu.Button
         className="flex relative text-sm rounded-full md:me-0 focus:ring-4"
         onClick={handleIsBellClicked}
@@ -79,13 +79,13 @@ const Notifications = () => {
         <IoNotificationsOutline className="w-6 h-6" />
       </Menu.Button>
       <Menu.Items anchor="bottom" className="text-queen-black">
-        <div className="z-50 mt-3 origin-top-right absolute right-0 bg-white w-60 divide-y divide-gray-100 rounded-lg shadow">
+        <div className="z-50 mt-3 origin-top-right absolute right-0 bg-white w-72 divide-y divide-queen-black/10 rounded-md shadow-lg">
           <div className="flex justify-between items-center">
             <Subheading className="px-4 py-2 text-sm">Notifications</Subheading>
             <button
               type="button"
               onClick={handleClearAll}
-              className="px-4 text-sm hover:text-queen-blue"
+              className="px-4 hover:text-queen-blue"
             >
               Clear
             </button>

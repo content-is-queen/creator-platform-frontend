@@ -54,9 +54,10 @@ const BrandOpportunityCard = (props) => {
     <>
       <Card className="inline-block space-y-4 w-full max-w-sm relative">
         <div className="flex gap-x-3 content-start items-center justify-between">
-          <p className="text-lg text-queen-black capitalize truncate max-w-full w-60">
-            {title}
-          </p>
+          <div className="flex content-start items-start md:items-center">
+            <p className="mr-3 text-queen-black capitalize">{title}</p>
+            <Tag className="inline-block">{statusLabel}</Tag>
+          </div>
           <Menu as="div" className="relative">
             <Menu.Button className="ml-auto pl-2 focus:outline-none">
               <FontAwesomeIcon icon={faEllipsisV} />
@@ -96,9 +97,6 @@ const BrandOpportunityCard = (props) => {
             <Text as="span" size="sm">
               {deadline || endDate}
             </Text>
-          </div>
-          <div>
-            <Tag>{statusLabel}</Tag>
           </div>
         </div>
 
