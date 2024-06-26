@@ -108,7 +108,7 @@ const Body = ({ room }) => {
       <div className="w-full flex flex-col justify-between">
         <div className="flex flex-col space-y-8">
           {messages.length > 0 &&
-            messages.map((item) => {
+            messages?.map((item) => {
               return (
                 <Message key={item.id} currentUser={item.uid === user.uid}>
                   {item.message ? (
