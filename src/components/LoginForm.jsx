@@ -55,7 +55,8 @@ const LoginForm = () => {
     setError({});
     const { email, password } = data;
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response);
     } catch (error) {
       setError({
         message: "Something went wrong when signing in",

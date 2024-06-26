@@ -1,4 +1,7 @@
 import { formatDistance } from "date-fns";
+import { Menu } from "@headlessui/react";
+
+import Text from "./Text";
 
 const NotificationsList = ({ data }) => {
   const timestamp = new Date(
@@ -8,19 +11,12 @@ const NotificationsList = ({ data }) => {
   const displayTime = formatDistance(timestamp, now, { addSuffix: true });
 
   return (
-    <div className="divide-y divide-gray-100">
-      <a href="#" className="flex px-4 py-3 hover:bg-gray-100">
-        <div className="w-full">
-          <div className="text-gray-500 text-sm mb-1.5">
-            {" "}
-            <span className="font-semibold text-gray-900">
-              {data.title}
-            </span>: {data.body}
-          </div>
-          <div className="text-xs text-blue-600">{displayTime}</div>
-        </div>
-      </a>
-    </div>
+    <Menu className="divide-y divide-gray-100">
+      <div className="flex px-4 py-3">
+        <Text className="text-sm mb-1.5">{data.body}</Text>
+        <span className="text-xs text-queen-black/80">{displayTime}</span>
+      </div>
+    </Menu>
   );
 };
 
