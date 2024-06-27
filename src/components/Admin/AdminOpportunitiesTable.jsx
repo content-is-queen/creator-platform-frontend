@@ -59,7 +59,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         <Table>
           <Table.Head>
             <tr>
-              <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3">
                 Title
               </th>

@@ -1,6 +1,5 @@
 import Card from "./Card";
 import Subheading from "./Subheading";
-import LoadingPlaceholder from "./LoadingPlaceholder";
 
 const InfoCard = ({ title, children }) => {
   return (

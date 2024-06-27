@@ -4,6 +4,8 @@ import Container from "@/components/Container";
 
 import { getOpportunities } from "@/helpers/getServerComponentData";
 
+export const dynamic = "force-dynamic";
+
 const Opportunities = async () => {
   const opportunities = await getOpportunities();
 

@@ -3,6 +3,8 @@ import API from "@/api/api";
 import Container from "@/components/Container";
 import AdminUsersTable from "@/components/Admin/AdminUsersTable";
 
+export const dynamic = "force-dynamic";
+
 const getUsers = async () => {
   // Prevent build failing during workflows build test
   if (process.env.APP_ENV === "development") {

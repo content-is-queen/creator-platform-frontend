@@ -3,7 +3,7 @@ import clsx from "clsx";
 const Bar = ({ dark }) => (
   <span
     className={clsx(
-      "animate-pulse h-2 min-w-40 rounded inline-block",
+      "animate-pulse h-2 w-40 max-w-full rounded inline-block",
       dark ? "bg-queen-black" : "bg-queen-white"
     )}
   ></span>

@@ -3,6 +3,8 @@ import API from "@/api/api";
 import Container from "@/components/Container";
 import AdminOpportunitiesTable from "@/components/Admin/AdminOpportunitiesTable";
 
+export const dynamic = "force-dynamic";
+
 const getOpportunities = async () => {
   // Prevent build failing during workflows build test
   if (process.env.APP_ENV === "development") {

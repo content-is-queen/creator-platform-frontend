@@ -1,9 +1,8 @@
 import plurise from "@/helpers/plurise";
-import clsx from "clsx";
 
 import Subheading from "./Subheading";
 
-const Stat = ({ value, label }) => (
+export const Stat = ({ value, label }) => (
   <div className="bg-queen-white shadow-lg text-center rounded-full text-queen-black shrink-0 inline-flex w-1/2 pb-[50%] relative border-queen-blue border">
     <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col">
       <Subheading size="3xl">{value}</Subheading>
@@ -12,7 +11,7 @@ const Stat = ({ value, label }) => (
   </div>
 );
 
-const StatsPanel = ({ applications, loading }) => {
+const StatsPanel = ({ applications }) => {
   const proposals = applications.length;
   const inProgress = applications.filter((i) => i.status === "accepted").length;
   const inReview = applications.filter((i) => i.status === "pending").length;
@@ -29,12 +28,7 @@ const StatsPanel = ({ applications, loading }) => {
   ];
 
   return (
-    <div
-      className={clsx(
-        "mx-auto w-72 flex items-center justify-center flex-wrap md:flex-nowrap",
-        loading && "animate-pulse"
-      )}
-    >
+    <div className="mx-auto w-72 flex items-center justify-center flex-wrap md:flex-nowrap">
       {STATS.map((stat) => {
         return <Stat key={stat.name} {...stat} />;
       })}
