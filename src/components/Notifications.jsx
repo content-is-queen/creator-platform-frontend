@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
 import { Menu } from "@headlessui/react";
-import { auth, db } from "@/firebase.config";
-import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase.config";
+import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { IoNotificationsOutline } from "react-icons/io5";
 import API from "@/api/api";
 
@@ -11,33 +11,11 @@ import NotificationsList from "./NotificationsList";
 import Subheading from "./Subheading";
 
 const Notifications = () => {
-  const [isBellClicked, setIsBellClicked] = useState(false);
   const [notificationList, setNotificationsList] = useState([]);
   const [isNewNotification, setIsNewNotification] = useState(false);
 
   const { user } = useUser();
   const { token } = useAuth();
-
-  const handleIsBellClicked = async () => {
-    setIsNewNotification(false);
-    if (!user) return;
-    if (isBellClicked === false) {
-      if (token) {
-        try {
-          const response = await API("/notifications/all", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const { data } = response.data;
-          setNotificationsList(data);
-        } catch (error) {
-          console.error("Error fetching notifications:", error);
-        }
-      }
-    }
-    setIsBellClicked((prev) => !prev);
-  };
 
   const handleClearAll = async () => {
     try {
@@ -54,24 +32,24 @@ const Notifications = () => {
   };
 
   useEffect(() => {
-    if (!user) return;
+    if (user) {
+      const q = query(collection(db, `users/${user.uid}/notifications`));
 
-    const notificationsRef = collection(db, `users/${user.uid}/notifications`);
-    const unsubscribe = onSnapshot(notificationsRef, (snapshot) => {
-      if (!snapshot.empty) {
-        setIsNewNotification(true);
-      }
-    });
+      const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+        const notifications = [];
+        QuerySnapshot.forEach((doc) => {
+          notifications.push({ ...doc.data(), id: doc.id });
+        });
 
-    return () => unsubscribe();
+        setNotificationsList(notifications);
+      });
+      return () => unsubscribe;
+    }
   }, [user]);
 
   return (
     <Menu as="div" className="relative normal-case text-sm">
-      <Menu.Button
-        className="flex relative text-sm rounded-full md:me-0 focus:ring-4"
-        onClick={handleIsBellClicked}
-      >
+      <Menu.Button className="flex relative text-sm rounded-full md:me-0 focus:ring-4">
         <span className="uppercase md:sr-only">Notifications</span>
         {isNewNotification && (
           <span className="absolute w-2.5 h-2.5 right-0 bg-red-600 rounded-full flex item-center justify-center"></span>

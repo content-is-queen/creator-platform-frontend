@@ -1,12 +1,13 @@
 import Card from "./Card";
 import Subheading from "./Subheading";
+import LoadingPlaceholder from "./LoadingPlaceholder";
 
-const InfoCard = ({ title, value, children }) => {
+const InfoCard = ({ title, children }) => {
   return (
     <Card className="flex flex-col justify-between">
       <dd className="text-queen-black/80 pb-2">{title}</dd>
       <Subheading as="dt" size="4xl">
-        {value || children}
+        {children}
       </Subheading>
     </Card>
   );

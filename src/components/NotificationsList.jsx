@@ -4,7 +4,7 @@ import Text from "./Text";
 
 const NotificationsList = ({ data }) => {
   const timestamp = new Date(
-    data.timestamp._seconds * 1000 + data.timestamp._nanoseconds / 1000000
+    data.timestamp.seconds * 1000 + data.timestamp.nanoseconds / 1000000
   );
   const now = new Date();
   const displayTime = formatDistance(timestamp, now, { addSuffix: true });
