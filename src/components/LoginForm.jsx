@@ -56,13 +56,11 @@ const LoginForm = () => {
     const { email, password } = data;
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
     } catch (error) {
+      setLoading(false);
       setError({
         message: "Something went wrong when signing in",
       });
-    } finally {
-      setLoading(false);
     }
   };
 

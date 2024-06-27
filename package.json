@@ -8,7 +8,7 @@
     "build:test": "APP_ENV=development next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy:production": "firebase --only hosting deploy",
+    "deploy": "firebase deploy --only hosting -P default",
     "deploy:staging": "firebase deploy --only hosting -P staging",
     "prettier:check": "npx prettier ./src --check",
     "prettier:write": "npx prettier ./src --write"
@@ -34,8 +34,6 @@
     "date-fns": "^3.6.0",
     "debounce": "^2.0.0",
     "firebase": "^10.10.0",
-    "flowbite": "^2.3.0",
-    "flowbite-react": "^0.7.2",
     "lint-staged": "^15.2.2",
     "lodash": "^4.17.21",
     "next": "^14.1.3",

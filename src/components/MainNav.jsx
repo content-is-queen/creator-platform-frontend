@@ -7,11 +7,10 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { auth, db } from "@/firebase.config";
+import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
 import { Menu } from "@headlessui/react";
-import { collection, onSnapshot } from "firebase/firestore";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
@@ -20,9 +19,7 @@ import Notifications from "./Notifications";
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isNewNotification, setIsNewNotification] = useState(false);
   const router = useRouter();
-  const { token } = useAuth();
 
   const { user, setUser, loading } = useUser();
   const { subscribed } = useAuth();
@@ -100,19 +97,6 @@ const MainNav = () => {
       { href: "/conversations", label: "Conversations" },
     ],
   };
-
-  useEffect(() => {
-    if (!user) return;
-
-    const notificationsRef = collection(db, `users/${user.uid}/notifications`);
-    const unsubscribe = onSnapshot(notificationsRef, (snapshot) => {
-      if (!snapshot.empty) {
-        setIsNewNotification(true);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [user]);
 
   return (
     <nav
