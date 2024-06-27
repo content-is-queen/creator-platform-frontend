@@ -13,7 +13,7 @@ import Button from "@/components/Button";
 const Company = () => {
   const { user, setUser } = useUser();
   const { token } = useAuth();
-  const [error, setError] = useState({});
+  const [error, setErrors] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -21,20 +21,21 @@ const Company = () => {
   const [formData, setFormData] = useState({
     organizationName: user?.organizationName || "",
     organizationBio: user?.organizationBio || "",
+    organizationLogo: user?.organizationLogo || null,
   });
 
   useEffect(() => {
     setFormData({
       organizationName: user?.organizationName || "",
       organizationBio: user?.organizationBio || "",
+      organizationLogo: user?.organizationLogo || null,
     });
   }, [user]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    const updatedFormData = { ...formData, [name]: value };
-
+    const { name, value, files } = e.target;
+    const newValue = name === "organizationLogo" ? files[0] : value;
+    const updatedFormData = { ...formData, [name]: newValue };
     const checkIsEmpty = (str) => str.trim().length === 0;
 
     const isEmpty =
@@ -53,37 +54,40 @@ const Company = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError({});
+    setErrors({});
     setSuccess({});
-
     try {
+      let imageUrl = null;
+
+      if (formData.organizationLogo) {
+        imageUrl = await handleFileUpload(formData.organizationLogo);
+      }
       const dataToSubmit = {
         organizationName: formData.organizationName,
         organizationBio: formData.organizationBio,
+        ...(imageUrl && { organizationLogo: imageUrl }),
       };
-
-      const response = await API.put("/admin/company", dataToSubmit, {
+      const response = await API.put(`/admin/company`, dataToSubmit, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-
       if (response?.status === 200) {
         setUser({
           ...user,
           organizationName: formData.organizationName,
           organizationBio: formData.organizationBio,
+          organizationLogo: imageUrl || user.organizationLogo,
         });
-
         setSuccess({ message: "Company info updated successfully" });
       } else {
-        setError({
+        setErrors({
           message: response.message || "Something went wrong. Update failed.",
         });
       }
     } catch (error) {
-      setError({
+      setErrors({
         message:
           error.response?.data.message ||
           "Something went wrong. Update failed.",
@@ -104,6 +108,14 @@ const Company = () => {
           className="relative"
         >
           Company Name
+        </Form.Input>
+        <Form.Input
+          name="organizationLogo"
+          type="file"
+          onChange={handleChange}
+          accept="image/*"
+        >
+          Profile Picture
         </Form.Input>
         <Form.Input
           name="organizationBio"
