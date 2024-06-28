@@ -176,7 +176,10 @@ const Footer = ({ room }) => {
     if (uploadedFile) {
       setLoading(true);
       if (extenstion) {
-        const storageRef = ref(storage, `messagefiles/${uploadedFile.name}`);
+        const storageRef = ref(
+          storage,
+          `conversations/${user.uid}/${uploadedFile.name}`
+        );
         try {
           await uploadBytes(storageRef, uploadedFile);
           const downloadURL = await getDownloadURL(storageRef);
@@ -227,56 +230,48 @@ const Footer = ({ room }) => {
         }}
         className="max-w-xl"
       >
-        <div data-upload-id="my-unique-id" className="text-center">
-          <div className="flex items-center justify-center w-full">
-            <label htmlFor="dropzone-file" className="dropzone">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6 cursor-pointer">
-                <svg
-                  className="w-8 h-8 mb-4 text-queen-black/80"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                  />
-                </svg>
-                <p className="mb-2 text-sm text-queen-black/80">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop
-                </p>
-                <p className="text-xs text-queen-black/80">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
-                </p>
-              </div>
-              <input
-                id="dropzone-file"
-                type="file"
-                className="!hidden"
-                onChange={handleFileChange}
+        <label htmlFor="dropzone-file">
+          <div className="flex flex-col items-center justify-center pt-5 pb-6 cursor-pointer">
+            <svg
+              className="w-8 h-8 mb-2 text-queen-black/80"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 16"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
               />
-              {uploadedFile && (
-                <div className="mb-8">
-                  <p className="text-sm">{uploadedFile.name}</p>
-                </div>
-              )}
-            </label>
+            </svg>
+            <p className="mb-2 text-sm text-queen-black/80 font-semibold">
+              Click to upload
+            </p>
           </div>
-
+          <input
+            id="dropzone-file"
+            type="file"
+            className="!hidden"
+            onChange={handleFileChange}
+          />
           {uploadedFile && (
-            <div className="flex gap-1 justify-center">
-              <Button type="button" as="button" onClick={sendMessage}>
-                {loading && <Button.Spinner />}
-                Send
-              </Button>
+            <div className="mb-8">
+              <p className="text-sm">{uploadedFile.name}</p>
             </div>
           )}
-        </div>
+        </label>
+
+        {uploadedFile && (
+          <div className="flex gap-1 justify-center">
+            <Button type="button" as="button" onClick={sendMessage}>
+              {loading && <Button.Spinner />}
+              Send
+            </Button>
+          </div>
+        )}
       </Modal>
 
       <div className="w-full p-8">
@@ -290,7 +285,6 @@ const Footer = ({ room }) => {
         />
         <input
           type="file"
-          id="file-input"
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
