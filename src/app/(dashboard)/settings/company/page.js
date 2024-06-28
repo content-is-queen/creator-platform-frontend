@@ -3,7 +3,12 @@
 import { useState, useEffect } from "react";
 import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 
@@ -11,120 +16,130 @@ import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const Company = () => {
-  const { user, setUser } = useUser();
-  const { token } = useAuth();
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [image, setImage] = useState(null);
+  const [newData, setNewData] = useState({});
 
-  const [formData, setFormData] = useState({
-    organizationName: user?.organizationName || "",
-    organizationBio: user?.organizationBio || "",
-  });
+  const { user, setUser } = useUser();
+  const { token } = useAuth();
 
   useEffect(() => {
     setFormData({
       organizationName: user?.organizationName || "",
       organizationBio: user?.organizationBio || "",
+      organizationLogo: user?.organizationLogo || "",
     });
   }, [user]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
 
-    const updatedFormData = { ...formData, [name]: value };
+    if (files) {
+      setImage(URL.createObjectURL(files[0]));
+      setNewData((prev) => {
+        return { ...prev, organizationLogo: files[0] };
+      });
+    } else {
+      setNewData((prev) => {
+        return { ...prev, [name]: value };
+      });
+    }
 
-    const checkIsEmpty = (str) => str.trim().length === 0;
-
-    const isEmpty =
-      checkIsEmpty(updatedFormData.organizationName) &&
-      updatedFormData.organizationBio;
-    setUpdated(!isEmpty);
-    setFormData(updatedFormData);
+    setUpdated(formData !== newData || Object.keys(newData).length > 0);
   };
 
-  const handleFileUpload = async (file) => {
-    const storageRef = ref(storage, `organizationLogo/${file.name}`);
-    await uploadBytes(storageRef, file);
-    return getDownloadURL(storageRef);
+  const uploadFile = async (file) => {
+    const profilePhotoRef = ref(storage, `organizationLogo/${file.name}`);
+
+    await uploadBytes(profilePhotoRef, file);
+    return await getDownloadURL(profilePhotoRef);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoading(true);
     setError({});
     setSuccess({});
 
     try {
-      const dataToSubmit = {
-        organizationName: formData.organizationName,
-        organizationBio: formData.organizationBio,
-      };
+      if (newData?.organizationLogo) {
+        const organizationLogo = await uploadFile(newData.organizationLogo);
 
-      const response = await API.put("/admin/company", dataToSubmit, {
+        newData.organizationLogo = organizationLogo;
+      }
+
+      const response = await API.post("/admin/company", newData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
 
-      if (response?.status === 200) {
-        setUser({
-          ...user,
-          organizationName: formData.organizationName,
-          organizationBio: formData.organizationBio,
-        });
+      setUser({ ...user, ...response.data.data });
 
-        setSuccess({ message: "Company info updated successfully" });
-      } else {
-        setError({
-          message: response.message || "Something went wrong. Update failed.",
-        });
-      }
+      setSuccess({ message: response.data.message });
     } catch (error) {
+      console.log(error);
       setError({
-        message:
-          error.response?.data.message ||
-          "Something went wrong. Update failed.",
+        message: "Something went wrong",
       });
+
+      if (newData?.organizationLogo) {
+        const profilePhotoRef = ref(
+          storage,
+          `organizationLogo/${newData.organizationLogo.name}`
+        );
+
+        await deleteObject(profilePhotoRef);
+        console.log("Uploaded logo removed from storage");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Form className="mx-auto">
+    <Form
+      className="mx-auto"
+      error={error}
+      setError={setError}
+      handleSubmit={handleSubmit}
+      setSuccess={setSuccess}
+      success={success}
+    >
       <div className="space-y-10">
         <Form.Input
           name="organizationName"
           type="text"
-          value={formData.organizationName}
+          value={newData.organizationName || formData.organizationName}
           onChange={handleChange}
-          className="relative"
         >
           Company Name
         </Form.Input>
         <Form.Input
           name="organizationBio"
           type="text"
-          value={formData.organizationBio}
+          value={newData.organizationBio || formData.organizationBio}
           onChange={handleChange}
-          className="relative"
         >
           Company Bio
         </Form.Input>
-        <Button
-          type="submit"
-          as="button"
-          onClick={handleSubmit}
-          disabled={!updated}
+        <Form.Input
+          name="organizationLogo"
+          type="file"
+          accept="image/*"
+          onChange={handleChange}
         >
+          Company Logo
+        </Form.Input>
+        <img src={image || formData.organizationLogo} width={100} alt="" />
+        <Button type="submit" as="button" disabled={!updated}>
           {loading && <Button.Spinner />} Update Company Info
         </Button>
       </div>
-      {error?.message && <Form.Error>{error.message}</Form.Error>}
-      {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );
 };

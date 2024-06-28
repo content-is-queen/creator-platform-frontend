@@ -23,8 +23,6 @@ const ProfilePictureUpdateModal = ({ className }) => {
   const { token } = useAuth();
   const { user, setUser } = useUser();
 
-  console.log(user);
-
   const handleChange = (e) => {
     const file = e.target.files[0];
     setFile(file);
