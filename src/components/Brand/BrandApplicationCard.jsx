@@ -52,6 +52,7 @@ const BrandApplicationCard = ({
 
           authorId: uid,
           creatorId,
+          opportunityTitle
         },
         {
           headers: {
