@@ -24,19 +24,23 @@ const Campaign = ({
         <Text>{description}</Text>
       </div>
 
-      <div>
-        <Subheading>Target Audience</Subheading>
-        <Text>{targetAudience}</Text>
-      </div>
+      {targetAudience && (
+        <div>
+          <Subheading>Target Audience</Subheading>
+          <Text>{targetAudience}</Text>
+        </div>
+      )}
 
       <div>
         <Subheading>About the Ad</Subheading>
-        <div className="flex gap-1">
-          <Text size="sm">Type</Text>
-          <Text size="sm" color="muted">
-            {adType}
-          </Text>
-        </div>
+        {adType && (
+          <div className="flex gap-1">
+            <Text size="sm">Type</Text>
+            <Text size="sm" color="muted">
+              {adType}
+            </Text>
+          </div>
+        )}
 
         {length && (
           <div className="flex gap-1">

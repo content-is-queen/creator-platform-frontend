@@ -23,14 +23,18 @@ const Pitch = ({
         <Subheading>Description</Subheading>
         <Text>{description}</Text>
       </div>
-      <div>
-        <Subheading>Target Audience</Subheading>
-        <Text>{targetAudience}</Text>
-      </div>
-      <div>
-        <Subheading>Expected Content Duration</Subheading>
-        <Text>{contentDuration}</Text>
-      </div>
+      {targetAudience && (
+        <div>
+          <Subheading>Target Audience</Subheading>
+          <Text>{targetAudience}</Text>
+        </div>
+      )}
+      {contentDuration && (
+        <div>
+          <Subheading>Expected Content Duration</Subheading>
+          <Text>{contentDuration}</Text>
+        </div>
+      )}
       {contentType && (
         <div>
           <Subheading>Type of content</Subheading>
