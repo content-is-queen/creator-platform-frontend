@@ -1,13 +1,13 @@
 "use client";
 
+import clsx from "clsx";
 import { formatDistance } from "date-fns";
 
 import { useEffect } from "react";
-
-import clsx from "clsx";
-import ProfileIcon from "./ProfileIcon";
-import { useUser } from "@/context/UserContext";
 import { useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+
+import ProfileIcon from "./ProfileIcon";
 import Subheading from "./Subheading";
 
 const ChatList = ({ active, setActive, rooms }) => {

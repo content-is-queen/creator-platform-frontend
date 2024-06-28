@@ -2,30 +2,18 @@
 
 import { useState, useEffect } from "react";
 
-import API from "@/api/api";
-
 import Search from "@/components/Search";
 import OpportunityCard from "@/components/OpportunityCard";
 import Spinner from "../Spinner";
 import Text from "../Text";
 
-const OpportunitiesSearch = () => {
-  const [opportunities, setOpportunities] = useState([]);
+const OpportunitiesSearch = ({ opportunities }) => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await API.get("/opportunities?limit=0");
-        setOpportunities(data.message.opportunities);
-        setFilteredOpportunities(data.message.opportunities);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    setFilteredOpportunities(opportunities);
+    setLoading(false);
   }, []);
 
   return (
