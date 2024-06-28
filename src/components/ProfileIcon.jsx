@@ -19,7 +19,7 @@ const ProfileIcon = ({
       )}
       {...otherProps}
     >
-      {false ? (
+      {profilePhoto ? (
         <img
           className="w-full h-full object-top object-cover"
           height={20}
