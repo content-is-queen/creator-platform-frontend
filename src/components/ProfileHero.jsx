@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Dots from "@/components/Patterns/Dots";
@@ -9,7 +10,7 @@ import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "./Heading";
-import ProfilePictureUpdateModal from "./ProfilePhotoUpdateModal";
+import ProfilePhotoUpdateModal from "./ProfilePhotoUpdateModal";
 
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
@@ -27,7 +28,9 @@ const ProfileHero = ({ user }) => {
             className="h-20 w-20"
           />
           {pathname === "/profile" && (
-            <ProfilePictureUpdateModal className="absolute right-0 bottom-0" />
+            <ErrorBoundary>
+              <ProfilePhotoUpdateModal className="absolute right-0 bottom-0" />
+            </ErrorBoundary>
           )}
         </div>
         {pathname === "/profile" && (

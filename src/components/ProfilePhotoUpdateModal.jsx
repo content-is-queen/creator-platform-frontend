@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import Form from "./Form";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebase.config";
 import useAuth from "@/hooks/useAuth";
@@ -10,9 +11,8 @@ import { useUser } from "@/context/UserContext";
 
 import Modal from "@/components/Modal";
 import Button from "./Button";
-import { Form } from "react-hook-form";
 
-const ProfilePictureUpdateModal = ({ className }) => {
+const ProfilePhotoUpdateModal = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
@@ -31,7 +31,7 @@ const ProfilePictureUpdateModal = ({ className }) => {
     }
   };
 
-  const handleClick = async () => {
+  const handleSubmit = async (e) => {
     if (!file) return;
     setLoading(true);
     setError({});
@@ -84,10 +84,17 @@ const ProfilePictureUpdateModal = ({ className }) => {
         onClose={() => {
           setIsOpen(false);
           setFile(null);
+          setImage(null);
         }}
         className="max-w-lg"
       >
-        <div className="flex items-center justify-center w-full text-center">
+        <Form
+          className="flex items-center justify-center w-full text-center"
+          error={error}
+          setError={setError}
+          success={success}
+          handleSubmit={handleSubmit}
+        >
           <label htmlFor="dropzone-file" className="dropzone">
             <div className="flex flex-col items-center justify-center pt-5 pb-6 cursor-pointer">
               <svg
@@ -109,13 +116,15 @@ const ProfilePictureUpdateModal = ({ className }) => {
                 Click to upload
               </p>
             </div>
-            <input
+            <Form.Input
               type="file"
               id="dropzone-file"
               className="!hidden"
               accept="image/*"
               onChange={handleChange}
-            />
+            >
+              Profile Phto
+            </Form.Input>
             {file && (
               <div className="mb-8 flex items-center gap-4">
                 {image ? (
@@ -130,24 +139,17 @@ const ProfilePictureUpdateModal = ({ className }) => {
                   </div>
                 ) : null}
                 <p className="text-sm">{file.name}</p>
+                <Button type="submit" as="button">
+                  {loading && <Button.Spinner />}
+                  Update
+                </Button>
               </div>
             )}
           </label>
-          {error?.message && <Form.Error>{error.message}</Form.Error>}
-          {success?.message && <Form.Success>{success.message}</Form.Success>}
-        </div>
-
-        {file && (
-          <div className="flex gap-1 justify-center">
-            <Button type="button" as="button" onClick={handleClick}>
-              {loading && <Button.Spinner />}
-              Update
-            </Button>
-          </div>
-        )}
+        </Form>
       </Modal>
     </>
   );
 };
 
-export default ProfilePictureUpdateModal;
+export default ProfilePhotoUpdateModal;
