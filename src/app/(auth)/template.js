@@ -25,7 +25,7 @@ const AuthTemplate = ({ children }) => {
         <img
           src="/images/orange-dots-circle.svg"
           alt=""
-          className="fixed hidden w-26 md:block md:-bottom-30 md:-left-20 lg:-bottom-10 lg:-left-10"
+          className="fixed hidden w-26 md:block md:-bottom-16 md:-left-20 lg:-bottom-10 lg:-left-10"
         />
       </div>
       <div className="flex pt-12 pb-16 md:py-20 items-center h-full md:col-span-8 lg:col-span-7">

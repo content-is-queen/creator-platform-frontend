@@ -67,7 +67,7 @@ const CreateOpportunityForm = ({ type }) => {
 
     // Append external link if it's set
     if (formData.get("link")) {
-      postData.append("link");
+      postData["link"] = formData.get("link");
     }
 
     try {
