@@ -16,12 +16,12 @@ const AuthCheckboxController = ({
   const disabled = checked.length === parseInt(max);
 
   return (
-    <div className="space-y grid grid-cols-2 gap-6">
+    <div className="space-y grid grid-cols-2 gap-x-6">
       {options.map((option) => {
         const id = option.replaceAll(" ", "-").toLowerCase();
 
         return (
-          <div key={id} className="-mb-6">
+          <div key={id}>
             <div className="inline-flex items-center gap-x-3 w-full">
               <Controller
                 name={name}

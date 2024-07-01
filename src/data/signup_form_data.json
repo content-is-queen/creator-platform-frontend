@@ -66,7 +66,7 @@
         ]
       },
       "3": {
-        "title": "What are your goals?",
+        "title": "What is your goal?",
         "fields": [
           {
             "name": "goals",
@@ -83,7 +83,7 @@
         ]
       },
       "4": {
-        "title": "What are your interests?",
+        "title": "What are your interests? (select up to 3)",
         "fields": [
           {
             "name": "interests",
@@ -116,7 +116,7 @@
               "Hobbies & Crafts",
               "Pet Care & Animal Lovers",
               "DIY & Home Improvement",
-              "Entertainment (Movies, TV, Music)",
+              "Entertainment",
               "Sports & Outdoor Activities"
             ]
           }
