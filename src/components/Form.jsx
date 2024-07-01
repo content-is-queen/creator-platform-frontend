@@ -112,7 +112,7 @@ const Checkbox = ({
         {options.map((option, index) => {
           if (typeof option === "string") {
             return (
-              <div key={option} className="-mb-6">
+              <div key={option}>
                 <div className="inline-flex items-center gap-x-3 w-full">
                   <input
                     type="checkbox"
@@ -138,6 +138,7 @@ const Checkbox = ({
 
           const categoryDisabled =
             categoryChecked.length === parseInt(option.max);
+
           return (
             <div className="items-center gap-3 w-full" key={option.title}>
               {description && (

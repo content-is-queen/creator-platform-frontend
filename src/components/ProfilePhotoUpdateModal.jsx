@@ -36,7 +36,7 @@ const ProfilePhotoUpdateModal = ({ className }) => {
     setLoading(true);
     setError({});
 
-    const storageRef = ref(storage, `profilePhotos/${user.uid}/${file.name}`);
+    const storageRef = ref(storage, `profilePhotos/${user.uid}`);
     await uploadBytes(storageRef, file);
     const profilePhoto = await getDownloadURL(storageRef);
 
