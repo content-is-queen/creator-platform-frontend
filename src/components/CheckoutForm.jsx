@@ -2,23 +2,29 @@
 
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import { useUser } from "@/context/UserContext";
+import useAuth from "@/hooks/useAuth";
 
 import API from "@/api/api";
 import Button from "./Button";
-
-import { useUser } from "@/context/UserContext";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 
 const CheckoutForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
+  const { token } = useAuth();
 
   const handleClick = async () => {
     setLoading(true);
 
     try {
-      const response = await API.post("/payments/create-checkout-session", {});
+      const response = await API("/payments/create-checkout-session", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status !== 200) {
         throw new Error("Failed to create checkout session");

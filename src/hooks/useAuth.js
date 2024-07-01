@@ -4,7 +4,7 @@ import { useUser } from "@/context/UserContext";
 
 const useAuth = () => {
   const [token, setToken] = useState(null);
-  const [subscribed, setSubscribed] = useState(false);
+  const [subscribed, setSubscribed] = useState(true);
   const { user } = useUser();
 
   useEffect(() => {

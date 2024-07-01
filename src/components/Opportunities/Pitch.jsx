@@ -8,6 +8,7 @@ const Pitch = ({
   targetAudience,
   contentDuration,
   contentType,
+  budget,
   keyMessage,
 }) => (
   <div className="space-y-8">
@@ -15,24 +16,31 @@ const Pitch = ({
       <Heading size="3xl" className="mb-1">
         {title}
       </Heading>
+      <Text className="capitalize">{budget}</Text>
     </div>
     <div className="space-y-5 min-h-24 max-w-lg">
       <div>
         <Subheading>Description</Subheading>
         <Text>{description}</Text>
       </div>
-      <div>
-        <Subheading>Target Audience</Subheading>
-        <Text>{targetAudience}</Text>
-      </div>
-      <div>
-        <Subheading>Expected Content Duration</Subheading>
-        <Text>{contentDuration}</Text>
-      </div>
-      <div>
-        <Subheading>Type of content</Subheading>
-        <Text>{contentType}</Text>
-      </div>
+      {targetAudience && (
+        <div>
+          <Subheading>Target Audience</Subheading>
+          <Text>{targetAudience}</Text>
+        </div>
+      )}
+      {contentDuration && (
+        <div>
+          <Subheading>Expected Content Duration</Subheading>
+          <Text>{contentDuration}</Text>
+        </div>
+      )}
+      {contentType && (
+        <div>
+          <Subheading>Type of content</Subheading>
+          <Text>{contentType}</Text>
+        </div>
+      )}
       {keyMessage && (
         <div>
           <Subheading>Key Message or Theme</Subheading>

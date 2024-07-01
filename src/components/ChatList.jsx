@@ -1,13 +1,13 @@
 "use client";
 
+import clsx from "clsx";
 import { formatDistance } from "date-fns";
 
 import { useEffect } from "react";
-
-import clsx from "clsx";
-import ProfileIcon from "./ProfileIcon";
-import { useUser } from "@/context/UserContext";
 import { useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+
+import ProfileIcon from "./ProfileIcon";
 import Subheading from "./Subheading";
 
 const ChatList = ({ active, setActive, rooms }) => {
@@ -28,13 +28,15 @@ const ChatList = ({ active, setActive, rooms }) => {
       className="bg-white rounded-3xl shadow-md col-span-4 overflow-y-auto"
       style={{ height: "calc(100vh - var(--nav-height) - 54px)" }}
     >
-      {rooms.map((room) => {
+      {rooms?.map((room) => {
         const participant = room.userProfiles.find((i) => i.userId != user.uid);
 
         // Convert firebase timestamp
-        const timestamp = new Date(
-          room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
-        );
+        const timestamp = room.timeSent
+          ? new Date(
+              room.timeSent.seconds * 1000 + room.timeSent.nanoseconds / 1000000
+            )
+          : new Date();
 
         const now = new Date();
 

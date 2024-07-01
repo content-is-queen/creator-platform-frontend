@@ -187,6 +187,16 @@
         ]
       },
       {
+        "name": "budget",
+        "type": "text",
+        "children": "Budget for Pitch (optional)"
+      },
+      {
+        "name": "deadline",
+        "type": "date",
+        "children": "Application Deadline"
+      },
+      {
         "name": "keyMessage",
         "children": "Key Message or Theme"
       },

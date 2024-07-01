@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
+import { Suspense, useEffect, useState } from "react";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase.config";
 
@@ -20,7 +20,6 @@ const Empty = ({ rooms }) => (
         {rooms.length > 0 ? "Get chatting" : "Nothing to see here!"}
       </p>
       <p className="text-queen-black/80">
-        {" "}
         {rooms.length > 0
           ? "Select one of the chats in the sidebar to get the ball rolling"
           : "You currently have no conversations"}
@@ -33,7 +32,6 @@ const Conversations = () => {
   const { user } = useUser();
 
   const [activeChat, setActiveChat] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
@@ -50,7 +48,6 @@ const Conversations = () => {
         });
 
         setRooms(rooms);
-        setLoading(false);
       });
       return () => unsubscribe;
     }
@@ -62,10 +59,8 @@ const Conversations = () => {
       style={{ height: "calc(100vh - var(--nav-height)" }}
     >
       <Container className="pt-8 grid gap-6 grid-cols-12">
-        {loading ? (
-          <></>
-        ) : (
-          <>
+        <Suspense>
+          <ErrorBoundary>
             <ChatList
               rooms={rooms}
               active={activeChat}
@@ -76,8 +71,8 @@ const Conversations = () => {
             ) : (
               <Empty rooms={rooms} />
             )}
-          </>
-        )}
+          </ErrorBoundary>
+        </Suspense>
       </Container>
     </div>
   );

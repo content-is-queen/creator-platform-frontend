@@ -111,12 +111,7 @@ const CreateUserForm = () => {
 
   return (
     <>
-      <Button
-        type="button"
-        as="button"
-        variant="white"
-        onClick={() => setIsOpen(true)}
-      >
+      <Button type="button" as="button" onClick={() => setIsOpen(true)}>
         Create User
       </Button>
       <Modal

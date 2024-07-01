@@ -5,6 +5,8 @@ import Container from "@/components/Container";
 import StatsPanel from "@/components/StatsPanel";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
+import Card from "../Card";
+import LoadingPlaceholder from "../LoadingPlaceholder";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 
 import API from "@/api/api";
@@ -38,7 +40,27 @@ const CreatorDashboard = () => {
         className="flex justify-center items-center py-12 text-center md:py-32 bg-queen-blue bg-lilac-dots bg-repeat-x bg-[center_bottom_-4rem]"
       >
         <Container className="space-y-4 pb-20">
-          <StatsPanel loading={loading} applications={applications} />
+          {loading ? (
+            <div className="mx-auto w-72 flex items-center justify-center flex-wrap md:flex-nowrap">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-queen-white shadow-lg text-center rounded-full text-queen-black shrink-0 inline-flex w-1/2 pb-[50%] relative border-queen-blue border"
+                >
+                  <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center">
+                    <div className="max-w-20">
+                      <LoadingPlaceholder.Bar dark />
+                    </div>
+                    <div className="max-w-10">
+                      <LoadingPlaceholder.Bar dark />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <StatsPanel applications={applications} />
+          )}
 
           {!loading && applications.length < 1 && (
             <div className="space-y-6 max-w-md text-queen-white pt-10 pb-20 md:pb-0">
