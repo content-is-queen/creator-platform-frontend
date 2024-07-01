@@ -23,9 +23,11 @@ export const getUser = async (args) => {
       return response.data;
     }
 
+    auth.signOut();
+
     throw new Error("There was an error getting your profile");
   } catch (error) {
-    console.error(error.response.data);
+    console.error(error);
     return null;
   }
 };

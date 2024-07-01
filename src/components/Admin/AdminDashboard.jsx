@@ -6,10 +6,11 @@ import useAuth from "@/hooks/useAuth";
 import Heading from "../Heading";
 import InfoCard from "../InfoCard";
 import Container from "../Container";
-import Spinner from "../Spinner";
 import CreateOpportunityModal from "../Brand/CreateOpportunityModal";
 import BrandOpportunities from "../Brand/BrandOpportunities";
 import CreateUserForm from "./CreateUserForm";
+import Card from "../Card";
+import LoadingPlaceholder from "../LoadingPlaceholder";
 
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
@@ -49,17 +50,22 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {loading ? (
-            <div className="flex items-center justify-center h-80">
-              <Spinner className="h-8 w-8" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-3 gap-x-4 gap-y-8 pt-8">
-              {data.map((info, index) => (
-                <InfoCard key={index} {...info} />
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-3 gap-x-4 gap-y-8 pt-8">
+            {loading ? (
+              <>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Card key={index}>
+                    <LoadingPlaceholder />
+                    <span className="max-w-1 inline-block">
+                      <LoadingPlaceholder />
+                    </span>
+                  </Card>
+                ))}
+              </>
+            ) : (
+              data.map((info, index) => <InfoCard key={info.title} {...info} />)
+            )}
+          </div>
         </section>
 
         <section className="space-y-8">

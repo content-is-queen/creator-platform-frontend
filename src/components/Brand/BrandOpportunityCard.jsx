@@ -30,6 +30,7 @@ const BrandOpportunityCard = (props) => {
     salary,
     endDate,
     budget,
+    type,
   } = props;
 
   const statusLabel = status.replace("_", " ");
@@ -50,17 +51,38 @@ const BrandOpportunityCard = (props) => {
     }
   };
 
+  const completeOpportunity = async (id) => {
+    try {
+      if (confirm("Mark opportunity as completed?")) {
+        await API.put(
+          `/opportunities/opportunityid/${id}`,
+          { status: "complete", type },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        window.location.reload();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <>
       <Card className="inline-block space-y-4 w-full max-w-sm relative">
         <div className="flex gap-x-3 content-start items-center justify-between">
-          <p className="text-lg text-queen-black capitalize truncate max-w-full w-60">
-            {title}
-          </p>
+          <div className="flex content-start items-start md:items-center">
+            <p className="mr-3 text-queen-black capitalize">{title}</p>
+            <Tag className="inline-block">{statusLabel}</Tag>
+          </div>
           <Menu as="div" className="relative">
             <Menu.Button className="ml-auto pl-2 focus:outline-none">
               <FontAwesomeIcon icon={faEllipsisV} />
-            </Menu.Button>{" "}
+            </Menu.Button>
             <Menu.Items className="absolute z-50 left-1/2 transform -translate-x-1/2 mt-1 w-30 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus:outline-none">
               <div className="px-1 py-1">
                 <Menu.Item>
@@ -75,6 +97,18 @@ const BrandOpportunityCard = (props) => {
                     </button>
                   )}
                 </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                      } group flex rounded-md items-center w-full px-5 py-2 text-sm`}
+                      onClick={() => completeOpportunity(opportunityId)}
+                    >
+                      Complete
+                    </button>
+                  )}
+                </Menu.Item>
               </div>
             </Menu.Items>
           </Menu>
@@ -86,7 +120,7 @@ const BrandOpportunityCard = (props) => {
               Compensation
             </Text>
             <Text as="span" size="sm">
-              {compensation || salary || budget}
+              {compensation || salary || budget || "n/a"}
             </Text>
           </div>
           <div className="flex flex-col">
@@ -96,9 +130,6 @@ const BrandOpportunityCard = (props) => {
             <Text as="span" size="sm">
               {deadline || endDate}
             </Text>
-          </div>
-          <div>
-            <Tag>{statusLabel}</Tag>
           </div>
         </div>
 

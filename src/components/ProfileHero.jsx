@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Dots from "@/components/Patterns/Dots";
@@ -9,6 +10,7 @@ import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "./Heading";
+import ProfilePhotoUpdateModal from "./ProfilePhotoUpdateModal";
 
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
@@ -20,7 +22,17 @@ const ProfileHero = ({ user }) => {
   return (
     <div className="bg-queen-blue text-white relative pt-16 pb-20 overflow-hidden md:pt-28">
       <Container size="4xl" className="space-y-4">
-        <ProfileIcon profilePhoto={user?.profilePhoto} className="h-20 w-20" />
+        <div className="relative h-20 w-20 rounded-full">
+          <ProfileIcon
+            profilePhoto={user?.profilePhoto}
+            className="h-20 w-20"
+          />
+          {pathname === "/profile" && (
+            <ErrorBoundary>
+              <ProfilePhotoUpdateModal className="absolute right-0 bottom-0" />
+            </ErrorBoundary>
+          )}
+        </div>
         {pathname === "/profile" && (
           <Button href="/settings/edit-profile" variant="yellow">
             Edit Profile
@@ -28,7 +40,7 @@ const ProfileHero = ({ user }) => {
         )}
 
         <div className="max-w-96 relative z-10">
-          <Heading color="white" size="3xl" className="font-heading uppercase">
+          <Heading color="white" size="3xl">
             {!user ? <LoadingPlaceholder /> : <>{heading}</>}
           </Heading>
           {user?.interests && (

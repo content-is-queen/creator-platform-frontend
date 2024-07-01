@@ -8,13 +8,10 @@ import useAuth from "@/hooks/useAuth";
 import Search from "@/components/Search";
 import AdminUserTableRow from "./AdminUserTableRow";
 import { Error } from "@/components/Form";
-import SubMenu from "../SubMenu";
 import Table from "@/components/Table";
-import Kebab from "../Kebab";
 
-const AdminUsersTable = () => {
+const AdminUsersTable = ({ users }) => {
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -23,52 +20,24 @@ const AdminUsersTable = () => {
   const { token } = useAuth();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await API.get("/admin/users");
-        setUsers(data);
-        setFilteredUsers(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    setFilteredUsers(users);
+    setLoading(false);
   }, []);
 
   const handleDelete = async (id) => {
     setError({});
     try {
-      await API.delete(`/admin/delete/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      window.location.reload();
+      if (confirm("Are you sure you want to delete this user?")) {
+        await API.delete(`/admin/delete/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        window.location.reload();
+      }
     } catch (error) {
       setError({ message: "There was an error deleting the user" });
-      console.error(error);
-    }
-  };
-
-  const deleteSelectedUsers = async () => {
-    setError({});
-    try {
-      await Promise.all(
-        selectedUsers.map((id) =>
-          API.delete(`/admin/delete/${id}`, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          })
-        )
-      );
-      window.location.reload();
-    } catch (error) {
-      setError({ message: "There was an error deleting the users" });
       console.error(error);
     }
   };
@@ -117,7 +86,6 @@ const AdminUsersTable = () => {
         <Table>
           <Table.Head>
             <tr>
-              <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3">
                 User
               </th>
@@ -129,27 +97,6 @@ const AdminUsersTable = () => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Role
-              </th>
-              <th scope="col" className="px-6 py-3">
-                {selectedUsers.length > 0 && (
-                  <>
-                    <Kebab onClick={() => setIsOpen(!isOpen)} />
-
-                    {isOpen && (
-                      <SubMenu>
-                        <SubMenu.Item>
-                          <button
-                            type="button"
-                            onClick={deleteSelectedUsers}
-                            className="px-4 py-1 w-full text-left inline-block"
-                          >
-                            Delete
-                          </button>
-                        </SubMenu.Item>
-                      </SubMenu>
-                    )}
-                  </>
-                )}
               </th>
             </tr>
           </Table.Head>

@@ -4,6 +4,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import Table from "../Table";
 import ProfileIcon from "@/components/ProfileIcon";
+import Link from "next/link";
 
 const AdminUserTableRow = ({
   uid,
@@ -26,25 +27,15 @@ const AdminUserTableRow = ({
 
   return (
     <Table.Row>
-      <Table.Data className="pl-6">
-        <div className="flex items-center">
-          <input
-            id={`checkbox-table-search-${uid}`}
-            type="checkbox"
-            defaultChecked={selectedUsers.includes(uid)}
-            className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue"
-            onChange={() => handleChange(uid)}
-          />
-          <label htmlFor={`checkbox-table-search-${uid}`} className="sr-only">
-            checkbox
-          </label>
-        </div>
-      </Table.Data>
       <Table.Data className="flex items-center font-subheading font-bold whitespace-nowrap">
         <ProfileIcon profilePhoto={profilePhoto} />
-        <div className="ps-6">
+        <Link
+          className="ps-4 hover:underline"
+          target="_blank"
+          href={`/profile/${uid}`}
+        >
           <div className="font-subheading">{firstName + " " + lastName}</div>
-        </div>
+        </Link>
       </Table.Data>
 
       <Table.Data>
@@ -56,7 +47,9 @@ const AdminUserTableRow = ({
         </div>
       </Table.Data>
       <Table.Data>{email}</Table.Data>
-      <Table.Data className="px-6 py-3 capitalize">{role}</Table.Data>
+      <Table.Data className="px-6 py-3 capitalize">
+        {role.replace("_", " ")}
+      </Table.Data>
       <Table.Data className="px-6 py-3 relative">
         <Menu as="div" className="relative inline-block text-left">
           <div>

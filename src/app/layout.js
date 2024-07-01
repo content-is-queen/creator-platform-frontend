@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import "react-tailwindcss-select/dist/index.css";
 
 import Providers from "@/components/Providers";
 

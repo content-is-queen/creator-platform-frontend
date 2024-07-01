@@ -19,6 +19,7 @@ const Subscription = () => {
   const [success, setSuccess] = useState({});
 
   const { token, subscribed } = useAuth();
+
   const getSubscriptionInfo = async () => {
     try {
       const {

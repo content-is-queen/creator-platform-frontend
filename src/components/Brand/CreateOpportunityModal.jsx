@@ -3,7 +3,6 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import CreateOpportunityPanels from "./CreateOpportunityPanels";
 import Button from "../Button";
-import Heading from "../Heading";
 import Subheading from "../Subheading";
 
 const CreateOpportunityModal = () => {

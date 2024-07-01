@@ -10,16 +10,15 @@ import Link from "next/link";
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
-import { IoNotificationsOutline } from "react-icons/io5";
+import { Menu } from "@headlessui/react";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
-import { Menu } from "@headlessui/react";
 import Button from "@/components/Button";
+import Notifications from "./Notifications";
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const router = useRouter();
 
   const { user, setUser, loading } = useUser();
@@ -160,21 +159,10 @@ const MainNav = () => {
               )}
 
               <li>
-                <button
-                  type="button"
-                  className="flex text-sm rounded-full md:me-0 focus:ring-4"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  data-dropdown-toggle="user-dropdown"
-                  data-dropdown-placement="bottom"
-                >
-                  <span className="uppercase md:sr-only">Notifications</span>
-                  <IoNotificationsOutline className="w-6 h-6 hidden md:block" />
-                </button>
+                <Notifications />
               </li>
             </ul>
           </div>
-
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
             <Menu as="div" className="relative">
               <Menu.Button className="align-middle">

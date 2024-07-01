@@ -8,11 +8,12 @@ import useAuth from "@/hooks/useAuth";
 import Container from "@/components/Container";
 import Subheading from "@/components/Subheading";
 
-const Template = ({ children }) => {
+const Layout = ({ children }) => {
   const pathname = usePathname();
   const { user } = useUser();
   const { subscribed } = useAuth();
-  const LINKS = [
+
+  const DEFAULT_LINKS = [
     {
       href: "/settings",
       label: "General",
@@ -25,23 +26,40 @@ const Template = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && subscribed
-      ? [
-          {
-            href: "/settings/subscription",
-            label: "Subscription",
-          },
-        ]
-      : []),
-    ...(user && user.role === "super_admin"
-      ? [
-          {
-            href: "/settings/company",
-            label: "Edit Company Info",
-          },
-        ]
-      : []),
   ];
+
+  const LINKS = {
+    creator: [
+      ...DEFAULT_LINKS,
+      ...(user && subscribed
+        ? [
+            {
+              href: "/settings/subscription",
+              label: "Subscription",
+            },
+          ]
+        : []),
+    ],
+    brand: [
+      ...DEFAULT_LINKS,
+      ...(user && subscribed
+        ? [
+            {
+              href: "/settings/subscription",
+              label: "Subscription",
+            },
+          ]
+        : []),
+    ],
+    admin: [...DEFAULT_LINKS],
+    super_admin: [
+      ...DEFAULT_LINKS,
+      {
+        href: "/settings/company",
+        label: "Edit Company Info",
+      },
+    ],
+  };
 
   return (
     <Container size="4xl">
@@ -53,7 +71,7 @@ const Template = ({ children }) => {
                 Settings
               </Subheading>
               <ul>
-                {LINKS.map(({ href, label }) => (
+                {LINKS[user?.role]?.map(({ href, label }) => (
                   <li key={href} className="py-1">
                     <Link
                       href={href}
@@ -76,4 +94,4 @@ const Template = ({ children }) => {
   );
 };
 
-export default Template;
+export default Layout;

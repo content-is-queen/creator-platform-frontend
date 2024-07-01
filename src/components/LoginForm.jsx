@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase.config";
@@ -48,20 +47,25 @@ const LoginForm = () => {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-
   const onSubmit = async (data) => {
     setLoading(true);
     setError({});
     const { email, password } = data;
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const response = await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      setError({
-        message: "Something went wrong when signing in",
-      });
-    } finally {
+      console.error(error.message);
       setLoading(false);
+
+      if (error.code == "auth/invalid-credential") {
+        setError({
+          message: "Login failed: Your email or password is incorrect",
+        });
+      } else {
+        setError({
+          message: "Something went wrong",
+        });
+      }
     }
   };
 
