@@ -39,7 +39,7 @@ const ProfileHero = ({ user }) => {
           </Button>
         )}
 
-        <div className="max-w-96 relative z-10">
+        <div className="max-w-lg relative z-10">
           <Heading color="white" size="3xl">
             {!user ? <LoadingPlaceholder /> : <>{heading}</>}
           </Heading>
