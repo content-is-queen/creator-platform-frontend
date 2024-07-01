@@ -71,7 +71,7 @@ const Company = () => {
         newData.organizationLogo = organizationLogo;
       }
 
-      const response = await API.post("/admin/company", newData, {
+      const response = await API.put("/admin/company", newData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
