@@ -93,7 +93,7 @@ const Layout = ({ children }) => {
     }
   };
 
-  const handleemailChange = (event) => {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
@@ -147,7 +147,7 @@ const Layout = ({ children }) => {
             <input
               type="text"
               value={email}
-              onChange={handleemailChange}
+              onChange={handleEmailChange}
               className="border border-gray-300 rounded px-3 py-1 w-full mt-1"
               required
             />

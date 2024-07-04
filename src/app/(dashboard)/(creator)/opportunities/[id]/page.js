@@ -46,8 +46,8 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
               href="/opportunities"
               className="text-sm inline-flex items-center gap-1.5"
             >
-              <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
-              Back to Dashboard
+              <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" /> Go
+              back
             </Link>
           </div>
 

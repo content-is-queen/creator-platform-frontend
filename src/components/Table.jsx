@@ -8,7 +8,7 @@ const Row = ({ children }) => (
 );
 
 const Data = ({ children, className, ...otherProps }) => (
-  <td className={twMerge(clsx("px-6 py-6", className))} {...otherProps}>
+  <td className={twMerge(clsx("px-4 py-4", className))} {...otherProps}>
     {children}
   </td>
 );

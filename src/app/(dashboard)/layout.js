@@ -2,11 +2,11 @@
 
 import MainNav from "@/components/MainNav";
 
-const Template = ({ children }) => (
+const Layout = ({ children }) => (
   <>
     <MainNav />
     {children}
   </>
 );
 
-export default Template;
+export default Layout;

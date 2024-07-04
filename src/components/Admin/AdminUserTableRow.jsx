@@ -14,17 +14,9 @@ const AdminUserTableRow = ({
   email,
   role,
   disabled,
-  selectedUsers,
-  setSelectedUsers,
   handleActivation,
   handleDelete,
 }) => {
-  const handleChange = (uid) => {
-    selectedUsers.includes(uid)
-      ? setSelectedUsers((prev) => prev.filter((i) => !i.includes(uid)))
-      : setSelectedUsers((prev) => [...prev, uid]);
-  };
-
   return (
     <Table.Row>
       <Table.Data className="flex items-center font-subheading font-bold whitespace-nowrap">

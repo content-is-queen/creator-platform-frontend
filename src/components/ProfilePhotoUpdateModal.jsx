@@ -3,7 +3,12 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import Form from "./Form";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "@/firebase.config";
 import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
@@ -36,11 +41,31 @@ const ProfilePhotoUpdateModal = ({ className }) => {
     setLoading(true);
     setError({});
 
-    const storageRef = ref(storage, `profilePhotos/${user.uid}`);
-    await uploadBytes(storageRef, file);
-    const profilePhoto = await getDownloadURL(storageRef);
+    const deleteFile = async (file) => {
+      const fileRef = ref(storage, `profilePhotos/${file}`);
+      deleteObject(fileRef)
+        .then(() => {
+          console.log(`${file} deleted successfuly`);
+        })
+        .catch((error) => {
+          console.log(`An error occured when trying to delete: ${file}`);
+        });
+    };
+
+    let prevFile = user.profilePhoto?.split("%2F").pop() || null;
+
+    if (prevFile) {
+      prevFile = prevFile.substring(0, prevFile.lastIndexOf("?"));
+      console.log();
+      await deleteFile(prevFile);
+    }
 
     try {
+      const fileRef = ref(storage, `profilePhotos/${user.uid}-${file.name}`);
+
+      await uploadBytes(fileRef, file);
+      const profilePhoto = await getDownloadURL(fileRef);
+
       const response = await API.post(
         `/auth/user`,
         { profilePhoto },
@@ -52,15 +77,11 @@ const ProfilePhotoUpdateModal = ({ className }) => {
         }
       );
 
-      if (response.status === 200) {
-        const { data } = response.data;
-        setUser({ ...user, ...data });
-        setSuccess({
-          message: "Your profile photo has been updated successfully",
-        });
-      } else {
-        setError({ message: response.data.message });
-      }
+      const { data } = response.data;
+      setUser({ ...user, ...data });
+      setSuccess({
+        message: "Your profile photo has been updated successfully",
+      });
     } catch (error) {
       console.log(error);
       setError({ message: "Something went wrong" });
@@ -85,6 +106,7 @@ const ProfilePhotoUpdateModal = ({ className }) => {
           setIsOpen(false);
           setFile(null);
           setImage(null);
+          setSuccess({});
         }}
         className="max-w-lg"
       >

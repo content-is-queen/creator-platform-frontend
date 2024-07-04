@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 import useAuth from "@/hooks/useAuth";
@@ -20,17 +22,15 @@ const BrandApplicationCard = ({
   creatorId,
 }) => {
   const { token } = useAuth();
-  const {
-    user: { uid },
-  } = useUser();
-  const [user, setUser] = useState(null);
+  const { user } = useUser();
+  const [applicant, setApplicant] = useState(null);
   const [message, setMessage] = useState(null);
 
-  const getUser = async (id) => {
+  const getApplicant = async (id) => {
     try {
       const res = await API.get(`/auth/user/${id}`);
       const { data } = res;
-      setUser(data.message);
+      setApplicant(data.message);
     } catch ({ error }) {
       setApplications(
         applications.filter((i) => i.applicationId !== applicationId)
@@ -40,7 +40,7 @@ const BrandApplicationCard = ({
   };
 
   useEffect(() => {
-    getUser(creatorId);
+    getApplicant(creatorId);
   }, []);
 
   const rejectApplication = async (id) => {
@@ -50,7 +50,7 @@ const BrandApplicationCard = ({
         {
           status: "rejected",
 
-          authorId: uid,
+          authorId: user.uid,
           creatorId,
           opportunityTitle,
         },
@@ -82,7 +82,7 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "accepted",
-          authorId: uid,
+          authorId: user.uid,
           creatorId,
           opportunityTitle: opportunityTitle,
         },
@@ -94,16 +94,9 @@ const BrandApplicationCard = ({
         }
       );
 
-      if (response?.error) {
-        throw new Error(
-          response.error ||
-            "Something went wrong when accepting the application"
-        );
-      }
-
       setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error);
     }
   };
 
@@ -132,11 +125,11 @@ const BrandApplicationCard = ({
           <div className="mb-8 flex items-start justify-between gap-4">
             <div>
               <Heading size="2xl">
-                {!user ? (
+                {!applicant ? (
                   <LoadingPlaceholder dark />
                 ) : (
                   <>
-                    {user.firstName} {user.lastName}
+                    {applicant.firstName} {applicant.lastName}
                   </>
                 )}
               </Heading>
@@ -144,16 +137,16 @@ const BrandApplicationCard = ({
                 {opportunityTitle} &bull; Application
               </Text>
             </div>
-            {user?.interests ? (
+            {applicant?.interests ? (
               <div className="flex gap-2 mt-1">
-                {user.interests.map((skill) => (
+                {applicant.interests.map((skill) => (
                   <Tag key={skill}>{skill}</Tag>
                 ))}
               </div>
             ) : null}
           </div>
 
-          {!user ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
+          {!applicant ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
 
           <div className="flex gap-2 mt-auto pt-12">
             <Button

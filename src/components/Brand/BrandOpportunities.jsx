@@ -35,8 +35,8 @@ const BrandOpportunities = () => {
       id: "in_progress",
     },
     {
-      label: "Completed",
-      id: "completed",
+      label: "Complete",
+      id: "complete",
     },
   ];
 
@@ -137,14 +137,14 @@ const BrandOpportunities = () => {
 
   if (opportunities?.length > 0) {
     return (
-      <section>
+      <div>
         <Tabs options={OPTIONS} active={active} setActive={setActive} />
         <div className="relative">
           <swiper-container ref={swiperRef} init="false" class="my-6">
             {filteredOpportunities.length > 0 ? (
-              filteredOpportunities.map((opportunity) => (
-                <swiper-slide key={opportunity.opportunityId}>
-                  <div className="m-0.5">
+              filteredOpportunities.map((opportunity, index) => (
+                <swiper-slide key={opportunity.opportunityId + index}>
+                  <div className="my-4 mx-0.5">
                     <BrandOpportunityCard {...opportunity} />
                   </div>
                 </swiper-slide>
@@ -181,7 +181,7 @@ const BrandOpportunities = () => {
             </>
           )}
         </div>
-      </section>
+      </div>
     );
   }
 

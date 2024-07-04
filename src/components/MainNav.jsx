@@ -131,7 +131,7 @@ const MainNav = () => {
           >
             <ul
               className={clsx(
-                "flex flex-col items-center py-2 leading-none uppercase lg:space-x-6 rtl:space-x-reverse lg:flex-row lg:border-0",
+                "flex flex-col items-center py-2 leading-none tracking-wide uppercase lg:space-x-6 rtl:space-x-reverse lg:flex-row lg:border-0",
                 isMenuOpen &&
                   "fixed w-full left-0 top-20 z-10 space-y-6 bg-queen-blue pt-16 pb-20"
               )}

@@ -6,7 +6,7 @@ import Link from "next/link";
 import GlobalSpinner from "./Spinner";
 
 const ButtonVariants = cva(
-  "inline-flex items-center leading-none font-subheading rounded-full uppercase disabled:opacity-80 transition",
+  "inline-flex items-center leading-none font-subheading tracking-wide rounded-full uppercase disabled:opacity-80 transition",
   {
     variants: {
       variant: {
