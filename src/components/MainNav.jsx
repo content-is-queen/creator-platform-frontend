@@ -122,16 +122,16 @@ const MainNav = () => {
             alt="Content is queen"
           />
         </Link>
-        <div className="flex items-center md:order-2 space-x-3 md:space-x-auto rtl:space-x-reverse">
+        <div className="flex items-center lg:order-2 space-x-3 lg:space-x-auto rtl:space-x-reverse">
           <div
             className={`${
               isMenuOpen ? "block" : "hidden"
-            } items-center justify-between w-full md:flex md:w-auto md:order-1`}
+            } items-center justify-between w-full lg:flex lg:w-auto lg:order-1`}
             id="navbar-user"
           >
             <ul
               className={clsx(
-                "flex flex-col items-center py-2 leading-none uppercase md:space-x-6 rtl:space-x-reverse md:flex-row md:border-0",
+                "flex flex-col items-center py-2 leading-none uppercase lg:space-x-6 rtl:space-x-reverse lg:flex-row lg:border-0",
                 isMenuOpen &&
                   "fixed w-full left-0 top-20 z-10 space-y-6 bg-queen-blue pt-16 pb-20"
               )}
@@ -142,7 +142,7 @@ const MainNav = () => {
                   className={clsx(
                     twMerge(
                       pathname !== href && "opacity-100",
-                      "relative md:after:absolute md:after:h-[1px] md:after:w-0 md:after:bg-queen-yellow md:after:left-0 md:after:-bottom-1 md:hover:after:w-full transition-all",
+                      "relative lg:after:absolute lg:after:h-[1px] lg:after:w-0 lg:after:bg-queen-yellow lg:after:left-0 lg:after:-bottom-1 lg:hover:after:w-full transition-all",
                       pathname === href && "after:w-full"
                     )
                   )}
@@ -163,11 +163,11 @@ const MainNav = () => {
               </li>
             </ul>
           </div>
-          <div className="order-2 flex items-center gap-x-2 flex-row-reverse md:flex-row md:mr-2">
+          <div className="order-2 flex items-center gap-x-2 flex-row-reverse lg:flex-row lg:mr-2">
             <Menu as="div" className="relative">
               <Menu.Button className="align-middle">
                 <ProfileIcon
-                  className="shrink-0 md:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
+                  className="shrink-0 lg:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
                   profilePhoto={user?.profilePhoto}
                 >
                   <span className="sr-only">User menu</span>
@@ -206,7 +206,7 @@ const MainNav = () => {
             <button
               data-collapse-toggle="navbar-user"
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-queen-yellow rounded-lg md:hidden hover:bg-queen-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-queen-yellow rounded-lg lg:hidden hover:bg-queen-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               onClick={handleToggle}
               aria-controls="navbar-user"
               aria-expanded="false"
