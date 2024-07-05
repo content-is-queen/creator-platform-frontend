@@ -125,7 +125,7 @@ const BrandOpportunities = () => {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center h-44">
+      <div className="flex items-center justify-center h-60">
         <Spinner className="h-6 w-6" />
       </div>
     );

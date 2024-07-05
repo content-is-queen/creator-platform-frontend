@@ -38,6 +38,7 @@ const Notifications = () => {
         QuerySnapshot.forEach((doc) => {
           notifications.push({ ...doc.data(), id: doc.id });
         });
+        setNotificationsList(notifications);
       });
       return () => unsubscribe;
     }
