@@ -39,16 +39,16 @@ const Search = ({ data = [], setFilteredData, filter }) => {
       }
 
       return data.filter((i) => {
-        let filterData = false;
+        let show = false;
 
         filter.keys.forEach((key) => {
-          if (filterData) return;
+          if (show) return;
 
           if (i[key]?.toLowerCase().includes(query.toLowerCase())) {
-            filterData = true;
+            show = true;
           }
         });
-        return filterData;
+        return show;
       });
     });
   }, [query]);

@@ -1,20 +1,54 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Search from "@/components/Search";
 import OpportunityCard from "@/components/OpportunityCard";
 import Spinner from "../Spinner";
 import Text from "../Text";
+import useOpportunities from "@/hooks/useOpportunities";
 
-const OpportunitiesSearch = ({ opportunities }) => {
+const OpportunitiesSearch = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isInView, setIsInView] = useState(false);
+
+  const {
+    opportunities,
+    loading,
+    setStartAfterId,
+    setOpportunities,
+    getOpportunities,
+  } = useOpportunities();
+  const listRef = useRef();
+
+  const checkInView = () => {
+    const { bottom } = listRef.current.getBoundingClientRect();
+    const { innerHeight } = window;
+
+    setIsInView(bottom > 0 && bottom < innerHeight - 100);
+  };
+
+  const getMoreOpportunities = () => {
+    getOpportunities((data) => {
+      setOpportunities((prev) => [...prev, ...data.message.opportunities]);
+      setStartAfterId(data.message.nextStartAfterId);
+    });
+  };
 
   useEffect(() => {
-    setFilteredOpportunities(opportunities);
-    setLoading(false);
-  }, []);
+    if (opportunities) {
+      setFilteredOpportunities(opportunities);
+    }
+
+    document.addEventListener("scroll", checkInView);
+    return () => {
+      document.removeEventListener("scroll", checkInView);
+    };
+  }, [opportunities]);
+
+  useEffect(() => {
+    if (isInView) getMoreOpportunities();
+  }, [isInView]);
 
   return (
     <>
@@ -22,28 +56,26 @@ const OpportunitiesSearch = ({ opportunities }) => {
         data={opportunities}
         filteredData={filteredOpportunities}
         setFilteredData={setFilteredOpportunities}
-        filter={{ keys: ["title", "project", "name"], tag: "type" }}
+        filter={{ keys: ["title", "description"], tag: "type" }}
       />
 
-      <div className="my-12 space-y-6">
-        {loading ? (
-          <div className="text-center">
+      <div className="py-12 space-y-6 min-h-80" ref={listRef}>
+        {filteredOpportunities?.length > 0 ? (
+          <>
+            {filteredOpportunities.map((opportunity) => (
+              <div key={opportunity.opportunityId}>
+                <OpportunityCard {...opportunity} />
+              </div>
+            ))}
+          </>
+        ) : (
+          <Text className="text-center">There are no opportunities</Text>
+        )}
+
+        {loading && (
+          <div className="text-center h-20 ">
             <Spinner className="h-8 w-8 mt-5 inline-block" />
           </div>
-        ) : (
-          <>
-            {filteredOpportunities?.length > 0 ? (
-              <>
-                {filteredOpportunities.map((opportunity) => (
-                  <div key={opportunity.opportunityId}>
-                    <OpportunityCard {...opportunity} />
-                  </div>
-                ))}
-              </>
-            ) : (
-              <Text className="text-center">There are no opportunities</Text>
-            )}
-          </>
         )}
       </div>
     </>
