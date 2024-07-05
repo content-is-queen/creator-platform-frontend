@@ -48,21 +48,26 @@ const CreateOpportunityForm = ({ type }) => {
 
     const postData = { type: type, userId: userId };
 
+    // Get form data
     keys.forEach((key) => {
       if (typeof key === "object") {
         const name = Object.keys(key)[0];
 
-        postData[name] = [];
+        const options = [];
 
         key[name].forEach((option) => {
-          if (formData.get(option) != null) {
-            postData[name].push(option);
+          if (formData.get(option) !== null) {
+            options.push(option);
           }
         });
 
+        postData[name] = options;
+
         return;
       }
-      postData[key] = formData.get(key);
+
+      // Replace null values with an empty string
+      postData[key] = formData.get(key) === null ? "" : formData.get(key);
     });
 
     // Append external link if it's set

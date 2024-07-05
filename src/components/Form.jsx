@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
@@ -31,6 +31,7 @@ export const Success = ({ children }) => (
 
 const Select = ({ name, options, children, ...otherProps }) => {
   const [showInput, setShowInput] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.value === "Other") {
@@ -40,6 +41,10 @@ const Select = ({ name, options, children, ...otherProps }) => {
 
     setShowInput(false);
   };
+
+  useEffect(() => {
+    setDisabled(true);
+  }, []);
 
   return (
     <div key={name}>
@@ -53,7 +58,12 @@ const Select = ({ name, options, children, ...otherProps }) => {
         id={name}
         {...otherProps}
       >
-        <option value="" defaultValue="Select">
+        <option
+          value="Select"
+          defaultValue="Select"
+          className="text-queen-black/50"
+          {...(disabled ? { disabled: true } : {})}
+        >
           Select
         </option>
         {options.map((option, index) => (
