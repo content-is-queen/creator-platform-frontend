@@ -258,8 +258,13 @@ const Form = forwardRef(function Form(
     <>
       <form
         ref={ref}
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(event) => {
+          if (typeof event.preventDefault === "function") {
+            event.preventDefault();
+          }
+          if (typeof event.stopPropagation === "function") {
+            event.stopPropagation();
+          }
           setError({});
           handleSubmit();
         }}

@@ -23,7 +23,7 @@ const Page = async ({ params }) => {
   const { slug } = params;
 
   return (
-    <div className="bg-queen-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
+    <div className="bg-queen-white bg-blue-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
         <div className="mt-20 pb-72 space-y-8">
           <div>

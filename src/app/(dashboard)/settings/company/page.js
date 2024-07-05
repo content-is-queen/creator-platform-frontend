@@ -119,23 +119,32 @@ const Company = () => {
         >
           Company Name
         </Form.Input>
-        <Form.Input
+        <Form.Textarea
           name="organizationBio"
-          type="text"
           value={newData.organizationBio || formData.organizationBio}
+          rows={3}
+          minLength={1}
           onChange={handleChange}
         >
           Company Bio
-        </Form.Input>
-        <Form.Input
-          name="organizationLogo"
-          type="file"
-          accept="image/*"
-          onChange={handleChange}
-        >
-          Company Logo
-        </Form.Input>
-        <img src={image || formData.organizationLogo} width={100} alt="" />
+        </Form.Textarea>
+        <div className="flex items-center">
+          <Form.Input
+            name="organizationLogo"
+            type="file"
+            accept="image/*"
+            className="basis-full"
+            onChange={handleChange}
+          >
+            Company Logo
+          </Form.Input>
+          <img
+            src={image || formData.organizationLogo}
+            width={100}
+            alt=""
+            className="basis-auto"
+          />
+        </div>
         <Button type="submit" as="button" disabled={!updated}>
           {loading && <Button.Spinner />} Update Company Info
         </Button>

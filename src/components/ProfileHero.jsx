@@ -23,17 +23,7 @@ const ProfileHero = ({ user }) => {
   return (
     <div className="bg-queen-blue text-white relative pt-16 pb-20 overflow-hidden md:pt-28">
       <Container size="4xl" className="space-y-4">
-        <div className="relative h-20 w-20 rounded-full">
-          <ProfileIcon
-            profilePhoto={user?.profilePhoto}
-            className="h-20 w-20"
-          />
-          {pathname === "/profile" && (
-            <ErrorBoundary>
-              <ProfilePhotoUpdateModal className="absolute right-0 bottom-0" />
-            </ErrorBoundary>
-          )}
-        </div>
+        <ProfilePhotoUpdateModal />
         {pathname === "/profile" && (
           <Button href="/settings/edit-profile" size="sm" variant="yellow">
             Edit Profile

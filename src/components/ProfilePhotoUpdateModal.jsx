@@ -15,9 +15,10 @@ import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 
 import Modal from "@/components/Modal";
+import ProfileIcon from "./ProfileIcon";
 import Button from "./Button";
 
-const ProfilePhotoUpdateModal = ({ className }) => {
+const ProfilePhotoUpdateModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
@@ -91,15 +92,15 @@ const ProfilePhotoUpdateModal = ({ className }) => {
   };
 
   return (
-    <>
+    <div className="relative h-20 w-20 rounded-full">
+      <ProfileIcon profilePhoto={user?.profilePhoto} className="h-20 w-20" />
       <button
-        className={className}
+        className="absolute right-0 bottom-0"
         type="button"
         onClick={() => setIsOpen(true)}
       >
         <FontAwesomeIcon icon={faCamera} />
       </button>
-
       <Modal
         open={isOpen}
         onClose={() => {
@@ -170,7 +171,7 @@ const ProfilePhotoUpdateModal = ({ className }) => {
           </label>
         </Form>
       </Modal>
-    </>
+    </div>
   );
 };
 

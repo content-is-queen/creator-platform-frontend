@@ -11,6 +11,7 @@ import Button from "@/components/Button";
 
 import CreditsInput from "@/components/Creator/CreditsInput";
 import inData from "@/data/signup_form_data.json";
+import ProfilePhotoUpdateModal from "@/components/ProfilePhotoUpdateModal";
 
 const interestOptions = inData
   .filter((item) => item.id === "creator")
@@ -116,7 +117,6 @@ const EditProfile = () => {
       if (res.status === 200) {
         const { data } = res.data;
         setUser({ ...user, ...data });
-        router.push("/profile");
       } else {
         setError({ message: res.data.message });
       }
@@ -136,6 +136,8 @@ const EditProfile = () => {
       handleSubmit={handleSubmit}
     >
       <div className="space-y-10">
+        <ProfilePhotoUpdateModal />
+
         <div className="flex gap-x-6 w-full">
           <Form.Input
             name="firstName"
