@@ -31,8 +31,7 @@ const OpportunitiesSearch = () => {
 
   const getMoreOpportunities = () => {
     getOpportunities((data) => {
-      setOpportunities((prev) => [...prev, ...data.message.opportunities]);
-      setStartAfterId(data.message.nextStartAfterId);
+      setOpportunities((prev) => [...prev, ...data]);
     });
   };
 
@@ -48,7 +47,7 @@ const OpportunitiesSearch = () => {
   }, [opportunities]);
 
   useEffect(() => {
-    if (isInView) getMoreOpportunities();
+    if (isInView && listRef.current) getMoreOpportunities();
   }, [isInView]);
 
   return (

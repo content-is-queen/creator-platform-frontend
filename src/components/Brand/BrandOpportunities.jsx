@@ -49,13 +49,8 @@ const BrandOpportunities = () => {
   const { opportunities, setOpportunities, loading } = useOpportunities(
     { userId: user.uid },
     (data) => {
-      setOpportunities(
-        data.opportunities.filter((i) => i.status !== "archived")
-      );
-
-      setFilteredOpportunities(
-        data.opportunities.filter((i) => i.status !== "archived")
-      );
+      setOpportunities(data.filter((i) => i.status !== "archived"));
+      setFilteredOpportunities(data.filter((i) => i.status !== "archived"));
     }
   );
 

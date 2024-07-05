@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const useOpportunities = (args, cb) => {
   const [opportunities, setOpportunities] = useState([]);
   const [startAfterId, setStartAfterId] = useState(null);
-  const [limit] = useState(3);
+  const [limit] = useState(2);
   const [loading, setLoading] = useState(true);
   const [refetching, setRefetching] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
@@ -24,22 +24,35 @@ const useOpportunities = (args, cb) => {
 
   const getOpportunities = async (cb) => {
     if (isEnd) return;
+
     try {
       if (!loading) {
         setRefetching(true);
       }
+
       const { data } = await API.get(path);
+
+      const opportunities =
+        data.message?.opportunities || data?.opportunities || data;
+
       if (cb) {
-        cb(data);
-        return;
+        cb(opportunities);
+      } else {
+        setOpportunities(opportunities);
       }
-      setOpportunities(
-        data.message?.opportunities || data?.opportunities || data
-      );
-      setStartAfterId(data.message.nextStartAfterId);
+
+      if (!args) {
+        setStartAfterId(
+          opportunities.length === limit ? data.message.nextStartAfterId : null
+        );
+      }
+
+      if (opportunities.length < limit) {
+        setIsEnd(true);
+      }
     } catch (err) {
       console.error(err);
-      if (err.response.data.status === 404) {
+      if (err.response.status === 404) {
         setIsEnd(true);
       }
     } finally {
