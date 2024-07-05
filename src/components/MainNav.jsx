@@ -108,7 +108,7 @@ const MainNav = () => {
       <Container className="flex flex-wrap items-center justify-between text-sm w-full">
         <Link
           href="/"
-          className="flex items-center gap-x-3 rtl:space-x-reverse"
+          className="flex items-center gap-x-3 rtl:space-x-reverse focus-visible:outline focus-visible:outline-2 focus-visible:outline-queen-orange"
         >
           <img
             src="/images/CiQ_Logo_Horizontal.svg"
@@ -147,7 +147,12 @@ const MainNav = () => {
                     )
                   )}
                 >
-                  <Link href={href}>{label}</Link>
+                  <Link
+                    href={href}
+                    className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-queen-orange"
+                  >
+                    {label}
+                  </Link>
                 </li>
               ))}
               {user && !subscribed && (
@@ -165,15 +170,15 @@ const MainNav = () => {
           </div>
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse lg:flex-row lg:mr-2">
             <Menu as="div" className="relative">
-              <Menu.Button className="align-middle">
+              <Menu.Button className="align-middle focus-visible:ring-4 focus-visible:ring-queen-yellow focus-visible:rounded-full">
                 <ProfileIcon
-                  className="shrink-0 lg:me-0 focus:ring-4 focus:ring-gray-300 h-8 w-8 order-1"
+                  className="shrink-0 lg:me-0 h-8 w-8 order-1"
                   profilePhoto={user?.profilePhoto}
                 >
                   <span className="sr-only">User menu</span>
                 </ProfileIcon>
               </Menu.Button>
-              <Menu.Items className="absolute z-50 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+              <Menu.Items className="absolute z-50 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg">
                 <Menu.Item as="div" className="text-queen-black/60">
                   <div className="px-4 py-2 text-sm">{user?.email}</div>
                 </Menu.Item>
@@ -206,7 +211,7 @@ const MainNav = () => {
             <button
               data-collapse-toggle="navbar-user"
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-queen-yellow rounded-lg lg:hidden hover:bg-queen-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-queen-yellow rounded-lg lg:hidden hover:bg-queen-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus-visible:ring-gray-600"
               onClick={handleToggle}
               aria-controls="navbar-user"
               aria-expanded="false"

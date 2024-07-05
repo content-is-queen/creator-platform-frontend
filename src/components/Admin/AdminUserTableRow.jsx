@@ -45,11 +45,11 @@ const AdminUserTableRow = ({
       <Table.Data className="px-6 py-3 relative">
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="ml-auto pl-2 focus:outline-none">
+            <Menu.Button className="ml-auto pl-2 focus-visible:outline-none">
               <FontAwesomeIcon icon={faEllipsisV} />
             </Menu.Button>
           </div>
-          <Menu.Items className="absolute z-50 right-0 w-31 mt-1 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute z-50 right-0 w-31 mt-1 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (

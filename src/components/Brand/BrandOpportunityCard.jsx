@@ -7,10 +7,8 @@ import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
-import Modal from "@/components/Modal";
 
 import API from "@/api/api";
-import EditOpportunityForm from "./EditOpportunityForm";
 import useAuth from "@/hooks/useAuth";
 
 const BrandOpportunityCard = (props) => {
@@ -69,15 +67,15 @@ const BrandOpportunityCard = (props) => {
   return (
     <Card className="inline-block space-y-4 w-full max-w-sm relative">
       <div className="flex gap-x-3 content-start items-center justify-between">
-        <div className="flex content-start items-start md:items-center">
+        <div className="flex content-start w-full justify-between items-start md:items-center">
           <p className="mr-3 text-queen-black capitalize">{title}</p>
           <Tag className="inline-block">{statusLabel}</Tag>
         </div>
         <Menu as="div" className="relative">
-          <Menu.Button className="ml-auto pl-2 focus:outline-none">
+          <Menu.Button className="ml-auto px-2 -mr-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-queen-blue">
             <FontAwesomeIcon icon={faEllipsisV} />
           </Menu.Button>
-          <Menu.Items className="absolute z-50 left-1/2 transform -translate-x-1/2 mt-1 w-30 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus:outline-none z-50">
+          <Menu.Items className="absolute z-50 left-1/2 transform -translate-x-1/2 mt-1 w-30 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg focus-visible:outline-none z-50">
             <div className="px-1 py-1">
               <Menu.Item>
                 {({ active }) => (

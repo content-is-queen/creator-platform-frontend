@@ -9,11 +9,11 @@ import { twMerge } from "tailwind-merge";
 export const inputStyles = {
   input: [
     "placeholder:uppercase py-3 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none peer",
-    "focus:outline-none focus:ring-0 focus:border-queen-blue",
+    "focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue",
   ].join(" "),
   label: [
     "absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]",
-    "peer-focus:font-medium peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6",
+    "peer-focus-visible:font-medium peer-focus-visible:start-0 rtl:peer-focus-visible:translate-x-1/4 peer-focus-visible:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus-visible:scale-75 peer-focus-visible:-translate-y-6",
   ].join(" "),
 };
 
@@ -116,7 +116,7 @@ const Checkbox = ({
                 <div className="inline-flex items-center gap-x-3 w-full">
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue disabled:opacity-40"
                     name={option}
                     id={option}
                     onChange={handleChange}
@@ -156,7 +156,7 @@ const Checkbox = ({
                 >
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue disabled:opacity-40"
                     name={category}
                     id={category}
                     onChange={handleChange}
