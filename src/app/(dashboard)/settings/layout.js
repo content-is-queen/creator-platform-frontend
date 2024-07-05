@@ -39,7 +39,7 @@ const Layout = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && subscribed
+    ...(user && subscribed && (user.role === "brand" || user.role === "creator")
       ? [
           {
             href: "/settings/subscription",
@@ -103,13 +103,13 @@ const Layout = ({ children }) => {
         <div className="py-12 md:py-20">
           <div className="flex gap-12">
             <div className="w-full max-w-40">
-              <div className="border-b border-queen-black/20 pb-4 mb-4">
+              <div className="border-b border-queen-black/20 pb-3 mb-4">
                 <Subheading size="lg" className="mb-2">
                   Settings
                 </Subheading>
                 <ul>
                   {LINKS.map(({ href, label }) => (
-                    <li key={href} className="py-1">
+                    <li key={href} className="py-0.5">
                       <Link
                         href={href}
                         className={pathname === href ? undefined : "opacity-70"}

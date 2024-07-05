@@ -89,13 +89,13 @@ const BrandOpportunities = () => {
 
       if (swiper.isEnd) {
         setArrows({ left: true, right: false });
-        return;
       }
     };
 
     const params = {
       slidesPerView: 3,
       spaceBetween: 20,
+      watchSlidesProgress: true,
       breakpoints: {
         425: { slidesPerView: 1 },
         640: {
@@ -191,9 +191,9 @@ const BrandOpportunities = () => {
   return (
     <div className="text-center pt-28 pb-20">
       <Container className="space-y-2">
-        <Subheading size="xl">No projects</Subheading>
+        <Subheading size="xl">No opportunities</Subheading>
         <div className="space-y-6 max-w-lg mx-auto">
-          <Text>You haven't posted any projects yet</Text>
+          <Text>You haven't posted any opportunities yet</Text>
         </div>
       </Container>
     </div>

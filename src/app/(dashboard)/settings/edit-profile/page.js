@@ -165,59 +165,63 @@ const EditProfile = () => {
           </Form.Input>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-queen-black">
-            Goals
-          </label>
-          {goalsOptions.map((option) => (
-            <div key={option} className="flex items-center">
-              <input
-                type="radio"
-                id={option}
-                value={option}
-                name="goals"
-                checked={formData.goals === option}
-                onChange={handleChange}
-                className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-              />
-              <label
-                htmlFor={option}
-                className="ml-2 block text-sm text-queen-black/80"
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+        {user?.role === "creator" && (
+          <div className="space-y grid grid-cols-2 gap-x-6">
+            <label className="block text-sm font-medium text-queen-black">
+              Goals
+            </label>
+            {goalsOptions.map((option) => (
+              <div key={option} className="flex items-center">
+                <input
+                  type="radio"
+                  id={option}
+                  value={option}
+                  name="goals"
+                  checked={formData.goals === option}
+                  onChange={handleChange}
+                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                />
+                <label
+                  htmlFor={option}
+                  className="ml-2 block text-sm text-queen-black/80"
+                >
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+        )}
 
-        <div>
-          <label className="block text-sm font-medium text-queen-black">
-            Interests
-          </label>
-          {interestOptions.map((option) => (
-            <div key={option} className="flex items-center">
-              <input
-                type="checkbox"
-                id={option}
-                value={option}
-                name="interests"
-                checked={formData.interests.includes(option)}
-                onChange={handleChange}
-                className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                disabled={
-                  !formData.interests.includes(option) &&
-                  formData.interests.length >= 3
-                }
-              />
-              <label
-                htmlFor={option}
-                className="ml-2 block text-sm text-queen-black/80"
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+        {user?.role === "creator" && (
+          <div>
+            <label className="block text-sm font-medium text-queen-black">
+              Interests
+            </label>
+            {interestOptions.map((option) => (
+              <div key={option} className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={option}
+                  value={option}
+                  name="interests"
+                  checked={formData.interests.includes(option)}
+                  onChange={handleChange}
+                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                  disabled={
+                    !formData.interests.includes(option) &&
+                    formData.interests.length >= 3
+                  }
+                />
+                <label
+                  htmlFor={option}
+                  className="ml-2 block text-sm text-queen-black/80"
+                >
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="space-y-10">
           {user && user.role === "creator" && (

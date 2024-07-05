@@ -42,7 +42,7 @@ const AdminDashboard = () => {
         <Container size="5xl" className="space-y-8">
           <Heading size="4xl">Overview</Heading>
 
-          <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+          <div className="grid grid-cols-3 gap-4">
             {loading ? (
               <>
                 {Array.from({ length: 4 }).map((_, index) => (
