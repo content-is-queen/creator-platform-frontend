@@ -95,7 +95,7 @@ const ProfilePhotoUpdateModal = () => {
     <div className="relative h-20 w-20 rounded-full">
       <ProfileIcon profilePhoto={user?.profilePhoto} className="h-20 w-20" />
       <button
-        className="absolute right-0 bottom-0"
+        className="bg-queen-white h-6 w-6 rounded-full absolute right-0 bottom-0"
         type="button"
         onClick={() => setIsOpen(true)}
       >
