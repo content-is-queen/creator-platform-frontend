@@ -4,10 +4,11 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-import Panel from "@/components/Panel";
-
 import formData from "@/data/opportunity_form_data.json";
+
+import Panel from "@/components/Panel";
 import Subheading from "../Subheading";
+import Text from "../Text";
 
 const CreateOpportunityPanels = () => {
   return (
@@ -43,10 +44,12 @@ const CreateOpportunityPanels = () => {
             )}
           >
             <div>
-              <Subheading as="h2" size="xl" className="my-3">
+              <Subheading as="h2" size="xl" className="my-2 tracking-wide">
                 {opp.label}
               </Subheading>
-              <p className="tracking-wide leading-5"> {opp.description}</p>
+              <Text size="sm" className="tracking-wide leading-5">
+                {opp.description}
+              </Text>
             </div>
             <Link
               href={{

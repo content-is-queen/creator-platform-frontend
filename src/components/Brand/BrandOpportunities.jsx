@@ -72,8 +72,6 @@ const BrandOpportunities = () => {
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
 
-      console.log(swiper);
-
       if (swiper.isBeginning && swiper.isEnd) {
         setArrows({ left: false, right: false });
         return;
