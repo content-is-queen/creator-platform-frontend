@@ -72,16 +72,26 @@ const BrandOpportunities = () => {
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
 
+      console.log(swiper);
+
+      if (swiper.isBeginning && swiper.isEnd) {
+        setArrows({ left: false, right: false });
+        return;
+      }
+
+      if (!swiper.isBeginning && !swiper.isEnd) {
+        setArrows({ left: true, right: true });
+        return;
+      }
+
       if (swiper.isBeginning) {
         setArrows({ left: false, right: true });
+        return;
       }
 
       if (swiper.isEnd) {
         setArrows({ left: true, right: false });
-      }
-
-      if (swiper.isBeginning && swiper.isEnd) {
-        setArrows({ left: false, right: false });
+        return;
       }
     };
 
@@ -157,7 +167,7 @@ const BrandOpportunities = () => {
                   type="button"
                   onClick={handlePrev}
                   className={clsx(
-                    "absolute -left-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
+                    "absolute -left-4 z-10 bg-white border border-queen-black/15 shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
                   )}
                 >
                   <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
@@ -168,7 +178,7 @@ const BrandOpportunities = () => {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="absolute -right-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
+                  className="absolute -right-4 z-10 bg-white border border-queen-black/15 shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
                 >
                   <FontAwesomeIcon icon={faArrowRight} />
                 </button>

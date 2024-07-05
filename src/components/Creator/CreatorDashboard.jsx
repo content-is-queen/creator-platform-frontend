@@ -66,9 +66,7 @@ const CreatorDashboard = () => {
             <StatsPanel applications={applications} />
           )}
 
-          <Button href="/opportunities" size="lg">
-            View opportunities
-          </Button>
+          <Button href="/opportunities">View opportunities</Button>
         </Container>
       </div>
       {applications && applications.length > 0 && (
