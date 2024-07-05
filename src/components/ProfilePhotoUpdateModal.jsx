@@ -95,11 +95,11 @@ const ProfilePhotoUpdateModal = () => {
     <div className="relative h-20 w-20 rounded-full">
       <ProfileIcon profilePhoto={user?.profilePhoto} className="h-20 w-20" />
       <button
-        className="bg-queen-white h-6 w-6 rounded-full absolute right-0 bottom-0"
+        className="bg-queen-black h-7 w-7 rounded-full absolute right-0 bottom-0"
         type="button"
         onClick={() => setIsOpen(true)}
       >
-        <FontAwesomeIcon icon={faCamera} />
+        <FontAwesomeIcon className="text-white" icon={faCamera} />
       </button>
       <Modal
         open={isOpen}

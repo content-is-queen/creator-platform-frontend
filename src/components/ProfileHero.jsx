@@ -23,11 +23,18 @@ const ProfileHero = ({ user }) => {
   return (
     <div className="bg-queen-blue text-white relative pt-16 pb-20 overflow-hidden md:pt-28">
       <Container size="4xl" className="space-y-4">
-        <ProfilePhotoUpdateModal />
-        {pathname === "/profile" && (
-          <Button href="/settings/edit-profile" size="sm" variant="yellow">
-            Edit Profile
-          </Button>
+        {pathname === "/profile" ? (
+          <>
+            <ProfilePhotoUpdateModal />
+            <Button href="/settings/edit-profile" size="sm" variant="yellow">
+              Edit Profile
+            </Button>
+          </>
+        ) : (
+          <ProfileIcon
+            profilePhoto={user?.profilePhoto}
+            className="h-20 w-20"
+          />
         )}
 
         <div className="max-w-lg relative z-10 space-y-3">
