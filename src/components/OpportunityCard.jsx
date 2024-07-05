@@ -26,7 +26,7 @@ const OpportunityCard = ({
           className="h-6 w-6"
           profilePhoto={organizationLogo || profilePhoto}
         />
-        <span className="text-xs font-semibold text-gray-900 dark:text-white uppercase rounded-full">
+        <span className="text-xs font-semibold text-queen-black/80 dark:text-white uppercase rounded-full">
           {organizationName || company}
         </span>
       </div>

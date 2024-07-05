@@ -166,7 +166,7 @@ const EditProfile = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-queen-black">
             Goals
           </label>
           {goalsOptions.map((option) => (
@@ -182,7 +182,7 @@ const EditProfile = () => {
               />
               <label
                 htmlFor={option}
-                className="ml-2 block text-sm text-gray-900"
+                className="ml-2 block text-sm text-queen-black/80"
               >
                 {option}
               </label>
@@ -191,7 +191,7 @@ const EditProfile = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-queen-black">
             Interests
           </label>
           {interestOptions.map((option) => (
@@ -211,7 +211,7 @@ const EditProfile = () => {
               />
               <label
                 htmlFor={option}
-                className="ml-2 block text-sm text-gray-900"
+                className="ml-2 block text-sm text-queen-black/80"
               >
                 {option}
               </label>

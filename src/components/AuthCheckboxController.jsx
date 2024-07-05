@@ -17,7 +17,7 @@ const AuthCheckboxController = ({
 
   return (
     <div className="space-y grid grid-cols-2 gap-x-6">
-      {options.map((option) => {
+      {options.map((option, index) => {
         const id = option.replaceAll(" ", "-").toLowerCase();
 
         return (
@@ -43,6 +43,7 @@ const AuthCheckboxController = ({
 
                         onChange(checked);
                       }}
+                      {...(index === 0 ? { autoFocus: true } : {})}
                       disabled={disabled && !checked.includes(option)}
                       {...otherProps}
                       value={option}

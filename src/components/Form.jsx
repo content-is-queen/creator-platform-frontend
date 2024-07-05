@@ -108,7 +108,7 @@ const Checkbox = ({
   return (
     <div key={name}>
       <Text className="mb-4 uppercase">{children}</Text>
-      <div className="space-y grid grid-cols-2 gap-6">
+      <div className="space-y grid grid-cols-2 gap-x-6">
         {options.map((option, index) => {
           if (typeof option === "string") {
             return (

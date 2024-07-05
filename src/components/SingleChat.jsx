@@ -57,7 +57,7 @@ const Header = ({ room }) => {
         </div>
       </div>
       <div>
-        <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
+        <span className="text-queen-black/80 truncate font-subheading font-bold block leading-4">
           {participant.fullName}
         </span>
         <span className="text-sm text-gray-500 truncate block">

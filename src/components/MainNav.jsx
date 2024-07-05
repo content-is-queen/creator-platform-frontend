@@ -178,33 +178,51 @@ const MainNav = () => {
                   <span className="sr-only">User menu</span>
                 </ProfileIcon>
               </Menu.Button>
-              <Menu.Items className="absolute z-50 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg">
+              <Menu.Items className="absolute z-50 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-t-md rounded-b-md shadow-lg focus-visible:outline-none">
                 <Menu.Item as="div" className="text-queen-black/60">
                   <div className="px-4 py-2 text-sm">{user?.email}</div>
                 </Menu.Item>
                 <Menu.Item>
-                  <Link
-                    href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Profile
-                  </Link>
+                  {({ active }) => (
+                    <Link
+                      href="/profile"
+                      className={`${
+                        active
+                          ? "bg-gray-100 text-queen-black/80"
+                          : "text-queen-black"
+                      } group flex  items-center w-full px-5 py-2 text-sm`}
+                    >
+                      Profile
+                    </Link>
+                  )}
                 </Menu.Item>
                 <Menu.Item>
-                  <Link
-                    href="/settings"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Settings
-                  </Link>
+                  {({ active }) => (
+                    <Link
+                      href="/settings"
+                      className={`${
+                        active
+                          ? "bg-gray-100 text-queen-black/80"
+                          : "text-queen-black"
+                      } group flex items-center w-full px-5 py-2 text-sm`}
+                    >
+                      Settings
+                    </Link>
+                  )}
                 </Menu.Item>
                 <Menu.Item>
-                  <button
-                    onClick={handleSignOut}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
+                  {({ active }) => (
+                    <button
+                      onClick={handleSignOut}
+                      className={`${
+                        active
+                          ? "bg-gray-100 text-queen-black/80"
+                          : "text-queen-black"
+                      } group flex rounded-b-md items-center w-full px-5 py-2 text-sm`}
+                    >
+                      Logout
+                    </button>
+                  )}
                 </Menu.Item>
               </Menu.Items>
             </Menu>

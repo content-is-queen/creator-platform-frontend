@@ -9,7 +9,7 @@ const AuthRadioController = ({ name, errors, control, options }) => (
       render={({ field: { onChange, ...otherProps } }) => (
         <div>
           <div className="space-y">
-            {options.map((option) => {
+            {options.map((option, index) => {
               const id = option.replaceAll(" ", "-").toLowerCase();
               return (
                 <div className="inline-flex items-center gap-3 w-full" key={id}>
@@ -19,6 +19,7 @@ const AuthRadioController = ({ name, errors, control, options }) => (
                     name={id}
                     id={id}
                     onChange={onChange}
+                    {...(index === 0 ? { autoFocus: true } : {})}
                     {...otherProps}
                     value={option}
                   />
