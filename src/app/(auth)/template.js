@@ -28,7 +28,7 @@ const AuthTemplate = ({ children }) => {
           className="fixed hidden w-26 md:block md:-bottom-16 md:-left-20 lg:-bottom-10 lg:-left-10"
         />
       </div>
-      <div className="flex pt-12 pb-16 md:py-20 items-center h-full md:col-span-8 lg:col-span-7">
+      <div className="flex pt-12 pb-16 md:py-20 items-center h-full md:col-span-8 lg:col-span-7 bg-white">
         <div className="w-full max-w-md mx-auto px-8 space-y-6 md:space-y-8 md:px-6">
           {children}
         </div>

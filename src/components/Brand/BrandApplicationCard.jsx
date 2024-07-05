@@ -12,6 +12,7 @@ import Text from "@/components/Text";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "@/components/Heading";
+import Subheading from "../Subheading";
 
 const BrandApplicationCard = ({
   setApplications,
@@ -101,12 +102,9 @@ const BrandApplicationCard = ({
   };
 
   return (
-    <Card className="h-[488px] max-h-screen flex flex-col">
+    <Card className="flex flex-col">
       {message?.status === "accepted" ? (
-        <div
-          className="text-center flex items-center flex-col justify-center"
-          style={{ height: "inherit" }}
-        >
+        <div className="text-center flex items-center flex-col justify-center">
           <div className="max-w-xs mx-auto mb-5">
             <p className="text-subheading text-queen-black font-bold text-xl mb-2">
               Start chatting!
@@ -122,23 +120,18 @@ const BrandApplicationCard = ({
         </div>
       ) : (
         <>
-          <div className="mb-8 flex items-start justify-between gap-4">
-            <div>
-              <Heading size="2xl">
-                {!applicant ? (
-                  <LoadingPlaceholder dark />
-                ) : (
-                  <>
-                    {applicant.firstName} {applicant.lastName}
-                  </>
-                )}
-              </Heading>
-              <Text size="sm" className="capitalize">
-                {opportunityTitle} &bull; Application
-              </Text>
-            </div>
+          <div className="flex justify-between items-center">
+            <Subheading>
+              {!applicant ? (
+                <LoadingPlaceholder dark />
+              ) : (
+                <>
+                  {applicant.firstName} {applicant.lastName}
+                </>
+              )}
+            </Subheading>
             {applicant?.interests ? (
-              <div className="flex gap-2 mt-1">
+              <div className="flex gap-2">
                 {applicant.interests.map((skill) => (
                   <Tag key={skill}>{skill}</Tag>
                 ))}
@@ -146,13 +139,17 @@ const BrandApplicationCard = ({
             ) : null}
           </div>
 
-          {!applicant ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
+          {!applicant ? (
+            <LoadingPlaceholder />
+          ) : (
+            <Text size="sm">{proposal}</Text>
+          )}
 
           <div className="flex gap-2 mt-auto pt-12">
             <Button
               type="button"
               as="button"
-              variant="white"
+              variant="danger"
               size="sm"
               onClick={() => rejectApplication(applicationId)}
             >
@@ -162,13 +159,14 @@ const BrandApplicationCard = ({
               type="button"
               as="button"
               size="sm"
+              variant="success"
               onClick={() => acceptApplication(applicationId)}
             >
               Accept
             </Button>
             <Button
               type="button"
-              variant="blue"
+              variant="white"
               size="sm"
               target="_blank"
               href={`/profile/${creatorId}`}

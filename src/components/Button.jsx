@@ -17,11 +17,15 @@ const ButtonVariants = cva(
         brown:
           "text-white bg-queen-black font-bold focus-visible:outline-queen-brown hover:opacity-90",
         blue: "text-white bg-queen-blue font-bold focus-visible:outline-queen-blue hover:opacity-90",
+        danger:
+          "text-white bg-red-500 font-bold focus-visible:outline-red-500 hover:opacity-90",
+        success:
+          "text-white bg-green-500 font-bold focus-visible:outline-green-500 hover:opacity-90",
         white:
           "border border-queen-black/40 focus-visible:outline-queen-black hover:bg-queen-black/5",
       },
       size: {
-        sm: "px-4 py-0.5 text-xs",
+        sm: "px-4 py-1 text-xs",
         md: "px-6 py-1.5 text-sm",
         lg: "px-8 py-2.5",
       },

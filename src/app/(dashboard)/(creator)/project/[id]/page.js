@@ -10,6 +10,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Container from "@/components/Container";
 import BrandApplications from "@/components/Brand/BrandApplications";
 import Subheading from "@/components/Subheading";
+import Heading from "@/components/Heading";
 
 const getApplicationsById = async (id) => {
   try {
@@ -40,17 +41,12 @@ export default async function Project({ params: { id: opportunityId } }) {
   }
 
   return (
-    <div
-      className="bg-queen-yellow bg-blue-dots bg-repeat-x bg-[center_bottom_-2.5rem]"
-      style={{
-        height: "calc(100vh - var(--nav-height))",
-        maxHeight: "calc(100vh - var(--nav-height))",
-      }}
-    >
-      <Container size="2xl" className="py-20 space-y-6">
-        <Subheading>{opportunity.title} applications</Subheading>
-        <BrandApplications applications={applications} {...opportunity} />
-      </Container>
-    </div>
+    <Container size="2xl" className="py-20 space-y-12">
+      <div className="text-center space-y-1">
+        <Heading size="3xl">{opportunity.title}</Heading>
+        <Subheading>Applications</Subheading>
+      </div>
+      <BrandApplications applications={applications} {...opportunity} />
+    </Container>
   );
 }

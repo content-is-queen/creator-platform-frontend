@@ -54,10 +54,7 @@ const Conversations = () => {
   }, [user]);
 
   return (
-    <div
-      className="bg-dots bg-repeat-x bg-[center_bottom_-4rem]"
-      style={{ height: "calc(100vh - var(--nav-height)" }}
-    >
+    <div style={{ height: "calc(100vh - var(--nav-height)" }}>
       <Container className="pt-8 grid gap-6 grid-cols-12">
         <Suspense>
           <ErrorBoundary>

@@ -1,11 +1,13 @@
 "use client";
 
 import MainNav from "@/components/MainNav";
+import SkipTo from "@/components/SkipTo";
 
 const Layout = ({ children }) => (
   <>
+    <SkipTo />
     <MainNav />
-    {children}
+    <main id="main-content">{children}</main>
   </>
 );
 

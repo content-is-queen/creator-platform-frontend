@@ -15,7 +15,7 @@ const Profile = ({ user: publicUser }) => {
   useEffect(() => {}, [user]);
 
   return (
-    <>
+    <div className="bg-queen-white">
       <ProfileHero user={user} />
       {user && user?.role === "creator" && (
         <CreatorProfileTabs meta={user?.meta} />
@@ -23,7 +23,7 @@ const Profile = ({ user: publicUser }) => {
       {user && user?.role === "brand" && (
         <BrandProfileOpportunities user={user} />
       )}
-    </>
+    </div>
   );
 };
 

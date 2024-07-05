@@ -72,9 +72,6 @@ const AdminUsersTable = ({ users }) => {
 
   return (
     <>
-      <div className="fixed bottom-8 right-8 z-50">
-        <CreateUserForm />
-      </div>
       <Search
         data={users}
         filteredData={filteredUsers}
@@ -82,7 +79,7 @@ const AdminUsersTable = ({ users }) => {
         filter={{ keys: ["firstName", "lastName"], tag: "role" }}
       />
 
-      <div className="my-12 space-y-6">
+      <div className="mt-8 space-y-6">
         {error?.message && <Error>{error?.message}</Error>}
         {success?.message && <Success>{success?.message}</Success>}
         <Table>
@@ -133,6 +130,9 @@ const AdminUsersTable = ({ users }) => {
             </Table.Body>
           )}
         </Table>
+        <div className="absolute fixed bottom-8 right-8 z-50">
+          <CreateUserForm />
+        </div>
       </div>
     </>
   );

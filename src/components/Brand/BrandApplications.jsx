@@ -8,7 +8,7 @@ const BrandApplications = ({ applications, title, opportunityId }) => {
   return (
     <div>
       {applications.length > 0 ? (
-        <>
+        <div>
           {applications.map((application) => (
             <BrandApplicationCard
               key={application.applicationId}
@@ -18,7 +18,7 @@ const BrandApplications = ({ applications, title, opportunityId }) => {
               {...application}
             />
           ))}
-        </>
+        </div>
       ) : (
         <Card>
           <Text className="text-center">No Applications were found</Text>

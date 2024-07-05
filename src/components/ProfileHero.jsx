@@ -11,6 +11,7 @@ import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "./Heading";
 import ProfilePhotoUpdateModal from "./ProfilePhotoUpdateModal";
+import Text from "./Text";
 
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
@@ -34,23 +35,25 @@ const ProfileHero = ({ user }) => {
           )}
         </div>
         {pathname === "/profile" && (
-          <Button href="/settings/edit-profile" variant="yellow">
+          <Button href="/settings/edit-profile" size="sm" variant="yellow">
             Edit Profile
           </Button>
         )}
 
-        <div className="max-w-lg relative z-10">
-          <Heading color="white" size="3xl">
-            {!user ? <LoadingPlaceholder /> : <>{heading}</>}
-          </Heading>
-          {user?.interests && (
-            <div className="flex gap-2 my-2">
-              {user.interests.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
-            </div>
-          )}
-          <p className="mt-1">{user?.bio}</p>
+        <div className="max-w-lg relative z-10 space-y-3">
+          <div className="space-y-2">
+            <Heading color="white" size="3xl">
+              {!user ? <LoadingPlaceholder /> : <>{heading}</>}
+            </Heading>
+            {user?.interests && (
+              <div className="flex gap-2">
+                {user.interests.map((tag) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </div>
+            )}
+          </div>
+          <Text size="sm">{user?.bio}</Text>
         </div>
       </Container>
       <Dots className="absolute -right-64 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />

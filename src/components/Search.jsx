@@ -84,7 +84,7 @@ const Search = ({ data = [], setFilteredData, filter }) => {
       <label htmlFor="search" className="sr-only">
         Search
       </label>
-      <div className="flex gap-2 mt-6">
+      <div className="flex gap-2 mt-4">
         {/** Only show tags if there are more than one objects that include the filter value */}
         {tags.length > 1 &&
           tags.map((tag) => (

@@ -23,9 +23,9 @@ const Page = async ({ params }) => {
   const { slug } = params;
 
   return (
-    <div className="bg-lilac-dots bg-repeat-x bg-[center_bottom]">
+    <div className="bg-queen-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
-        <div className="mt-20 pb-80 space-y-8">
+        <div className="mt-20 pb-72 space-y-8">
           <div>
             <Link
               href="/"

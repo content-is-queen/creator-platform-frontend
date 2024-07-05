@@ -36,8 +36,12 @@ const CreatorDashboard = () => {
   return (
     <>
       <div
-        style={{ minHeight: "calc(100vh - var(--nav-height))" }}
-        className="flex justify-center items-center py-12 text-center md:py-32 bg-queen-blue bg-lilac-dots bg-repeat-x bg-[center_bottom_-4rem]"
+        style={{
+          minHeight: "calc(100vh - var(--nav-height))",
+          backgroundSize: "500px",
+          backgroundImage: "url('/images/CiQ_Pattern 4 orange.svg')",
+        }}
+        className="flex justify-center items-center py-12 text-center bg-queen-blue bg-repeat-x bg-[center_bottom_-2rem]"
       >
         <Container className="space-y-4 pb-20">
           {loading ? (
@@ -76,7 +80,7 @@ const CreatorDashboard = () => {
         </Container>
       </div>
       {applications && applications.length > 0 && (
-        <Section size="4xl">
+        <Section size="4xl" className="bg-queen-white">
           <Text size="xl" className="mb-8">
             Applications
           </Text>
