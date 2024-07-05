@@ -18,6 +18,7 @@ const OpportunitiesSearch = () => {
     setStartAfterId,
     setOpportunities,
     getOpportunities,
+    refetching,
   } = useOpportunities();
   const listRef = useRef();
 
@@ -59,25 +60,31 @@ const OpportunitiesSearch = () => {
         filter={{ keys: ["title", "description"], tag: "type" }}
       />
 
-      <div className="py-12 space-y-6 min-h-80" ref={listRef}>
-        {filteredOpportunities?.length > 0 ? (
-          <>
-            {filteredOpportunities.map((opportunity) => (
-              <div key={opportunity.opportunityId}>
-                <OpportunityCard {...opportunity} />
-              </div>
-            ))}
-          </>
-        ) : (
-          <Text className="text-center">There are no opportunities</Text>
-        )}
+      {loading ? (
+        <div className="text-center flex items-center justify-center h-44">
+          <Spinner className="h-8 w-8 mt-5 inline-block" />
+        </div>
+      ) : (
+        <div className="py-12 space-y-6 min-h-80" ref={listRef}>
+          {filteredOpportunities?.length > 0 ? (
+            <>
+              {filteredOpportunities.map((opportunity) => (
+                <div key={opportunity.opportunityId}>
+                  <OpportunityCard {...opportunity} />
+                </div>
+              ))}
+            </>
+          ) : (
+            <Text className="text-center">There are no opportunities</Text>
+          )}
+        </div>
+      )}
 
-        {loading && (
-          <div className="text-center h-20 ">
-            <Spinner className="h-8 w-8 mt-5 inline-block" />
-          </div>
-        )}
-      </div>
+      {refetching && (
+        <div className="text-center h-20 ">
+          <Spinner className="h-8 w-8 mt-5 inline-block" />
+        </div>
+      )}
     </>
   );
 };

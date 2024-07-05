@@ -43,7 +43,7 @@ const CreatorDashboard = () => {
         }}
         className="flex justify-center items-center py-12 text-center bg-queen-blue bg-repeat-x bg-[center_bottom_-2rem]"
       >
-        <Container className="space-y-4 pb-20">
+        <Container className="space-y-12 pb-20">
           {loading ? (
             <div className="mx-auto w-72 flex items-center justify-center flex-wrap md:flex-nowrap">
               {Array.from({ length: 4 }).map((_, index) => (
@@ -66,17 +66,9 @@ const CreatorDashboard = () => {
             <StatsPanel applications={applications} />
           )}
 
-          {!loading && applications.length < 1 && (
-            <div className="space-y-6 max-w-md text-queen-white pt-10 pb-20 md:pb-0">
-              <Text size="lg" className="leading-6">
-                It looks like you haven’t applied for any opportunities yet.{" "}
-                <br /> Why don’t you check out our latest opportunities.
-              </Text>
-              <Button variant="yellow" href="/opportunities" size="lg">
-                Get started
-              </Button>
-            </div>
-          )}
+          <Button href="/opportunities" size="lg">
+            View opportunities
+          </Button>
         </Container>
       </div>
       {applications && applications.length > 0 && (
