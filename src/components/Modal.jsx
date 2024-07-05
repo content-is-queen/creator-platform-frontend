@@ -9,7 +9,7 @@ const Modal = ({ children, className, ...otherProps }) => (
       <Dialog.Panel
         className={twMerge(
           clsx(
-            "mx-auto w-full rounded-3xl bg-white pt-16 px-10 pb-10 overflow-y-auto",
+            "mx-auto w-full rounded-3xl bg-white p-10 overflow-y-auto",
             className
           )
         )}

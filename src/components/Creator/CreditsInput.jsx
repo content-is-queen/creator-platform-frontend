@@ -171,7 +171,7 @@ const CreditsInput = ({ setFormData, handleChange }) => {
               <div className="relative rounded overflow-hidden">
                 <img src={cover.url} height={70} width={70} alt="" />
                 <button
-                  className="absolute -translate-y-1/2 -translate-x-1/2 left-1/2 top-1/2 focus:outline-queen-blue"
+                  className="absolute -translate-y-1/2 -translate-x-1/2 left-1/2 top-1/2 focus-visible:outline-queen-blue"
                   type="button"
                   onClick={() => showcaseToggle(href)}
                 >

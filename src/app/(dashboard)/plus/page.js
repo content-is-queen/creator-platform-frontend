@@ -60,7 +60,7 @@ const Plus = () => {
         </div>
       </Block>
       <Block
-        className="relative bg-right bg-contain"
+        className="relative bg-right bg-contain bg-queen-white"
         style={{
           backgroundImage: "url('/images/CiQ-39.svg')",
           backgroundRepeat: "no-repeat",

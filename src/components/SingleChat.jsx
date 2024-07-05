@@ -57,7 +57,7 @@ const Header = ({ room }) => {
         </div>
       </div>
       <div>
-        <span className="text-gray-900 truncate font-subheading font-bold block leading-4">
+        <span className="text-queen-black/80 truncate font-subheading font-bold block leading-4">
           {participant.fullName}
         </span>
         <span className="text-sm text-gray-500 truncate block">
@@ -278,7 +278,7 @@ const Footer = ({ room }) => {
         <input
           type="text"
           placeholder="Enter your message"
-          className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
+          className="w-full focus-visible:outline-none focus-visible:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 rounded-full py-2 border border-queen-black/20"
           value={message}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
@@ -291,7 +291,7 @@ const Footer = ({ room }) => {
         <div className="absolute right-6 pr-4 items-center inset-y-0 hidden sm:flex">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus:outline-none"
+            className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-queen-black hover:opacity-80 focus-visible:outline-none"
             onClick={() => setIsModalOpen(!isModalOpen)}
           >
             <FontAwesomeIcon className="h-6 w-6" icon={faPaperclip} />

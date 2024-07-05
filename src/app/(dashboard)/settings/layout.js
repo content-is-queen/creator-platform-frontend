@@ -26,6 +26,8 @@ const Layout = ({ children }) => {
   const router = useRouter();
   const { subscribed } = useAuth();
 
+  const admin = user?.role === "admin" || user?.role === "super_admin";
+
   const LINKS = [
     {
       href: "/settings",
@@ -39,7 +41,7 @@ const Layout = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && subscribed
+    ...(user && subscribed && !admin
       ? [
           {
             href: "/settings/subscription",
@@ -93,78 +95,80 @@ const Layout = ({ children }) => {
     }
   };
 
-  const handleemailChange = (event) => {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
   return (
-    <Container size="4xl">
-      <div className="py-12 md:py-20">
-        <div className="flex gap-12">
-          <div className="w-full max-w-40">
-            <div className="border-b border-queen-black/20 pb-4 mb-4">
-              <Subheading size="lg" className="mb-2">
-                Settings
-              </Subheading>
-              <ul>
-                {LINKS.map(({ href, label }) => (
-                  <li key={href} className="py-1">
-                    <Link
-                      href={href}
-                      className={pathname === href ? undefined : "opacity-70"}
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+    <div className="bg-queen-white">
+      <Container size="4xl">
+        <div className="py-12 md:py-20">
+          <div className="flex gap-12">
+            <div className="w-full max-w-40">
+              <div className="border-b border-queen-black/20 pb-3 mb-4">
+                <Subheading size="lg" className="mb-2">
+                  Settings
+                </Subheading>
+                <ul>
+                  {LINKS.map(({ href, label }) => (
+                    <li key={href} className="py-0.5">
+                      <Link
+                        href={href}
+                        className={pathname === href ? undefined : "opacity-70"}
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                className="text-red-600"
+                onClick={() => setIsOpen(true)}
+              >
+                Delete account
+              </button>
             </div>
-            <button
-              type="button"
-              className="text-red-600"
-              onClick={() => setIsOpen(true)}
-            >
-              Delete account
-            </button>
+            <div className="w-full">{children}</div>
           </div>
-          <div className="w-full">{children}</div>
         </div>
-      </div>
 
-      <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="min-h-64 max-w-2xl"
-      >
-        <Subheading size="lg">Confirm account deletion</Subheading>
+        <Modal
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          className="min-h-64 max-w-2xl"
+        >
+          <Subheading size="lg">Confirm account deletion</Subheading>
 
-        <Form handleSubmit={handleDeleteAccount} setError={setError}>
-          <div className="space-y-6">
-            <p className="mb-4">
-              Please type your email to confirm account deletion. This action
-              cannot be undone.
-            </p>
-            <input
-              type="text"
-              value={email}
-              onChange={handleemailChange}
-              className="border border-gray-300 rounded px-3 py-1 w-full mt-1"
-              required
-            />
-            <Button
-              as="button"
-              type="submit"
-              className="mt-8"
-              disabled={!email.trim()}
-            >
-              {loading && <Button.Spinner />} Confirm
-            </Button>
-          </div>
-          {error?.message && <Form.Error>{error.message}</Form.Error>}
-          {success?.message && <Form.Success>{success.message}</Form.Success>}
-        </Form>
-      </Modal>
-    </Container>
+          <Form handleSubmit={handleDeleteAccount} setError={setError}>
+            <div className="space-y-6">
+              <p className="mb-4">
+                Please type your email to confirm account deletion. This action
+                cannot be undone.
+              </p>
+              <input
+                type="text"
+                value={email}
+                onChange={handleEmailChange}
+                className="border border-gray-300 rounded px-3 py-1 w-full mt-1"
+                required
+              />
+              <Button
+                as="button"
+                type="submit"
+                className="mt-8"
+                disabled={!email.trim()}
+              >
+                {loading && <Button.Spinner />} Confirm
+              </Button>
+            </div>
+            {error?.message && <Form.Error>{error.message}</Form.Error>}
+            {success?.message && <Form.Success>{success.message}</Form.Success>}
+          </Form>
+        </Modal>
+      </Container>
+    </div>
   );
 };
 

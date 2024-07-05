@@ -3,11 +3,16 @@ import { useEffect, useState } from "react";
 
 const useOpportunities = (args, cb) => {
   const [opportunities, setOpportunities] = useState([]);
-  const [startAfterId, setStartAfterId] = useState("");
+  const [startAfterId, setStartAfterId] = useState(null);
+  const [limit] = useState(4);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState({});
+  const [refetching, setRefetching] = useState(false);
+  const [isEnd, setIsEnd] = useState(false);
 
-  let path = "/opportunities?limit=0";
+  let path = [
+    `/opportunities?limit=${limit}`,
+    startAfterId ? `&startAfter=${startAfterId}` : "",
+  ].join("");
 
   if (args?.opportunityId) {
     path = `/opportunities/opportunityid/${args.opportunityId}`;
@@ -17,27 +22,49 @@ const useOpportunities = (args, cb) => {
     path = `/opportunities/id/${args.userId}`;
   }
 
-  useEffect(() => {
-    (async () => {
-      setError({});
-      try {
-        setLoading(true);
-        const { data } = await API.get(path);
-        if (cb) {
-          cb(data);
-          return;
-        }
-        setOpportunities(
-          data.message?.opportunities || data?.opportunities || data
-        );
-        setStartAfterId(data.message.nextStartAfterId);
-      } catch (err) {
-        setError({ message: "There was a problem getting opportunities" });
-        console.error(err);
-      } finally {
-        setLoading(false);
+  const getOpportunities = async (cb) => {
+    if (isEnd) return;
+
+    try {
+      if (!loading) {
+        setRefetching(true);
       }
-    })();
+
+      const { data } = await API.get(path);
+
+      const opportunities =
+        data.message?.opportunities || data?.opportunities || data;
+
+      if (cb) {
+        cb(opportunities);
+      } else {
+        setOpportunities(opportunities);
+      }
+
+      if (!args) {
+        setStartAfterId(
+          opportunities.length === limit ? data.message.nextStartAfterId : null
+        );
+      }
+
+      if (opportunities.length < limit) {
+        setIsEnd(true);
+      }
+    } catch (err) {
+      console.error(err);
+      if (err.response.status === 404) {
+        setIsEnd(true);
+      }
+    } finally {
+      setLoading(false);
+      setRefetching(false);
+    }
+  };
+
+  useEffect(() => {
+    (async (cb) => {
+      await getOpportunities(cb);
+    })(cb);
   }, []);
   return {
     opportunities,
@@ -46,6 +73,8 @@ const useOpportunities = (args, cb) => {
     setLoading,
     startAfterId,
     setStartAfterId,
+    getOpportunities,
+    refetching,
   };
 };
 

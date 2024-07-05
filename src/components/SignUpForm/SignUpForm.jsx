@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import API from "@/api/api";
-import { useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
 import { auth } from "@/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth";

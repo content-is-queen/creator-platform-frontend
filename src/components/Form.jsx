@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 import Text from "@/components/Text";
 import clsx from "clsx";
@@ -9,11 +9,11 @@ import { twMerge } from "tailwind-merge";
 export const inputStyles = {
   input: [
     "placeholder:uppercase py-3 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none peer",
-    "focus:outline-none focus:ring-0 focus:border-queen-blue",
+    "focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue",
   ].join(" "),
   label: [
     "absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]",
-    "peer-focus:font-medium peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6",
+    "peer-focus-visible:font-medium peer-focus-visible:start-0 rtl:peer-focus-visible:translate-x-1/4 peer-focus-visible:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus-visible:scale-75 peer-focus-visible:-translate-y-6",
   ].join(" "),
 };
 
@@ -31,6 +31,7 @@ export const Success = ({ children }) => (
 
 const Select = ({ name, options, children, ...otherProps }) => {
   const [showInput, setShowInput] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.value === "Other") {
@@ -41,6 +42,10 @@ const Select = ({ name, options, children, ...otherProps }) => {
     setShowInput(false);
   };
 
+  useEffect(() => {
+    setDisabled(true);
+  }, []);
+
   return (
     <div key={name}>
       <label className="uppercase" htmlFor={name}>
@@ -48,12 +53,17 @@ const Select = ({ name, options, children, ...otherProps }) => {
       </label>
       <select
         onChange={handleChange}
-        className={clsx("w-full", showInput && "border-b-0")}
+        className={clsx("w-full border-b py-3", showInput && "border-b-0")}
         name={showInput ? "" : name}
         id={name}
         {...otherProps}
       >
-        <option value="Select" defaultValue="Select">
+        <option
+          value="Select"
+          defaultValue="Select"
+          className="text-queen-black/50"
+          {...(disabled ? { disabled: true } : {})}
+        >
           Select
         </option>
         {options.map((option, index) => (
@@ -108,7 +118,7 @@ const Checkbox = ({
   return (
     <div key={name}>
       <Text className="mb-4 uppercase">{children}</Text>
-      <div className="space-y grid grid-cols-2 gap-6">
+      <div className="space-y grid grid-cols-2 gap-x-6">
         {options.map((option, index) => {
           if (typeof option === "string") {
             return (
@@ -116,7 +126,7 @@ const Checkbox = ({
                 <div className="inline-flex items-center gap-x-3 w-full">
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
                     name={option}
                     id={option}
                     onChange={handleChange}
@@ -156,7 +166,7 @@ const Checkbox = ({
                 >
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus:outline-none focus:ring-0 focus:border-queen-blue disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
                     name={category}
                     id={category}
                     onChange={handleChange}
@@ -248,8 +258,13 @@ const Form = forwardRef(function Form(
     <>
       <form
         ref={ref}
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(event) => {
+          if (typeof event.preventDefault === "function") {
+            event.preventDefault();
+          }
+          if (typeof event.stopPropagation === "function") {
+            event.stopPropagation();
+          }
           setError({});
           handleSubmit();
         }}

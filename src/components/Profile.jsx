@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useUser } from "@/context/UserContext";
+import { notFound } from "next/navigation";
 
 import CreatorProfileTabs from "@/components/Creator/CreatorProfileTabs/CreatorProfileTabs";
 import ProfileHero from "@/components/ProfileHero";
@@ -14,8 +15,12 @@ const Profile = ({ user: publicUser }) => {
 
   useEffect(() => {}, [user]);
 
+  if (user?.role === "admin") {
+    return notFound();
+  }
+
   return (
-    <>
+    <div className="bg-queen-white">
       <ProfileHero user={user} />
       {user && user?.role === "creator" && (
         <CreatorProfileTabs meta={user?.meta} />
@@ -23,7 +28,7 @@ const Profile = ({ user: publicUser }) => {
       {user && user?.role === "brand" && (
         <BrandProfileOpportunities user={user} />
       )}
-    </>
+    </div>
   );
 };
 

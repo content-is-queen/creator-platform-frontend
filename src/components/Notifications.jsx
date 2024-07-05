@@ -12,7 +12,6 @@ import Subheading from "./Subheading";
 
 const Notifications = () => {
   const [notificationList, setNotificationsList] = useState([]);
-  const [isNewNotification, setIsNewNotification] = useState(false);
 
   const { user } = useUser();
   const { token } = useAuth();
@@ -25,7 +24,6 @@ const Notifications = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setIsBellClicked(false);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
@@ -40,7 +38,6 @@ const Notifications = () => {
         QuerySnapshot.forEach((doc) => {
           notifications.push({ ...doc.data(), id: doc.id });
         });
-
         setNotificationsList(notifications);
       });
       return () => unsubscribe;
@@ -49,9 +46,9 @@ const Notifications = () => {
 
   return (
     <Menu as="div" className="relative normal-case text-sm">
-      <Menu.Button className="flex relative text-sm rounded-full md:me-0 focus:ring-4">
+      <Menu.Button className="flex relative text-sm rounded-full p-1 md:me-0 focus-visible:ring-offset-2 focus-visible:ring-2 focus-visible:ring-queen-yellow focus-visible:rounded-full">
         <span className="uppercase md:sr-only">Notifications</span>
-        {isNewNotification && (
+        {notificationList.length > 0 && (
           <span className="absolute w-2.5 h-2.5 right-0 bg-red-600 rounded-full flex item-center justify-center"></span>
         )}
         <IoNotificationsOutline className="w-6 h-6" />
