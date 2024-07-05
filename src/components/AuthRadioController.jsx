@@ -15,7 +15,7 @@ const AuthRadioController = ({ name, errors, control, options }) => (
                 <div className="inline-flex items-center gap-3 w-full" key={id}>
                   <input
                     type="radio"
-                    className="p-1 w-5 h-5 border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue"
+                    className="p-1 w-5 h-5 border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-2 focus-visible:border-queen-blue"
                     name={id}
                     id={id}
                     onChange={onChange}

@@ -31,7 +31,7 @@ const AuthCheckboxController = ({
                   <>
                     <input
                       type="checkbox"
-                      className="p-1 w-4 h-4 border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue disabled:opacity-40"
+                      className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
                       name={id}
                       id={id}
                       onChange={(e) => {

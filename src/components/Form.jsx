@@ -48,12 +48,12 @@ const Select = ({ name, options, children, ...otherProps }) => {
       </label>
       <select
         onChange={handleChange}
-        className={clsx("w-full", showInput && "border-b-0")}
+        className={clsx("w-full border-b py-3", showInput && "border-b-0")}
         name={showInput ? "" : name}
         id={name}
         {...otherProps}
       >
-        <option value="Select" defaultValue="Select">
+        <option value="" defaultValue="Select">
           Select
         </option>
         {options.map((option, index) => (
@@ -116,7 +116,7 @@ const Checkbox = ({
                 <div className="inline-flex items-center gap-x-3 w-full">
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
                     name={option}
                     id={option}
                     onChange={handleChange}
@@ -156,7 +156,7 @@ const Checkbox = ({
                 >
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
                     name={category}
                     id={category}
                     onChange={handleChange}
