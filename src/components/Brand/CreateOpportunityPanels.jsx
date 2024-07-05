@@ -38,6 +38,7 @@ const CreateOpportunityPanels = () => {
         return (
           <Panel
             key={name}
+            style={{ backgroundSize: "200px" }}
             className={clsx(
               "flex flex-col  text-white bg-lilac-dots-circle justify-between basis-1/3 max-w-sm mx-auto relative transition-all bottom-0 hover:bottom-1",
               classes.panel
@@ -55,10 +56,10 @@ const CreateOpportunityPanels = () => {
               href={{
                 pathname: `/opportunities/create/${name}`,
               }}
-              className="bg-white h-7 w-7 self-end justify-self-end flex items-center justify-center rounded-full mt-20 after:absolute after:left-0 after:top-0 after:w-full after:h-full"
+              className="bg-white h-10 w-10 self-end justify-self-end flex items-center justify-center rounded-full mt-20 after:absolute after:left-0 after:top-0 after:w-full after:h-full"
             >
               <FontAwesomeIcon
-                className={clsx(classes.arrow, "h-3 w-3")}
+                className={clsx(classes.arrow, "h-4 w-4")}
                 icon={faArrowRight}
               />
             </Link>

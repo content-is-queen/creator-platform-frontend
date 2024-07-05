@@ -24,7 +24,7 @@ const CreateOpportunityModal = () => {
         onClose={() => setIsOpen(false)}
         className="max-w-5xl"
       >
-        <Subheading size="xl" className="text-center mb-8">
+        <Subheading size="lg" className="text-center mb-8">
           Select an opportunity type
         </Subheading>
         <CreateOpportunityPanels />

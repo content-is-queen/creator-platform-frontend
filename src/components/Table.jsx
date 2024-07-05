@@ -22,7 +22,7 @@ const Head = ({ children }) => (
 const Body = ({ children }) => <tbody>{children}</tbody>;
 
 const Table = ({ children }) => (
-  <div className="relative overflow-x-auto h-72">
+  <div className="relative overflow-x-auto h-72 bg-queen-white">
     <table className="w-full text-sm text-left text-queen-black/80">
       {children}
     </table>

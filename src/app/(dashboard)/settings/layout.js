@@ -26,6 +26,8 @@ const Layout = ({ children }) => {
   const router = useRouter();
   const { subscribed } = useAuth();
 
+  const admin = user?.role === "admin" || user?.role === "super_admin";
+
   const LINKS = [
     {
       href: "/settings",
@@ -39,7 +41,7 @@ const Layout = ({ children }) => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && subscribed && (user.role === "brand" || user.role === "creator")
+    ...(user && subscribed && !admin
       ? [
           {
             href: "/settings/subscription",

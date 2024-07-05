@@ -22,6 +22,8 @@ const MainNav = () => {
   const router = useRouter();
 
   const { user, setUser, loading } = useUser();
+
+  const admin = user?.role === "super_admin" || user?.role === "admin";
   const { subscribed } = useAuth();
 
   const pathname = usePathname();
@@ -50,7 +52,7 @@ const MainNav = () => {
     }
   }, [loading]);
 
-  console.log(user);
+  console.log(pathname);
 
   const LINKS = {
     creator: [
@@ -184,23 +186,22 @@ const MainNav = () => {
                 <Menu.Item as="div" className="text-queen-black/60">
                   <div className="px-4 py-2 text-sm">{user?.email}</div>
                 </Menu.Item>
-                {user?.role === "creator" ||
-                  (user?.role === "brand" && (
-                    <Menu.Item>
-                      {({ active }) => (
-                        <Link
-                          href="/profile"
-                          className={`${
-                            active
-                              ? "bg-gray-100 text-queen-black/80"
-                              : "text-queen-black"
-                          } group flex  items-center w-full px-5 py-2 text-sm`}
-                        >
-                          Profile
-                        </Link>
-                      )}
-                    </Menu.Item>
-                  ))}
+                {!admin && (
+                  <Menu.Item>
+                    {({ active }) => (
+                      <Link
+                        href="/profile"
+                        className={`${
+                          active
+                            ? "bg-gray-100 text-queen-black/80"
+                            : "text-queen-black"
+                        } group flex  items-center w-full px-5 py-2 text-sm`}
+                      >
+                        Profile
+                      </Link>
+                    )}
+                  </Menu.Item>
+                )}
                 <Menu.Item>
                   {({ active }) => (
                     <Link

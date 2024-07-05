@@ -8,7 +8,7 @@ const BrandDashboard = () => {
   return (
     <div className="h-full py-12 md:py-20">
       <Container>
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-4">
           <Heading>Projects</Heading>
           <CreateOpportunityModal />
         </div>
