@@ -172,7 +172,10 @@ const EditProfile = () => {
             <div>
               <Text className="mb-4 uppercase">Goals</Text>
               {goalsOptions.map((option) => (
-                <div key={option} className="flex items-center">
+                <div
+                  key={option}
+                  className="inline-flex items-center gap-x-2 w-full"
+                >
                   <input
                     type="radio"
                     id={option}
@@ -181,10 +184,7 @@ const EditProfile = () => {
                     checked={formData.goals === option}
                     onChange={handleChange}
                   />
-                  <label
-                    htmlFor={option}
-                    className="ml-2 block text-sm text-queen-black/80"
-                  >
+                  <label htmlFor={option} className="text-sm">
                     {option}
                   </label>
                 </div>
@@ -192,8 +192,8 @@ const EditProfile = () => {
             </div>
 
             <div>
-              <Text className="mb-4 uppercase"> Interests</Text>
-              <div className="space-y grid grid-cols-2 gap-x-6">
+              <Text className="mb-4 uppercase">Interests</Text>
+              <div className="space-y grid grid-cols-2 gap-x-6 gap-y-1">
                 {interestOptions.map((option) => (
                   <div
                     key={option}
@@ -206,16 +206,13 @@ const EditProfile = () => {
                       name="interests"
                       checked={formData.interests.includes(option)}
                       onChange={handleChange}
-                      className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
                       disabled={
                         !formData.interests.includes(option) &&
                         formData.interests.length >= 3
                       }
                     />
-                    <label
-                      htmlFor={option}
-                      className="ml-2 block text-sm text-queen-black/80"
-                    >
+                    <label htmlFor={option} className="text-sm">
                       {option}
                     </label>
                   </div>
