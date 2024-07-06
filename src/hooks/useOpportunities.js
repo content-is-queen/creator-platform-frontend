@@ -35,6 +35,10 @@ const useOpportunities = (args, cb) => {
       const opportunities =
         data.message?.opportunities || data?.opportunities || data;
 
+      if (opportunities.length < limit) {
+        setIsEnd(true);
+      }
+
       if (cb) {
         cb(opportunities);
       } else {
@@ -46,13 +50,9 @@ const useOpportunities = (args, cb) => {
           opportunities.length === limit ? data.message.nextStartAfterId : null
         );
       }
-
-      if (opportunities.length < limit) {
-        setIsEnd(true);
-      }
     } catch (err) {
-      console.error(err);
-      if (err.response.status === 404) {
+      console.log(err);
+      if (err?.response.status === 404) {
         setIsEnd(true);
       }
     } finally {
@@ -66,6 +66,7 @@ const useOpportunities = (args, cb) => {
       await getOpportunities(cb);
     })(cb);
   }, []);
+
   return {
     opportunities,
     setOpportunities,

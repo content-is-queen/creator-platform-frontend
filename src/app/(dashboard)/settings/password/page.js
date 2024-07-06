@@ -124,6 +124,7 @@ const Password = () => {
         <Button
           type="submit"
           as="button"
+          variant="blue"
           onClick={handleSubmit}
           disabled={!updated}
         >

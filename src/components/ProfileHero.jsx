@@ -26,7 +26,7 @@ const ProfileHero = ({ user }) => {
         {pathname === "/profile" ? (
           <>
             <ProfilePhotoUpdateModal />
-            <Button href="/settings/edit-profile" size="sm" variant="yellow">
+            <Button href="/settings/edit-profile" size="sm">
               Edit Profile
             </Button>
           </>

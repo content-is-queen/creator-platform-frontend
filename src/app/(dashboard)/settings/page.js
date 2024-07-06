@@ -70,6 +70,7 @@ const General = () => {
           type="submit"
           as="button"
           onClick={handleSubmit}
+          variant="blue"
           {...(!updated && { disabled: true })}
         >
           {loading && <Button.Spinner />} Save Changes

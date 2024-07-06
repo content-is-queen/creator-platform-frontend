@@ -145,7 +145,7 @@ const Company = () => {
             className="basis-auto"
           />
         </div>
-        <Button type="submit" as="button" disabled={!updated}>
+        <Button type="submit" as="button" variant="blue" disabled={!updated}>
           {loading && <Button.Spinner />} Update Company Info
         </Button>
       </div>
