@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const useOpportunities = (args, cb) => {
   const [opportunities, setOpportunities] = useState([]);
   const [startAfterId, setStartAfterId] = useState(null);
-  const [limit] = useState(4);
+  const [limit] = useState(2);
   const [loading, setLoading] = useState(true);
   const [refetching, setRefetching] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
@@ -35,6 +35,12 @@ const useOpportunities = (args, cb) => {
       const opportunities =
         data.message?.opportunities || data?.opportunities || data;
 
+      console.log(opportunities);
+
+      if (opportunities.length < limit) {
+        setIsEnd(true);
+      }
+
       if (cb) {
         cb(opportunities);
       } else {
@@ -45,10 +51,6 @@ const useOpportunities = (args, cb) => {
         setStartAfterId(
           opportunities.length === limit ? data.message.nextStartAfterId : null
         );
-      }
-
-      if (opportunities.length < limit) {
-        setIsEnd(true);
       }
     } catch (err) {
       console.error(err);

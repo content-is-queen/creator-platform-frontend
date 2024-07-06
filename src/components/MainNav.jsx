@@ -52,8 +52,6 @@ const MainNav = () => {
     }
   }, [loading]);
 
-  console.log(pathname);
-
   const LINKS = {
     creator: [
       {

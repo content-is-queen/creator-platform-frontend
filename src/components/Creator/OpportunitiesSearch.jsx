@@ -47,7 +47,8 @@ const OpportunitiesSearch = () => {
   }, [opportunities]);
 
   useEffect(() => {
-    if (isInView && listRef.current) getMoreOpportunities();
+    if (isInView && listRef.current && !loading && !refetching)
+      getMoreOpportunities();
   }, [isInView]);
 
   return (
@@ -81,7 +82,7 @@ const OpportunitiesSearch = () => {
 
       {refetching && (
         <div className="text-center h-20 ">
-          <Spinner className="h-8 w-8 mt-5 inline-block" />
+          <Spinner className="h-6 w-6 mt-5 inline-block" />
         </div>
       )}
     </>
