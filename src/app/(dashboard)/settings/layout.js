@@ -100,7 +100,12 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="bg-queen-white">
+    <div
+      className="bg-queen-white"
+      style={{
+        minHeight: "calc(100vh - var(--nav-height))",
+      }}
+    >
       <Container size="4xl">
         <div className="py-12 md:py-20">
           <div className="flex gap-12">
