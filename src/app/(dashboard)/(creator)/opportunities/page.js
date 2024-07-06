@@ -2,9 +2,7 @@ import OpportunitiesSearch from "@/components/Creator/OpportunitiesSearch";
 import Heading from "@/components/Heading";
 import Container from "@/components/Container";
 
-export const dynamic = "force-dynamic";
-
-const Opportunities = async () => {
+const Opportunities = () => {
   return (
     <Container size="2xl" className="mb-32">
       <div className="text-center mt-24 mb-16">

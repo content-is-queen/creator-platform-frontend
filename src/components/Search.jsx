@@ -63,7 +63,7 @@ const Search = ({ data = [], setFilteredData, filter }) => {
         ? data.filter((i) => selectedTags.includes(i[filter.tag]))
         : data
     );
-  }, [selectedTags]);
+  }, [selectedTags, data]);
 
   return (
     <section>

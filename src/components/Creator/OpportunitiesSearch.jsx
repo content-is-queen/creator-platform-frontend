@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import debounce from "debounce";
+
+import useOpportunities from "@/hooks/useOpportunities";
 
 import Search from "@/components/Search";
 import OpportunityCard from "@/components/OpportunityCard";
 import Spinner from "../Spinner";
 import Text from "../Text";
-import useOpportunities from "@/hooks/useOpportunities";
 
 const OpportunitiesSearch = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
@@ -28,10 +30,10 @@ const OpportunitiesSearch = () => {
     setIsInView(bottom > 0 && bottom < innerHeight - 100);
   };
 
-  const getMoreOpportunities = () => {
-    getOpportunities((data) => {
-      setOpportunities((prev) => [...prev, ...data]);
-    });
+  const getMoreOpportunities = async () => {
+    await getOpportunities((data) =>
+      setOpportunities((prev) => [...prev, ...data])
+    );
   };
 
   useEffect(() => {
@@ -46,8 +48,10 @@ const OpportunitiesSearch = () => {
   }, [opportunities]);
 
   useEffect(() => {
-    if (isInView && listRef.current && !loading && !refetching)
-      getMoreOpportunities();
+    if (isInView && listRef.current) {
+      const debounced = debounce(async () => await getMoreOpportunities(), 500);
+      debounced();
+    }
   }, [isInView]);
 
   return (

@@ -53,8 +53,8 @@ const useOpportunities = (args, cb) => {
         );
       }
     } catch (err) {
-      console.error(err);
-      if (err.response.status === 404) {
+      console.log(err);
+      if (err?.response.status === 404) {
         setIsEnd(true);
       }
     } finally {
@@ -68,6 +68,7 @@ const useOpportunities = (args, cb) => {
       await getOpportunities(cb);
     })(cb);
   }, []);
+
   return {
     opportunities,
     setOpportunities,

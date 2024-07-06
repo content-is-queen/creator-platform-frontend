@@ -235,7 +235,7 @@ const EditProfile = () => {
           )}
         </div>
 
-        <Button type="submit" as="button" disabled={!updated}>
+        <Button type="submit" as="button" variant="blue" disabled={!updated}>
           {loading && <Button.Spinner />} Save Changes
         </Button>
       </div>
