@@ -38,7 +38,7 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
   }
 
   return (
-    <div className="bg-white bg-blue-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
+    <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
         <div className="pt-20 pb-72 space-y-12">
           <div className="space-y-8">
