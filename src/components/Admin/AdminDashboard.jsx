@@ -61,7 +61,7 @@ const AdminDashboard = () => {
         </Container>
       </section>
 
-      <section className="bg-white py-12 md:py-20">
+      <section className="bg-queen-white py-12 md:py-20">
         <Container size="5xl" className="space-y-8">
           <div className="flex justify-between items-center mb-8">
             <Heading>Projects</Heading>

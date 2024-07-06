@@ -189,7 +189,7 @@
       {
         "name": "budget",
         "type": "text",
-        "children": "Budget for Pitch (optional)"
+        "children": "Budget for Pitch"
       },
       {
         "name": "deadline",
