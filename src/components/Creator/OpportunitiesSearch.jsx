@@ -15,7 +15,6 @@ const OpportunitiesSearch = () => {
   const {
     opportunities,
     loading,
-    setStartAfterId,
     setOpportunities,
     getOpportunities,
     refetching,
