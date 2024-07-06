@@ -49,23 +49,34 @@ const AdminUsersTable = ({ users }) => {
     setError({});
     try {
       if (activated === false) {
-        await API.put(`/admin/activate/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await API.put(
+          `/admin/activate/${id}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         window.location.reload();
       }
       if (activated === true) {
-        await API.put(`/admin/deactivate/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await API.put(
+          `/admin/deactivate/${id}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         window.location.reload();
       }
     } catch (error) {
-      console.error(error);
       setError({ message: "There was an error updating this users status" });
     }
   };
