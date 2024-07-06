@@ -5,20 +5,20 @@ import { useRouter } from "next/navigation";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
+import fieldsData from "@/data/signup_form_data.json";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
-
 import CreditsInput from "@/components/Creator/CreditsInput";
-import inData from "@/data/signup_form_data.json";
 import ProfilePhotoUpdateModal from "@/components/ProfilePhotoUpdateModal";
+import Text from "@/components/Text";
 
-const interestOptions = inData
+const interestOptions = fieldsData
   .filter((item) => item.id === "creator")
   .map((item) => item.steps["4"].fields[0].options)
   .flat();
 
-const goalsOptions = inData
+const goalsOptions = fieldsData
   .filter((item) => item.id === "creator")
   .map((item) => item.steps["3"].fields[0].options)
   .flat();
@@ -168,72 +168,64 @@ const EditProfile = () => {
         </div>
 
         {user?.role === "creator" && (
-          <div className="space-y grid grid-cols-2 gap-x-6">
-            <label className="block text-sm font-medium text-queen-black">
-              Goals
-            </label>
-            {goalsOptions.map((option) => (
-              <div key={option} className="flex items-center">
-                <input
-                  type="radio"
-                  id={option}
-                  value={option}
-                  name="goals"
-                  checked={formData.goals === option}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor={option}
-                  className="ml-2 block text-sm text-queen-black/80"
+          <>
+            <div>
+              <Text className="mb-4 uppercase">Goals</Text>
+              {goalsOptions.map((option) => (
+                <div
+                  key={option}
+                  className="inline-flex items-center gap-x-2 w-full"
                 >
-                  {option}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
+                  <input
+                    type="radio"
+                    id={option}
+                    value={option}
+                    name="goals"
+                    checked={formData.goals === option}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor={option} className="text-sm">
+                    {option}
+                  </label>
+                </div>
+              ))}
+            </div>
 
-        {user?.role === "creator" && (
-          <div>
-            <label className="block text-sm font-medium text-queen-black">
-              Interests
-            </label>
-            {interestOptions.map((option) => (
-              <div key={option} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={option}
-                  value={option}
-                  name="interests"
-                  checked={formData.interests.includes(option)}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                  disabled={
-                    !formData.interests.includes(option) &&
-                    formData.interests.length >= 3
-                  }
-                />
-                <label
-                  htmlFor={option}
-                  className="ml-2 block text-sm text-queen-black/80"
-                >
-                  {option}
-                </label>
+            <div>
+              <Text className="mb-4 uppercase">Interests</Text>
+              <div className="space-y grid grid-cols-2 gap-x-6 gap-y-1">
+                {interestOptions.map((option) => (
+                  <div
+                    key={option}
+                    className="inline-flex items-center gap-x-3 w-full"
+                  >
+                    <input
+                      type="checkbox"
+                      id={option}
+                      value={option}
+                      name="interests"
+                      checked={formData.interests.includes(option)}
+                      onChange={handleChange}
+                      className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
+                      disabled={
+                        !formData.interests.includes(option) &&
+                        formData.interests.length >= 3
+                      }
+                    />
+                    <label htmlFor={option} className="text-sm">
+                      {option}
+                    </label>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
-
-        <div className="space-y-10">
-          {user && user.role === "creator" && (
+            </div>
             <CreditsInput
               setUpdated={setUpdated}
               setFormData={setFormData}
               handleChange={handleChange}
             />
-          )}
-        </div>
+          </>
+        )}
 
         <Button type="submit" as="button" variant="blue" disabled={!updated}>
           {loading && <Button.Spinner />} Save Changes
