@@ -38,20 +38,20 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
   }
 
   return (
-    <div className="bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
+    <div className="bg-white bg-blue-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
-        <div className="pt-20 pb-64 space-y-12">
-          <div>
+        <div className="pt-20 pb-72 space-y-12">
+          <div className="space-y-8">
             <Link
               href="/opportunities"
               className="text-sm inline-flex items-center gap-1.5"
             >
-              <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" />{" "}
-              Back to Dashboard
+              <FontAwesomeIcon icon={faArrowLeft} className="h-2.5 w-2.5" /> Go
+              back
             </Link>
-          </div>
 
-          <Component {...data} />
+            <Component {...data} />
+          </div>
 
           {link ? (
             <Button

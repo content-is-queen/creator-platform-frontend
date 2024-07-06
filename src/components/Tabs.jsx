@@ -18,7 +18,7 @@ const Tabs = ({ active, setActive, options }) => {
               aria-selected={isActive}
               aria-controls={option.id}
               className={clsx(
-                "text-lg transition hover:text-current after:bg-current",
+                "text-lg transition hover:text-current after:bg-current focus-visible:outline focus-visible:outline-queen-black focus-visible:outline-offset-2 focus-visible:outline-2",
                 isActive
                   ? "relative after:absolute after:h-0.5 after:w-full after:left-0 after:bottom-0"
                   : "opacity-60 hover:opacity-40 "

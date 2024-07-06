@@ -7,15 +7,17 @@ import useAuth from "@/hooks/useAuth";
 
 import Search from "@/components/Search";
 import AdminUserTableRow from "./AdminUserTableRow";
-import { Error } from "@/components/Form";
+import { Error, Success } from "@/components/Form";
 import Table from "@/components/Table";
+import CreateUserForm from "./CreateUserForm";
+import { filter } from "lodash";
 
 const AdminUsersTable = ({ users }) => {
   const [loading, setLoading] = useState(true);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState({});
+  const [success, setSuccess] = useState({});
 
   const { token } = useAuth();
 
@@ -28,16 +30,17 @@ const AdminUsersTable = ({ users }) => {
     setError({});
     try {
       if (confirm("Are you sure you want to delete this user?")) {
-        await API.delete(`/admin/delete/${id}`, {
+        const response = await API.delete(`/admin/delete/${id}`, {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
-        window.location.reload();
+        const deletedUser = response.data.data;
+        setSuccess({ message: response.data.message });
+        setFilteredUsers((prev) => prev.filter((i) => i.email !== email));
       }
     } catch (error) {
-      setError({ message: "There was an error deleting the user" });
+      setError({ message: error.response.data.message });
       console.error(error);
     }
   };
@@ -87,9 +90,9 @@ const AdminUsersTable = ({ users }) => {
         filter={{ keys: ["firstName", "lastName"], tag: "role" }}
       />
 
-      <div className="my-12 space-y-6">
+      <div className="mt-8 space-y-6">
         {error?.message && <Error>{error?.message}</Error>}
-
+        {success?.message && <Success>{success?.message}</Success>}
         <Table>
           <Table.Head>
             <tr>
@@ -122,7 +125,7 @@ const AdminUsersTable = ({ users }) => {
                       selectedUsers={selectedUsers}
                       setSelectedUsers={setSelectedUsers}
                       handleActivation={handleActivation}
-                      handleDelete={handleDelete}
+                      handleDelete={() => handleDelete(user.uid)}
                       {...user}
                       key={user.uid}
                     />
@@ -138,6 +141,9 @@ const AdminUsersTable = ({ users }) => {
             </Table.Body>
           )}
         </Table>
+        <div className="absolute fixed bottom-8 right-8 z-50">
+          <CreateUserForm />
+        </div>
       </div>
     </>
   );

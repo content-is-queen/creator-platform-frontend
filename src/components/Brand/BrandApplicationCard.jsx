@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 import useAuth from "@/hooks/useAuth";
@@ -10,6 +12,7 @@ import Text from "@/components/Text";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "@/components/Heading";
+import Subheading from "../Subheading";
 
 const BrandApplicationCard = ({
   setApplications,
@@ -20,17 +23,15 @@ const BrandApplicationCard = ({
   creatorId,
 }) => {
   const { token } = useAuth();
-  const {
-    user: { uid },
-  } = useUser();
-  const [user, setUser] = useState(null);
+  const { user } = useUser();
+  const [applicant, setApplicant] = useState(null);
   const [message, setMessage] = useState(null);
 
-  const getUser = async (id) => {
+  const getApplicant = async (id) => {
     try {
       const res = await API.get(`/auth/user/${id}`);
       const { data } = res;
-      setUser(data.message);
+      setApplicant(data.message);
     } catch ({ error }) {
       setApplications(
         applications.filter((i) => i.applicationId !== applicationId)
@@ -40,7 +41,7 @@ const BrandApplicationCard = ({
   };
 
   useEffect(() => {
-    getUser(creatorId);
+    getApplicant(creatorId);
   }, []);
 
   const rejectApplication = async (id) => {
@@ -50,7 +51,7 @@ const BrandApplicationCard = ({
         {
           status: "rejected",
 
-          authorId: uid,
+          authorId: user.uid,
           creatorId,
           opportunityTitle,
         },
@@ -82,7 +83,7 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "accepted",
-          authorId: uid,
+          authorId: user.uid,
           creatorId,
           opportunityTitle: opportunityTitle,
         },
@@ -94,26 +95,16 @@ const BrandApplicationCard = ({
         }
       );
 
-      if (response?.error) {
-        throw new Error(
-          response.error ||
-            "Something went wrong when accepting the application"
-        );
-      }
-
       setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error);
     }
   };
 
   return (
-    <Card className="h-[488px] max-h-screen flex flex-col">
+    <Card className="flex flex-col">
       {message?.status === "accepted" ? (
-        <div
-          className="text-center flex items-center flex-col justify-center"
-          style={{ height: "inherit" }}
-        >
+        <div className="text-center flex items-center flex-col justify-center">
           <div className="max-w-xs mx-auto mb-5">
             <p className="text-subheading text-queen-black font-bold text-xl mb-2">
               Start chatting!
@@ -129,37 +120,36 @@ const BrandApplicationCard = ({
         </div>
       ) : (
         <>
-          <div className="mb-8 flex items-start justify-between gap-4">
-            <div>
-              <Heading size="2xl">
-                {!user ? (
-                  <LoadingPlaceholder dark />
-                ) : (
-                  <>
-                    {user.firstName} {user.lastName}
-                  </>
-                )}
-              </Heading>
-              <Text size="sm" className="capitalize">
-                {opportunityTitle} &bull; Application
-              </Text>
-            </div>
-            {user?.interests ? (
-              <div className="flex gap-2 mt-1">
-                {user.interests.map((skill) => (
+          <div className="flex justify-between items-center">
+            <Subheading>
+              {!applicant ? (
+                <LoadingPlaceholder dark />
+              ) : (
+                <>
+                  {applicant.firstName} {applicant.lastName}
+                </>
+              )}
+            </Subheading>
+            {applicant?.interests ? (
+              <div className="flex gap-2">
+                {applicant.interests.map((skill) => (
                   <Tag key={skill}>{skill}</Tag>
                 ))}
               </div>
             ) : null}
           </div>
 
-          {!user ? <LoadingPlaceholder /> : <Text>{proposal}</Text>}
+          {!applicant ? (
+            <LoadingPlaceholder />
+          ) : (
+            <Text size="sm">{proposal}</Text>
+          )}
 
           <div className="flex gap-2 mt-auto pt-12">
             <Button
               type="button"
               as="button"
-              variant="white"
+              variant="danger"
               size="sm"
               onClick={() => rejectApplication(applicationId)}
             >
@@ -169,13 +159,14 @@ const BrandApplicationCard = ({
               type="button"
               as="button"
               size="sm"
+              variant="success"
               onClick={() => acceptApplication(applicationId)}
             >
               Accept
             </Button>
             <Button
               type="button"
-              variant="blue"
+              variant="white"
               size="sm"
               target="_blank"
               href={`/profile/${creatorId}`}

@@ -14,7 +14,7 @@ const CreateOpportunityModal = () => {
         type="button"
         as="button"
         onClick={() => setIsOpen(true)}
-        variant="yellow"
+        variant="blue"
       >
         Create Opportunity
       </Button>
@@ -24,7 +24,7 @@ const CreateOpportunityModal = () => {
         onClose={() => setIsOpen(false)}
         className="max-w-5xl"
       >
-        <Subheading size="xl" className="text-center mb-12">
+        <Subheading size="lg" className="text-center mb-8">
           Select an opportunity type
         </Subheading>
         <CreateOpportunityPanels />

@@ -11,16 +11,8 @@ const AdminOpportunitiesRow = ({
   fullName,
   opportunityId,
   numberOfApplications,
-  selectedOpportunities,
-  setSelectedOpportunities,
   handleDelete,
 }) => {
-  const handleChange = (id) => {
-    selectedOpportunities.includes(id)
-      ? setSelectedOpportunities((prev) => prev.filter((i) => !i.includes(id)))
-      : setSelectedOpportunities((prev) => [...prev, id]);
-  };
-
   return (
     <Table.Row>
       <Table.Data className="font-subheading font-bold whitespace-nowrap">

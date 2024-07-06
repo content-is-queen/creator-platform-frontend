@@ -8,7 +8,6 @@ import InfoCard from "../InfoCard";
 import Container from "../Container";
 import CreateOpportunityModal from "../Brand/CreateOpportunityModal";
 import BrandOpportunities from "../Brand/BrandOpportunities";
-import CreateUserForm from "./CreateUserForm";
 import Card from "../Card";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 
@@ -38,19 +37,12 @@ const AdminDashboard = () => {
   }, [token]);
 
   return (
-    <div className="h-full py-12 md:py-20">
-      <Container size="5xl" className="space-y-20">
-        <section>
-          <div className="flex justify-between">
-            <Heading size="4xl">Overview</Heading>
+    <div>
+      <section className="bg-queen-yellow py-12 md:py-20">
+        <Container size="5xl" className="space-y-8">
+          <Heading size="4xl">Overview</Heading>
 
-            <div className="space-x-4">
-              <CreateOpportunityModal />
-              <CreateUserForm />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-x-4 gap-y-8 pt-8">
+          <div className="grid grid-cols-3 gap-4">
             {loading ? (
               <>
                 {Array.from({ length: 4 }).map((_, index) => (
@@ -63,16 +55,21 @@ const AdminDashboard = () => {
                 ))}
               </>
             ) : (
-              data.map((info, index) => <InfoCard key={info.title} {...info} />)
+              data.map((info) => <InfoCard key={info.title} {...info} />)
             )}
           </div>
-        </section>
+        </Container>
+      </section>
 
-        <section className="space-y-8">
-          <Heading>Projects</Heading>
+      <section className="bg-white py-12 md:py-20">
+        <Container size="5xl" className="space-y-8">
+          <div className="flex justify-between items-center mb-8">
+            <Heading>Projects</Heading>
+            <CreateOpportunityModal />
+          </div>
           <BrandOpportunities />
-        </section>
-      </Container>
+        </Container>
+      </section>
     </div>
   );
 };

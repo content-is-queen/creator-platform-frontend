@@ -53,7 +53,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         filter={{ keys: ["title", "project", "name"], tag: "type" }}
       />
 
-      <div className="my-12 space-y-6">
+      <div className="mt-8 space-y-6">
         {error?.message && <Error>{error?.message}</Error>}
 
         <Table>

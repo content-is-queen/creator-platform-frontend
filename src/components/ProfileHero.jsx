@@ -11,6 +11,7 @@ import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Heading from "./Heading";
 import ProfilePhotoUpdateModal from "./ProfilePhotoUpdateModal";
+import Text from "./Text";
 
 const ProfileHero = ({ user }) => {
   const pathname = usePathname();
@@ -22,35 +23,34 @@ const ProfileHero = ({ user }) => {
   return (
     <div className="bg-queen-blue text-white relative pt-16 pb-20 overflow-hidden md:pt-28">
       <Container size="4xl" className="space-y-4">
-        <div className="relative h-20 w-20 rounded-full">
+        {pathname === "/profile" ? (
+          <>
+            <ProfilePhotoUpdateModal />
+            <Button href="/settings/edit-profile" size="sm" variant="yellow">
+              Edit Profile
+            </Button>
+          </>
+        ) : (
           <ProfileIcon
             profilePhoto={user?.profilePhoto}
             className="h-20 w-20"
           />
-          {pathname === "/profile" && (
-            <ErrorBoundary>
-              <ProfilePhotoUpdateModal className="absolute right-0 bottom-0" />
-            </ErrorBoundary>
-          )}
-        </div>
-        {pathname === "/profile" && (
-          <Button href="/settings/edit-profile" variant="yellow">
-            Edit Profile
-          </Button>
         )}
 
-        <div className="max-w-lg relative z-10">
-          <Heading color="white" size="3xl">
-            {!user ? <LoadingPlaceholder /> : <>{heading}</>}
-          </Heading>
-          {user?.interests && (
-            <div className="flex gap-2 my-2">
-              {user.interests.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
-            </div>
-          )}
-          <p className="mt-1">{user?.bio}</p>
+        <div className="max-w-lg relative z-10 space-y-3">
+          <div className="space-y-2">
+            <Heading color="white" size="3xl">
+              {!user ? <LoadingPlaceholder /> : <>{heading}</>}
+            </Heading>
+            {user?.interests && (
+              <div className="flex gap-2">
+                {user.interests.map((tag) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </div>
+            )}
+          </div>
+          <Text size="sm">{user?.bio}</Text>
         </div>
       </Container>
       <Dots className="absolute -right-64 -bottom-60 md:-right-40 md:-bottom-40 text-queen-orange" />

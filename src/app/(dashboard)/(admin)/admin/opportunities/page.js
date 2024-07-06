@@ -24,9 +24,11 @@ const AdminOpportunities = async () => {
   const opportunities = await getOpportunities();
 
   return (
-    <Container size="6xl" className="mt-16">
-      <AdminOpportunitiesTable opportunities={opportunities} />
-    </Container>
+    <div className="bg-queen-white">
+      <Container size="6xl" className="mt-10">
+        <AdminOpportunitiesTable opportunities={opportunities} />
+      </Container>
+    </div>
   );
 };
 

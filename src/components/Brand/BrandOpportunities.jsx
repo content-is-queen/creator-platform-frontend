@@ -35,8 +35,8 @@ const BrandOpportunities = () => {
       id: "in_progress",
     },
     {
-      label: "Completed",
-      id: "completed",
+      label: "Complete",
+      id: "complete",
     },
   ];
 
@@ -49,13 +49,8 @@ const BrandOpportunities = () => {
   const { opportunities, setOpportunities, loading } = useOpportunities(
     { userId: user.uid },
     (data) => {
-      setOpportunities(
-        data.opportunities.filter((i) => i.status !== "archived")
-      );
-
-      setFilteredOpportunities(
-        data.opportunities.filter((i) => i.status !== "archived")
-      );
+      setOpportunities(data.filter((i) => i.status !== "archived"));
+      setFilteredOpportunities(data.filter((i) => i.status !== "archived"));
     }
   );
 
@@ -77,22 +72,30 @@ const BrandOpportunities = () => {
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
 
+      if (swiper.isBeginning && swiper.isEnd) {
+        setArrows({ left: false, right: false });
+        return;
+      }
+
+      if (!swiper.isBeginning && !swiper.isEnd) {
+        setArrows({ left: true, right: true });
+        return;
+      }
+
       if (swiper.isBeginning) {
         setArrows({ left: false, right: true });
+        return;
       }
 
       if (swiper.isEnd) {
         setArrows({ left: true, right: false });
-      }
-
-      if (swiper.isBeginning && swiper.isEnd) {
-        setArrows({ left: false, right: false });
       }
     };
 
     const params = {
       slidesPerView: 3,
       spaceBetween: 20,
+      watchSlidesProgress: true,
       breakpoints: {
         425: { slidesPerView: 1 },
         640: {
@@ -130,21 +133,21 @@ const BrandOpportunities = () => {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center h-44">
+      <div className="flex items-center justify-center h-60">
         <Spinner className="h-6 w-6" />
       </div>
     );
 
   if (opportunities?.length > 0) {
     return (
-      <section>
+      <div>
         <Tabs options={OPTIONS} active={active} setActive={setActive} />
         <div className="relative">
           <swiper-container ref={swiperRef} init="false" class="my-6">
             {filteredOpportunities.length > 0 ? (
-              filteredOpportunities.map((opportunity) => (
-                <swiper-slide key={opportunity.opportunityId}>
-                  <div className="m-0.5">
+              filteredOpportunities.map((opportunity, index) => (
+                <swiper-slide key={opportunity.opportunityId + index}>
+                  <div className="my-4 mx-0.5">
                     <BrandOpportunityCard {...opportunity} />
                   </div>
                 </swiper-slide>
@@ -162,7 +165,7 @@ const BrandOpportunities = () => {
                   type="button"
                   onClick={handlePrev}
                   className={clsx(
-                    "absolute -left-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
+                    "absolute -left-4 z-10 bg-white border border-queen-black/15 shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
                   )}
                 >
                   <FontAwesomeIcon className="rotate-180" icon={faArrowRight} />
@@ -173,7 +176,7 @@ const BrandOpportunities = () => {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="absolute -right-4 z-10 bg-white shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
+                  className="absolute -right-4 z-10 bg-white border border-queen-black/15 shadow-md w-11 rounded-full h-11 flex items-center justify-center -translate-y-1/2 top-1/2 hover:bg-queen-orange transition"
                 >
                   <FontAwesomeIcon icon={faArrowRight} />
                 </button>
@@ -181,16 +184,16 @@ const BrandOpportunities = () => {
             </>
           )}
         </div>
-      </section>
+      </div>
     );
   }
 
   return (
     <div className="text-center pt-28 pb-20">
       <Container className="space-y-2">
-        <Subheading size="xl">No projects</Subheading>
+        <Subheading size="xl">No opportunities</Subheading>
         <div className="space-y-6 max-w-lg mx-auto">
-          <Text>You haven't posted any projects yet</Text>
+          <Text>You haven't posted any opportunities yet</Text>
         </div>
       </Container>
     </div>
