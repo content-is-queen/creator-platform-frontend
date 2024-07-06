@@ -35,8 +35,6 @@ const useOpportunities = (args, cb) => {
       const opportunities =
         data.message?.opportunities || data?.opportunities || data;
 
-      console.log(opportunities);
-
       if (opportunities.length < limit) {
         setIsEnd(true);
       }
