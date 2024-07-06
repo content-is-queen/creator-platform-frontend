@@ -51,7 +51,7 @@ const Search = ({ data = [], setFilteredData, filter }) => {
         return show;
       });
     });
-  }, [query]);
+  }, [query, data]);
 
   useEffect(() => {
     setTags(buildTags(data));

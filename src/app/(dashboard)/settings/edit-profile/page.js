@@ -25,6 +25,7 @@ const goalsOptions = fieldsData
 
 const EditProfile = () => {
   const [error, setError] = useState({});
+  const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [formData, setFormData] = useState({
@@ -37,7 +38,6 @@ const EditProfile = () => {
 
   const { user, setUser } = useUser();
   const { token } = useAuth();
-  const router = useRouter();
 
   // Handle text input changes
   const handleChange = (e) => {
@@ -117,6 +117,8 @@ const EditProfile = () => {
       if (res.status === 200) {
         const { data } = res.data;
         setUser({ ...user, ...data });
+        setSuccess({ message: res.data.message });
+        setUpdated(false);
       } else {
         setError({ message: res.data.message });
       }
@@ -133,6 +135,8 @@ const EditProfile = () => {
       className="mx-auto"
       error={error}
       setError={setError}
+      setSuccess={setSuccess}
+      success={success}
       handleSubmit={handleSubmit}
     >
       <div className="space-y-10">

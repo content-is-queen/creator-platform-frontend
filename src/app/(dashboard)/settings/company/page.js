@@ -78,9 +78,13 @@ const Company = () => {
         },
       });
 
-      setUser({ ...user, ...response.data.data });
-
-      setSuccess({ message: response.data.message });
+      if (response?.status === 200) {
+        setUser({ ...user, ...response.data.data });
+        setSuccess({ message: response.data.message });
+        setUpdated(false);
+      } else {
+        setError({ message: "Something went wrong" });
+      }
     } catch (error) {
       console.log(error);
       setError({

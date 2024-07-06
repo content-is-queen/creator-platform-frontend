@@ -47,17 +47,18 @@ const Password = () => {
     );
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(false);
+  const handleSubmit = async () => {
+    setLoading(true);
     setError({});
     setSuccess({});
+
     if (formData.old_password === formData.password) {
       setError({
         message: "You cannot use the same password as before",
       });
       return;
     }
+
     try {
       const response = await API.post(`/auth/password`, formData, {
         headers: {
@@ -70,16 +71,15 @@ const Password = () => {
         setSuccess({
           message: "Password update successfully",
         });
-        return;
+        setUpdated(false);
       } else {
         setError({
-          message:
-            response.message || "Something went wrong. User sign up failed.",
+          message: response.message,
         });
       }
     } catch (error) {
       setError({
-        message: error.message || "Something went wrong. User sign up failed.",
+        message: error.message,
       });
     } finally {
       setLoading(false);
@@ -87,7 +87,14 @@ const Password = () => {
   };
 
   return (
-    <Form className="mx-auto">
+    <Form
+      className="mx-auto"
+      error={error}
+      setError={setError}
+      setSuccess={setSuccess}
+      success={success}
+      handleSubmit={handleSubmit}
+    >
       <div className="space-y-10">
         <Form.Input
           name="old_password"
@@ -97,12 +104,13 @@ const Password = () => {
           className="relative"
         >
           Old Password
-          <div
+          <button
+            type="button"
             className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
             onClick={handleToggleOldPasswordVisibility}
           >
             {isOldPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-          </div>
+          </button>
         </Form.Input>
 
         <Form.Input
@@ -113,26 +121,19 @@ const Password = () => {
           onChange={handleChange}
         >
           Password
-          <div
+          <button
+            type="button"
             className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
             onClick={handleToggleNewPasswordVisibility}
           >
             {isNewPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-          </div>
+          </button>
         </Form.Input>
 
-        <Button
-          type="submit"
-          as="button"
-          variant="blue"
-          onClick={handleSubmit}
-          disabled={!updated}
-        >
+        <Button type="submit" as="button" variant="blue" disabled={!updated}>
           {loading && <Button.Spinner />} Update Password
         </Button>
       </div>
-      {error?.message && <Form.Error>{error.message}</Form.Error>}
-      {success?.message && <Form.Success>{success.message}</Form.Success>}
     </Form>
   );
 };
