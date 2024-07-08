@@ -11,7 +11,6 @@ import Card from "@/components/Card";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
-import Heading from "@/components/Heading";
 import Subheading from "../Subheading";
 
 const BrandApplicationCard = ({
@@ -20,12 +19,15 @@ const BrandApplicationCard = ({
   applicationId,
   opportunityTitle,
   proposal,
+  onReject,
   creatorId,
 }) => {
-  const { token } = useAuth();
-  const { user } = useUser();
   const [applicant, setApplicant] = useState(null);
   const [message, setMessage] = useState(null);
+  const [rejectLoading, setRejectLoading] = useState(false);
+
+  const { token } = useAuth();
+  const { user } = useUser();
 
   const getApplicant = async (id) => {
     try {
@@ -44,7 +46,12 @@ const BrandApplicationCard = ({
     getApplicant(creatorId);
   }, []);
 
+  const handleReject = () => {
+    onReject();
+  };
+
   const rejectApplication = async (id) => {
+    setRejectLoading(true);
     try {
       const response = await API.patch(
         `/applications/${id}`,
@@ -63,18 +70,18 @@ const BrandApplicationCard = ({
         }
       );
 
+      handleReject();
+
       if (response?.error) {
         throw new Error(
           response.error ||
             "Something went wrong when rejecting the application"
         );
       }
-
-      setApplications(
-        applications.filter((i) => i.applicationId !== applicationId)
-      );
     } catch (error) {
       console.error(error);
+    } finally {
+      setRejectLoading(false);
     }
   };
   const acceptApplication = async (id) => {
@@ -153,7 +160,7 @@ const BrandApplicationCard = ({
               size="sm"
               onClick={() => rejectApplication(applicationId)}
             >
-              Reject
+              {rejectLoading && <Button.Spinner />}Reject
             </Button>
             <Button
               type="button"

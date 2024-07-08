@@ -37,7 +37,7 @@ const Plus = () => {
     },
   };
 
-  if ((user && user?.role === "admin") || user?.role === "super)admin") {
+  if ((user && user?.role === "admin") || user?.role === "super_admin") {
     return notFound();
   }
 

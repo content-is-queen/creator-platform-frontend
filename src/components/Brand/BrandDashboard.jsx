@@ -2,7 +2,6 @@ import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import BrandOpportunities from "@/components/Brand/BrandOpportunities";
 import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
-import Credits from "../Credits";
 
 const BrandDashboard = () => {
   return (

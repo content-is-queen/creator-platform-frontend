@@ -67,8 +67,6 @@ const BrandOpportunities = () => {
   }, []);
 
   useEffect(() => {
-    const swiperContainer = swiperRef.current;
-
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
 
@@ -105,6 +103,11 @@ const BrandOpportunities = () => {
           slidesPerView: 3,
         },
       },
+      on: {
+        init() {
+          console.log("init");
+        },
+      },
     };
 
     // Filter opportunities by their statuses
@@ -115,16 +118,19 @@ const BrandOpportunities = () => {
     );
 
     // Swiper initialization
-    if (opportunities && swiperContainer) {
-      Object.assign(swiperContainer, params);
-      swiperContainer.initialize();
+    if (opportunities && swiperRef.current) {
+      Object.assign(swiperRef.current, params);
+      swiperRef.current.initialize();
 
-      swiperContainer.addEventListener("swiperprogress", handleSwiperProgress);
+      swiperRef.current.addEventListener(
+        "swiperprogress",
+        handleSwiperProgress
+      );
     }
 
     return () =>
-      swiperContainer
-        ? swiperContainer.removeEventListener(
+      swiperRef.current
+        ? swiperRef.current.removeEventListener(
             "swiperprogress",
             handleSwiperProgress
           )

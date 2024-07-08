@@ -81,9 +81,7 @@ const Subscription = () => {
                   setSuccess={setSuccess}
                 />
               </>
-            ) : (
-              <CheckoutForm />
-            )}
+            ) : null}
           </>
         )}
       </div>

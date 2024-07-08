@@ -48,7 +48,7 @@ const OpportunitiesSearch = () => {
   }, [opportunities]);
 
   useEffect(() => {
-    if (isInView && listRef.current) {
+    if (listRef.current && isInView) {
       const debounced = debounce(async () => await getMoreOpportunities(), 500);
       debounced();
     }

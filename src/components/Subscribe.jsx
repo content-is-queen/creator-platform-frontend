@@ -22,6 +22,7 @@ const Subscribe = () => {
           },
         }
       );
+      setUser({ ...user, subscribed: true });
     } catch (error) {
       console.error(error);
     }

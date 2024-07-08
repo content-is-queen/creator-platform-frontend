@@ -1,17 +1,21 @@
 import { Menu } from "@headlessui/react";
+import { Suspense, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+
+import API from "@/api/api";
+import useAuth from "@/hooks/useAuth";
 
 import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
-
-import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
+import ApplicationsModal from "./ApplicationsModal";
+import SpinnerScreen from "../SpinnerScreen";
 
 const BrandOpportunityCard = (props) => {
+  const [applicationsOpen, setApplicationsOpen] = useState(false);
   const { token } = useAuth();
 
   const {
@@ -129,9 +133,24 @@ const BrandOpportunityCard = (props) => {
         </div>
       </div>
 
-      <Button variant="white" href={`/project/${opportunityId}`}>
-        View Project
+      <Button
+        variant="white"
+        type="button"
+        as="button"
+        onClick={() => setApplicationsOpen(true)}
+      >
+        View Applications
       </Button>
+      <Suspense fallback={<SpinnerScreen />}>
+        {applicationsOpen && (
+          <ApplicationsModal
+            open={applicationsOpen}
+            setOpen={setApplicationsOpen}
+            opportunityId={opportunityId}
+            opportunityTitle={title}
+          />
+        )}
+      </Suspense>
     </Card>
   );
 };
