@@ -8,12 +8,12 @@ import { twMerge } from "tailwind-merge";
 
 export const inputStyles = {
   input: [
-    "placeholder:uppercase py-3 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none peer",
-    "focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue",
+    "placeholder:uppercase py-1 my-2 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none peer",
+    "focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-4 focus-within:ring-queen-blue focus:border-b-queen-black",
   ].join(" "),
   label: [
     "absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]",
-    "peer-focus-visible:font-medium peer-focus-visible:start-0 rtl:peer-focus-visible:translate-x-1/4 peer-focus-visible:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus-visible:scale-75 peer-focus-visible:-translate-y-6",
+    "peer-focus-within:font-medium peer-focus-within:start-0 rtl:peer-focus-within:translate-x-1/4 peer-focus-within:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus-within:scale-75 peer-focus-within:-translate-y-6",
   ].join(" "),
 };
 
@@ -29,7 +29,7 @@ export const Success = ({ children }) => (
   </div>
 );
 
-const Select = ({ name, options, children, ...otherProps }) => {
+const Select = ({ name, options, children, required, ...otherProps }) => {
   const [showInput, setShowInput] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -49,13 +49,22 @@ const Select = ({ name, options, children, ...otherProps }) => {
   return (
     <div key={name}>
       <label className="uppercase" htmlFor={name}>
-        {children}
+        {children}{" "}
+        {required && (
+          <span className="lowercase inline-block ml-2 text-queen-black/60">
+            (required)
+          </span>
+        )}
       </label>
       <select
         onChange={handleChange}
-        className={clsx("w-full border-b py-3", showInput && "border-b-0")}
+        className={clsx(
+          "w-full border-b py-2 my-2 focus-within:border-b-queen-black focus-within:ring-2 focus-within:ring-offset-4 focus-within:ring-queen-blue",
+          showInput && "border-b-0"
+        )}
         name={showInput ? "" : name}
         id={name}
+        required={required}
         {...otherProps}
       >
         <option
@@ -101,6 +110,7 @@ const Checkbox = ({
   children,
   max,
   description,
+  required,
   ...otherProps
 }) => {
   const [checked, setChecked] = useState([]);
@@ -117,7 +127,14 @@ const Checkbox = ({
 
   return (
     <div key={name}>
-      <Text className="mb-4 uppercase">{children}</Text>
+      <Text className="mb-4 uppercase">
+        {children}{" "}
+        {required && (
+          <span className="lowercase inline-block ml-2 text-queen-black/60">
+            (required)
+          </span>
+        )}
+      </Text>
       <div className="space-y grid grid-cols-2 gap-x-6">
         {options.map((option, index) => {
           if (typeof option === "string") {
@@ -126,7 +143,7 @@ const Checkbox = ({
                 <div className="inline-flex items-center gap-x-3 w-full">
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-3 focus-within:ring-queen-blue focus:border-b-queen-black focus:border-b-2 focus-within:rounded-sm rounded-sm disabled:opacity-40"
                     name={option}
                     id={option}
                     onChange={handleChange}
@@ -166,7 +183,7 @@ const Checkbox = ({
                 >
                   <input
                     type="checkbox"
-                    className="p-1 w-4 h-4 border-queen-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-queen-blue/80 focus-visible:rounded-sm rounded-sm disabled:opacity-40"
+                    className="p-1 w-4 h-4 border-queen-black focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-queen-blue/80 focus-within:rounded-sm rounded-sm disabled:opacity-40"
                     name={category}
                     id={category}
                     onChange={handleChange}
@@ -192,6 +209,7 @@ const Textarea = ({
   children,
   className,
   description,
+  required = false,
   ...otherProps
 }) => (
   <div>
@@ -200,6 +218,11 @@ const Textarea = ({
       htmlFor={name}
     >
       {children}
+      {required && (
+        <span className="lowercase inline-block ml-2 text-queen-black/60">
+          (required)
+        </span>
+      )}
     </label>
     {description && (
       <span className="block text-sm text-queen-black/80">{description}</span>
@@ -208,6 +231,7 @@ const Textarea = ({
       name={name}
       rows={6}
       className={inputStyles.input}
+      required={required}
       {...otherProps}
     />
   </div>
@@ -220,6 +244,7 @@ const Input = ({
   children,
   label = "md",
   description,
+  required,
   ...otherProps
 }) => (
   <div className={className}>
@@ -227,7 +252,12 @@ const Input = ({
       className={clsx(label === "md" ? "uppercase" : "text-sm")}
       htmlFor={name}
     >
-      {children}
+      {children}{" "}
+      {required && (
+        <span className="lowercase inline-block ml-2 text-queen-black/60">
+          (required)
+        </span>
+      )}
     </label>
     {description && (
       <span className="block text-sm text-queen-black/80">{description}</span>
@@ -237,6 +267,7 @@ const Input = ({
       className={inputStyles.input}
       name={name}
       id={name}
+      required={required}
       {...otherProps}
     />
   </div>

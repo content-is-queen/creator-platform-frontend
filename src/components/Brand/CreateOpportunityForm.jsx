@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import Form from "@/components/Form";
 
 import formData from "@/data/opportunity_form_data.json";
+import Editor from "../Editor";
 
 const CreateOpportunityForm = ({ type }) => {
   const fields = formData[type].fields;
@@ -18,6 +19,7 @@ const CreateOpportunityForm = ({ type }) => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
   const [loading, setLoading] = useState(false);
+  const [richText, setRichText] = useState({});
 
   const form = useRef();
 
@@ -25,6 +27,7 @@ const CreateOpportunityForm = ({ type }) => {
     setLoading(true);
     const formData = new FormData(form.current);
 
+    // Condense opportunity_form_data.json predefined keys and values
     const keys = fields.reduce((acc, current) => {
       const { name, type, options } = current;
 
@@ -46,9 +49,10 @@ const CreateOpportunityForm = ({ type }) => {
       return [...acc, name];
     }, "");
 
-    const postData = { type: type, userId: userId };
+    // Prepare POST data
+    const postData = { type: type, userId: userId, ...richText };
 
-    // Get form data
+    // Get form data using keys
     keys.forEach((key) => {
       if (typeof key === "object") {
         const name = Object.keys(key)[0];
@@ -67,7 +71,11 @@ const CreateOpportunityForm = ({ type }) => {
       }
 
       // Replace null values with an empty string
-      postData[key] = formData.get(key) === null ? "" : formData.get(key);
+      if (formData.get(key) === null && !Object.keys(richText).includes(key)) {
+        postData[key] = "";
+      } else {
+        postData[key] = formData.get(key) ?? richText?.[key];
+      }
     });
 
     // Append external link if it's set
@@ -86,7 +94,7 @@ const CreateOpportunityForm = ({ type }) => {
       window.location = "/";
     } catch (err) {
       setError({
-        message: err.response.data.message,
+        message: err.response.data.message || "Something went wrong",
       });
 
       console.error(err.response);
@@ -140,6 +148,26 @@ const CreateOpportunityForm = ({ type }) => {
             );
           }
 
+          if (as === "richtext") {
+            const handleChange = (content) => {
+              setRichText((prev) => {
+                return { ...prev, [name]: content };
+              });
+            };
+
+            const { required } = otherProps;
+            return (
+              <Editor key={name} onChange={handleChange}>
+                {children}{" "}
+                {required && (
+                  <span className="lowercase inline-block ml-2 text-queen-black/60">
+                    (required)
+                  </span>
+                )}
+              </Editor>
+            );
+          }
+
           if (type === "checkbox") {
             return (
               <Form.Checkbox
@@ -158,15 +186,15 @@ const CreateOpportunityForm = ({ type }) => {
             </Form.Input>
           );
         })}
-        {user && subscribed && (
+        {user && subscribed ? (
           <Form.Input
             name="link"
             type="link"
             description="Link to an external opportunity"
           >
-            External link (optional)
+            External link
           </Form.Input>
-        )}
+        ) : null}
       </div>
 
       <Button as="button" type="submit" className="mt-8">

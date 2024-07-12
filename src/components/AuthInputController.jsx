@@ -6,9 +6,9 @@ import { useState } from "react";
 
 export const inputStyles = {
   input:
-    "placeholder:uppercase py-3 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-queen-blue peer",
+    "placeholder:uppercase py-2 placeholder:text-queen-black/40 px-0 text-queen-black !bg-transparent border-0 border-b border-queen-black appearance-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:border-queen-blue peer",
   label:
-    "uppercase peer-focus-visible:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus-visible:start-0 rtl:peer-focus-visible:translate-x-1/4 peer-focus-visible:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus-visible:scale-75 peer-focus-visible:-translate-y-6 uppercase",
+    "uppercase peer-focus-visible:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-2 bg-white px-1 origin-[0] peer-focus-visible:start-0 rtl:peer-focus-visible:translate-x-1/4 peer-focus-visible:text-queen-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:text-queen-black/60 peer-placeholder-shown:translate-y-0 peer-focus-visible:scale-75 peer-focus-visible:-translate-y-6 uppercase",
 };
 
 const AuthInputController = ({

@@ -61,6 +61,11 @@ const LoginForm = () => {
         setError({
           message: "Login failed: Your email or password is incorrect",
         });
+      } else if (error.code == "auth/user-disabled") {
+        setError({
+          message:
+            "Login failed: Your account has been disabled. Please contact support@contentisqueen.org if you think this was a mistake",
+        });
       } else {
         setError({
           message: "Something went wrong",
@@ -85,7 +90,12 @@ const LoginForm = () => {
             </AuthInputController>
           ))}
           <Text size="sm" className="!mt-2">
-            <Link href="/forgot-password">Forgot password?</Link>
+            <Link
+              href="/forgot-password"
+              className="text-queen-black/70 hover:text-queen-blue"
+            >
+              Forgot password?
+            </Link>
           </Text>
         </div>
         <Button as="button" type="submit" className="mt-8">
@@ -94,7 +104,10 @@ const LoginForm = () => {
         </Button>
         <Text size="sm" className="mt-4">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-medium text-queen-blue">
+          <Link
+            href="/signup"
+            className="font-medium text-queen-black/70 hover:text-queen-blue"
+          >
             Sign up
           </Link>
         </Text>

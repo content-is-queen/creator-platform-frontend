@@ -66,28 +66,32 @@ const BrandOpportunities = () => {
     swiperRef.current.swiper.slideNext();
   }, []);
 
+  const renderArrows = (swiper) => {
+    if (swiper.isBeginning && swiper.isEnd) {
+      setArrows({ left: false, right: false });
+      return;
+    }
+
+    if (!swiper.isBeginning && !swiper.isEnd) {
+      setArrows({ left: true, right: true });
+      return;
+    }
+
+    if (swiper.isBeginning) {
+      setArrows({ left: false, right: true });
+      return;
+    }
+
+    if (swiper.isEnd) {
+      setArrows({ left: true, right: false });
+    }
+  };
+
   useEffect(() => {
     const handleSwiperProgress = (event) => {
       const [swiper] = event.detail;
 
-      if (swiper.isBeginning && swiper.isEnd) {
-        setArrows({ left: false, right: false });
-        return;
-      }
-
-      if (!swiper.isBeginning && !swiper.isEnd) {
-        setArrows({ left: true, right: true });
-        return;
-      }
-
-      if (swiper.isBeginning) {
-        setArrows({ left: false, right: true });
-        return;
-      }
-
-      if (swiper.isEnd) {
-        setArrows({ left: true, right: false });
-      }
+      renderArrows(swiper);
     };
 
     const params = {
@@ -104,8 +108,8 @@ const BrandOpportunities = () => {
         },
       },
       on: {
-        init() {
-          console.log("init");
+        init(swiper) {
+          renderArrows(swiper);
         },
       },
     };
