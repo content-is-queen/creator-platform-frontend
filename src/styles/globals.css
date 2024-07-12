@@ -38,7 +38,6 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px#F7F7F7 inset !important;
-
 }
 
 /*  Remove x icon from ie */
@@ -90,13 +89,13 @@ select:focus {
 
 /* Style rich text editor */
 .format p + p {
-  @apply mt-2
+  @apply mt-2;
 }
 
 .format p a {
-  @apply text-queen-blue underline
+  @apply text-queen-blue underline;
 }
 
 .format ul {
-  @apply list-disc ml-4 mt-2
+  @apply list-disc ml-4 mt-2;
 }
