@@ -25,6 +25,7 @@ const BrandApplicationCard = ({
   const [applicant, setApplicant] = useState(null);
   const [message, setMessage] = useState(null);
   const [rejectLoading, setRejectLoading] = useState(false);
+  const [acceptLoading, setAcceptLoading] = useState(false);
 
   const { token } = useAuth();
   const { user } = useUser();
@@ -85,6 +86,7 @@ const BrandApplicationCard = ({
     }
   };
   const acceptApplication = async (id) => {
+    setAcceptLoading(true);
     try {
       const response = await API.patch(
         `/applications/${id}`,
@@ -105,6 +107,8 @@ const BrandApplicationCard = ({
       setMessage({ status: "accepted", room: response.data.message.roomId });
     } catch (error) {
       console.log(error);
+    } finally {
+      setAcceptLoading(false);
     }
   };
 
@@ -169,7 +173,7 @@ const BrandApplicationCard = ({
               variant="success"
               onClick={() => acceptApplication(applicationId)}
             >
-              Accept
+              {acceptLoading && <Button.Spinner />}Accept
             </Button>
             <Button
               type="button"

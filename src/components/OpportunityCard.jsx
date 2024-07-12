@@ -1,4 +1,4 @@
-import Link from "next/link";
+import parse from "html-react-parser";
 
 import Card from "@/components/Card";
 import Button from "@/components/Button";
@@ -13,7 +13,6 @@ const OpportunityCard = ({
   salary,
   type,
   title,
-  description,
   opportunityId,
   budget,
   profilePhoto,
@@ -21,53 +20,47 @@ const OpportunityCard = ({
 }) => {
   const pay = budget || compensation || salary;
   return (
-    <Card className="flex flex-wrap md:block">
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-2.5 justify-between md:mb-4">
+    <Card className="flex flex-col items-start">
+      <div className="flex flex-row items-center gap-2.5 justify-between mb-5 w-full">
         <div className="flex gap-2 items-center">
           <ProfileIcon
-            className="h-6 w-6"
+            className="h-5 w-5"
             profilePhoto={organizationLogo || profilePhoto}
           />
-          <span className="text-xs font-semibold text-queen-black dark:text-white uppercase rounded-full">
+          <span className="text-xs font-semibold text-queen-black uppercase rounded-full">
             {organizationName || company}
           </span>
         </div>
-        {pay && (
-          <div className="flex gap-y-2 gap-x-3 item-center flex-wrap basis-1/4 md:basis-auto">
-            <div className="flex gap-x-1 flex-col md:flex-row">
-              <Text as="span" size="sm">
-                Compensation
-              </Text>
-              <Text
-                as="span"
-                size="sm"
-                color="muted"
-                className="max-w-26 md:max-w-none truncate"
-              >
-                {pay}
-              </Text>
-            </div>
+        <div className="flex gap-y-2 gap-x-3 item-center flex-wrap basis-auto">
+          <div className="flex gap-x-1 flex-col md:flex-row">
+            <Text as="span" size="sm">
+              Compensation
+            </Text>
+            <Text
+              as="span"
+              size="sm"
+              color="muted"
+              className="max-w-26 truncate"
+            >
+              {pay || "To be discussed"}
+            </Text>
           </div>
-        )}
+        </div>
       </div>
-      <div className="flex content-start items-start mb-4 -order-1 md:mb-2 md:items-center md:order-1">
-        <p className="text-xl mr-3 text-queen-black capitalize">{title}</p>
-        <Tag className="inline-block mt-1 md:mt-0">{type}</Tag>
+      <div className="flex mb-2 items-center">
+        <p className="text-lg mr-3 text-queen-black capitalize max-w-4xl truncate">
+          {title}
+        </p>
+        <Tag className="inline-block mt-0">{type}</Tag>
       </div>
 
-      <div className="flex justify-between items-center flex-row flex-wrap gap-y-4 w-full mt-6 md:mt-0">
-        <Text
-          color="muted"
-          size="sm"
-          className="hidden md:block w-full max-w-96 mr-2 truncate"
-        >
-          {description}
-        </Text>
-
-        <Button variant="white" href={`/opportunities/${opportunityId}`}>
-          View
-        </Button>
-      </div>
+      <Button
+        variant="white"
+        href={`/opportunities/${opportunityId}`}
+        className="mt-6"
+      >
+        View
+      </Button>
     </Card>
   );
 };

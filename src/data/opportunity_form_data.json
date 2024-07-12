@@ -6,15 +6,12 @@
       {
         "name": "title",
         "type": "text",
-        "children": "Title"
-      },
-      {
-        "name": "description",
-        "as": "textarea",
-        "children": "Description"
+        "children": "Title",
+        "required": true
       },
       {
         "name": "category",
+        "required": true,
         "as": "select",
         "options": [
           "Podcast Production",
@@ -37,7 +34,8 @@
       {
         "name": "location",
         "type": "text",
-        "children": "Location"
+        "children": "Location",
+        "required": true
       },
       {
         "name": "experience",
@@ -50,10 +48,17 @@
         ]
       },
       {
+        "name": "description",
+        "as": "richtext",
+        "children": "Description",
+        "required": true
+      },
+      {
         "name": "skills",
         "type": "checkbox",
         "children": "Skills Required (Select up to 3)",
         "max": "3",
+        "required": true,
         "options": [
           "Audio Editing",
           "Sound Design",
@@ -93,18 +98,19 @@
       },
       {
         "name": "benefits",
-        "as": "textarea",
+        "as": "richtext",
         "children": "Benefits Offered"
       },
       {
         "name": "deadline",
         "type": "date",
-        "children": "Application Deadline"
+        "children": "Application Deadline",
+        "required": true
       },
       {
         "name": "applicationInstructions",
-        "children": "Application Instruction (optional)",
-        "description": "This is what creators will see when filling in an application form"
+        "children": "Application Instructions",
+        "description": "This is what creators will see when filling in an application"
       }
     ]
   },
@@ -112,15 +118,15 @@
     "label": "Pitch",
     "description": "Invite creators to pitch for commissions, grants, competitions, or radio segments. Discover unique ideas and innovative content.",
     "fields": [
-      { "name": "title", "type": "text", "children": "Project Title" },
       {
-        "name": "description",
-        "as": "textarea",
-        "children": "Description",
-        "description": "Please describe your intended audience. Include any specific details about who you are aiming to reach with your content."
+        "name": "title",
+        "type": "text",
+        "children": "Title",
+        "required": true
       },
       {
         "name": "targetAudience",
+        "required": true,
         "type": "checkbox",
         "children": "Target Audience Characteristics",
         "options": [
@@ -187,13 +193,22 @@
         ]
       },
       {
+        "name": "description",
+        "as": "richtext",
+        "children": "Description",
+        "required": true,
+        "description": "Please describe your intended audience. Include any specific details about who you are aiming to reach with your content."
+      },
+      {
         "name": "budget",
         "type": "text",
-        "children": "Budget for Pitch"
+        "children": "Budget for Pitch",
+        "required": true
       },
       {
         "name": "deadline",
         "type": "date",
+        "required": true,
         "children": "Application Deadline"
       },
       {
@@ -202,8 +217,8 @@
       },
       {
         "name": "applicationInstructions",
-        "children": "Application Instruction (optional)",
-        "description": "This is what creators will see when filling in an application form"
+        "children": "Application Instructions",
+        "description": "This is what creators will see when filling in an application"
       }
     ]
   },
@@ -211,8 +226,12 @@
     "label": "Advertising Campaign",
     "description": "Launch marketing campaigns with top audio creators. Connect your brand with engaging and diverse voices to amplify your message.",
     "fields": [
-      { "name": "title", "type": "text", "children": "Title" },
-      { "name": "description", "as": "textarea", "children": "Description" },
+      {
+        "name": "title",
+        "required": true,
+        "type": "text",
+        "children": "Title"
+      },
       {
         "name": "targetAudience",
         "as": "textarea",
@@ -224,6 +243,7 @@
         "type": "checkbox",
         "children": "Target Demographics (Select up to 3)",
         "max": "3",
+        "required": true,
         "options": [
           {
             "title": "Age Group:",
@@ -338,15 +358,28 @@
         "children": "Budget for Ad Campaign"
       },
       {
+        "name": "description",
+        "required": true,
+        "as": "richtext",
+        "children": "Description"
+      },
+
+      {
         "name": "startDate",
         "type": "date",
+        "required": true,
         "children": "Campaign Start Date"
       },
-      { "name": "endDate", "type": "date", "children": "Campaign End Date" },
+      {
+        "name": "endDate",
+        "required": true,
+        "type": "date",
+        "children": "Campaign End Date"
+      },
       {
         "name": "applicationInstructions",
-        "children": "Application Instruction (optional)",
-        "description": "This is what creators will see when filling in an application form"
+        "children": "Application Instructions",
+        "description": "This is what creators will see when filling in an application"
       }
     ]
   }

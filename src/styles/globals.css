@@ -16,6 +16,18 @@ nav {
 }
 
 /* Remove autofill background in Chrome */
+#auth-template input:-webkit-autofill,
+#auth-template input:-webkit-autofill:hover,
+#auth-template input:-webkit-autofill:focus,
+#auth-template textarea:-webkit-autofill,
+#auth-template textarea:-webkit-autofill:hover,
+#auth-template textarea:-webkit-autofill:focus,
+#auth-template select:-webkit-autofill,
+#auth-template select:-webkit-autofill:hover,
+#auth-template select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px#FFF inset !important;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -25,7 +37,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px#fff inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px#F7F7F7 inset !important;
 }
 
 /*  Remove x icon from ie */
@@ -73,4 +85,17 @@ select {
 select:focus {
   box-shadow: none;
   outline-width: 4px;
+}
+
+/* Style rich text editor */
+.format p + p {
+  @apply mt-2;
+}
+
+.format p a {
+  @apply text-queen-blue underline;
+}
+
+.format ul {
+  @apply list-disc ml-4 mt-2;
 }

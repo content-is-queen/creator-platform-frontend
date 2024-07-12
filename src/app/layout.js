@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
     >
       <link rel="icon" href="/images/favicon.svg" />
       <link rel="apple-touch-icon" href="/images/touch-icon.png" />
-      <meta name="theme-color" content="#ffffff" />
+      <meta name="theme-color" content="#ffffff" charSet="utf-8" />
 
       <body>
         <Providers>{children}</Providers>

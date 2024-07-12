@@ -160,7 +160,10 @@ const SignUpForm = () => {
 
         <Text size="sm" className="mt-4">
           Already registered?{" "}
-          <Link href="/login" className="font-medium text-queen-blue">
+          <Link
+            href="/login"
+            className="font-medium text-queen-black/70 hover:text-queen-blue"
+          >
             Login
           </Link>
         </Text>

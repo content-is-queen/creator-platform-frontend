@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 
 const Modal = ({ children, className, ...otherProps }) => (
-  <Dialog className="relative z-50" {...otherProps}>
+  <Dialog className="relative z-50 " transition {...otherProps}>
     <div className="fixed inset-0 bg-queen-black/75" aria-hidden="true" />
     <div className="fixed inset-0 flex w-screen justify-center p-4 lg:items-center">
       <Dialog.Panel
