@@ -12,7 +12,7 @@ const Subscribe = () => {
 
   const subscribe = async (sessionId) => {
     try {
-      const response = await API.post(
+      const { subscriptionId } = await API.post(
         "/payments/subscribe",
         { sessionId, userId: user.uid, email: user.email },
         {
@@ -22,7 +22,7 @@ const Subscribe = () => {
           },
         }
       );
-      setUser({ ...user, subscribed: true });
+      setUser({ ...user, subscribed: true, subscriptionId });
     } catch (error) {
       console.error(error);
     }

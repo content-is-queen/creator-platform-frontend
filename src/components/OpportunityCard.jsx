@@ -57,7 +57,7 @@ const OpportunityCard = ({
       <Button
         variant="white"
         href={`/opportunities/${opportunityId}`}
-        className="mt-6"
+        className="mt-6 ml-auto"
       >
         View
       </Button>
