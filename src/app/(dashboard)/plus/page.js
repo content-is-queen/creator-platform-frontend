@@ -132,7 +132,7 @@ const Plus = () => {
         }}
       >
         <div className="space-y-8">
-          <div className="space-y-4">
+          <div className="space-y-2">
             <Subheading size="xl">
               {user ? COPY[user.role].cta.lead : <LoadingPlaceholder.Bar />}
             </Subheading>
