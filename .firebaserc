@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "creator-platform---production"
+    "prod": "creator-platform---production"
   },
   "targets": {},
   "etags": {}

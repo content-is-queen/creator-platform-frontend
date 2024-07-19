@@ -19,12 +19,16 @@ const CheckoutForm = ({ className, variant }) => {
     setLoading(true);
 
     try {
-      const response = await API("/payments/create-checkout-session", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await API.post(
+        "/payments/create-checkout-session",
+        { role: user.role },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status !== 200) {
         throw new Error("Failed to create checkout session");
