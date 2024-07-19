@@ -12,9 +12,11 @@ const Subscribe = () => {
 
   const subscribe = async (sessionId) => {
     try {
-      const response = await API.post(
+      const {
+        data: { subscriptionId },
+      } = await API.post(
         "/payments/subscribe",
-        { sessionId, userId: user.uid, email: user.email },
+        { sessionId, userId: user.uid },
         {
           headers: {
             "Content-Type": "application/json",
@@ -22,7 +24,7 @@ const Subscribe = () => {
           },
         }
       );
-      setUser({ ...user, subscribed: true });
+      setUser({ ...user, subscribed: true, subscriptionId });
     } catch (error) {
       console.error(error);
     }

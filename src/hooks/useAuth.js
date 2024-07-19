@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import API from "@/api/api";
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 
@@ -12,8 +13,16 @@ const useAuth = () => {
       if (user) {
         const token = await user.getIdToken();
         const idTokenResult = await user.getIdTokenResult(true);
+
+        const {
+          data: { subscriptionId },
+        } = await API.get("/payments/info", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setSubscribed(
-          idTokenResult.claims.subscribed ||
+          subscriptionId ||
             idTokenResult.claims.role === "admin" ||
             idTokenResult.claims.role === "super_admin"
         );

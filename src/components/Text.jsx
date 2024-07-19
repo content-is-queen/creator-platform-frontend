@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import clsx from "clsx";
 
-const TextVariants = cva("", {
+const TextVariants = cva("leading-5", {
   variants: {
     size: {
       "3xl": "text-3xl",

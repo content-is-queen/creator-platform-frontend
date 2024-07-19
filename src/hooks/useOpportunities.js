@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const useOpportunities = (args, cb) => {
   const [opportunities, setOpportunities] = useState([]);
   const [startAfterId, setStartAfterId] = useState(null);
-  const [limit] = useState(4);
+  const [limit] = useState(10);
   const [loading, setLoading] = useState(true);
   const [refetching, setRefetching] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
