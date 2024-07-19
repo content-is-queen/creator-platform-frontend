@@ -8,6 +8,7 @@ import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import CheckoutForm from "@/components/CheckoutForm";
+import Text from "@/components/Text";
 import InfoCard from "@/components/InfoCard";
 import Spinner from "@/components/Spinner";
 import CancelSubscriptionForm from "@/components/CancelSubscriptionForm";
@@ -76,10 +77,17 @@ const Subscription = () => {
                     "PPPP"
                   )}
                 </InfoCard>
-                <CancelSubscriptionForm
-                  setError={setError}
-                  setSuccess={setSuccess}
-                />
+                {subscription.cancel_at_period_end ? (
+                  <Text>
+                    Your subscription will cancel at the end of your billing
+                    cycle
+                  </Text>
+                ) : (
+                  <CancelSubscriptionForm
+                    setError={setError}
+                    setSuccess={setSuccess}
+                  />
+                )}
               </>
             ) : null}
           </>

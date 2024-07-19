@@ -15,6 +15,7 @@ const CreateOpportunityModal = () => {
         as="button"
         onClick={() => setIsOpen(true)}
         variant="blue"
+        size="lg"
       >
         Create Opportunity
       </Button>
