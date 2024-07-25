@@ -125,7 +125,7 @@
     }
   },
   {
-    "label": "Brand",
+    "label": "Company",
     "id": "brand",
     "steps": {
       "1": {
