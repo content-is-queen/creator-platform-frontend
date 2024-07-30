@@ -24,6 +24,7 @@ const OpportunitiesSearch = () => {
   const listRef = useRef();
 
   const checkInView = () => {
+    if (!listRef.current) return;
     const { bottom } = listRef.current.getBoundingClientRect();
     const { innerHeight } = window;
 

@@ -4,7 +4,7 @@ import { useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 
-const AuthTemplate = ({ children }) => {
+const AuthLayout = ({ children }) => {
   const { user } = useUser();
   const router = useRouter();
 
@@ -37,4 +37,4 @@ const AuthTemplate = ({ children }) => {
   );
 };
 
-export default AuthTemplate;
+export default AuthLayout;

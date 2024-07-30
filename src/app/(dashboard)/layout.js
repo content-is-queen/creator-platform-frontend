@@ -1,14 +1,12 @@
-"use client";
-
-import MainNav from "@/components/MainNav";
 import SkipTo from "@/components/SkipTo";
+import MainNav from "@/components/MainNav";
 
-const Layout = ({ children }) => (
-  <>
-    <SkipTo />
-    <MainNav />
-    <main id="main-content">{children}</main>
-  </>
-);
-
-export default Layout;
+export default function DashboardLayout({ children }) {
+  return (
+    <>
+      <SkipTo />
+      <MainNav />
+      {children}
+    </>
+  );
+}

@@ -31,7 +31,7 @@ const OpportunityCard = ({
             {organizationName || company}
           </span>
         </div>
-        <div className="flex gap-y-2 gap-x-3 item-center flex-wrap basis-auto">
+        <div>
           <div className="flex gap-x-1 flex-col md:flex-row">
             <Text as="span" size="sm">
               Compensation
@@ -57,7 +57,7 @@ const OpportunityCard = ({
       <Button
         variant="white"
         href={`/opportunities/${opportunityId}`}
-        className="mt-6 ml-auto"
+        className="mt-6"
       >
         View
       </Button>

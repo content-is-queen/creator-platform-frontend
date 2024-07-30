@@ -1,5 +1,6 @@
 import { cva } from "class-variance-authority";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 const TextVariants = cva("leading-5", {
   variants: {
@@ -25,7 +26,7 @@ const Text = ({ as = "p", size, color, className, children }) => {
   const Tag = as;
 
   return (
-    <Tag className={clsx(TextVariants({ size, color }), className)}>
+    <Tag className={clsx(twMerge(TextVariants({ size, color }), className))}>
       {children}
     </Tag>
   );

@@ -32,7 +32,9 @@ export default function RootLayout({ children }) {
       <meta name="theme-color" content="#ffffff" charSet="utf-8" />
 
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main id="main-content">{children}</main>
+        </Providers>
       </body>
     </html>
   );

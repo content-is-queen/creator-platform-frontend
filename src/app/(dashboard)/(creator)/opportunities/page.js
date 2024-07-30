@@ -4,11 +4,7 @@ import Container from "@/components/Container";
 
 const Opportunities = () => {
   return (
-    <Container size="2xl" className="mb-32">
-      <div className="text-center mt-24 mb-16">
-        <Heading>Opportunities</Heading>
-      </div>
-
+    <Container size="2xl" className="mt-24 mb-32">
       <OpportunitiesSearch />
     </Container>
   );

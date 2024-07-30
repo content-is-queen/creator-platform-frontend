@@ -7,13 +7,17 @@ import { useForm } from "react-hook-form";
 import { auth } from "@/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
+import formData from "@/data/signup_form_data.json";
+
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Tabs from "@/components/Tabs";
+import Subheading from "@/components/Subheading";
 import { Error } from "@/components/Form";
 import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
-
-import formData from "@/data/signup_form_data.json";
+import Panel from "../Panel";
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 const SignUpForm = () => {
   const {
@@ -26,8 +30,14 @@ const SignUpForm = () => {
     clearErrors,
   } = useForm({ mode: "all" });
 
-  const [active, setActive] = useState(formData[0]);
-  const [step, setStep] = useState(1);
+  const DEFAULT_TYPE = "creator";
+
+  const selectType = (id) => {
+    return formData.find((i) => i.id === id);
+  };
+
+  const [active, setActive] = useState(selectType(DEFAULT_TYPE));
+  const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [totalSteps, setTotalSteps] = useState(
     Object.keys(formData[0].steps).length
@@ -131,42 +141,111 @@ const SignUpForm = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-8">
-          <span className="text-sm mb-1 inline-block">
-            Step {step} of {totalSteps}
-          </span>
-          {step === 1 ? (
-            <Tabs options={formData} active={active} setActive={setActive} />
-          ) : (
-            <Text variant="xl">{active.steps[step].title}</Text>
-          )}
-        </div>
+        {step === 0 ? (
+          <div>
+            <div className="flex flex-col gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setActive(selectType("creator"));
+                }}
+                className={clsx(
+                  twMerge(
+                    "py-4 px-6 rounded text-left outline outline-queen-black/20 outline-1 hover:bg-queen-blue/5",
+                    active.id === "creator" &&
+                      "outline-2 outline-queen-blue  bg-queen-blue/5"
+                  )
+                )}
+              >
+                <Subheading as="h2" size="md" className="tracking-wide mb-1">
+                  Creator
+                </Subheading>
+                <Text
+                  size="sm"
+                  className="tracking-wide leading-4 text-queen-black/80"
+                >
+                  I want to apply for opportunities and connect with brands
+                </Text>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActive(selectType("brand"));
+                }}
+                className={clsx(
+                  twMerge(
+                    "py-4 px-6 rounded text-left outline outline-queen-black/20 outline-1 hover:bg-queen-blue/5",
+                    active.id === "brand" &&
+                      "outline-2 outline-queen-blue  bg-queen-blue/5"
+                  )
+                )}
+              >
+                <Subheading as="h2" size="md" className="tracking-wide mb-1">
+                  Company
+                </Subheading>
+                <Text
+                  size="sm"
+                  className="tracking-wide leading-4 text-queen-black/80"
+                >
+                  I want to post opportunities and find new talent
+                </Text>
+              </button>
+            </div>
+            <Button
+              as="button"
+              className="mt-8"
+              onClick={() => {
+                setStep(1);
+              }}
+              type="button"
+            >
+              Next
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div className="mb-8">
+              <span className="text-sm mb-1 inline-block">
+                Step {step} of {totalSteps}
+              </span>
+              {step === 1 ? (
+                <Tabs
+                  options={formData}
+                  active={active}
+                  setActive={setActive}
+                />
+              ) : (
+                <Text variant="xl">{active.steps[step].title}</Text>
+              )}
+            </div>
 
-        <SignUpFormStep
-          control={control}
-          errors={formErrors}
-          fields={active.steps[step].fields}
-        />
+            <SignUpFormStep
+              control={control}
+              errors={formErrors}
+              fields={active.steps[step].fields}
+            />
 
-        <Button
-          as="button"
-          className="mt-8"
-          onClick={handleClick}
-          {...(isLastStep ? { type: "submit" } : { type: "button" })}
-        >
-          {loading && <Button.Spinner />}
-          {isLastStep ? "Create Account" : "Next"}
-        </Button>
+            <Button
+              as="button"
+              className="mt-8"
+              onClick={handleClick}
+              {...(isLastStep ? { type: "submit" } : { type: "button" })}
+            >
+              {loading && <Button.Spinner />}
+              {isLastStep ? "Create Account" : "Next"}
+            </Button>
 
-        <Text size="sm" className="mt-4">
-          Already registered?{" "}
-          <Link
-            href="/login"
-            className="font-medium text-queen-black/70 hover:text-queen-blue"
-          >
-            Login
-          </Link>
-        </Text>
+            <Text size="sm" className="mt-4">
+              Already registered?{" "}
+              <Link
+                href="/login"
+                className="font-medium text-queen-black/70 hover:text-queen-blue"
+              >
+                Login
+              </Link>
+            </Text>
+          </>
+        )}
       </form>
       {error?.message && <Error>{error.message}</Error>}
     </>
