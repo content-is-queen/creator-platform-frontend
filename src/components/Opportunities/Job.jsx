@@ -22,7 +22,7 @@ const Job = ({
       <Heading size="3xl" className="mb-1 text-balance">
         {title}
       </Heading>
-      <Text className="capitalize" color="muted">
+      <Text className="capitalize">
         {category} &bull; {location} &bull; {salary || "To be discussed"}
       </Text>
     </div>
