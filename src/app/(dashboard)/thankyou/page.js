@@ -141,6 +141,9 @@ const Thankyou = () => {
           </div>
         </div>
       </Block>
+      <Suspense>
+        <Subscribe />
+      </Suspense>
     </>
   );
 };

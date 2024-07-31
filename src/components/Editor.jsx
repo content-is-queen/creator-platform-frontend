@@ -19,9 +19,9 @@ const Editor = ({ children, onChange }) => {
           selector: "textarea",
           menubar: false,
           plugins:
-            "anchor autolink emoticons link lists visualblocks wordcount checklist linkchecker a11ychecker tinymcespellchecker autocorrect markdown",
+            "anchor autolink emoticons link lists visualblocks wordcount linkchecker",
           toolbar:
-            "undo redo | bold italic underline strikethrough | link spellcheckdialog a11ycheck typography | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
+            "undo redo | bold italic underline strikethrough | link spellcheckdialog typography | numlist bullist indent outdent | emoticons charmap | removeformat",
         }}
         initialValue={initialValue}
         value={value}

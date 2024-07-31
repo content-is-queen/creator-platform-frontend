@@ -151,21 +151,28 @@ const SignUpForm = () => {
                 }}
                 className={clsx(
                   twMerge(
-                    "py-4 px-6 rounded text-left outline outline-queen-black/20 outline-1 hover:bg-queen-blue/5",
+                    "py-4 px-6 rounded text-left outline outline-queen-black/20 outline-1 hover:bg-queen-blue/5 flex gap-4",
                     active.id === "creator" &&
                       "outline-2 outline-queen-blue  bg-queen-blue/5"
                   )
                 )}
               >
-                <Subheading as="h2" size="md" className="tracking-wide mb-1">
-                  Creator
-                </Subheading>
-                <Text
-                  size="sm"
-                  className="tracking-wide leading-4 text-queen-black/80"
-                >
-                  I want to apply for opportunities and connect with brands
-                </Text>
+                <img
+                  src="/images/icons/CiQ_widening-participation.svg"
+                  alt=""
+                  width={50}
+                />
+                <div>
+                  <Subheading as="h2" size="md" className="tracking-wide mb-1">
+                    Creator
+                  </Subheading>
+                  <Text
+                    size="sm"
+                    className="tracking-wide leading-4 text-queen-black/80"
+                  >
+                    I want to apply for opportunities and connect with brands
+                  </Text>
+                </div>
               </button>
               <button
                 type="button"
@@ -174,21 +181,28 @@ const SignUpForm = () => {
                 }}
                 className={clsx(
                   twMerge(
-                    "py-4 px-6 rounded text-left outline outline-queen-black/20 outline-1 hover:bg-queen-blue/5",
+                    "py-4 px-6 rounded text-left outline outline-queen-black/20 outline-1 hover:bg-queen-blue/5 flex gap-4",
                     active.id === "brand" &&
                       "outline-2 outline-queen-blue  bg-queen-blue/5"
                   )
                 )}
               >
-                <Subheading as="h2" size="md" className="tracking-wide mb-1">
-                  Company
-                </Subheading>
-                <Text
-                  size="sm"
-                  className="tracking-wide leading-4 text-queen-black/80"
-                >
-                  I want to post opportunities and find new talent
-                </Text>
+                <img
+                  src="/images/icons/CiQ_targeted-advertising.svg"
+                  alt=""
+                  width={50}
+                />
+                <div>
+                  <Subheading as="h2" size="md" className="tracking-wide mb-1">
+                    Company
+                  </Subheading>
+                  <Text
+                    size="sm"
+                    className="tracking-wide leading-4 text-queen-black/80"
+                  >
+                    I want to post opportunities and find new talent
+                  </Text>
+                </div>
               </button>
             </div>
             <Button
@@ -234,19 +248,18 @@ const SignUpForm = () => {
               {loading && <Button.Spinner />}
               {isLastStep ? "Create Account" : "Next"}
             </Button>
-
-            <Text size="sm" className="mt-4">
-              Already registered?{" "}
-              <Link
-                href="/login"
-                className="font-medium text-queen-black/70 hover:text-queen-blue"
-              >
-                Login
-              </Link>
-            </Text>
           </>
         )}
       </form>
+      <Text size="sm" className="mt-4">
+        Already registered?{" "}
+        <Link
+          href="/login"
+          className="font-medium text-queen-black/70 hover:text-queen-blue"
+        >
+          Login
+        </Link>
+      </Text>
       {error?.message && <Error>{error.message}</Error>}
     </>
   );

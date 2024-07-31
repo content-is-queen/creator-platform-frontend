@@ -14,15 +14,8 @@ const useAuth = () => {
         const token = await user.getIdToken();
         const idTokenResult = await user.getIdTokenResult(true);
 
-        const {
-          data: { subscriptionId },
-        } = await API.get("/payments/info", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
         setSubscribed(
-          subscriptionId ||
+          idTokenResult.claims.subscribed ||
             idTokenResult.claims.role === "admin" ||
             idTokenResult.claims.role === "super_admin"
         );

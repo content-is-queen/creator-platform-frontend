@@ -1,0 +1,5 @@
+services:
+  app:
+    image: kaleshe/ciq-creator-platform
+    ports:
+      - 3000:3000

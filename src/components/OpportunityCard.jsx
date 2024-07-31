@@ -1,4 +1,5 @@
 import parse from "html-react-parser";
+import { stripHtml } from "string-strip-html";
 
 import Card from "@/components/Card";
 import Button from "@/components/Button";
@@ -13,12 +14,20 @@ const OpportunityCard = ({
   salary,
   type,
   title,
+  description,
   opportunityId,
   budget,
   profilePhoto,
   organizationLogo,
 }) => {
   const pay = budget || compensation || salary;
+  const MAX_CHARS = 200;
+  const strippedDescription = stripHtml(description).result;
+  const shortDescription =
+    strippedDescription.length > MAX_CHARS
+      ? `${strippedDescription.slice(0, MAX_CHARS)}...`
+      : strippedDescription;
+
   return (
     <Card className="flex flex-col items-start">
       <div className="flex flex-row items-center gap-2.5 justify-between mb-5 w-full">
@@ -47,20 +56,23 @@ const OpportunityCard = ({
           </div>
         </div>
       </div>
-      <div className="flex mb-2 items-center">
-        <p className="text-lg mr-3 text-queen-black capitalize max-w-4xl truncate">
-          {title}
-        </p>
-        <Tag className="inline-block mt-0">{type}</Tag>
+      <div className="mt-6 max-w-full">
+        <div className="flex items-center mb-2">
+          <Text
+            className="mr-3 text-queen-black capitalize truncate"
+            size="2xl"
+          >
+            {title}
+          </Text>
+          <Tag className="inline-block mt-0">{type}</Tag>
+        </div>
+        <Text color="muted" size="sm" className="mb-6 md:pr-8">
+          {shortDescription}
+        </Text>
+        <Button variant="white" href={`/opportunities/${opportunityId}`}>
+          View
+        </Button>
       </div>
-
-      <Button
-        variant="white"
-        href={`/opportunities/${opportunityId}`}
-        className="mt-6"
-      >
-        View
-      </Button>
     </Card>
   );
 };

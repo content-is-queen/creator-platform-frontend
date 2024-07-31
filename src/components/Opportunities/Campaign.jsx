@@ -22,7 +22,9 @@ const Campaign = ({
     </div>
     <div className="space-y-5 min-h-24 max-w-lg">
       <div>
-        <Subheading>Description</Subheading>
+        <Subheading size="xl" className="mb-2">
+          Description
+        </Subheading>{" "}
         <div className="format">{parse(description)}</div>
       </div>
 
