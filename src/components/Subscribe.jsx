@@ -32,10 +32,10 @@ const Subscribe = () => {
 
   useEffect(() => {
     const sessionId = searchParams.get("sessionId");
-    if (sessionId && user) {
+    if (sessionId && token && user) {
       subscribe(sessionId);
     }
-  }, [user]);
+  }, [token, user]);
   return <></>;
 };
 

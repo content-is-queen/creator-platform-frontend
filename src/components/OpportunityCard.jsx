@@ -13,12 +13,16 @@ const OpportunityCard = ({
   salary,
   type,
   title,
+  description,
   opportunityId,
   budget,
   profilePhoto,
   organizationLogo,
 }) => {
   const pay = budget || compensation || salary;
+  const shortDesc = parse(description);
+
+  console.log(shortDesc);
   return (
     <Card className="flex flex-col items-start">
       <div className="flex flex-row items-center gap-2.5 justify-between mb-5 w-full">
@@ -47,20 +51,23 @@ const OpportunityCard = ({
           </div>
         </div>
       </div>
-      <div className="flex mb-2 items-center">
-        <p className="text-lg mr-3 text-queen-black capitalize max-w-4xl truncate">
-          {title}
-        </p>
-        <Tag className="inline-block mt-0">{type}</Tag>
-      </div>
+      <div className="mt-6">
+        <div className="flex mb-2 items-center">
+          <p className="text-lg mr-3 text-queen-black capitalize max-w-4xl truncate">
+            {title}
+          </p>
+          <Tag className="inline-block mt-0">{type}</Tag>
+        </div>
+        {/* <div className="format">{parse(description)}</div> */}
 
-      <Button
-        variant="white"
-        href={`/opportunities/${opportunityId}`}
-        className="mt-6"
-      >
-        View
-      </Button>
+        <Button
+          variant="white"
+          href={`/opportunities/${opportunityId}`}
+          className="mt-4"
+        >
+          View
+        </Button>
+      </div>
     </Card>
   );
 };

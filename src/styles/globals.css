@@ -97,5 +97,5 @@ select:focus {
 }
 
 .format ul {
-  @apply list-disc ml-4 mt-2;
+  @apply list-disc ml-4 my-2;
 }

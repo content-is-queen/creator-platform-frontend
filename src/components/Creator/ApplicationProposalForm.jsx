@@ -60,7 +60,12 @@ const ApplicationProposalForm = ({
 
   return (
     <>
-      <Button as="button" type="submit" onClick={() => setIsOpen(true)}>
+      <Button
+        as="button"
+        type="submit"
+        size="lg"
+        onClick={() => setIsOpen(true)}
+      >
         Send A Proposal
       </Button>
 

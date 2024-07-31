@@ -22,13 +22,15 @@ const Job = ({
       <Heading size="3xl" className="mb-1 text-balance">
         {title}
       </Heading>
-      <Text className="capitalize" size="sm">
+      <Text className="capitalize" color="muted">
         {category} &bull; {location} &bull; {salary || "To be discussed"}
       </Text>
     </div>
     <div className="space-y-6 min-h-24 max-w-lg">
       <div>
-        <Subheading>About</Subheading>
+        <Subheading size="xl" className="mb-2">
+          About
+        </Subheading>
         <div className="format">{parse(description)}</div>
       </div>
       {skills.length > 0 && (
@@ -49,7 +51,7 @@ const Job = ({
       {benefits && (
         <div>
           <Subheading>Benefits</Subheading>
-          <Text>{benefits}</Text>
+          <div className="format">{parse(benefits)}</div>
         </div>
       )}
       {experience && (

@@ -248,19 +248,18 @@ const SignUpForm = () => {
               {loading && <Button.Spinner />}
               {isLastStep ? "Create Account" : "Next"}
             </Button>
-
-            <Text size="sm" className="mt-4">
-              Already registered?{" "}
-              <Link
-                href="/login"
-                className="font-medium text-queen-black/70 hover:text-queen-blue"
-              >
-                Login
-              </Link>
-            </Text>
           </>
         )}
       </form>
+      <Text size="sm" className="mt-4">
+        Already registered?{" "}
+        <Link
+          href="/login"
+          className="font-medium text-queen-black/70 hover:text-queen-blue"
+        >
+          Login
+        </Link>
+      </Text>
       {error?.message && <Error>{error.message}</Error>}
     </>
   );
