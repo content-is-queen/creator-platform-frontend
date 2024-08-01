@@ -30,6 +30,6 @@ Install the [Firebase CLI](https://firebase.google.com/docs/cli#install_the_fire
 npm run deploy
 ```
 
-## 📝 License
+## 📝 Copyright
 
-This project is [MIT](./MIT.md) licensed.
+&copy; Content is Queen Ltd. All Rights Reserved.
