@@ -15,14 +15,12 @@ const Pitch = ({
 }) => (
   <div className="space-y-8">
     <div>
-      <Heading size="3xl" className="mb-1 text-balance">
+      <Heading size="4xl" className="mb-1 text-balance">
         {title}
       </Heading>
-      <Text className="capitalize" size="sm">
-        {budget}
-      </Text>
+      <Text className="capitalize">{budget}</Text>
     </div>
-    <div className="space-y-5 min-h-24 max-w-lg">
+    <div className="space-y-8 min-h-24 max-w-lg">
       <div>
         <Subheading size="xl" className="mb-2">
           Description
@@ -31,13 +29,15 @@ const Pitch = ({
       </div>
       {targetAudience.length > 0 && (
         <div>
-          <Subheading className="mb-1">Target Audience</Subheading>
+          <Subheading size="xl" className="mb-1">
+            Target Audience
+          </Subheading>
           {targetAudience.join(",")}
         </div>
       )}
       {contentDuration && (
         <div>
-          <Subheading>Expected Content Duration</Subheading>
+          <Subheading size="xl">Expected Content Duration</Subheading>
           <Text>{contentDuration}</Text>
         </div>
       )}

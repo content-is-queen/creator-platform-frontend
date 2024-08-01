@@ -16,28 +16,30 @@ const Campaign = ({
 }) => (
   <div className="space-y-8">
     <div>
-      <Heading size="3xl" className="mb-1 text-balance">
+      <Heading size="4xl" className="mb-1 text-balance">
         {title}
       </Heading>
     </div>
-    <div className="space-y-5 min-h-24 max-w-lg">
+    <div className="space-y-8 min-h-24 max-w-lg">
       <div>
         <Subheading size="xl" className="mb-2">
           Description
-        </Subheading>{" "}
+        </Subheading>
         <div className="format">{parse(description)}</div>
       </div>
 
       {targetAudience && (
         <div>
-          <Subheading>Target Audience</Subheading>
+          <Subheading size="xl">Target Audience</Subheading>
           <Text>{targetAudience}</Text>
         </div>
       )}
 
       {targetAudience.length > 0 && (
         <div>
-          <Subheading className="mb-1">Target Audience</Subheading>
+          <Subheading size="xl" className="mb-1">
+            Target Audience
+          </Subheading>
           {targetAudience.join(",")}
         </div>
       )}
@@ -46,7 +48,7 @@ const Campaign = ({
         length ||
         (budget && (
           <div>
-            <Subheading>About the Ad</Subheading>
+            <Subheading size="xl">About the Ad</Subheading>
             {adType && (
               <div className="flex gap-1">
                 <Text size="sm">Type</Text>
@@ -76,7 +78,7 @@ const Campaign = ({
         ))}
 
       <div>
-        <Subheading>Duration</Subheading>
+        <Subheading size="xl">Duration</Subheading>
         <div className="flex gap-1">
           <Text size="sm">Start Date</Text>
           <Text size="sm" color="muted">

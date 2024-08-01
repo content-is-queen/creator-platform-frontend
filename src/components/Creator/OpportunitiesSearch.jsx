@@ -69,7 +69,7 @@ const OpportunitiesSearch = () => {
           <Spinner className="h-8 w-8 mt-5 inline-block" />
         </div>
       ) : (
-        <div className="py-12 space-y-6 min-h-80" ref={listRef}>
+        <div className="py-12 space-y-4 min-h-80" ref={listRef}>
           {filteredOpportunities?.length > 0 ? (
             <>
               {filteredOpportunities.map((opportunity) => (

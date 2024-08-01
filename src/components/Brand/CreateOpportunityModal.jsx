@@ -4,6 +4,7 @@ import Modal from "@/components/Modal";
 import CreateOpportunityPanels from "./CreateOpportunityPanels";
 import Button from "../Button";
 import Subheading from "../Subheading";
+import Heading from "../Heading";
 
 const CreateOpportunityModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,9 +26,6 @@ const CreateOpportunityModal = () => {
         onClose={() => setIsOpen(false)}
         className="max-w-5xl"
       >
-        <Subheading size="lg" className="text-center mb-8">
-          Select an opportunity type
-        </Subheading>
         <CreateOpportunityPanels />
       </Modal>
     </>

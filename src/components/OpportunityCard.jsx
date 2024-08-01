@@ -1,8 +1,7 @@
-import parse from "html-react-parser";
 import { stripHtml } from "string-strip-html";
+import Link from "next/link";
 
 import Card from "@/components/Card";
-import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import ProfileIcon from "./ProfileIcon";
@@ -29,7 +28,7 @@ const OpportunityCard = ({
       : strippedDescription;
 
   return (
-    <Card className="flex flex-col items-start">
+    <Card className="relative flex flex-col items-start">
       <div className="flex flex-row items-center gap-2.5 justify-between mb-5 w-full">
         <div className="flex gap-2 items-center">
           <ProfileIcon
@@ -58,20 +57,17 @@ const OpportunityCard = ({
       </div>
       <div className="mt-6 max-w-full">
         <div className="flex items-center mb-2">
-          <Text
-            className="mr-3 text-queen-black capitalize truncate"
-            size="2xl"
+          <Link
+            className="mr-3 text-queen-black text-xl capitalize truncate hover:underline after:absolute after:left-0 after:top-0 after:w-full after:h-full"
+            href={`/opportunities/${opportunityId}`}
           >
             {title}
-          </Text>
+          </Link>
           <Tag className="inline-block mt-0">{type}</Tag>
         </div>
         <Text color="muted" size="sm" className="mb-6 md:pr-8">
           {shortDescription}
         </Text>
-        <Button variant="white" href={`/opportunities/${opportunityId}`}>
-          View
-        </Button>
       </div>
     </Card>
   );

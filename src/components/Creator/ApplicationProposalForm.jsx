@@ -58,12 +58,17 @@ const ApplicationProposalForm = ({
     return <Form.Success>Your application was sent successfully</Form.Success>;
   }
 
+  if (user?.uid === authorId) {
+    return null;
+  }
+
   return (
     <>
       <Button
         as="button"
         type="submit"
         size="lg"
+        className="sticky top-0"
         onClick={() => setIsOpen(true)}
       >
         Send A Proposal

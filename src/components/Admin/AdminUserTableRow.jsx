@@ -1,4 +1,4 @@
-import { Menu } from "@headlessui/react";
+import { Menu, MenuItem, MenuItems, MenuButton } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
@@ -45,47 +45,38 @@ const AdminUserTableRow = ({
       <Table.Data className="px-6 py-3 relative">
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="ml-auto pl-2 focus-visible:outline-none">
+            <MenuButton className="ml-auto pl-2 focus-visible:outline-none">
               <FontAwesomeIcon icon={faEllipsisV} />
-            </Menu.Button>
+            </MenuButton>
           </div>
-          <Menu.Items className="absolute z-50 right-0 w-31 mt-1 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+          <MenuItems
+            className="absolute transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-t-md rounded-b-md shadow-lg focus-visible:outline-none"
+            transition
+          >
             <div className="py-1">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active
-                        ? "bg-gray-100 text-queen-black"
-                        : "text-queen-black/80"
-                    } px-4 py-2 text-left block`}
-                    onClick={() =>
-                      handleActivation({
-                        id: uid,
-                        activated: !disabled,
-                      })
-                    }
-                  >
-                    {disabled ? "Activate" : "Deactivate"}
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active
-                        ? "bg-gray-100 text-queen-black"
-                        : "text-queen-black/80"
-                    } px-4 py-2 text-left block w-full`}
-                    onClick={() => handleDelete(uid)}
-                  >
-                    Delete
-                  </button>
-                )}
-              </Menu.Item>
+              <MenuItem>
+                <button
+                  className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 px-4 py-2 text-left block w-full"
+                  onClick={() =>
+                    handleActivation({
+                      id: uid,
+                      activated: !disabled,
+                    })
+                  }
+                >
+                  {disabled ? "Activate" : "Deactivate"}
+                </button>
+              </MenuItem>
+              <MenuItem>
+                <button
+                  className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 px-4 py-2 text-left block w-full"
+                  onClick={() => handleDelete(uid)}
+                >
+                  Delete
+                </button>
+              </MenuItem>
             </div>
-          </Menu.Items>
+          </MenuItems>
         </Menu>
       </Table.Data>
     </Table.Row>

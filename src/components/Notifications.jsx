@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
-import { Menu } from "@headlessui/react";
+import { Menu, MenuItem, MenuItems, MenuButton } from "@headlessui/react";
 import { db } from "@/firebase.config";
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { IoNotificationsOutline } from "react-icons/io5";
@@ -46,14 +46,14 @@ const Notifications = () => {
 
   return (
     <Menu as="div" className="relative normal-case text-sm">
-      <Menu.Button className="flex relative text-sm rounded-full p-1 md:me-0 focus-visible:ring-offset-2 focus-visible:ring-2 focus-visible:ring-queen-yellow focus-visible:rounded-full">
+      <MenuButton className="flex relative text-sm rounded-full p-1 md:me-0 focus-visible:ring-offset-2 focus-visible:ring-2 focus-visible:ring-queen-yellow focus-visible:rounded-full">
         <span className="uppercase md:sr-only">Notifications</span>
         {notificationList.length > 0 && (
           <span className="absolute w-2.5 h-2.5 right-0 bg-red-600 rounded-full flex item-center justify-center"></span>
         )}
         <IoNotificationsOutline className="w-6 h-6" />
-      </Menu.Button>
-      <Menu.Items anchor="bottom" className="text-queen-black">
+      </MenuButton>
+      <MenuItems anchor="bottom" className="text-queen-black">
         <div className="z-50 mt-3 origin-top-right absolute right-0 bg-white w-72 divide-y divide-queen-black/10 rounded-md shadow-lg">
           <div className="flex justify-between items-center">
             <Subheading className="px-4 py-2 text-sm">Notifications</Subheading>
@@ -75,7 +75,7 @@ const Notifications = () => {
             </div>
           )}
         </div>
-      </Menu.Items>
+      </MenuItems>
     </Menu>
   );
 };

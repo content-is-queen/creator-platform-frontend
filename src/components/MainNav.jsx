@@ -10,7 +10,7 @@ import Link from "next/link";
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import useAuth from "@/hooks/useAuth";
-import { Menu } from "@headlessui/react";
+import { Menu, MenuItem, MenuItems, MenuButton } from "@headlessui/react";
 
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
@@ -172,63 +172,48 @@ const MainNav = () => {
           </div>
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse lg:flex-row lg:mr-2">
             <Menu as="div" className="relative">
-              <Menu.Button className="align-middle focus-visible:ring-4 focus-visible:ring-queen-yellow focus-visible:rounded-full">
+              <MenuButton className="align-middle focus-visible:ring-4 focus-visible:ring-queen-yellow focus-visible:rounded-full">
                 <ProfileIcon
                   className="shrink-0 lg:me-0 h-8 w-8 order-1"
                   profilePhoto={user?.profilePhoto}
                 >
                   <span className="sr-only">User menu</span>
                 </ProfileIcon>
-              </Menu.Button>
-              <Menu.Items className="absolute z-50 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-t-md rounded-b-md shadow-lg focus-visible:outline-none">
-                <Menu.Item as="div" className="text-queen-black/60">
+              </MenuButton>
+              <MenuItems
+                className="absolute transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-t-md rounded-b-md shadow-lg focus-visible:outline-none"
+                transition
+              >
+                <MenuItem as="div" className="text-queen-black/60">
                   <div className="px-4 py-2 text-sm">{user?.email}</div>
-                </Menu.Item>
+                </MenuItem>
                 {!admin && (
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        href="/profile"
-                        className={`${
-                          active
-                            ? "bg-gray-100 text-queen-black/80"
-                            : "text-queen-black"
-                        } group flex  items-center w-full px-5 py-2 text-sm`}
-                      >
-                        Profile
-                      </Link>
-                    )}
-                  </Menu.Item>
-                )}
-                <Menu.Item>
-                  {({ active }) => (
+                  <MenuItem>
                     <Link
-                      href="/settings"
-                      className={`${
-                        active
-                          ? "bg-gray-100 text-queen-black/80"
-                          : "text-queen-black"
-                      } group flex items-center w-full px-5 py-2 text-sm`}
+                      href="/profile"
+                      className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
                     >
-                      Settings
+                      Profile
                     </Link>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      onClick={handleSignOut}
-                      className={`${
-                        active
-                          ? "bg-gray-100 text-queen-black/80"
-                          : "text-queen-black"
-                      } group flex rounded-b-md items-center w-full px-5 py-2 text-sm`}
-                    >
-                      Logout
-                    </button>
-                  )}
-                </Menu.Item>
-              </Menu.Items>
+                  </MenuItem>
+                )}
+                <MenuItem>
+                  <Link
+                    href="/settings"
+                    className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
+                  >
+                    Settings
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <button
+                    onClick={handleSignOut}
+                    className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
+                  >
+                    Logout
+                  </button>
+                </MenuItem>
+              </MenuItems>
             </Menu>
             <button
               data-collapse-toggle="navbar-user"
