@@ -15,7 +15,6 @@ import { Menu, MenuItem, MenuItems, MenuButton } from "@headlessui/react";
 import ProfileIcon from "@/components/ProfileIcon";
 import Container from "@/components/Container";
 import Button from "@/components/Button";
-import Notifications from "./Notifications";
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -164,10 +163,6 @@ const MainNav = () => {
                   </Button>
                 </li>
               )}
-
-              <li>
-                <Notifications />
-              </li>
             </ul>
           </div>
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse lg:flex-row lg:mr-2">
