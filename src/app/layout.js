@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import localFont from "next/font/local";
-import { GoogleAnalytics } from "nextjs-google-analytics";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import Providers from "@/components/Providers";
 
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       <meta name="theme-color" content="#ffffff" charSet="utf-8" />
 
       <body>
-        <GoogleAnalytics trackPageViews />
+        <GoogleAnalytics gaId={process.env.GA_MEASUREMENT_ID} />
         <Providers>
           <main id="main-content">{children}</main>
         </Providers>
