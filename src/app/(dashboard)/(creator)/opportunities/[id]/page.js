@@ -2,17 +2,12 @@ import { notFound } from "next/navigation";
 
 import API from "@/api/api";
 
-import { sendGAEvent } from "@next/third-parties/google";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
-
 import Container from "@/components/Container";
 import ApplicationProposalForm from "@/components/Creator/ApplicationProposalForm";
 import Job from "@/components/Opportunities/Job";
 import Campaign from "@/components/Opportunities/Campaign";
 import Pitch from "@/components/Opportunities/Pitch";
-import Button from "@/components/Button";
+import ButtonExternal from "@/components/ButtonExternal";
 import BackButton from "@/components/BackButton";
 
 export default async function Opportunity({ params: { id: opportunityId } }) {
@@ -48,19 +43,8 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
             <Component {...data} />
           </div>
 
-          {link ? (
-            <Button
-              as="a"
-              href={link}
-              target="_blank"
-              onClick={() =>
-                sendGAEvent({ event: "view_external_opportunity", value: link })
-              }
-              className="items-center inline-flex gap-1"
-            >
-              Apply
-              <FontAwesomeIcon className="h-2.5" icon={faExternalLink} />
-            </Button>
+          {truw ? (
+            <ButtonExternal />
           ) : (
             <ApplicationProposalForm
               opportunityId={opportunityId}
