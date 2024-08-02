@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import API from "@/api/api";
 
-import Link from "next/link";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
@@ -53,6 +53,9 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
               as="a"
               href={link}
               target="_blank"
+              onClick={() =>
+                sendGAEvent({ event: "view_external_opportunity", value: link })
+              }
               className="items-center inline-flex gap-1"
             >
               Apply

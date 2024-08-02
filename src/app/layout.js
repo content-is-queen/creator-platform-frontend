@@ -1,8 +1,8 @@
 import "../styles/globals.css";
+import localFont from "next/font/local";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import Providers from "@/components/Providers";
-
-import localFont from "next/font/local";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
@@ -32,6 +32,7 @@ export default function RootLayout({ children }) {
       <meta name="theme-color" content="#ffffff" charSet="utf-8" />
 
       <body>
+        <GoogleAnalytics gaId={process.env.GA_MEASUREMENT_ID} />
         <Providers>
           <main id="main-content">{children}</main>
         </Providers>
