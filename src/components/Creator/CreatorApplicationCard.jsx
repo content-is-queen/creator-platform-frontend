@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-import useOpportunities from "@/hooks/useOpportunities";
+import { useQuery } from "@tanstack/react-query";
 
 import Card from "@/components/Card";
 import Tag from "@/components/Tag";
@@ -12,15 +11,21 @@ import Subheading from "../Subheading";
 import Text from "../Text";
 
 const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
-  const { opportunities: opportunity, loading } = useOpportunities({
-    opportunityId: opportunityId,
+  const { isPending, data: opportunity } = useQuery({
+    queryKey: [`opportunity-${opportunityId}`],
+    queryFn: async () => {
+      const { data } = await API.get(
+        `/opportunities/opportunityid/${opportunityId}`
+      );
+      return data.opportunities;
+    },
   });
 
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Card className="flex items-center justify-between">
-      {loading ? (
+      {isPending ? (
         <LoadingPlaceholder />
       ) : (
         <>

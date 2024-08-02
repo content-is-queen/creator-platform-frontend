@@ -1,8 +1,9 @@
 "use client";
 
 import clsx from "clsx";
-
+import API from "@/api/api";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +14,6 @@ import Container from "../Container";
 import BrandOpportunityCard from "@/components/Brand/BrandOpportunityCard";
 
 import { useUser } from "@/context/UserContext";
-import useOpportunities from "@/hooks/useOpportunities";
 import Spinner from "../Spinner";
 import Subheading from "../Subheading";
 import Text from "../Text";
@@ -40,19 +40,20 @@ const BrandOpportunities = () => {
     },
   ];
 
+  const { isPending, data: opportunities } = useQuery({
+    queryKey: ["dashboard-opportunities"],
+    queryFn: async () => {
+      const { data } = await API.get(`/opportunities/id/${user.uid}`);
+      setFilteredOpportunities(data.opportunities);
+      return data.opportunities;
+    },
+  });
+
   const { user } = useUser();
 
   const [active, setActive] = useState(OPTIONS[0]);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
   const [arrows, setArrows] = useState({ left: false, right: false });
-
-  const { opportunities, setOpportunities, loading } = useOpportunities(
-    { userId: user.uid },
-    (data) => {
-      setOpportunities(data.filter((i) => i.status !== "archived"));
-      setFilteredOpportunities(data.filter((i) => i.status !== "archived"));
-    }
-  );
 
   const swiperRef = useRef(null);
 
@@ -141,7 +142,7 @@ const BrandOpportunities = () => {
         : null;
   }, [filteredOpportunities, active]);
 
-  if (loading)
+  if (isPending)
     return (
       <div className="flex items-center justify-center h-60">
         <Spinner className="h-6 w-6" />
@@ -154,7 +155,7 @@ const BrandOpportunities = () => {
         <Tabs options={OPTIONS} active={active} setActive={setActive} />
         <div className="relative">
           <swiper-container ref={swiperRef} init="false" class="my-6">
-            {filteredOpportunities.length > 0 ? (
+            {filteredOpportunities?.length > 0 ? (
               filteredOpportunities.map((opportunity, index) => (
                 <swiper-slide key={opportunity.opportunityId + index}>
                   <div className="my-4 mx-0.5">
@@ -168,7 +169,7 @@ const BrandOpportunities = () => {
               </div>
             )}
           </swiper-container>
-          {filteredOpportunities.length > 0 && (
+          {filteredOpportunities?.length > 0 && (
             <>
               {arrows.left && (
                 <button

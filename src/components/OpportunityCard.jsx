@@ -31,8 +31,8 @@ const OpportunityCard = ({
 
   return (
     <Card className="relative flex flex-col items-start">
-      <div className="flex flex-row items-center gap-2.5 justify-between mb-5 w-full">
-        {pathname !== "/profile" ? (
+      {pathname !== "/profile" ? (
+        <div className="flex flex-row items-center gap-2.5 justify-between mb-5 w-full">
           <div className="flex gap-2 items-center">
             <ProfileIcon
               className="h-5 w-5"
@@ -42,9 +42,9 @@ const OpportunityCard = ({
               {organizationName || company}
             </span>
           </div>
-        ) : null}
-        <div></div>
-      </div>
+        </div>
+      ) : null}
+
       <div className="mt-6 max-w-full">
         <div className="flex items-center mb-2">
           <Link

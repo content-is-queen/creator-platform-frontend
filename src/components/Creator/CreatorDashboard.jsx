@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import Button from "@/components/Button";
 import Container from "@/components/Container";
 import StatsPanel from "@/components/StatsPanel";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
-import Card from "../Card";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 
@@ -13,25 +12,15 @@ import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 
 const CreatorDashboard = () => {
-  const [applications, setApplications] = useState([]);
-  const [loading, setloading] = useState(true);
-
   const { user } = useUser();
 
-  useEffect(() => {
-    async function getApplications() {
-      try {
-        const { data } = await API.get("/applications");
-        setApplications(data.message.filter((i) => i.creatorId === user.uid));
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setloading(false);
-      }
-    }
-
-    getApplications();
-  }, []);
+  const { isPending, data: applications } = useQuery({
+    queryKey: ["applications"],
+    queryFn: async () => {
+      const { data } = await API.get(`applications/user/${user.uid}`);
+      return data.message;
+    },
+  });
 
   return (
     <>
@@ -44,7 +33,7 @@ const CreatorDashboard = () => {
         className="flex justify-center items-center py-12 text-center bg-queen-blue bg-repeat-x bg-[center_bottom_-2rem]"
       >
         <Container className="space-y-12 pb-20">
-          {loading ? (
+          {isPending ? (
             <div className="mx-auto w-72 flex items-center justify-center flex-wrap md:flex-nowrap">
               {Array.from({ length: 4 }).map((_, index) => (
                 <div
@@ -71,7 +60,7 @@ const CreatorDashboard = () => {
           </Button>
         </Container>
       </div>
-      {applications && applications.length > 0 && (
+      {applications?.length > 0 && (
         <Section size="4xl" className="bg-queen-white">
           <Text size="xl" className="mb-8">
             Applications
