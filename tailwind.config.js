@@ -14,13 +14,33 @@ module.exports = {
         "lilac-dots-circle": "url('/images/lilac-dots-circle.svg')",
       },
       colors: {
-        "queen-blue": "#3667ED",
-        "queen-yellow": { DEFAULT: "#E5FC52", dark: "#c4e204" },
-        "queen-black": "#362921",
-        "queen-gray": "#D7CDFB",
-        "queen-white": "#F7F7F7",
-        "queen-orange": { DEFAULT: "#FF7300", dark: "#e66800" },
-        "queen-lilac": "#D7CDFB",
+        "queen-blue": {
+          DEFAULT: "#3667ED",
+          dark: "#315dd5",
+          darker: "#2b52be",
+          light: "#5e85f1",
+        },
+        "queen-yellow": {
+          DEFAULT: "#E5FC52",
+          dark: "#cee34a",
+          light: "#e8fc63",
+        },
+        "queen-black": {
+          DEFAULT: "#362921",
+          dark: "#1b1511",
+          light: "#4a3e37",
+        },
+        "queen-white": { DEFAULT: "#F7F7F7", dark: "#dedede" },
+        "queen-orange": {
+          DEFAULT: "#FF7300",
+          dark: "#e66800",
+          light: "#ff811a",
+        },
+        "queen-lilac": {
+          DEFAULT: "#D7CDFB",
+          dark: "#aca4c9",
+          light: "#e7e1fd",
+        },
       },
       fontFamily: {
         heading: ["var(--font-anton)"],

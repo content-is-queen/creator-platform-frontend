@@ -25,7 +25,7 @@ const FilterTag = ({ children, selected, setSelected }) => {
         "uppercase font-medium rounded-full text-xs px-3 py-0.5",
         selected.includes(children)
           ? "bg-queen-yellow text-queen-black"
-          : "border border-queen-black/60 text-queen-black/60"
+          : "border border-queen-black/60 text-queen-black/60 hover:bg-queen-white-dark"
       )}
     >
       {children}{" "}
