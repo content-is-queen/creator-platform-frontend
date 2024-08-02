@@ -32,7 +32,7 @@ const Message = ({ children, currentUser }) => {
         className={clsx(
           "py-3 px-4 text-queen-black",
           currentUser
-            ? "bg-queen-gray/80 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl"
+            ? "bg-queen-lilac/80 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl"
             : "bg-queen-white rounded-br-3xl rounded-tr-3xl rounded-tl-xl"
         )}
       >

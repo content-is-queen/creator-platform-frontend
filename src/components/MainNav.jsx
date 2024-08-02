@@ -51,6 +51,8 @@ const MainNav = () => {
     }
   }, [loading]);
 
+  console.log(pathname);
+
   const LINKS = {
     creator: [
       {
@@ -106,7 +108,7 @@ const MainNav = () => {
         isMenuOpen && "fixed w-full h-screen z-10"
       )}
     >
-      <Container className="flex flex-wrap items-center justify-between text-sm w-full">
+      <Container className="flex flex-wrap items-center justify-between w-full">
         <Link
           href="/"
           className="flex items-center gap-x-3 rtl:space-x-reverse focus-visible:outline focus-visible:outline-2 focus-visible:outline-queen-orange"
@@ -123,7 +125,7 @@ const MainNav = () => {
             alt="Content is queen"
           />
         </Link>
-        <div className="flex items-center lg:order-2 space-x-3 lg:space-x-auto rtl:space-x-reverse">
+        <div className="flex items-center lg:order-2 space-x-3 lg:space-x-6 rtl:space-x-reverse">
           <div
             className={`${
               isMenuOpen ? "block" : "hidden"
@@ -143,8 +145,9 @@ const MainNav = () => {
                   className={clsx(
                     twMerge(
                       pathname !== href && "opacity-100",
-                      "relative lg:after:absolute lg:after:h-[1px] lg:after:w-0 lg:after:bg-queen-yellow lg:after:left-0 lg:after:-bottom-1 lg:hover:after:w-full transition-all",
-                      pathname === href && "after:w-full"
+                      "relative lg:after:absolute lg:after:h-[1px] lg:after:w-0 lg:after:bg-queen-yellow-light lg:after:left-0 lg:after:-bottom-1 lg:hover:after:w-full transition-all",
+                      pathname === href &&
+                        "lg:after:w-full lg:after:bg-queen-yellow"
                     )
                   )}
                 >
@@ -166,7 +169,7 @@ const MainNav = () => {
             </ul>
           </div>
           <div className="order-2 flex items-center gap-x-2 flex-row-reverse lg:flex-row lg:mr-2">
-            <Menu as="div" className="relative">
+            <Menu as="div" className="relative z-10">
               <MenuButton className="align-middle focus-visible:ring-4 focus-visible:ring-queen-yellow focus-visible:rounded-full">
                 <ProfileIcon
                   className="shrink-0 lg:me-0 h-8 w-8 order-1"

@@ -39,7 +39,7 @@ const CreatorDashboard = () => {
         style={{
           minHeight: "calc(100vh - var(--nav-height))",
           backgroundSize: "500px",
-          backgroundImage: "url('/images/CiQ_Pattern 4 lilac.svg')",
+          backgroundImage: "url('/images/CiQ_Pattern 4 orange.svg')",
         }}
         className="flex justify-center items-center py-12 text-center bg-queen-blue bg-repeat-x bg-[center_bottom_-2rem]"
       >
@@ -66,7 +66,9 @@ const CreatorDashboard = () => {
             <StatsPanel applications={applications} />
           )}
 
-          <Button href="/opportunities">View opportunities</Button>
+          <Button href="/opportunities" variant="blue" size="lg">
+            Explore opportunities
+          </Button>
         </Container>
       </div>
       {applications && applications.length > 0 && (
