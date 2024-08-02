@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import API from "@/api/api";
 
-import Link from "next/link";
+import { event } from "nextjs-google-analytics";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
@@ -38,6 +38,14 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
       break;
   }
 
+  const handleClick = () => {
+    event("view_external_opportunity", {
+      category: "Opportunity",
+      label: link,
+      userId,
+    });
+  };
+
   return (
     <div className="relative bg-white bg-lilac-dots bg-repeat-x bg-[center_bottom_-2.5rem]">
       <Container size="2xl">
@@ -53,6 +61,7 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
               as="a"
               href={link}
               target="_blank"
+              onClick={handleClick}
               className="items-center inline-flex gap-1"
             >
               Apply
