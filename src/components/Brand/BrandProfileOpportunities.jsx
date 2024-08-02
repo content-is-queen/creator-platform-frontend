@@ -1,26 +1,33 @@
 "use client";
 
-import useOpportunities from "@/hooks/useOpportunities";
+import { useQuery } from "@tanstack/react-query";
+import API from "@/api/api";
 
 import Section from "@/components/Section";
 import Text from "@/components/Text";
-import Card from "@/components/Card";
-import Tag from "@/components/Tag";
-import Button from "@/components/Button";
 import Spinner from "../Spinner";
 import OpportunityCard from "../OpportunityCard";
 
 const BrandProfileOpportunities = ({ user: { uid } }) => {
-  const { opportunities, setOpportunities, loading } = useOpportunities({
-    userId: uid,
+  const {
+    isPending,
+    data: opportunities,
+    error,
+  } = useQuery({
+    queryKey: ["opportunities"],
+    queryFn: async () => {
+      const { data } = await API.get(`/opportunities/id/${uid}`);
+      return data.opportunities;
+    },
   });
 
+  console.log(error);
   return (
     <Section size="4xl">
       <Text size="xl" className="mb-8">
         Opportunities
       </Text>
-      {loading ? (
+      {isPending ? (
         <div className="flex items-center justify-center">
           <Spinner className="h-6 w-6" />
         </div>
