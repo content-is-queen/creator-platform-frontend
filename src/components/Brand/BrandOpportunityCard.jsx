@@ -73,7 +73,7 @@ const BrandOpportunityCard = (props) => {
     <Card className="inline-block space-y-4 w-full max-w-sm relative">
       <div className="flex gap-x-3 content-start items-start justify-between">
         <Link
-          className="mr-3 text-queen-black capitalize leading-tight hover:underline"
+          className="mr-3 text-queen-black leading-tight hover:underline"
           href={`/opportunities/${opportunityId}`}
           target="_blank"
         >

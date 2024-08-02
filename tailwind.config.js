@@ -24,6 +24,7 @@ module.exports = {
           DEFAULT: "#E5FC52",
           dark: "#cee34a",
           light: "#e8fc63",
+          lighter: "#eafd75",
         },
         "queen-black": {
           DEFAULT: "#362921",
