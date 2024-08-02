@@ -14,17 +14,19 @@ export default function Error({ error, reset }) {
       style={{
         minHeight: "calc(100vh - var(--nav-height))",
       }}
-      className="flex justify-center items-center py-12 text-center bg-queen-blue space-y-4"
+      className="flex justify-center items-center py-12 text-center bg-queen-blue"
     >
-      <Subheading size="lg" className="text-white">
-        Something went wrong!
-      </Subheading>
-      <Button
-        as="a"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSfwN92N5z_S7CC_VDt1_S3Xv0HuWatRZWkC_hYdBhSaA5LECA/viewform"
-      >
-        Report bug
-      </Button>
+      <div className="space-y-4">
+        <Subheading size="2xl" className="text-white">
+          Something went wrong!
+        </Subheading>
+        <Button
+          as="a"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSfwN92N5z_S7CC_VDt1_S3Xv0HuWatRZWkC_hYdBhSaA5LECA/viewform"
+        >
+          Report bug
+        </Button>
+      </div>
     </div>
   );
 }

@@ -43,8 +43,8 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
             <Component {...data} />
           </div>
 
-          {truw ? (
-            <ButtonExternal />
+          {link ? (
+            <ButtonExternal link={link} />
           ) : (
             <ApplicationProposalForm
               opportunityId={opportunityId}

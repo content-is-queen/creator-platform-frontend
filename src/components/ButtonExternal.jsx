@@ -6,7 +6,7 @@ import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 
 import Button from "./Button";
 
-const ButtonExternal = () => (
+const ButtonExternal = ({ link }) => (
   <Button
     as="a"
     href={link}
