@@ -53,8 +53,8 @@ const OpportunityCard = ({
           >
             {title}
           </Link>
-          <div className="flex gap-1">
-            <Tag className="inline-block mt-0">{type}</Tag>{" "}
+          <div className="flex items-center gap-1">
+            <Tag>{type}</Tag>{" "}
             {pay ? (
               <Tag color="lilac">
                 <span className="sr-only">Budget </span>

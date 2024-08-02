@@ -8,7 +8,7 @@ const Tag = ({ className, children, color = "yellow" }) => {
   return (
     <span
       className={clsx(
-        "uppercase  rounded-full leading-none text-xs px-3 py-1 text-[10px]",
+        "uppercase  rounded-full leading-none text-xs px-3 py-1 text-[10px] flex-shrink-0",
         COLORS[color],
         className
       )}
