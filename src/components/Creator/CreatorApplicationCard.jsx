@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import API from "@/api/api";
 
 import Card from "@/components/Card";
 import Tag from "@/components/Tag";
@@ -12,12 +13,12 @@ import Text from "../Text";
 
 const CreatorApplicationCard = ({ status, opportunityId, proposal }) => {
   const { isPending, data: opportunity } = useQuery({
-    queryKey: [`opportunity-${opportunityId}`],
+    queryKey: [`opportunity-${opportunityId}`, opportunityId],
     queryFn: async () => {
       const { data } = await API.get(
         `/opportunities/opportunityid/${opportunityId}`
       );
-      return data.opportunities;
+      return data;
     },
   });
 

@@ -34,6 +34,7 @@ const MainNav = () => {
   const handleSignOut = async () => {
     try {
       auth.signOut();
+      localStorage.removeItem("user");
       setUser(null);
       router.push("/login");
     } catch (error) {
