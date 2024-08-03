@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import API from "@/api/api";
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 

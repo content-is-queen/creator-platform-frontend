@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       <meta name="theme-color" content="#ffffff" charSet="utf-8" />
 
       <body>
-        <GoogleAnalytics gaId={process.env.GA_MEASUREMENT_ID} />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         <Providers>
           <main id="main-content">{children}</main>
         </Providers>

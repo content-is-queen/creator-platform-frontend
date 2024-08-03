@@ -17,7 +17,7 @@ const OpportunitiesSearch = () => {
   const [page, setPage] = useState(0);
   const LIMIT = 10;
 
-  const { isPending, data: opportunities } = useQuery({
+  const { data: opportunities } = useQuery({
     queryKey: ["opportunities", page],
     queryFn: async () => {
       const { data } = await API.get(
@@ -66,25 +66,25 @@ const OpportunitiesSearch = () => {
         filter={{ keys: ["title", "description"], tag: "type" }}
       />
 
-      <div className="py-12 space-y-4 min-h-80" ref={listRef}>
-        {filteredOpportunities?.length > 0 ? (
-          <>
-            {filteredOpportunities.map((opportunity) => (
-              <div key={opportunity.opportunityId}>
-                <OpportunityCard {...opportunity} />
-              </div>
-            ))}
-          </>
-        ) : (
-          <Text className="text-center">There are no opportunities</Text>
-        )}
-      </div>
-
-      {isPending ? (
+      {!opportunities ? (
         <div className="text-center flex items-center justify-center h-44">
           <Spinner className="h-8 w-8 mt-5 inline-block" />
         </div>
-      ) : null}
+      ) : (
+        <div className="py-12 space-y-4 min-h-80" ref={listRef}>
+          {filteredOpportunities?.length > 0 ? (
+            <>
+              {filteredOpportunities.map((opportunity) => (
+                <div key={opportunity.opportunityId}>
+                  <OpportunityCard {...opportunity} />
+                </div>
+              ))}
+            </>
+          ) : (
+            <Text className="text-center">There are no opportunities</Text>
+          )}
+        </div>
+      )}
     </>
   );
 };
