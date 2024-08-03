@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useUser } from "@/context/UserContext";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import Button from "@/components/Button";
@@ -26,7 +25,6 @@ const VerifyForm = () => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
 
-  const { user } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
   const parsedQuery = searchParams.get("otp");
