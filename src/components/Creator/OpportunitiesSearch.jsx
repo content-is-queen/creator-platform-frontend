@@ -2,7 +2,8 @@
 
 import API from "@/api/api";
 import { useState, useEffect, useRef } from "react";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
+
 import debounce from "debounce";
 
 import Search from "@/components/Search";
@@ -12,26 +13,27 @@ import Text from "../Text";
 
 const OpportunitiesSearch = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
-  const [isEnd, setIsEnd] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-  const [page, setPage] = useState(0);
+  const [inView, setInView] = useState(false);
   const LIMIT = 10;
 
-  const { data: opportunities } = useQuery({
-    queryKey: ["opportunities", page],
-    queryFn: async () => {
-      const { data } = await API.get(
-        `/opportunities?limit=${LIMIT}&page=${page}`
-      );
-      setFilteredOpportunities(data.message.opportunities);
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["opportunities"],
+      queryFn: async ({ pageParam }) => {
+        const { data } = await API.get(
+          `/opportunities?limit=${LIMIT}&page=${pageParam}`
+        );
+        setFilteredOpportunities(data.message.opportunities);
 
-      if (data.message.totalPages === data.message.currentPage) {
-        setIsEnd(true);
-      }
-      return data.message.opportunities;
-    },
-    placeholderData: keepPreviousData,
-  });
+        return data.message.opportunities;
+      },
+      initialPageParam: 0,
+      getPreviousPageParam: (firstPage) => firstPage.previousId,
+      getNextPageParam: (lastPage) => lastPage.nextId,
+    });
+
+  console.log(data);
+  console.log(hasNextPage);
 
   const listRef = useRef();
 
@@ -40,7 +42,7 @@ const OpportunitiesSearch = () => {
     const { bottom } = listRef.current.getBoundingClientRect();
     const { innerHeight } = window;
 
-    setIsInView(bottom > 0 && bottom < innerHeight - 100);
+    setInView(bottom > 0 && bottom < innerHeight - 100);
   };
 
   useEffect(() => {
@@ -48,37 +50,39 @@ const OpportunitiesSearch = () => {
     return () => {
       document.removeEventListener("scroll", checkInView);
     };
-  }, [opportunities]);
+  }, []);
 
   useEffect(() => {
-    if (listRef.current && isInView && !isEnd) {
-      const debounced = debounce(() => setPage((prev) => prev + 1), 500);
+    if (listRef.current && inView && !isFetchingNextPage && hasNextPage) {
+      const debounced = debounce(() => fetchNextPage(), 500);
       debounced();
     }
-  }, [isInView]);
+  }, [inView, fetchNextPage]);
 
   return (
     <>
       <Search
-        data={opportunities}
+        data={data?.pages}
         filteredData={filteredOpportunities}
         setFilteredData={setFilteredOpportunities}
         filter={{ keys: ["title", "description"], tag: "type" }}
       />
 
-      {!opportunities ? (
+      {!data ? (
         <div className="text-center flex items-center justify-center h-44">
           <Spinner className="h-8 w-8 mt-5 inline-block" />
         </div>
       ) : (
         <div className="py-12 space-y-4 min-h-80" ref={listRef}>
-          {filteredOpportunities?.length > 0 ? (
+          {data.pages.length > 0 ? (
             <>
-              {filteredOpportunities.map((opportunity) => (
-                <div key={opportunity.opportunityId}>
-                  <OpportunityCard {...opportunity} />
-                </div>
-              ))}
+              {data.pages.map((page) =>
+                page.map((opportunity) => (
+                  <div key={opportunity.opportunityId}>
+                    <OpportunityCard {...opportunity} />
+                  </div>
+                ))
+              )}
             </>
           ) : (
             <Text className="text-center">There are no opportunities</Text>

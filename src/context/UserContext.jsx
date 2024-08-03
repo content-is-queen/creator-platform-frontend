@@ -51,6 +51,7 @@ export const UserProvider = ({ children }) => {
       } else {
         setUser(null);
         setLoading(false);
+        localStorage.removeItem("user");
       }
     });
     return () => {
