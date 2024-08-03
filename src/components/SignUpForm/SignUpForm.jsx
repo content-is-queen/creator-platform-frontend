@@ -1,5 +1,7 @@
 "use client";
 
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import API from "@/api/api";
@@ -15,10 +17,6 @@ import Tabs from "@/components/Tabs";
 import Subheading from "@/components/Subheading";
 import { Error } from "@/components/Form";
 import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
-import Panel from "../Panel";
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
-
 const SignUpForm = () => {
   const {
     handleSubmit,

@@ -1,4 +1,3 @@
-// pages/checkout.js
 import Heading from "@/components/Heading";
 import CheckoutForm from "@/components/CheckoutForm";
 

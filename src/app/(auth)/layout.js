@@ -1,19 +1,4 @@
-"use client";
-
-import { useLayoutEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useUser } from "@/context/UserContext";
-
 const AuthLayout = ({ children }) => {
-  const { user } = useUser();
-  const router = useRouter();
-
-  useLayoutEffect(() => {
-    if (user?.firstName) {
-      router.push("/");
-    }
-  }, [user]);
-
   return (
     <div className="grid min-h-screen md:grid-cols-12" id="auth-template">
       <div className="bg-queen-blue relative flex items-center justify-center h-full overflow-hidden py-6 md:py-10 md:col-span-4 lg:col-span-5">

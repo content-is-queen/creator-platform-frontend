@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -47,12 +48,16 @@ const LoginForm = () => {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   const onSubmit = async (data) => {
     setLoading(true);
     setError({});
     const { email, password } = data;
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      router.push("/");
     } catch (error) {
       console.error(error.message);
       setLoading(false);

@@ -32,9 +32,6 @@ const OpportunitiesSearch = () => {
       getNextPageParam: (lastPage) => lastPage.nextId,
     });
 
-  console.log(data);
-  console.log(hasNextPage);
-
   const listRef = useRef();
 
   const checkInView = () => {
