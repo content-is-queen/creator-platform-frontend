@@ -6,4 +6,4 @@ const checkUserType = (role = "user") => {
   return "admin";
 };
 
-export default checkUserType
+export default checkUserType;
