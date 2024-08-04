@@ -1,7 +1,7 @@
-import Heading from "../Heading";
-import Container from "../Container";
-import CreateOpportunityModal from "../Brand/CreateOpportunityModal";
-import BrandOpportunities from "../Brand/BrandOpportunities";
+import Heading from "@/components/Heading";
+import Container from "@/components/Container";
+import CreateOpportunityModal from "@/components/Brand/CreateOpportunityModal";
+import BrandOpportunities from "@/components/Brand/BrandOpportunities";
 import AdminStats from "@/components/Admin/AdminStats";
 
 const AdminDashboard = () => {
@@ -11,7 +11,7 @@ const AdminDashboard = () => {
         <Container size="5xl" className="space-y-8">
           <Heading size="4xl">Overview</Heading>
 
-          <AdminStats className="grid grid-cols-3 gap-4"></AdminStats>
+          <AdminStats />
         </Container>
       </section>
 
@@ -29,5 +29,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-AdminDashboard.roles = ["admin", "super_admin"];

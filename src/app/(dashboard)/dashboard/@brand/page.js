@@ -18,5 +18,3 @@ const BrandDashboard = () => {
 };
 
 export default BrandDashboard;
-
-BrandDashboard.roles = ["brand"];

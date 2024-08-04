@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 import API from "@/api/api";
@@ -32,19 +34,19 @@ const AdminStats = () => {
     }
   }, [token]);
 
-  return loading ? (
+  return (
     <div className="grid grid-cols-3 gap-4">
-      {Array.from({ length: 4 }).map((_, index) => (
-        <Card key={index}>
-          <LoadingPlaceholder />
-          <span className="max-w-1 inline-block">
-            <LoadingPlaceholder />
-          </span>
-        </Card>
-      ))}
+      {loading
+        ? Array.from({ length: 4 }).map((_, index) => (
+            <Card key={index}>
+              <LoadingPlaceholder />
+              <span className="max-w-1 inline-block">
+                <LoadingPlaceholder />
+              </span>
+            </Card>
+          ))
+        : data.map((info) => <InfoCard key={info.title} {...info} />)}{" "}
     </div>
-  ) : (
-    data.map((info) => <InfoCard key={info.title} {...info} />)
   );
 };
 

@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import checkUserType from "@/helpers/checkUserType";
 
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
@@ -42,6 +43,8 @@ const MainNav = () => {
     }
   };
 
+  const userType = checkUserType(user?.role);
+
   useEffect(() => {
     if (
       !loading &&
@@ -53,49 +56,22 @@ const MainNav = () => {
   }, [loading]);
 
   const LINKS = {
-    creator: [
+    user: [
       {
-        href: "/",
+        href: "/dashboard",
         label: "Dashboard",
       },
       { href: "/opportunities", label: "Opportunities" },
       { href: "/conversations", label: "Conversations" },
     ],
-    brand: [
-      {
-        href: "/",
-        label: "Projects",
-      },
-      { href: "/conversations", label: "Conversations" },
-    ],
     admin: [
       {
-        href: "/",
+        href: "/dashboard",
         label: "Dashboard",
       },
-      {
-        href: "/admin/opportunities",
-        label: "Opportunities",
-      },
-      {
-        href: "/admin/users",
-        label: "Users",
-      },
-      { href: "/conversations", label: "Conversations" },
-    ],
-    super_admin: [
-      {
-        href: "/",
-        label: "Dashboard",
-      },
-      {
-        href: "/admin/opportunities",
-        label: "Opportunities",
-      },
-      {
-        href: "/admin/users",
-        label: "Users",
-      },
+      { href: "/dashboard/opportunities", label: "Opportunities" },
+      { href: "/dashboard/users", label: "Users" },
+
       { href: "/conversations", label: "Conversations" },
     ],
   };
@@ -138,7 +114,7 @@ const MainNav = () => {
                   "fixed w-full left-0 top-20 z-10 space-y-6 bg-queen-blue pt-16 pb-20"
               )}
             >
-              {LINKS[user?.role]?.map(({ href, label }) => (
+              {LINKS[userType].map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(

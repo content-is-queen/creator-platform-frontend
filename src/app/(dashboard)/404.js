@@ -1,10 +1,10 @@
 "use client";
 
-import Button from "@/components/Button";
 import Subheading from "@/components/Subheading";
+import Text from "@/components/Text";
 import { useEffect } from "react";
 
-export default function Error({ error }) {
+export default function NotFound({ error }) {
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -20,12 +20,7 @@ export default function Error({ error }) {
         <Subheading size="2xl" className="text-white">
           Something went wrong!
         </Subheading>
-        <Button
-          as="a"
-          href="https://docs.google.com/forms/d/e/1FAIpQLSfwN92N5z_S7CC_VDt1_S3Xv0HuWatRZWkC_hYdBhSaA5LECA/viewform"
-        >
-          Report bug
-        </Button>
+        <Text>Page not found</Text>
       </div>
     </div>
   );
