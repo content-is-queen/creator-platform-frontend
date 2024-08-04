@@ -1,10 +1,10 @@
+"use client";
+
 import { useState } from "react";
 
 import Modal from "@/components/Modal";
 import CreateOpportunityPanels from "./CreateOpportunityPanels";
 import Button from "../Button";
-import Subheading from "../Subheading";
-import Heading from "../Heading";
 
 const CreateOpportunityModal = () => {
   const [isOpen, setIsOpen] = useState(false);

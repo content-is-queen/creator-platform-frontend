@@ -41,7 +41,7 @@ const BrandOpportunities = () => {
   ];
 
   const { isPending, data: opportunities } = useQuery({
-    queryKey: ["dashboard-opportunities"],
+    queryKey: ["user-opportunities"],
     queryFn: async () => {
       const { data } = await API.get(`/opportunities/id/${user.uid}`);
       setFilteredOpportunities(data.opportunities);
