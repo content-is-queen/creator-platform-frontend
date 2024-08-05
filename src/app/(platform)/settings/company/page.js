@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 import {
   ref,
@@ -25,7 +24,6 @@ const Company = () => {
   const [newData, setNewData] = useState({});
 
   const { user, setUser } = useUser();
-  const { token } = useAuth();
 
   useEffect(() => {
     setFormData({
@@ -73,7 +71,7 @@ const Company = () => {
 
       const response = await API.put("/admin/company", newData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           "Content-Type": "application/json",
         },
       });

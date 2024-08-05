@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -20,7 +19,7 @@ const Password = () => {
     old_password: "",
     password: "",
   });
-  const { token } = useAuth();
+
   const handleChange = (e) => {
     const checkIsEmpty = (str) => {
       return str.trim().length === 0;
@@ -62,7 +61,7 @@ const Password = () => {
     try {
       const response = await API.post(`/auth/password`, formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           "Content-Type": "application/json",
         },
       });

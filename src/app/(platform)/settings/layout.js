@@ -4,8 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
-import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
+import useSubscribed from "@/hooks/useSubscribed";
 
 import Container from "@/components/Container";
 import Subheading from "@/components/Subheading";
@@ -22,39 +22,43 @@ const Layout = ({ children }) => {
 
   const pathname = usePathname();
   const { user } = useUser();
-  const { token } = useAuth();
   const router = useRouter();
-  const { subscribed } = useAuth();
+
+  const subscribed = useSubscribed();
 
   const admin = user?.role === "admin" || user?.role === "super_admin";
 
   const LINKS = [
-    {
-      href: "/settings",
-      label: "General",
-    },
-    {
-      href: "/settings/edit-profile",
-      label: "Edit Profile",
-    },
-    {
-      href: "/settings/password",
-      label: "Password",
-    },
-    ...(user && subscribed && !admin
+    ...(user
       ? [
           {
-            href: "/settings/subscription",
-            label: "Subscription",
+            href: "/settings",
+            label: "General",
           },
-        ]
-      : []),
-    ...(user && user.role === "super_admin"
-      ? [
           {
-            href: "/settings/company",
-            label: "Edit Company Info",
+            href: "/settings/edit-profile",
+            label: "Edit Profile",
           },
+          {
+            href: "/settings/password",
+            label: "Password",
+          },
+          ...(subscribed && !admin
+            ? [
+                {
+                  href: "/settings/subscription",
+                  label: "Subscription",
+                },
+              ]
+            : []),
+          ...(user.role === "super_admin"
+            ? [
+                {
+                  href: "/settings/company",
+                  label: "Edit Company Info",
+                },
+              ]
+            : []),
         ]
       : []),
   ];
@@ -66,7 +70,7 @@ const Layout = ({ children }) => {
     try {
       const response = await API.delete("/auth/delete-account", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
         data: {
           email,

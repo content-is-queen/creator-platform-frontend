@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import AuthInputController from "@/components/AuthInputController";
@@ -74,8 +73,6 @@ const CreateUserForm = () => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { token } = useAuth();
-
   const onSubmit = async (data) => {
     setLoading(true);
     setError({});
@@ -84,7 +81,7 @@ const CreateUserForm = () => {
       const response = await API.post("/admin/users", data, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       if (response.status === 200) {

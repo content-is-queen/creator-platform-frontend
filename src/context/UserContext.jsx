@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { auth } from "@/firebase.config";
 import { getIdToken, onAuthStateChanged } from "firebase/auth";
 import API from "@/api/api";
@@ -14,7 +14,7 @@ export const getUser = async (args) => {
   try {
     const response = await API.get("/auth/user", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
     });
 
@@ -38,13 +38,12 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
-        const token = await authUser.getIdToken(true);
-        if (token) {
-          const user = await getUser({ token });
+        const user = await getUser({
+          token: JSON.parse(localStorage.getItem("token")),
+        });
 
-          if (user) {
-            setUser(user);
-          }
+        if (user) {
+          setUser(user);
         }
 
         setLoading(false);
@@ -67,11 +66,10 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        loading,
-      }}
+      value={useMemo(
+        () => ({ user, setUser, loading }),
+        [user, setUser, loading]
+      )}
     >
       {children}
     </UserContext.Provider>

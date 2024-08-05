@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 
 import Search from "@/components/Search";
@@ -16,8 +15,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
   const [selectedOpportunities, setSelectedOpportunities] = useState([]);
   const [error, setError] = useState({});
 
-  const { token } = useAuth();
-
   useEffect(() => {
     setFilteredOpportunities(opportunities);
     setLoading(false);
@@ -30,7 +27,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         await API.delete(`/opportunities/opportunityid/${id}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
 

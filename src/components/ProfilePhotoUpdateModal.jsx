@@ -10,7 +10,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { storage } from "@/firebase.config";
-import useAuth from "@/hooks/useAuth";
+
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 
@@ -26,7 +26,6 @@ const ProfilePhotoUpdateModal = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { token } = useAuth();
   const { user, setUser } = useUser();
 
   const handleChange = (e) => {
@@ -57,7 +56,6 @@ const ProfilePhotoUpdateModal = () => {
 
     if (prevFile) {
       prevFile = prevFile.substring(0, prevFile.lastIndexOf("?"));
-      console.log();
       await deleteFile(prevFile);
     }
 
@@ -72,7 +70,7 @@ const ProfilePhotoUpdateModal = () => {
         { profilePhoto },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             "Content-Type": "application/json",
           },
         }

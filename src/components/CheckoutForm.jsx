@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useUser } from "@/context/UserContext";
-import useAuth from "@/hooks/useAuth";
 
 import API from "@/api/api";
 import Button from "./Button";
@@ -13,7 +12,6 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
 const CheckoutForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
-  const { token } = useAuth();
 
   const handleClick = async () => {
     setLoading(true);
@@ -25,7 +23,7 @@ const CheckoutForm = ({ className, variant }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         }
       );

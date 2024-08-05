@@ -3,14 +3,12 @@
 import { useState, useEffect } from "react";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import useAuth from "@/hooks/useAuth";
 
 import Form from "@/components/Form";
 import Button from "@/components/Button";
 
 const General = () => {
   const { user, setUser } = useUser();
-  const { token } = useAuth();
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -41,7 +39,7 @@ const General = () => {
       const response = await API.post("/auth/emailupdate", formData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       setUser({ ...user, ...formData });

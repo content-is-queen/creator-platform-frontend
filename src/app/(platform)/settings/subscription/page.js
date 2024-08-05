@@ -4,10 +4,9 @@ import { format } from "date-fns";
 
 import { useEffect, useState } from "react";
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
+import useSubscribed from "@/hooks/useSubscribed";
 
 import Form from "@/components/Form";
-import CheckoutForm from "@/components/CheckoutForm";
 import Text from "@/components/Text";
 import InfoCard from "@/components/InfoCard";
 import Spinner from "@/components/Spinner";
@@ -19,21 +18,27 @@ const Subscription = () => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
 
-  const { token, subscribed } = useAuth();
+  const subscribed = useSubscribed();
 
   const getSubscriptionInfo = async () => {
     try {
       const {
         data: { subscriptionId },
       } = await API("/payments/info", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
       });
 
       const {
         data: { subscription },
       } = await API(
         `/payments/subscription?subscription_id=${subscriptionId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+          },
+        }
       );
 
       setSubscription(subscription);
@@ -48,11 +53,11 @@ const Subscription = () => {
   };
 
   useEffect(() => {
-    if (token && subscribed) {
+    if (subscribed) {
       getSubscriptionInfo();
     }
     setLoading(false);
-  }, [token]);
+  }, []);
 
   return (
     <Form

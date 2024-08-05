@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
+
 import { useUser } from "@/context/UserContext";
 
 import Button from "./Button";
@@ -17,7 +17,6 @@ const CancelSubscriptionForm = ({
   const [loading, setLoading] = useState(false);
 
   const { user, setUser } = useUser();
-  const { token } = useAuth();
 
   const handleClick = async () => {
     setLoading(true);
@@ -29,7 +28,7 @@ const CancelSubscriptionForm = ({
           { userId: user.uid },
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
               "Content-Type": "application/json",
             },
           }

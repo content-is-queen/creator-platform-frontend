@@ -3,11 +3,10 @@ import { useSearchParams } from "next/navigation";
 
 import { useUser } from "@/context/UserContext";
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
 
 const Subscribe = () => {
   const { user, setUser } = useUser();
-  const { token } = useAuth();
+
   const searchParams = useSearchParams();
 
   const subscribe = async (sessionId) => {
@@ -20,7 +19,7 @@ const Subscribe = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         }
       );
