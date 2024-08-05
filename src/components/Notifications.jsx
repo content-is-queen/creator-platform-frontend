@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
-import useAuth from "@/hooks/useAuth";
+
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { db } from "@/firebase.config";
 import { query, collection, onSnapshot } from "firebase/firestore";
@@ -15,14 +15,13 @@ const Notifications = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useUser();
-  const { token } = useAuth();
 
   const handleClearAll = async () => {
     try {
       await API("/notifications/clear", {
         method: "delete",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
     } catch (error) {

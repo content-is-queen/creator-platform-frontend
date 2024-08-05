@@ -3,7 +3,6 @@
 import API from "@/api/api";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
-import useAuth from "@/hooks/useAuth";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -16,7 +15,6 @@ const ApplicationProposalForm = ({
   applicationInstructions,
 }) => {
   const { user } = useUser();
-  const { token } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState("");
@@ -38,7 +36,8 @@ const ApplicationProposalForm = ({
     try {
       await API.post(`/applications`, data, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+
           "Content-Type": "application/json",
         },
       });

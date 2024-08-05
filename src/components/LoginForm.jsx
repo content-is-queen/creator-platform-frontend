@@ -55,11 +55,12 @@ const LoginForm = () => {
     setError({});
     const { email, password } = data;
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem("token", JSON.stringify(user.accessToken));
       router.push("/");
     } catch (error) {
       console.error(error.message);
+      localStorage.removeItem("token");
       setLoading(false);
 
       if (error.code == "auth/invalid-credential") {

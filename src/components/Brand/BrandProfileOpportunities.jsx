@@ -21,7 +21,6 @@ const BrandProfileOpportunities = ({ user: { uid } }) => {
     },
   });
 
-  console.log(error);
   return (
     <Section size="4xl">
       <Text size="xl" className="mb-8">

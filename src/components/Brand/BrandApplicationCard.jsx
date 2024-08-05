@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 
@@ -27,7 +26,6 @@ const BrandApplicationCard = ({
   const [rejectLoading, setRejectLoading] = useState(false);
   const [acceptLoading, setAcceptLoading] = useState(false);
 
-  const { token } = useAuth();
   const { user } = useUser();
 
   const getApplicant = async (id) => {
@@ -66,7 +64,7 @@ const BrandApplicationCard = ({
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         }
       );
@@ -99,7 +97,7 @@ const BrandApplicationCard = ({
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         }
       );

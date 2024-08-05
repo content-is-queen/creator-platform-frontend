@@ -1,6 +1,5 @@
 "use client";
 
-import SpinnerScreen from "@/components/SpinnerScreen";
 import { useUser } from "@/context/UserContext";
 
 export default function DashboardLayout({ children, admin, creator, brand }) {
@@ -20,7 +19,7 @@ export default function DashboardLayout({ children, admin, creator, brand }) {
   }
 
   if (!user) {
-    return <SpinnerScreen />;
+    return null;
   }
 
   return (

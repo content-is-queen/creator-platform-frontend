@@ -2,15 +2,14 @@
 
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
-
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import checkUserType from "@/helpers/checkUserType";
-
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
-import useAuth from "@/hooks/useAuth";
+import useSubscribed from "@/hooks/useSubscribed";
+
 import { Menu, MenuItem, MenuItems, MenuButton } from "@headlessui/react";
 
 import ProfileIcon from "@/components/ProfileIcon";
@@ -19,12 +18,12 @@ import Button from "@/components/Button";
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
 
+  const router = useRouter();
   const { user, setUser, loading } = useUser();
+  const subscribed = useSubscribed();
 
   const admin = user?.role === "super_admin" || user?.role === "admin";
-  const { subscribed } = useAuth();
 
   const pathname = usePathname();
 
@@ -36,6 +35,7 @@ const MainNav = () => {
     try {
       auth.signOut();
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       setUser(null);
       router.push("/login");
     } catch (error) {

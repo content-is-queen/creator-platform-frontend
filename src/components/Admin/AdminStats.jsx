@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
 
 import Card from "../Card";
 import LoadingPlaceholder from "../LoadingPlaceholder";
@@ -12,7 +11,6 @@ import InfoCard from "../InfoCard";
 const AdminStats = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { token } = useAuth();
 
   useEffect(() => {
     if (token) {
@@ -21,7 +19,7 @@ const AdminStats = () => {
           const { data } = await API("/admin/info", {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           });
           setData(data.data);

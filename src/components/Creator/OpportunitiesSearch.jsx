@@ -30,6 +30,7 @@ const OpportunitiesSearch = () => {
       initialPageParam: 0,
       getPreviousPageParam: (firstPage) => firstPage.previousId,
       getNextPageParam: (lastPage) => lastPage.nextId,
+      staleTime: 12000,
     });
 
   const listRef = useRef();
@@ -51,7 +52,7 @@ const OpportunitiesSearch = () => {
 
   useEffect(() => {
     if (listRef.current && inView && !isFetchingNextPage && hasNextPage) {
-      const debounced = debounce(() => fetchNextPage(), 500);
+      const debounced = debounce(() => fetchNextPage(), 100);
       debounced();
     }
   }, [inView, fetchNextPage]);

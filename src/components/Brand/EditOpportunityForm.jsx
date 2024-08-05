@@ -10,10 +10,8 @@ import Form from "@/components/Form";
 import { inputStyles } from "@/components/Form";
 
 import formData from "@/data/opportunity_form_data.json";
-import useAuth from "@/hooks/useAuth";
 
 const EditOpportunityForm = (props) => {
-  const { token } = useAuth();
   const { type, opportunityId } = props;
   const data = formData[type];
 
@@ -37,7 +35,7 @@ const EditOpportunityForm = (props) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         }
       );

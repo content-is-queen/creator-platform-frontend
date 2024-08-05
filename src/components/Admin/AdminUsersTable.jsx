@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import API from "@/api/api";
 
-import useAuth from "@/hooks/useAuth";
-
 import Search from "@/components/Search";
 import AdminUserTableRow from "./AdminUserTableRow";
 import { Error, Success } from "@/components/Form";
@@ -19,8 +17,6 @@ const AdminUsersTable = ({ users }) => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
 
-  const { token } = useAuth();
-
   useEffect(() => {
     setFilteredUsers(users);
     setLoading(false);
@@ -32,7 +28,7 @@ const AdminUsersTable = ({ users }) => {
       if (confirm("Are you sure you want to delete this user?")) {
         const response = await API.delete(`/admin/delete/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
         const deletedUser = response.data.data;
@@ -55,7 +51,7 @@ const AdminUsersTable = ({ users }) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );
@@ -69,7 +65,7 @@ const AdminUsersTable = ({ users }) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );

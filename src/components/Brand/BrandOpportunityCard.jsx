@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import API from "@/api/api";
-import useAuth from "@/hooks/useAuth";
 
 import Card from "@/components/Card";
 import Button from "@/components/Button";
@@ -17,7 +16,6 @@ import SpinnerScreen from "../SpinnerScreen";
 
 const BrandOpportunityCard = (props) => {
   const [applicationsOpen, setApplicationsOpen] = useState(false);
-  const { token } = useAuth();
 
   const {
     compensation,
@@ -38,7 +36,7 @@ const BrandOpportunityCard = (props) => {
       if (confirm("Are you sure you want to delete this opportunity?")) {
         await API.delete(`/opportunities/opportunityid/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
 
@@ -57,7 +55,7 @@ const BrandOpportunityCard = (props) => {
           { status: "complete", type },
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );

@@ -1,20 +1,21 @@
 "use client";
 
+import { useRef, useState } from "react";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import { useRef, useState } from "react";
-import useAuth from "@/hooks/useAuth";
+import useSubscribed from "@/hooks/useSubscribed";
+
+import formData from "@/data/opportunity_form_data.json";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
-
-import formData from "@/data/opportunity_form_data.json";
-import Editor from "../Editor";
+import Editor from "@/components/Editor";
 
 const CreateOpportunityForm = ({ type }) => {
   const fields = formData[type].fields;
   const { user } = useUser();
-  const { token, subscribed } = useAuth();
+
+  const subscribed = useSubscribed();
 
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
@@ -87,7 +88,7 @@ const CreateOpportunityForm = ({ type }) => {
       const response = await API.post("/opportunities", postData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       setSuccess({ message: "Opportunity posted successfully" });

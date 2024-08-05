@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import useAuth from "@/hooks/useAuth";
+
 import fieldsData from "@/data/signup_form_data.json";
 
 import Form from "@/components/Form";
@@ -37,7 +37,6 @@ const EditProfile = () => {
   });
 
   const { user, setUser } = useUser();
-  const { token } = useAuth();
 
   // Handle text input changes
   const handleChange = (e) => {
@@ -109,7 +108,7 @@ const EditProfile = () => {
     try {
       const res = await API.post(`/auth/user`, data, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           "Content-Type": "application/json",
         },
       });
