@@ -9,6 +9,10 @@ import { Error, Success } from "@/components/Form";
 import Table from "@/components/Table";
 import CreateUserForm from "./CreateUserForm";
 import { filter } from "lodash";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const AdminUsersTable = ({ users }) => {
   const [loading, setLoading] = useState(true);
@@ -77,71 +81,64 @@ const AdminUsersTable = ({ users }) => {
     }
   };
 
-  return (
-    <>
-      <Search
-        data={users}
-        filteredData={filteredUsers}
-        setFilteredData={setFilteredUsers}
-        filter={{ keys: ["firstName", "lastName"], tag: "role" }}
-      />
+  const rows = users.map(
+    ({ uid: id, firstName, lastName, disabled, email, role }) => ({
+      id,
+      user: `${firstName} ${lastName}`,
+      disabled: disabled,
+      email,
+      role,
+    })
+  );
 
-      <div className="mt-8 space-y-6">
-        {error?.message && <Error>{error?.message}</Error>}
-        {success?.message && <Success>{success?.message}</Success>}
-        <Table>
-          <Table.Head>
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                User
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Email
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Role
-              </th>
-            </tr>
-          </Table.Head>
-          {loading ? (
-            <Table.Body>
-              <Table.Loading />
-            </Table.Body>
-          ) : (
-            <Table.Body>
-              {filteredUsers && filteredUsers.length > 0 ? (
-                <>
-                  {filteredUsers.map((user) => (
-                    <AdminUserTableRow
-                      error={error}
-                      setError={setError}
-                      selectedUsers={selectedUsers}
-                      setSelectedUsers={setSelectedUsers}
-                      handleActivation={handleActivation}
-                      handleDelete={() => handleDelete(user.uid)}
-                      {...user}
-                      key={user.uid}
-                    />
-                  ))}
-                </>
-              ) : (
-                <Table.Row>
-                  <Table.Data colSpan="7" className="text-center py-20">
-                    No users found
-                  </Table.Data>
-                </Table.Row>
-              )}
-            </Table.Body>
-          )}
-        </Table>
-        <div className="absolute fixed bottom-8 right-8 z-50">
-          <CreateUserForm />
-        </div>
+  const columns = [
+    { field: "user", headerName: "User", width: 150 },
+    {
+      field: "disabled",
+      headerName: "Status",
+      width: 250,
+      renderCell: (params) => {
+        return (
+          <div className="flex items-center">
+            <div
+              className={`h-2.5 w-2.5 rounded-full ${params.row.disabled ? "bg-red-500" : "bg-green-500"} me-2`}
+            ></div>{" "}
+            {params.row.disabled ? "Disabled" : "Active"}
+          </div>
+        );
+      },
+    },
+    { field: "email", headerName: "Email", width: 150 },
+    { field: "role", headerName: "Role", width: 100, type: "number" },
+    {
+      field: "manage",
+      headerName: "",
+      disableExport: true,
+      width: 100,
+      cellClassName: "!text-center",
+      renderCell: (params) => {
+        return (
+          <button type="button" onClick={() => handleDelete(params.id)}>
+            <span className="sr-only">Change me</span>
+          </button>
+        );
+      },
+    },
+  ];
+
+  return (
+    <div className="py-8 space-y-6">
+      {error?.message && <Error>{error?.message}</Error>}
+      {success?.message && <Success>{success?.message}</Success>}
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        slots={{ toolbar: GridToolbar }}
+      />
+      <div className="fixed bottom-8 right-8 z-50">
+        <CreateUserForm />
       </div>
-    </>
+    </div>
   );
 };
 

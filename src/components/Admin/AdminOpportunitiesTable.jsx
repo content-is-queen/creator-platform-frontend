@@ -97,7 +97,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
     <div className="py-8 space-y-6">
       {error?.message && <Error>{error?.message}</Error>}
       <DataGrid
-        sx={{}}
         rows={rows}
         columns={columns}
         slots={{ toolbar: GridToolbar }}
