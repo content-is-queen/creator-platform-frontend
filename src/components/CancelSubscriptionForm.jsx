@@ -28,7 +28,7 @@ const CancelSubscriptionForm = ({
           { userId: user.uid },
           {
             headers: {
-              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
               "Content-Type": "application/json",
             },
           }

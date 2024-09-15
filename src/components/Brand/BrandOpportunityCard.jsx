@@ -55,7 +55,7 @@ const BrandOpportunityCard = (props) => {
           { status: "complete", type },
           {
             headers: {
-              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );

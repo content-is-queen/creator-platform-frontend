@@ -13,24 +13,22 @@ const AdminStats = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (token) {
-      (async () => {
-        try {
-          const { data } = await API("/admin/info", {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-            },
-          });
-          setData(data.data);
-        } catch (error) {
-          console.log("Error: Getting app data:", error);
-        } finally {
-          setLoading(false);
-        }
-      })();
-    }
-  }, [token]);
+    (async () => {
+      try {
+        const { data } = await API("/admin/info", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+          },
+        });
+        setData(data.data);
+      } catch (error) {
+        console.log("Error: Getting app data:", error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   return (
     <div className="grid grid-cols-3 gap-4">

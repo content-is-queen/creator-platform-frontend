@@ -16,11 +16,15 @@
     "*": "npm run lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^1.0.6",
+    "@mui/material": "^6.1.0",
+    "@mui/x-data-grid": "^7.17.0",
     "@next/third-parties": "^14.2.5",
     "@reduxjs/toolkit": "^1.9.7",
     "@stripe/react-stripe-js": "^2.7.1",

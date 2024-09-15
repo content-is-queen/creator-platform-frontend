@@ -19,7 +19,7 @@ const Subscribe = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         }
       );

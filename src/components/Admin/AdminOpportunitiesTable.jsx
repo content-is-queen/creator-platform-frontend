@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -70,8 +69,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
     },
   ];
 
-  const { token } = useAuth();
-
   const handleDelete = async (id) => {
     setError({});
     try {
@@ -79,7 +76,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         await API.delete(`/opportunities/opportunityid/${id}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
 

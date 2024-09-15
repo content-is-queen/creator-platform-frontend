@@ -70,8 +70,7 @@ const ResetPasswordForm = () => {
           { ...data, uid },
           {
             headers: {
-              Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );

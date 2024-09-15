@@ -4,8 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import API from "@/api/api";
 
-import useAuth from "@/hooks/useAuth";
-
 import { Error } from "@/components/Form";
 import CreateUserForm from "./CreateUserForm";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -15,15 +13,13 @@ import { faTrash, faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
 const AdminUsersTable = ({ users }) => {
   const [error, setError] = useState({});
 
-  const { token } = useAuth();
-
   const handleDelete = async (id) => {
     setError({});
     try {
       if (confirm("Are you sure you want to delete this user?")) {
         await API.delete(`/admin/delete/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
         window.location.reload();
@@ -44,7 +40,7 @@ const AdminUsersTable = ({ users }) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );
@@ -57,8 +53,7 @@ const AdminUsersTable = ({ users }) => {
           {},
           {
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );

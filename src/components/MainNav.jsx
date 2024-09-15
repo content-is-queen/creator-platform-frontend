@@ -25,6 +25,8 @@ const MainNav = () => {
 
   const admin = user?.role === "super_admin" || user?.role === "admin";
 
+  console.log(admin);
+
   const pathname = usePathname();
 
   const handleToggle = () => {
@@ -134,7 +136,7 @@ const MainNav = () => {
                   </Link>
                 </li>
               ))}
-              {user && !subscribed && (
+              {user && !subscribed && !admin && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade to {user.role} +
