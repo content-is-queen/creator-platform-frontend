@@ -2,6 +2,7 @@ import API from "@/api/api";
 
 import Container from "@/components/Container";
 import AdminUsersTable from "@/components/Admin/AdminUsersTable";
+import Heading from "@/components/Heading";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,7 @@ const AdminUsers = async () => {
 
   return (
     <Container size="6xl" className="mt-10">
+      <Heading>Opportunities</Heading>
       <AdminUsersTable users={users} />
     </Container>
   );
