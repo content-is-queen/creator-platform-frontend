@@ -2,6 +2,7 @@ import API from "@/api/api";
 
 import Container from "@/components/Container";
 import AdminOpportunitiesTable from "@/components/Admin/AdminOpportunitiesTable";
+import Heading from "@/components/Heading";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,8 @@ const AdminOpportunities = async () => {
 
   return (
     <div className="bg-queen-white">
-      <Container size="6xl" className="mt-10">
+      <Container size="6xl" className="mt-10 text-center space-y-4">
+        <Heading>Opportunities</Heading>
         <AdminOpportunitiesTable opportunities={opportunities} />
       </Container>
     </div>

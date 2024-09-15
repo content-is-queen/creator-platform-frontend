@@ -1,24 +1,76 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Link from "next/link";
 
+import useAuth from "@/hooks/useAuth";
 import API from "@/api/api";
 
-import Search from "@/components/Search";
-import AdminOpportunitiesRow from "./AdminOpportunitiesTableRow";
-import Table from "../Table";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 import { Error } from "../Form";
 
 const AdminOpportunitiesTable = ({ opportunities }) => {
-  const [loading, setLoading] = useState(true);
-  const [filteredOpportunities, setFilteredOpportunities] = useState([]);
-  const [selectedOpportunities, setSelectedOpportunities] = useState([]);
   const [error, setError] = useState({});
 
-  useEffect(() => {
-    setFilteredOpportunities(opportunities);
-    setLoading(false);
-  }, []);
+  const rows = opportunities.map(
+    ({
+      opportunityId: id,
+      title,
+      status,
+      fullName,
+      deadline,
+      numberOfApplications,
+    }) => ({
+      id,
+      col1: title,
+      col2: status,
+      col3: fullName,
+      col4: deadline,
+      col5: numberOfApplications,
+    })
+  );
+
+  const columns = [
+    {
+      field: "col1",
+      headerName: "Title",
+      width: "300",
+      renderCell: (params) => {
+        return (
+          <Link
+            className="hover:underline"
+            href={`/opportunities/${params.id}`}
+          >
+            {params.row.col1}
+          </Link>
+        );
+      },
+    },
+    { field: "col2", headerName: "Status", width: 150 },
+    { field: "col3", headerName: "Author", width: 250 },
+    { field: "col4", headerName: "Deadline", width: 150, disableExport: true },
+    { field: "col5", headerName: "Applications", width: 100, type: "number" },
+    {
+      field: "delete",
+      headerName: "",
+      disableExport: true,
+      width: 100,
+      cellClassName: "!text-center",
+      renderCell: (params) => {
+        return (
+          <button type="button" onClick={() => handleDelete(params.id)}>
+            <span className="sr-only">Delete</span>
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        );
+      },
+    },
+  ];
+
+  const { token } = useAuth();
 
   const handleDelete = async (id) => {
     setError({});
@@ -27,7 +79,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         await API.delete(`/opportunities/opportunityid/${id}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Authorization: Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -42,69 +94,15 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
   };
 
   return (
-    <>
-      <Search
-        data={opportunities}
-        filteredData={filteredOpportunities}
-        setFilteredData={setFilteredOpportunities}
-        filter={{ keys: ["title", "project", "name"], tag: "type" }}
+    <div className="py-8 space-y-6">
+      {error?.message && <Error>{error?.message}</Error>}
+      <DataGrid
+        sx={{}}
+        rows={rows}
+        columns={columns}
+        slots={{ toolbar: GridToolbar }}
       />
-
-      <div className="mt-8 space-y-6">
-        {error?.message && <Error>{error?.message}</Error>}
-
-        <Table>
-          <Table.Head>
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Title
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Created By
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Deadline
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Applications
-              </th>
-            </tr>
-          </Table.Head>
-          {loading ? (
-            <Table.Body>
-              <Table.Loading />
-            </Table.Body>
-          ) : (
-            <Table.Body>
-              {filteredOpportunities && filteredOpportunities.length > 0 ? (
-                <>
-                  {filteredOpportunities.map((opportunity) => (
-                    <AdminOpportunitiesRow
-                      error={error}
-                      setError={setError}
-                      handleDelete={handleDelete}
-                      setSelectedOpportunities={setSelectedOpportunities}
-                      selectedOpportunities={selectedOpportunities}
-                      {...opportunity}
-                      key={opportunity.opportunityId}
-                    />
-                  ))}
-                </>
-              ) : (
-                <Table.Row>
-                  <Table.Data colSpan="7" className="text-center py-20">
-                    No opportunities found
-                  </Table.Data>
-                </Table.Row>
-              )}
-            </Table.Body>
-          )}
-        </Table>
-      </div>
-    </>
+    </div>
   );
 };
 
