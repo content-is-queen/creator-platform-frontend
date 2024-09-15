@@ -96,11 +96,14 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
   return (
     <div className="py-8 space-y-6">
       {error?.message && <Error>{error?.message}</Error>}
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        slots={{ toolbar: GridToolbar }}
-      />
+      <div style={{ height: 500, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          className="bg-queen-white"
+          slots={{ toolbar: GridToolbar }}
+        />
+      </div>
     </div>
   );
 };
