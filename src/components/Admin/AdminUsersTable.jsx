@@ -9,6 +9,7 @@ import CreateUserForm from "./CreateUserForm";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
+import ProfileIcon from "@/components/ProfileIcon";
 
 const AdminUsersTable = ({ users }) => {
   const [error, setError] = useState({});
@@ -66,13 +67,23 @@ const AdminUsersTable = ({ users }) => {
   };
 
   const rows = users.map(
-    ({ uid: id, firstName, lastName, disabled, email, role, subscribed }) => ({
+    ({
+      uid: id,
+      firstName,
+      lastName,
+      disabled,
+      email,
+      role,
+      profilePhoto,
+      subscribed,
+    }) => ({
       id,
       user: `${firstName} ${lastName}`,
       disabled: disabled,
       email,
       role,
       subscribed,
+      profilePhoto,
     })
   );
 
@@ -80,12 +91,15 @@ const AdminUsersTable = ({ users }) => {
     {
       field: "user",
       headerName: "User",
-      width: 200,
+      width: 300,
       renderCell: (params) => {
         return (
-          <Link className="hover:underline" href={`/profile/${params.id}`}>
-            {params.row.user}
-          </Link>
+          <span className="inline-flex gap-2.5 items-center">
+            <ProfileIcon profilePhoto={params.row.profilePhoto} />
+            <Link className="hover:underline" href={`/profile/${params.id}`}>
+              {params.row.user}
+            </Link>
+          </span>
         );
       },
     },
