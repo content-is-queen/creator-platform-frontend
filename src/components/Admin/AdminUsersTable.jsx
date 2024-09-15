@@ -66,12 +66,13 @@ const AdminUsersTable = ({ users }) => {
   };
 
   const rows = users.map(
-    ({ uid: id, firstName, lastName, disabled, email, role }) => ({
+    ({ uid: id, firstName, lastName, disabled, email, role, subscribed }) => ({
       id,
       user: `${firstName} ${lastName}`,
       disabled: disabled,
       email,
       role,
+      subscribed,
     })
   );
 
@@ -112,6 +113,12 @@ const AdminUsersTable = ({ users }) => {
           </div>
         );
       },
+    },
+    {
+      field: "subscribed",
+      headerName: "Subscribed",
+      width: 150,
+      cellClassName: "capitalize",
     },
     {
       field: "actions",
