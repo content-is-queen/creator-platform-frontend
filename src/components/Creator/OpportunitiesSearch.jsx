@@ -59,13 +59,6 @@ const OpportunitiesSearch = () => {
 
   return (
     <>
-      <Search
-        data={data?.pages}
-        filteredData={filteredOpportunities}
-        setFilteredData={setFilteredOpportunities}
-        filter={{ keys: ["title", "description"], tag: "type" }}
-      />
-
       {!data ? (
         <div className="text-center flex items-center justify-center h-44">
           <Spinner className="h-8 w-8 mt-5 inline-block" />

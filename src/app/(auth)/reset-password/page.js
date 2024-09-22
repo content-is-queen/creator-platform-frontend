@@ -15,3 +15,7 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
+
+export const metadata = {
+  title: "Reset Password",
+};

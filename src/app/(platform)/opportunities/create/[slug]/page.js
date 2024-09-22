@@ -37,3 +37,11 @@ const Page = async ({ params }) => {
 };
 
 export default Page;
+
+export async function generateMetadata({ params }) {
+  const { slug } = params;
+
+  return {
+    title: `Create a ${slug}`,
+  };
+}

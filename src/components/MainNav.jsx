@@ -25,8 +25,6 @@ const MainNav = () => {
 
   const admin = user?.role === "super_admin" || user?.role === "admin";
 
-  console.log(admin);
-
   const pathname = usePathname();
 
   const handleToggle = () => {

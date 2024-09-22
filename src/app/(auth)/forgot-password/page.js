@@ -13,3 +13,7 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+
+export const metadata = {
+  title: "Forgot Password",
+};

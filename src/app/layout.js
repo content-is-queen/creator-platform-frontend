@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import localFont from "next/font/local";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 
 const formaDJRDeck = localFont({
   src: "./fonts/FormaDJRDeck-Regular.woff2",
@@ -16,7 +17,7 @@ const formaDJRBanner = localFont({
 });
 
 export const metadata = {
-  title: "Creator Platform | CIQ",
+  title: "Creator Platform",
 };
 
 export default function RootLayout({ children }) {
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
 
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        {process.env.APP_ENV === "production" && <Script src="../clarity.js" />}
         <main id="main-content">{children}</main>
       </body>
     </html>

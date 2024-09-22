@@ -33,3 +33,7 @@ const AdminOpportunities = async () => {
 };
 
 export default AdminOpportunities;
+
+export const metadata = {
+  title: "Admin Opportunities",
+};
