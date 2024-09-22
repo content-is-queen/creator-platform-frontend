@@ -7,7 +7,7 @@ import { useUser } from "@/context/UserContext";
 import API from "@/api/api";
 import Button from "./Button";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK_TEST);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PK);
 
 const CheckoutForm = ({ className, variant }) => {
   const [loading, setLoading] = useState(false);

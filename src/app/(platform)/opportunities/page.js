@@ -10,3 +10,7 @@ const Opportunities = () => {
 };
 
 export default Opportunities;
+
+export const metadata = {
+  title: "Opportunities",
+};

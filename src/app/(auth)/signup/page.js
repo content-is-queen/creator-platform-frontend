@@ -9,3 +9,7 @@ const SignUp = () => (
 );
 
 export default SignUp;
+
+export const metadata = {
+  title: "Signup",
+};

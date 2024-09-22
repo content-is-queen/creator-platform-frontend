@@ -3,3 +3,7 @@ const Dashboard = ({ children }) => {
 };
 
 export default Dashboard;
+
+export const metadata = {
+  title: "Dashboard",
+};

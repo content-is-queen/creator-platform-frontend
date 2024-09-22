@@ -9,3 +9,7 @@ const Login = () => (
 );
 
 export default Login;
+
+export const metadata = {
+  title: "Login",
+};

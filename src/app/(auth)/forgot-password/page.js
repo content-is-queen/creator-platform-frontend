@@ -1,5 +1,3 @@
-"use client";
-
 import Heading from "@/components/Heading";
 import ForgotPasswordForm from "@/components/ForgotPasswordForm";
 
@@ -13,3 +11,7 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+
+export const metadata = {
+  title: "Forgot Password",
+};

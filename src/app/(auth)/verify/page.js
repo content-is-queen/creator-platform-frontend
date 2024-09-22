@@ -19,3 +19,7 @@ const Verify = () => (
 );
 
 export default Verify;
+
+export const metadata = {
+  title: "Verify",
+};

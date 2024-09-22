@@ -57,3 +57,13 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
     </div>
   );
 }
+
+export async function generateMetadata({ params }) {
+  const {
+    data: { title },
+  } = await API(`/opportunities/opportunityid/${params.id}`);
+
+  return {
+    title: `${title} | Opportunity`,
+  };
+}
