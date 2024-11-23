@@ -1,7 +1,7 @@
 import { auth } from "@/firebase.config";
 
 const checkSubscribed = async () => {
-  if (!auth?.currentUser) return;
+  if (!auth?.currentUser) return false;
   const idTokenResult = await auth.currentUser.getIdTokenResult(true);
 
   return (

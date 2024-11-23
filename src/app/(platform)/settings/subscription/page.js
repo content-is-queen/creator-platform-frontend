@@ -43,7 +43,6 @@ const Subscription = () => {
 
       setSubscription(subscription);
     } catch (error) {
-      console.log(error.response.data);
       setError({
         message: "We were unable to get your subscription information",
       });

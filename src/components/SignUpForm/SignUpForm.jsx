@@ -17,6 +17,7 @@ import Tabs from "@/components/Tabs";
 import Subheading from "@/components/Subheading";
 import { Error } from "@/components/Form";
 import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
+import { useRouter } from "next/navigation";
 const SignUpForm = () => {
   const {
     handleSubmit,
@@ -27,6 +28,8 @@ const SignUpForm = () => {
     formState: { errors: formErrors },
     clearErrors,
   } = useForm({ mode: "all" });
+
+  const router = useRouter();
 
   const DEFAULT_TYPE = "creator";
 
@@ -80,7 +83,13 @@ const SignUpForm = () => {
 
         const { password, email } = user;
 
-        await signInWithEmailAndPassword(auth, email, password);
+        const { user: authUser } = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        localStorage.setItem("token", JSON.stringify(authUser.accessToken));
+        router.push("/");
       }
     } catch (error) {
       setError({ message: "Something went wrong during sign up" });

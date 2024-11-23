@@ -6,10 +6,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import debounce from "debounce";
 
-import Search from "@/components/Search";
 import OpportunityCard from "@/components/OpportunityCard";
 import Spinner from "../Spinner";
 import Text from "../Text";
+import Container from "@/components/Container";
+import Heading from "@/components/Heading";
+import AdminOpportunitiesTable from "@/components/Admin/AdminOpportunitiesTable";
 
 const OpportunitiesSearch = () => {
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
@@ -23,9 +25,14 @@ const OpportunitiesSearch = () => {
         const { data } = await API.get(
           `/opportunities?limit=${LIMIT}&page=${pageParam}`
         );
-        setFilteredOpportunities(data.message.opportunities);
 
-        return data.message.opportunities;
+        const currentDate = new Date();
+
+        return data.message.opportunities.filter((i) => {
+          const deadline = new Date(i.deadline);
+
+          return deadline > currentDate;
+        });
       },
       initialPageParam: 0,
       getPreviousPageParam: (firstPage) => firstPage.previousId,
@@ -57,6 +64,8 @@ const OpportunitiesSearch = () => {
     }
   }, [inView, fetchNextPage]);
 
+  const openOpportunities = !data?.pages?.find((i) => i.length > 1);
+
   return (
     <>
       {!data ? (
@@ -65,7 +74,7 @@ const OpportunitiesSearch = () => {
         </div>
       ) : (
         <div className="py-12 space-y-4 min-h-80" ref={listRef}>
-          {data.pages.length > 0 ? (
+          {!openOpportunities ? (
             <>
               {data.pages.map((page) =>
                 page.map((opportunity) => (
@@ -76,7 +85,12 @@ const OpportunitiesSearch = () => {
               )}
             </>
           ) : (
-            <Text className="text-center">There are no opportunities</Text>
+            <Container size="6xl" className="mt-10 text-center space-y-6">
+              <Heading>Opportunities</Heading>
+              <Text className="text-center" size="xl">
+                There are currently no open opportunities
+              </Text>
+            </Container>
           )}
         </div>
       )}

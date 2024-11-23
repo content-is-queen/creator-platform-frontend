@@ -78,7 +78,7 @@ const DeleteAccountModal = () => {
           <div className="space-y-6">
             <p className="mb-4">
               Please type your email to confirm account deletion. This action
-              cannot be undone.
+              will delete all your user data and cannot be undone.
             </p>
             <input
               type="text"
