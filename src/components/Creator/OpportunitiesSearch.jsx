@@ -26,13 +26,7 @@ const OpportunitiesSearch = () => {
           `/opportunities?limit=${LIMIT}&page=${pageParam}`
         );
 
-        const currentDate = new Date();
-
-        return data.message.opportunities.filter((i) => {
-          const deadline = new Date(i.deadline);
-
-          return deadline > currentDate;
-        });
+        return data.message.opportunities;
       },
       initialPageParam: 0,
       getPreviousPageParam: (firstPage) => firstPage.previousId,
@@ -64,7 +58,7 @@ const OpportunitiesSearch = () => {
     }
   }, [inView, fetchNextPage]);
 
-  const noOpenOpportunities = data?.pages?.every((page) => page.length === 0);
+  const openOpportunities = !data?.pages?.find((i) => i.length > 1);
 
   return (
     <>
@@ -74,7 +68,7 @@ const OpportunitiesSearch = () => {
         </div>
       ) : (
         <div className="py-12 space-y-4 min-h-80" ref={listRef}>
-          {!noOpenOpportunities ? (
+          {!openOpportunities ? (
             <>
               {data.pages.map((page) =>
                 page.map((opportunity) => (
