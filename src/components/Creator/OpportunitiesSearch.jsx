@@ -1,82 +1,38 @@
 "use client";
 
 import API from "@/api/api";
-import { useState, useEffect, useRef } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-
-import debounce from "debounce";
+import { useQuery } from "@tanstack/react-query";
 
 import OpportunityCard from "@/components/OpportunityCard";
 import Spinner from "../Spinner";
 import Text from "../Text";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
-import AdminOpportunitiesTable from "@/components/Admin/AdminOpportunitiesTable";
 
 const OpportunitiesSearch = () => {
-  const [filteredOpportunities, setFilteredOpportunities] = useState([]);
-  const [inView, setInView] = useState(false);
-  const LIMIT = 10;
-
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useInfiniteQuery({
-      queryKey: ["opportunities"],
-      queryFn: async ({ pageParam }) => {
-        const { data } = await API.get(
-          `/opportunities?limit=${LIMIT}&page=${pageParam}`
-        );
-
-        return data.message.opportunities;
-      },
-      initialPageParam: 0,
-      getPreviousPageParam: (firstPage) => firstPage.previousId,
-      getNextPageParam: (lastPage) => lastPage.nextId,
-      staleTime: 12000,
-    });
-
-  const listRef = useRef();
-
-  const checkInView = () => {
-    if (!listRef.current) return;
-    const { bottom } = listRef.current.getBoundingClientRect();
-    const { innerHeight } = window;
-
-    setInView(bottom > 0 && bottom < innerHeight - 100);
-  };
-
-  useEffect(() => {
-    document.addEventListener("scroll", checkInView);
-    return () => {
-      document.removeEventListener("scroll", checkInView);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (listRef.current && inView && !isFetchingNextPage && hasNextPage) {
-      const debounced = debounce(() => fetchNextPage(), 100);
-      debounced();
-    }
-  }, [inView, fetchNextPage]);
-
-  const openOpportunities = !data?.pages?.find((i) => i.length > 1);
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["opportunities"],
+    queryFn: async () => {
+      const { data } = await API.get(`/opportunities`);
+      return data.message.opportunities;
+    },
+  });
 
   return (
     <>
-      {!data ? (
+      {isLoading ? (
         <div className="text-center flex items-center justify-center h-44">
           <Spinner className="h-8 w-8 mt-5 inline-block" />
         </div>
       ) : (
-        <div className="py-12 space-y-4 min-h-80" ref={listRef}>
-          {!openOpportunities ? (
+        <div className="py-12 space-y-4 min-h-80">
+          {data.length > 0 ? (
             <>
-              {data.pages.map((page) =>
-                page.map((opportunity) => (
-                  <div key={opportunity.opportunityId}>
-                    <OpportunityCard {...opportunity} />
-                  </div>
-                ))
-              )}
+              {data.map((opportunity) => (
+                <div key={opportunity.opportunityId}>
+                  <OpportunityCard {...opportunity} />
+                </div>
+              ))}
             </>
           ) : (
             <Container size="6xl" className="mt-10 text-center space-y-6">
