@@ -22,13 +22,14 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
       fullName,
       deadline,
       numberOfApplications,
+      applications,
     }) => ({
       id,
       col1: title,
       col2: status,
       col3: fullName,
       col4: deadline,
-      col5: numberOfApplications,
+      col5: applications,
     })
   );
 
@@ -51,7 +52,17 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
     { field: "col2", headerName: "Status", width: 150 },
     { field: "col3", headerName: "Author", width: 250 },
     { field: "col4", headerName: "Deadline", width: 150, disableExport: true },
-    { field: "col5", headerName: "Applications", width: 100, type: "number" },
+    {
+      field: "col5",
+      headerName: "Applications",
+      width: 100,
+      valueFormatter: (value) => {
+        return JSON.stringify(value);
+      },
+      renderCell: (params) => {
+        return params.value.length;
+      },
+    },
     {
       field: "delete",
       headerName: "",

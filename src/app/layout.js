@@ -32,7 +32,9 @@ export default function RootLayout({ children }) {
 
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        {process.env.APP_ENV === "production" && <Script src="../clarity.js" />}
+        {process.env.NEXT_PUBLIC_APP_ENV === "production" && (
+          <Script src="../clarity.js" />
+        )}
         <main id="main-content">{children}</main>
       </body>
     </html>

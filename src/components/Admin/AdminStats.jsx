@@ -32,11 +32,11 @@ const AdminStats = () => {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      {loading
+      {Boolean(loading || data.length < 1)
         ? Array.from({ length: 4 }).map((_, index) => (
             <Card key={index}>
               <LoadingPlaceholder />
-              <span className="max-w-1 inline-block">
+              <span className="max-w-12 inline-block">
                 <LoadingPlaceholder />
               </span>
             </Card>

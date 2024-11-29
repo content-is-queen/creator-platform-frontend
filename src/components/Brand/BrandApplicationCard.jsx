@@ -17,6 +17,7 @@ const BrandApplicationCard = ({
   applications,
   applicationId,
   opportunityTitle,
+  opportunityId,
   proposal,
   onReject,
   creatorId,
@@ -92,7 +93,8 @@ const BrandApplicationCard = ({
           status: "accepted",
           authorId: user.uid,
           creatorId,
-          opportunityTitle: opportunityTitle,
+          opportunityTitle,
+          opportunityId,
         },
         {
           headers: {
