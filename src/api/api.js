@@ -9,7 +9,7 @@ const API = axios.create({
 // Add request interceptor to add token to all requests
 API.interceptors.request.use(
   (config) => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const token = JSON.parse(localStorage.getItem("token"));
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -29,27 +29,31 @@ API.interceptors.response.use(
     const originalRequest = error.config;
 
     // Check if error is 401 and we haven't tried refreshing yet
-    if (error.response?.status === 401 && !originalRequest._retry && typeof window !== 'undefined') {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      typeof window !== "undefined"
+    ) {
       originalRequest._retry = true;
 
       try {
         // Get new token from Firebase
         const auth = getAuth();
         const newToken = await auth.currentUser.getIdToken(true);
-        
+
         // Update token in localStorage
         localStorage.setItem("token", JSON.stringify(newToken));
-        
+
         // Update the Authorization header
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        
+
         // Retry the original request with new token
         return API(originalRequest);
       } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError);
+        console.error("Token refresh failed:", refreshError);
         // Clear auth state and redirect to login
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
