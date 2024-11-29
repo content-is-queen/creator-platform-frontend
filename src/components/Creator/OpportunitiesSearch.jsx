@@ -64,7 +64,7 @@ const OpportunitiesSearch = () => {
     }
   }, [inView, fetchNextPage]);
 
-  const openOpportunities = !data?.pages?.find((i) => i.length > 1);
+  const noOpenOpportunities = data?.pages?.every((page) => page.length === 0);
 
   return (
     <>
@@ -74,7 +74,7 @@ const OpportunitiesSearch = () => {
         </div>
       ) : (
         <div className="py-12 space-y-4 min-h-80" ref={listRef}>
-          {!openOpportunities ? (
+          {!noOpenOpportunities ? (
             <>
               {data.pages.map((page) =>
                 page.map((opportunity) => (
