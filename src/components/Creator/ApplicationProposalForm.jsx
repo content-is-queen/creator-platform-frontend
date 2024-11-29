@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import Subheading from "../Subheading";
+import { getAuth } from "firebase/auth";
 
 const ApplicationProposalForm = ({
   opportunityId,
@@ -43,7 +44,13 @@ const ApplicationProposalForm = ({
       });
       setStatus("submitted");
     } catch (err) {
-      console.log(err);
+      if (err.response?.status === 401) {
+        const auth = getAuth();
+        const newToken = await auth.currentUser.getIdToken(true);
+        localStorage.setItem("token", JSON.stringify(newToken));
+        handleSubmit();
+      }
+      console.log("error", err);
       setError({
         message: err.response.data.message || "Something went wrong...",
       });
