@@ -42,7 +42,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         return (
           <Link
             className="hover:underline"
-            href={`/opportunities/${params.id}`}
+            href={`/dashboard/opportunities/${params.id}`}
           >
             {params.row.col1}
           </Link>
@@ -60,7 +60,14 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         return JSON.stringify(value);
       },
       renderCell: (params) => {
-        return params.value.length;
+        return (
+          <Link
+            className="hover:underline"
+            href={`/dashboard/opportunities/${params.id}`}
+          >
+            {params.value.length}
+          </Link>
+        );
       },
     },
     {
