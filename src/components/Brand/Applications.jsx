@@ -36,7 +36,7 @@ const Applications = ({ id }) => {
             {applications.length > 0 ? (
               <>
                 {applications.map((application) => (
-                  <BrandApplicationCard {...application} />
+                  <BrandApplicationCard key={application.id} {...application} />
                 ))}
               </>
             ) : (

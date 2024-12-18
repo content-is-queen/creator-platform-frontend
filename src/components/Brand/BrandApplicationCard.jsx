@@ -179,7 +179,7 @@ const BrandApplicationCard = ({
           )}
 
           <div className="flex gap-2 mt-auto pt-12">
-            {status !== "pending" ? (
+            {status === "pending" ? (
               <>
                 <Button
                   type="button"
@@ -202,7 +202,7 @@ const BrandApplicationCard = ({
               </>
             ) : (
               <Text className="italic" size="sm">
-                Applied
+                {status.toUpperCase()}
               </Text>
             )}
             <Button

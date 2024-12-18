@@ -22,7 +22,6 @@ const CheckoutForm = ({ className, variant }) => {
         { role: user.role },
         {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         }
