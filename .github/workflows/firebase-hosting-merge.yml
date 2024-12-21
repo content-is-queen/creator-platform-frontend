@@ -21,4 +21,4 @@ jobs:
           projectId: creator-platform---production
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
-          NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
