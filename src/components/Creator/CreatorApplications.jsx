@@ -17,7 +17,6 @@ const CreatorApplications = () => {
       const { data } = await API.get(`applications/user/${user.uid}`);
       return data.message;
     },
-    refetchOnWindowFocus: false,
   });
   return (
     applications?.length > 0 && (
