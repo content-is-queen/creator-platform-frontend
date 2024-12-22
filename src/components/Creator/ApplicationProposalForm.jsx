@@ -44,12 +44,6 @@ const ApplicationProposalForm = ({
       });
       setStatus("submitted");
     } catch (err) {
-      if (err.response?.status === 401) {
-        const auth = getAuth();
-        const newToken = await auth.currentUser.getIdToken(true);
-        localStorage.setItem("token", JSON.stringify(newToken));
-        handleSubmit();
-      }
       console.log("error", err);
       setError({
         message: err.response.data.message || "Something went wrong...",

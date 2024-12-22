@@ -1,34 +1,17 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { auth } from "@/firebase.config";
-import { getIdToken, onAuthStateChanged } from "firebase/auth";
-import API from "@/api/api";
+import { auth, db } from "@/firebase.config";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 export const UserContext = createContext(null);
 
-export const getUser = async (args) => {
-  const token = args?.token ? args.token : await getIdToken(args.user);
-
+export const getUser = async (user) => {
   if (localStorage.getItem("user"))
     return JSON.parse(localStorage.getItem("user"));
 
-  try {
-    const response = await API.get("/auth/user", {
-      headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-      },
-    });
+  const snapshot = await getDoc(doc(db, "users", user.uid));
 
-    if (response.status === 200) {
-      return response.data;
-    }
-
-    auth.signOut();
-
-    throw new Error("There was an error getting your profile");
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  return snapshot.data();
 };
 
 export const UserProvider = ({ children }) => {
@@ -38,9 +21,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
-        const user = await getUser({
-          token: JSON.parse(localStorage.getItem("token")),
-        });
+        const user = await getUser(authUser);
 
         if (user) {
           setUser(user);
@@ -49,9 +30,9 @@ export const UserProvider = ({ children }) => {
         setLoading(false);
       } else {
         setUser(null);
-        setLoading(false);
         localStorage.removeItem("user");
       }
+      setLoading(false);
     });
     return () => {
       unsubscribe();
