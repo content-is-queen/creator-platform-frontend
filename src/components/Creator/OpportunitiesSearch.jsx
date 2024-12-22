@@ -1,7 +1,8 @@
 "use client";
 
-import API from "@/api/api";
 import { useQuery } from "@tanstack/react-query";
+import { db } from "@/firebase.config";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 
 import OpportunityCard from "@/components/OpportunityCard";
 import Spinner from "../Spinner";
@@ -13,8 +14,22 @@ const OpportunitiesSearch = () => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["opportunities"],
     queryFn: async () => {
-      const { data } = await API.get(`/opportunities`);
-      return data.message.opportunities;
+      const formattedDate = new Intl.DateTimeFormat("en-CA")
+        .format(new Date())
+        .replace(/-/g, "/");
+      const q = query(
+        collection(db, "opportunities"),
+        where("status", "!=", "archived"),
+        where("deadline", ">=", formattedDate),
+        orderBy("createdAt", "desc")
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
     },
   });
 

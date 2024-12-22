@@ -1,9 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import API from "@/api/api";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -40,16 +41,38 @@ const BrandOpportunities = () => {
     },
   ];
 
-  const { isPending, data: opportunities } = useQuery({
-    queryKey: ["user-opportunities"],
-    queryFn: async () => {
-      const { data } = await API.get(`/opportunities/id/${user.uid}`);
-      setFilteredOpportunities(data.opportunities);
-      return data.opportunities;
-    },
-  });
-
   const { user } = useUser();
+
+  const userId = user?.uid;
+
+  const {
+    isPending,
+    isError,
+    data: opportunities,
+    error,
+  } = useQuery({
+    queryKey: ["opportunities", userId],
+    queryFn: async () => {
+      const q = query(
+        collection(db, "opportunities"),
+        where("userId", "==", userId)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      const opportunitiesData = querySnapshot.docs
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+        .filter((i) => i.status !== "archived");
+
+      setFilteredOpportunities(opportunitiesData);
+
+      return opportunitiesData;
+    },
+    enabled: !!userId,
+  });
 
   const [active, setActive] = useState(OPTIONS[0]);
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
