@@ -132,7 +132,7 @@ const BrandOpportunityCard = (props) => {
         as="button"
         onClick={() => setApplicationsOpen(true)}
       >
-        View Applications
+        View Applicationsus
       </Button>
       <Suspense fallback={<SpinnerScreen />}>
         {applicationsOpen && (
