@@ -1,4 +1,18 @@
+"use client";
+
 import { notFound } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  getDoc,
+  doc,
+} from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 import API from "@/api/api";
 
@@ -9,19 +23,38 @@ import Campaign from "@/components/Opportunities/Campaign";
 import Pitch from "@/components/Opportunities/Pitch";
 import ButtonExternal from "@/components/ButtonExternal";
 import BackButton from "@/components/BackButton";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "@/components/Spinner";
 
-export default async function Opportunity({ params: { id: opportunityId } }) {
-  const { data } = await API(`/opportunities/opportunityid/${opportunityId}`);
+const Page = () => {
+  const { id: opportunityId } = useParams();
 
-  const { type, applicationInstructions, userId, link } = data;
+  const getOpportunity = async () => {
+    const snapshot = await getDoc(doc(db, "opportunities", opportunityId));
 
+    return snapshot.data();
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["opportunity", opportunityId],
+    queryFn: getOpportunity,
+    enabled: !!opportunityId,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center pt-20">
+        <Spinner className="h-6 w-6" />
+      </div>
+    );
+  }
   if (!data) {
     return notFound();
   }
 
-  let Component;
+  let Component = Pitch;
 
-  switch (type) {
+  switch (data.type) {
     case "pitch":
       Component = Pitch;
       break;
@@ -43,27 +76,29 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
             <Component {...data} />
           </div>
 
-          {link ? (
-            <ButtonExternal link={link} />
+          {data?.link ? (
+            <ButtonExternal link={data.link} />
           ) : (
             <ApplicationProposalForm
               opportunityId={opportunityId}
-              applicationInstructions={applicationInstructions}
-              authorId={userId}
+              applicationInstructions={data.applicationInstructions}
+              authorId={data.userId}
             />
           )}
         </div>
       </Container>
     </div>
   );
-}
+};
 
-export async function generateMetadata({ params }) {
-  const {
-    data: { title },
-  } = await API(`/opportunities/opportunityid/${params.id}`);
+// export async function generateMetadata({ params }) {
+//   const {
+//     data: { title },
+//   } = await API(`/opportunities/opportunityid/${params.id}`);
+//
+//   return {
+//     title: `${title} | Opportunity`,
+//   };
+// }
 
-  return {
-    title: `${title} | Opportunity`,
-  };
-}
+export default Page;
