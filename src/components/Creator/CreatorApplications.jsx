@@ -1,23 +1,37 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 
 import CreatorApplicationCard from "@/components/Creator/CreatorApplicationCard";
 import Section from "@/components/Section";
 import Text from "@/components/Text";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 const CreatorApplications = () => {
   const { user } = useUser();
 
+  const userId = user?.uid;
+
   const { data: applications } = useQuery({
-    queryKey: ["applications"],
+    queryKey: ["application", userId],
     queryFn: async () => {
-      const { data } = await API.get(`applications/user/${user.uid}`);
-      return data.message;
+      const q = query(
+        collection(db, "applications"),
+        where("creatorId", "==", userId)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
     },
+    enabled: !!userId,
   });
+
   return (
     applications?.length > 0 && (
       <Section size="4xl" className="bg-queen-white">

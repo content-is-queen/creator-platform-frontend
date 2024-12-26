@@ -1,21 +1,34 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
 
 import StatsPanel from "@/components/StatsPanel";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 const CreatorStats = () => {
   const { user } = useUser();
 
-  const { isPending, data: applications } = useQuery({
-    queryKey: ["applications"],
+  const userId = user?.uid;
+
+  const { data: applications, isPending } = useQuery({
+    queryKey: ["application", userId],
     queryFn: async () => {
-      const { data } = await API.get(`applications/user/${user.uid}`);
-      return data.message;
+      const q = query(
+        collection(db, "applications"),
+        where("creatorId", "==", userId)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
     },
+    enabled: !!userId,
   });
   return isPending ? (
     <div className="mx-auto w-72 flex items-center justify-center flex-wrap md:flex-nowrap">
