@@ -31,8 +31,8 @@ const ApplicationsModal = ({
     queryFn: async () => {
       const q = query(
         collection(db, "applications"),
-        where("opportunityId", "==", opportunityId)
-        // where("status", "==", "accepted")
+        where("opportunityId", "==", opportunityId),
+        where("status", "==", "pending")
       );
 
       const querySnapshot = await getDocs(q);
@@ -96,7 +96,7 @@ const ApplicationsModal = ({
               </swiper-container>
             ) : (
               <Card>
-                <Text className="text-center">No Applications were found</Text>
+                <Text className="text-center">No Applications</Text>
               </Card>
             )}
           </ErrorBoundary>
