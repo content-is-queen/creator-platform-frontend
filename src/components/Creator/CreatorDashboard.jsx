@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import Container from "@/components/Container";
 import CreatorApplications from "@/components/Creator/CreatorApplications";
 import CreatorStats from "@/components/Creator/CreatorStats";
+import CallToAction from "@/components/CallToAction";
 
 const CreatorDashboard = () => {
   return (

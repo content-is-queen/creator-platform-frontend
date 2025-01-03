@@ -13,6 +13,9 @@ import Text from "@/components/Text";
 import Tag from "@/components/Tag";
 import ApplicationsModal from "./ApplicationsModal";
 import SpinnerScreen from "../SpinnerScreen";
+import { useQuery } from "@tanstack/react-query";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 const BrandOpportunityCard = (props) => {
   const [applicationsOpen, setApplicationsOpen] = useState(false);
@@ -28,6 +31,25 @@ const BrandOpportunityCard = (props) => {
     budget,
     type,
   } = props;
+
+  const { data: applications } = useQuery({
+    queryKey: ["application", opportunityId],
+    queryFn: async () => {
+      const q = query(
+        collection(db, "applications"),
+        where("opportunityId", "==", opportunityId),
+        where("status", "==", "pending")
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+    },
+    enabled: !!opportunityId,
+  });
 
   const statusLabel = status.replace("_", " ");
 
@@ -131,9 +153,16 @@ const BrandOpportunityCard = (props) => {
         type="button"
         as="button"
         onClick={() => setApplicationsOpen(true)}
+        className="relative"
       >
-        View Applications
+        View Applications{" "}
+        {applications?.length > 0 && (
+          <span className="bg-queen-black/60 font-bold h-5 w-5 rounded-full text-white absolute top-0 -right-2 flex items-center justify-center">
+            <span>{applications.length}</span>
+          </span>
+        )}
       </Button>
+
       <Suspense fallback={<SpinnerScreen />}>
         {applicationsOpen && (
           <ApplicationsModal

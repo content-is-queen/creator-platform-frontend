@@ -28,6 +28,7 @@ const OpportunityCard = ({
     strippedDescription.length > MAX_CHARS
       ? `${strippedDescription.slice(0, MAX_CHARS)}...`
       : strippedDescription;
+  const featured = company?.toUpperCase() == "KANEKO";
 
   return (
     <Card className="relative flex flex-col items-start">
@@ -41,7 +42,8 @@ const OpportunityCard = ({
           </Link>
         </div>
         <div className="flex items-center gap-1 mb-4">
-          <Tag>{type}</Tag>{" "}
+          {featured && <Tag color="blue">Featured</Tag>}
+          <Tag>{type}</Tag>
           {pay ? (
             <Tag color="lilac">
               <span className="sr-only">Budget </span>
