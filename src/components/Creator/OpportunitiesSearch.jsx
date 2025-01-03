@@ -17,10 +17,10 @@ const OpportunitiesSearch = () => {
       const formattedDate = new Intl.DateTimeFormat("en-CA")
         .format(new Date())
         .replace(/-/g, "/");
+
       const q = query(
         collection(db, "opportunities"),
         where("status", "!=", "archived"),
-        where("deadline", ">=", formattedDate),
         orderBy("createdAt", "desc")
       );
 
