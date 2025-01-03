@@ -21,6 +21,7 @@ const OpportunitiesSearch = () => {
       const q = query(
         collection(db, "opportunities"),
         where("status", "!=", "archived"),
+        where("deadline", ">=", formattedDate),
         orderBy("createdAt", "desc")
       );
 
@@ -32,6 +33,10 @@ const OpportunitiesSearch = () => {
       }));
     },
   });
+
+  if (!data) {
+    return null
+  }
 
   return (
     <>
