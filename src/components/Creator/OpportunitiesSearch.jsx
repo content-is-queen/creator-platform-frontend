@@ -17,11 +17,10 @@ const OpportunitiesSearch = () => {
       const formattedDate = new Intl.DateTimeFormat("en-CA")
         .format(new Date())
         .replace(/-/g, "/");
+
       const q = query(
         collection(db, "opportunities"),
-        where("status", "!=", "archived"),
-        where("deadline", ">=", formattedDate),
-        orderBy("createdAt", "desc")
+        where("status", "!=", "archived")
       );
 
       const querySnapshot = await getDocs(q);
@@ -33,6 +32,8 @@ const OpportunitiesSearch = () => {
     },
   });
 
+  console.log(data);
+
   return (
     <>
       {isLoading ? (
@@ -41,7 +42,7 @@ const OpportunitiesSearch = () => {
         </div>
       ) : (
         <div className="py-12 space-y-4 min-h-80">
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             <>
               {data.map((opportunity) => (
                 <div key={opportunity.opportunityId}>
