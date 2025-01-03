@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 import { register } from "swiper/element/bundle";
 import { Dialog } from "@headlessui/react";
 
-import API from "@/api/api";
-
 import BrandApplicationCard from "@/components/Brand/BrandApplicationCard";
 import SpinnerScreen from "@/components/SpinnerScreen";
 import Text from "@/components/Text";
 import Card from "../Card";
+import { useQuery } from "@tanstack/react-query";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase.config";
 
 register();
 
@@ -21,21 +22,30 @@ const ApplicationsModal = ({
   open,
   setOpen,
 }) => {
-  const [applications, setApplications] = useState([]);
-  const [loading, setloading] = useState(true);
+  const {
+    data: applications,
+    isLoading,
+    isFetched,
+  } = useQuery({
+    queryKey: ["application", opportunityId],
+    queryFn: async () => {
+      const q = query(
+        collection(db, "applications"),
+        where("opportunityId", "==", opportunityId)
+        // where("status", "==", "accepted")
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+    },
+    enabled: !!opportunityId,
+  });
 
   const swiperRef = useRef(null);
-
-  const getApplicationsById = async (id) => {
-    try {
-      const { data } = await API.get(`/applications/opportunity/${id}`);
-      setApplications(data?.filter((i) => i.status === "pending"));
-    } catch ({ response }) {
-      console.error(response.message);
-    } finally {
-      setloading(false);
-    }
-  };
 
   const onReject = () => {
     const index = swiperRef.current.swiper.activeIndex;
@@ -43,8 +53,6 @@ const ApplicationsModal = ({
   };
 
   useEffect(() => {
-    getApplicationsById(opportunityId);
-
     const params = {
       slidesPerView: 1,
       spaceBetween: 25,
@@ -57,9 +65,9 @@ const ApplicationsModal = ({
       Object.assign(swiperRef.current, params);
       swiperRef.current.initialize();
     }
-  }, [loading]);
+  }, [isFetched]);
 
-  if (loading) {
+  if (isLoading) {
     return <SpinnerScreen />;
   }
 
@@ -73,13 +81,11 @@ const ApplicationsModal = ({
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
         <Dialog.Panel className="w-screen max-w-xl relative">
           <ErrorBoundary>
-            {applications.length > 0 ? (
+            {applications?.length > 0 ? (
               <swiper-container ref={swiperRef} init="false">
                 {applications.map((application) => (
                   <swiper-slide key={application.applicationId} class="p-1">
                     <BrandApplicationCard
-                      setApplications={setApplications}
-                      applications={applications}
                       opportunityTitle={opportunityTitle}
                       opportunityId={opportunityId}
                       onReject={onReject}
