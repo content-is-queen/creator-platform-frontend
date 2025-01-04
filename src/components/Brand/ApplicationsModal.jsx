@@ -87,7 +87,6 @@ const ApplicationsModal = ({
                   <swiper-slide key={application.applicationId} class="p-1">
                     <BrandApplicationCard
                       opportunityTitle={opportunityTitle}
-                      opportunityId={opportunityId}
                       onReject={onReject}
                       {...application}
                     />

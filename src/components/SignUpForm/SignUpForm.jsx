@@ -135,7 +135,7 @@ const SignUpForm = () => {
       }
     }, "");
 
-    trigger(fields);
+    await trigger(fields);
 
     setTimeout(() => {
       if (isLastStep || Object.keys(formErrors).length > 0 || isRegistered)

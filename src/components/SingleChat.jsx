@@ -45,7 +45,7 @@ const Message = ({ children, currentUser }) => {
 const Header = ({ room }) => {
   const { user } = useUser();
 
-  const participant = room.userProfiles.find((i) => i.userId != user.uid);
+  const participant = room.userProfiles.find((i) => i.userId !== user.uid);
   return (
     <div className="sticky top-0 flex items-center space-x-4 rtl:space-x-reverse border-solid px-8 py-4 shadow-sm">
       <div>
