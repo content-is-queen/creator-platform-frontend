@@ -28,7 +28,7 @@ const OpportunityCard = ({
     strippedDescription.length > MAX_CHARS
       ? `${strippedDescription.slice(0, MAX_CHARS)}...`
       : strippedDescription;
-  const featured = company?.toUpperCase() == "KANEKO";
+  const featured = company?.toUpperCase() == "CONTENT IS QUEEN";
 
   return (
     <Card className="relative flex flex-col items-start">

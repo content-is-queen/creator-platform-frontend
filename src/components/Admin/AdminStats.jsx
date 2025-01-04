@@ -31,7 +31,7 @@ const AdminStats = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="text-center sm:text-left grid sm:grid-cols-3 gap-4">
       {Boolean(loading || data.length < 1)
         ? Array.from({ length: 4 }).map((_, index) => (
             <Card key={index}>
