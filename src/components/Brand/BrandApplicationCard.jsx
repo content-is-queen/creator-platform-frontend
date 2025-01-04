@@ -169,7 +169,7 @@ const BrandApplicationCard = ({
               <LoadingPlaceholder dark />
             ) : (
               <>
-                {applicant.firstName} {applicant.lastName}
+                {applicant?.firstName} {applicant?.lastName}
               </>
             )}
           </Subheading>

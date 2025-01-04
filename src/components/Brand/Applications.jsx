@@ -30,7 +30,7 @@ const Applications = ({ id }) => {
       <Container className="space-y-2 text-center mb-12">
         <Heading>Applications</Heading>
       </Container>
-      <Container className="grid grid-cols-2 gap-4">
+      <Container className="grid md:grid-cols-2 gap-4">
         {!loading && (
           <>
             {applications.length > 0 ? (
