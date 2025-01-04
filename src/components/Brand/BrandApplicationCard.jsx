@@ -79,7 +79,6 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "rejected",
-
           authorId: user.uid,
           creatorId,
           opportunityTitle,

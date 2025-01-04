@@ -63,11 +63,11 @@ const LoginForm = () => {
       localStorage.removeItem("token");
       setLoading(false);
 
-      if (error.code == "auth/invalid-credential") {
+      if (error.code === "auth/invalid-credential") {
         setError({
           message: "Login failed: Your email or password is incorrect",
         });
-      } else if (error.code == "auth/user-disabled") {
+      } else if (error.code === "auth/user-disabled") {
         setError({
           message:
             "Login failed: Your account has been disabled. Please contact support@contentisqueen.org if you think this was a mistake",
