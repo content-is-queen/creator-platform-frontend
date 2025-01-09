@@ -19,6 +19,7 @@ const OpportunityCard = ({
   budget,
   profilePhoto,
   organizationLogo,
+  link,
 }) => {
   const pathname = usePathname();
   const pay = budget || compensation || salary;
@@ -36,7 +37,8 @@ const OpportunityCard = ({
         <div className="flex items-center mb-3">
           <Link
             className="mr-3 text-queen-black text-xl truncate hover:underline after:absolute after:left-0 after:top-0 after:w-full after:h-full"
-            href={`/opportunities/${opportunityId}`}
+            href={link ? link : `/opportunities/${opportunityId}`}
+            {...(link && { target: "_blank" })}
           >
             {title}
           </Link>
