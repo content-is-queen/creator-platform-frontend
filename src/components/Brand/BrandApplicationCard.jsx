@@ -13,7 +13,14 @@ import ButtonText from "@/components/ButtonText";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Subheading from "../Subheading";
 import { useQuery } from "@tanstack/react-query";
-import { getDoc, doc } from "firebase/firestore";
+import {
+  getDoc,
+  doc,
+  serverTimestamp,
+  addDoc,
+  collection,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "@/firebase.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -126,6 +133,27 @@ const BrandApplicationCard = ({
       );
 
       setMessage({ status: "accepted", room: response.data.message.roomId });
+
+      const roomRef = await getDoc(
+        doc(db, "rooms", response.data.message.roomId)
+      );
+
+      const messageData = {
+        uid: creatorId,
+        createdAt: serverTimestamp(),
+        message: proposal,
+      };
+
+      await addDoc(
+        collection(db, "rooms", response.data.message.roomId, "messages"),
+        messageData
+      );
+
+      await updateDoc(roomRef, {
+        lastMessage: proposal,
+        senderId: user.uid,
+        timeSent: serverTimestamp(),
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -136,8 +164,8 @@ const BrandApplicationCard = ({
   return (
     <Card className="flex flex-col items-start">
       {message?.status === "accepted" ? (
-        <div className="text-center flex items-center flex-col justify-center">
-          <div className="max-w-xs mx-auto mb-5">
+        <div className="text-center flex items-center flex-col justify-center mx-auto">
+          <div className="max-w-xs mb-5">
             <p className="text-subheading text-queen-black font-bold text-xl mb-2">
               Start chatting!
             </p>
