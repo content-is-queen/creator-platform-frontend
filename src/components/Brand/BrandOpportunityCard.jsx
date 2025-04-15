@@ -94,8 +94,7 @@ const BrandOpportunityCard = (props) => {
       <div className="flex gap-x-3 content-start items-start justify-between">
         <Link
           className="mr-3 text-queen-black leading-tight hover:underline"
-          href={`/opportunities/${opportunityId}`}
-          target="_blank"
+          href={`/dashboard/opportunities/${opportunityId}`}
         >
           {title}
         </Link>

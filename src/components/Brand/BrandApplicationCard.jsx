@@ -12,7 +12,6 @@ import Button from "@/components/Button";
 import ButtonText from "@/components/ButtonText";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Subheading from "../Subheading";
-import { useQuery } from "@tanstack/react-query";
 import {
   getDoc,
   doc,
@@ -46,7 +45,10 @@ const BrandApplicationCard = ({
   proposal,
   onReject,
   status,
+  interests,
   creatorId,
+  firstName,
+  lastName,
 }) => {
   const [message, setMessage] = useState(null);
   const [rejectLoading, setRejectLoading] = useState(false);
@@ -62,18 +64,6 @@ const BrandApplicationCard = ({
     : proposal;
 
   const { user } = useUser();
-
-  const getApplicant = async () => {
-    const snapshot = await getDoc(doc(db, "users", creatorId));
-
-    return snapshot.data();
-  };
-
-  const { data: applicant, isLoading } = useQuery({
-    queryKey: ["applicant", creatorId],
-    queryFn: getApplicant,
-    enabled: !!creatorId,
-  });
 
   const handleReject = () => {
     onReject();
@@ -183,39 +173,27 @@ const BrandApplicationCard = ({
           <div className="flex items-center justify-between w-full gap-2 mb-6">
             <StatusIcon status={status} />
 
-            {applicant?.interests ? (
+            {interests && (
               <div className="flex gap-2 flex-wrap ml-auto">
-                {applicant.interests.map((skill) => (
+                {interests.map((skill) => (
                   <Tag key={skill}>{skill}</Tag>
                 ))}
               </div>
-            ) : null}
+            )}
           </div>
           <Subheading className="mb-1">
-            {isLoading ? (
-              <LoadingPlaceholder dark />
-            ) : (
-              <>
-                {applicant?.firstName} {applicant?.lastName}
-              </>
-            )}
+            {firstName} {lastName}
           </Subheading>
 
-          {isLoading ? (
-            <LoadingPlaceholder />
-          ) : (
-            <>
-              <Text size="sm">{seeMore ? proposal : truncatedProposal}</Text>
-              {truncateProposal && (
-                <ButtonText
-                  as="button"
-                  className="mt-6 w-auto text-xs"
-                  onClick={() => setSeeMore(!seeMore)}
-                >
-                  See {seeMore ? "less" : "more"}
-                </ButtonText>
-              )}
-            </>
+          <Text size="sm">{seeMore ? proposal : truncatedProposal}</Text>
+          {truncateProposal && (
+            <ButtonText
+              as="button"
+              className="mt-6 w-auto text-xs"
+              onClick={() => setSeeMore(!seeMore)}
+            >
+              See {seeMore ? "less" : "more"}
+            </ButtonText>
           )}
 
           <div className="flex gap-2 mt-auto pt-12">
