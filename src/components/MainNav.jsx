@@ -2,10 +2,9 @@
 
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import checkUserType from "@/helpers/checkUserType";
 import { auth } from "@/firebase.config";
 import { useUser } from "@/context/UserContext";
 import useSubscribed from "@/hooks/useSubscribed";
@@ -20,11 +19,10 @@ const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
-  const { user, setUser, loading } = useUser();
-  const subscribed = useSubscribed();
+  const { user, setUser } = useUser();
+  const isSubscribed = useSubscribed();
 
-  const admin =
-    user?.role === "super_admin" || user?.role === "admin" || !user?.role;
+  const isAdmin = /^(admin|super_admin)$/i.test(user?.role);
 
   const pathname = usePathname();
 
@@ -34,45 +32,31 @@ const MainNav = () => {
 
   const handleSignOut = async () => {
     try {
-      auth.signOut();
+      await auth.signOut();
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       setUser(null);
-      router.push("/login");
+      router.replace("/login");
     } catch (error) {
       console.error("Sign out error:", error);
     }
   };
 
-  const userType = checkUserType(user?.role);
-
-  useEffect(() => {
-    if (
-      !loading &&
-      !user &&
-      (pathname !== "/signup" || pathname !== "/login")
-    ) {
-      router.push("/login");
-    }
-  }, [loading]);
+  const LINKS_KEY = user?.role ? user.role : "guest";
 
   const LINKS = {
-    user: [
-      {
-        href: "/dashboard",
-        label: "Dashboard",
-      },
+    guest: [{ href: "/opportunities", label: "Opportunities" }],
+    creator: [
       { href: "/opportunities", label: "Opportunities" },
       { href: "/conversations", label: "Conversations" },
     ],
+    brand: [
+      { href: "/dashboard/opportunities", label: "Opportunities" },
+      { href: "/conversations", label: "Conversations" },
+    ],
     admin: [
-      {
-        href: "/dashboard",
-        label: "Dashboard",
-      },
       { href: "/dashboard/opportunities", label: "Opportunities" },
       { href: "/dashboard/users", label: "Users" },
-
       { href: "/conversations", label: "Conversations" },
     ],
   };
@@ -115,7 +99,7 @@ const MainNav = () => {
                   "fixed w-full left-0 top-20 z-10 space-y-6 bg-queen-blue pt-16 pb-20"
               )}
             >
-              {LINKS[userType].map(({ href, label }) => (
+              {LINKS[LINKS_KEY].map(({ href, label }) => (
                 <li
                   key={href}
                   className={clsx(
@@ -135,7 +119,7 @@ const MainNav = () => {
                   </Link>
                 </li>
               ))}
-              {user && !subscribed && !admin && (
+              {user && !isSubscribed && !isAdmin && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade to {user.role} +
@@ -154,40 +138,64 @@ const MainNav = () => {
                   <span className="sr-only">User menu</span>
                 </ProfileIcon>
               </MenuButton>
-              <MenuItems
-                className="absolute transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-t-md rounded-b-md shadow-lg focus-visible:outline-none"
-                transition
-              >
-                <MenuItem as="div" className="text-queen-black/60">
-                  <div className="px-4 py-2 text-sm">{user?.email}</div>
-                </MenuItem>
-                {!admin && (
+              {user ? (
+                <MenuItems
+                  className="absolute transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-t-md rounded-b-md shadow-lg focus-visible:outline-none"
+                  transition
+                >
+                  <MenuItem as="div" className="text-queen-black/60">
+                    <div className="px-4 py-2 text-sm">{user?.email}</div>
+                  </MenuItem>
+                  {!isAdmin && (
+                    <MenuItem>
+                      <Link
+                        href="/profile"
+                        className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
+                      >
+                        Profile
+                      </Link>
+                    </MenuItem>
+                  )}
                   <MenuItem>
                     <Link
-                      href="/profile"
+                      href="/settings"
                       className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
                     >
-                      Profile
+                      Settings
                     </Link>
                   </MenuItem>
-                )}
-                <MenuItem>
-                  <Link
-                    href="/settings"
-                    className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
-                  >
-                    Settings
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <button
-                    onClick={handleSignOut}
-                    className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
-                  >
-                    Logout
-                  </button>
-                </MenuItem>
-              </MenuItems>
+                  <MenuItem>
+                    <button
+                      onClick={handleSignOut}
+                      className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
+                    >
+                      Logout
+                    </button>
+                  </MenuItem>
+                </MenuItems>
+              ) : (
+                <MenuItems
+                  className="absolute transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 right-0 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-t-md rounded-b-md shadow-lg focus-visible:outline-none"
+                  transition
+                >
+                  <MenuItem>
+                    <Link
+                      href="/signup"
+                      className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
+                    >
+                      Signup
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      href="/login"
+                      className="data-[active]:bg-gray-100 data-[active]:text-queen-black/80 text-queen-black group flex rounded-b-md items-center w-full px-5 py-2 text-sm"
+                    >
+                      Login
+                    </Link>
+                  </MenuItem>
+                </MenuItems>
+              )}
             </Menu>
             <button
               data-collapse-toggle="navbar-user"

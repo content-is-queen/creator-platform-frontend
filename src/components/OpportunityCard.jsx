@@ -17,9 +17,6 @@ const OpportunityCard = ({
   description,
   opportunityId,
   budget,
-  profilePhoto,
-  organizationLogo,
-  link,
 }) => {
   const pathname = usePathname();
   const pay = budget || compensation || salary;
@@ -37,8 +34,7 @@ const OpportunityCard = ({
         <div className="flex items-center mb-3">
           <Link
             className="mr-3 text-queen-black text-xl truncate hover:underline after:absolute after:left-0 after:top-0 after:w-full after:h-full"
-            href={link ? link : `/opportunities/${opportunityId}`}
-            {...(link && { target: "_blank" })}
+            href={`/opportunities/${opportunityId}`}
           >
             {title}
           </Link>
@@ -57,7 +53,7 @@ const OpportunityCard = ({
           {shortDescription}
         </Text>
       </div>
-      {pathname !== "/profile" ? (
+      {Boolean(organizationName || (company && pathname !== "/profile")) ? (
         <div className="mt-2 w-full flex flex-row items-center gap-2.5 justify-end w-full">
           <span className="text-xs font-semibold text-queen-black uppercase rounded-full">
             Posted by {organizationName || company}

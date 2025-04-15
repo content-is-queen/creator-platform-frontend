@@ -14,13 +14,9 @@ const OpportunitiesSearch = () => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["opportunities"],
     queryFn: async () => {
-      const formattedDate = new Intl.DateTimeFormat("en-CA")
-        .format(new Date())
-        .replace(/-/g, "/");
-
       const q = query(
         collection(db, "opportunities"),
-        where("status", "!=", "archived")
+        where("status", "==", "open")
       );
 
       const querySnapshot = await getDocs(q);
@@ -31,8 +27,6 @@ const OpportunitiesSearch = () => {
       }));
     },
   });
-
-  console.log(data);
 
   return (
     <>

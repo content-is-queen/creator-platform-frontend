@@ -15,7 +15,7 @@ const CreateOpportunityForm = ({ type }) => {
   const fields = formData[type].fields;
   const { user } = useUser();
 
-  const subscribed = useSubscribed();
+  const admin = user?.role === "admin" || user?.role === "super_admin";
 
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
@@ -187,7 +187,7 @@ const CreateOpportunityForm = ({ type }) => {
             </Form.Input>
           );
         })}
-        {user && subscribed ? (
+        {admin ? (
           <Form.Input
             name="link"
             type="link"
