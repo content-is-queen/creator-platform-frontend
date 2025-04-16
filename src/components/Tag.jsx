@@ -4,6 +4,7 @@ const Tag = ({ className, children, color = "yellow" }) => {
   const COLORS = {
     yellow: "bg-queen-yellow-lighter text-queen-black",
     lilac: "bg-green-200 text-queen-black",
+    blue: "bg-queen-black/80 text-queen-white",
   };
   return (
     <span

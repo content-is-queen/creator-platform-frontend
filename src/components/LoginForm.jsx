@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -48,7 +48,10 @@ const LoginForm = () => {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const searchParams = useSearchParams();
   const router = useRouter();
+
+  const returnTo = searchParams.get("returnTo");
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -57,17 +60,17 @@ const LoginForm = () => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("token", JSON.stringify(user.accessToken));
-      router.push("/");
+      router.replace(returnTo || "/");
     } catch (error) {
       console.error(error.message);
       localStorage.removeItem("token");
       setLoading(false);
 
-      if (error.code == "auth/invalid-credential") {
+      if (error.code === "auth/invalid-credential") {
         setError({
           message: "Login failed: Your email or password is incorrect",
         });
-      } else if (error.code == "auth/user-disabled") {
+      } else if (error.code === "auth/user-disabled") {
         setError({
           message:
             "Login failed: Your account has been disabled. Please contact support@contentisqueen.org if you think this was a mistake",
@@ -111,7 +114,7 @@ const LoginForm = () => {
         <Text size="sm" className="mt-4">
           Don&apos;t have an account?{" "}
           <Link
-            href="/signup"
+            href={`/signup${returnTo ? `?returnTo=${encodeURIComponent(returnTo)}` : ""}`}
             className="font-medium text-queen-black/70 hover:text-queen-blue"
           >
             Sign up

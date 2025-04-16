@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
@@ -12,19 +12,44 @@ import Button from "@/components/Button";
 import ButtonText from "@/components/ButtonText";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 import Subheading from "../Subheading";
+import {
+  getDoc,
+  doc,
+  serverTimestamp,
+  addDoc,
+  collection,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "@/firebase.config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClock,
+  faCircleXmark,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
+
+const StatusIcon = ({ status }) => {
+  const icon = {
+    accepted: { icon: faCircleCheck, className: "text-green-500/60" },
+    rejected: { icon: faCircleXmark, className: "text-red-500/60" },
+    pending: { icon: faClock, className: "text-queen-black/60" },
+  };
+
+  return <FontAwesomeIcon title={status} {...icon[status]} />;
+};
 
 const BrandApplicationCard = ({
-  setApplications,
-  applications,
   applicationId,
   opportunityTitle,
   opportunityId,
   proposal,
   onReject,
   status,
+  interests,
   creatorId,
+  firstName,
+  lastName,
 }) => {
-  const [applicant, setApplicant] = useState(null);
   const [message, setMessage] = useState(null);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [acceptLoading, setAcceptLoading] = useState(false);
@@ -40,23 +65,6 @@ const BrandApplicationCard = ({
 
   const { user } = useUser();
 
-  const getApplicant = async (id) => {
-    try {
-      const res = await API.get(`/auth/user/${id}`);
-      const { data } = res;
-      setApplicant(data.message);
-    } catch ({ error }) {
-      setApplications(
-        applications.filter((i) => i.applicationId !== applicationId)
-      );
-      console.error("Something went wrong when getting the user");
-    }
-  };
-
-  useEffect(() => {
-    getApplicant(creatorId);
-  }, []);
-
   const handleReject = () => {
     onReject();
   };
@@ -68,7 +76,6 @@ const BrandApplicationCard = ({
         `/applications/${id}`,
         {
           status: "rejected",
-
           authorId: user.uid,
           creatorId,
           opportunityTitle,
@@ -116,6 +123,27 @@ const BrandApplicationCard = ({
       );
 
       setMessage({ status: "accepted", room: response.data.message.roomId });
+
+      const roomRef = await getDoc(
+        doc(db, "rooms", response.data.message.roomId)
+      );
+
+      const messageData = {
+        uid: creatorId,
+        createdAt: serverTimestamp(),
+        message: proposal,
+      };
+
+      await addDoc(
+        collection(db, "rooms", response.data.message.roomId, "messages"),
+        messageData
+      );
+
+      await updateDoc(roomRef, {
+        lastMessage: proposal,
+        senderId: user.uid,
+        timeSent: serverTimestamp(),
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -126,8 +154,8 @@ const BrandApplicationCard = ({
   return (
     <Card className="flex flex-col items-start">
       {message?.status === "accepted" ? (
-        <div className="text-center flex items-center flex-col justify-center">
-          <div className="max-w-xs mx-auto mb-5">
+        <div className="text-center flex items-center flex-col justify-center mx-auto">
+          <div className="max-w-xs mb-5">
             <p className="text-subheading text-queen-black font-bold text-xl mb-2">
               Start chatting!
             </p>
@@ -142,44 +170,34 @@ const BrandApplicationCard = ({
         </div>
       ) : (
         <>
-          <div className="flex justify-between items-center mb-2 gap-2 w-full">
-            <Subheading size="lg">
-              {!applicant ? (
-                <LoadingPlaceholder dark />
-              ) : (
-                <>
-                  {applicant.firstName} {applicant.lastName}
-                </>
-              )}
-            </Subheading>
-            {applicant?.interests ? (
-              <div className="flex gap-2">
-                {applicant.interests.map((skill) => (
+          <div className="flex items-center justify-between w-full gap-2 mb-6">
+            <StatusIcon status={status} />
+
+            {interests && (
+              <div className="flex gap-2 flex-wrap ml-auto">
+                {interests.map((skill) => (
                   <Tag key={skill}>{skill}</Tag>
                 ))}
               </div>
-            ) : null}
+            )}
           </div>
+          <Subheading className="mb-1">
+            {firstName} {lastName}
+          </Subheading>
 
-          {!applicant ? (
-            <LoadingPlaceholder />
-          ) : (
-            <>
-              <Text size="sm">{seeMore ? proposal : truncatedProposal}</Text>
-              {truncateProposal && (
-                <ButtonText
-                  as="button"
-                  className="mt-6 w-auto text-xs"
-                  onClick={() => setSeeMore(!seeMore)}
-                >
-                  See {seeMore ? "less" : "more"}
-                </ButtonText>
-              )}
-            </>
+          <Text size="sm">{seeMore ? proposal : truncatedProposal}</Text>
+          {truncateProposal && (
+            <ButtonText
+              as="button"
+              className="mt-6 w-auto text-xs"
+              onClick={() => setSeeMore(!seeMore)}
+            >
+              See {seeMore ? "less" : "more"}
+            </ButtonText>
           )}
 
           <div className="flex gap-2 mt-auto pt-12">
-            {status === "pending" ? (
+            {status === "pending" && (
               <>
                 <Button
                   type="button"
@@ -200,10 +218,6 @@ const BrandApplicationCard = ({
                   {acceptLoading && <Button.Spinner />}Accept
                 </Button>
               </>
-            ) : (
-              <Text className="italic" size="sm">
-                {status.toUpperCase()}
-              </Text>
             )}
             <Button
               type="button"

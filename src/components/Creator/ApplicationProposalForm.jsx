@@ -2,13 +2,16 @@
 
 import API from "@/api/api";
 import { useState } from "react";
+import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useUser } from "@/context/UserContext";
 
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Modal from "@/components/Modal";
 import Subheading from "../Subheading";
-import { getAuth } from "firebase/auth";
+import Text from "@/components/Text";
 
 const ApplicationProposalForm = ({
   opportunityId,
@@ -68,10 +71,11 @@ const ApplicationProposalForm = ({
         as="button"
         type="submit"
         size="lg"
-        className="sticky top-0"
+        className="sticky top-0 inline-flex gap-2 items-center"
         onClick={() => setIsOpen(true)}
       >
-        Send A Proposal
+        <span>Send a proposal</span>{" "}
+        {!user && <FontAwesomeIcon className="mb-1" icon={faLock} />}
       </Button>
 
       <Modal
@@ -79,24 +83,33 @@ const ApplicationProposalForm = ({
         onClose={() => setIsOpen(false)}
         className="max-w-2xl"
       >
-        <Subheading size="lg">Write proposal</Subheading>
-        <Form error={error} setError={setError} handleSubmit={handleSubmit}>
-          <Form.Textarea
-            name="proposal"
-            onChange={(e) => setProposal(e.target.value)}
-            rows={10}
-            minLength={5}
-            className="normal-case"
-            required
-          >
-            {applicationInstructions ||
-              "Explain why you should be hired for this opportunity"}
-          </Form.Textarea>
+        <Subheading size="lg">{user && "Write proposal"}</Subheading>
+        {user ? (
+          <Form error={error} setError={setError} handleSubmit={handleSubmit}>
+            <Form.Textarea
+              name="proposal"
+              onChange={(e) => setProposal(e.target.value)}
+              rows={10}
+              minLength={5}
+              className="normal-case"
+              required
+            >
+              {applicationInstructions ||
+                "Explain why you should be hired for this opportunity"}
+            </Form.Textarea>
 
-          <Button as="button" type="submit" className="mt-8">
-            {loading && <Button.Spinner />} Submit
-          </Button>
-        </Form>
+            <Button as="button" type="submit" className="mt-8">
+              {loading && <Button.Spinner />} Submit
+            </Button>
+          </Form>
+        ) : (
+          <div className="space-y-4 text-center">
+            <Subheading size="lg">Login to apply</Subheading>
+            <Button href={`/login?returnTo=${window.location.pathname}`}>
+              Login
+            </Button>
+          </div>
+        )}
       </Modal>
     </>
   );

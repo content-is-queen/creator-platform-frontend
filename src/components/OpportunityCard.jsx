@@ -17,56 +17,49 @@ const OpportunityCard = ({
   description,
   opportunityId,
   budget,
-  profilePhoto,
-  organizationLogo,
 }) => {
   const pathname = usePathname();
   const pay = budget || compensation || salary;
-  const MAX_CHARS = 200;
+  const MAX_CHARS = 275;
   const strippedDescription = stripHtml(description).result;
   const shortDescription =
     strippedDescription.length > MAX_CHARS
       ? `${strippedDescription.slice(0, MAX_CHARS)}...`
       : strippedDescription;
+  const featured = company?.toUpperCase() === "CONTENT IS QUEEN";
 
   return (
     <Card className="relative flex flex-col items-start">
-      {pathname !== "/profile" ? (
-        <div className="flex flex-row items-center gap-2.5 justify-between mb-5 w-full">
-          <div className="flex gap-2 items-center">
-            <ProfileIcon
-              className="h-5 w-5"
-              profilePhoto={organizationLogo || profilePhoto}
-            />
-            <span className="text-xs font-semibold text-queen-black uppercase rounded-full">
-              {organizationName || company}
-            </span>
-          </div>
-        </div>
-      ) : null}
-
-      <div className="mt-6 max-w-full">
-        <div className="flex items-center mb-2">
+      <div className="mt-2 max-w-full">
+        <div className="flex items-center mb-3">
           <Link
             className="mr-3 text-queen-black text-xl truncate hover:underline after:absolute after:left-0 after:top-0 after:w-full after:h-full"
             href={`/opportunities/${opportunityId}`}
           >
             {title}
           </Link>
-          <div className="flex items-center gap-1">
-            <Tag>{type}</Tag>{" "}
-            {pay ? (
-              <Tag color="lilac">
-                <span className="sr-only">Budget </span>
-                {pay}
-              </Tag>
-            ) : null}
-          </div>
+        </div>
+        <div className="flex items-center gap-1 mb-4">
+          {featured && <Tag color="blue">Featured</Tag>}
+          <Tag>{type}</Tag>
+          {pay ? (
+            <Tag color="lilac">
+              <span className="sr-only">Budget </span>
+              {pay}
+            </Tag>
+          ) : null}
         </div>
         <Text color="muted" size="sm" className="mb-6 md:pr-8">
           {shortDescription}
         </Text>
       </div>
+      {Boolean(organizationName || (company && pathname !== "/profile")) ? (
+        <div className="mt-2 w-full flex flex-row items-center gap-2.5 justify-end w-full">
+          <span className="text-xs font-semibold text-queen-black uppercase rounded-full">
+            Posted by {organizationName || company}
+          </span>
+        </div>
+      ) : null}
     </Card>
   );
 };

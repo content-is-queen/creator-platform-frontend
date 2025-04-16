@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import Container from "@/components/Container";
 import CreatorApplications from "@/components/Creator/CreatorApplications";
 import CreatorStats from "@/components/Creator/CreatorStats";
+import CallToAction from "@/components/CallToAction";
 
 const CreatorDashboard = () => {
   return (
@@ -14,13 +15,15 @@ const CreatorDashboard = () => {
         }}
         className="flex justify-center items-center py-12 text-center bg-queen-blue bg-repeat-x bg-[center_bottom_-2rem]"
       >
-        <Container className="space-y-12 pb-20">
-          <CreatorStats />
+        <div className="w-full">
+          <Container className="space-y-12 pb-20">
+            <CreatorStats />
 
-          <Button href="/opportunities" variant="blue" size="lg">
-            Explore opportunities
-          </Button>
-        </Container>
+            <Button href="/opportunities" variant="blue" size="lg">
+              Explore opportunities
+            </Button>
+          </Container>
+        </div>
       </div>
       <CreatorApplications />
     </>

@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import API from "@/api/api";
 import { useForm } from "react-hook-form";
 import { auth } from "@/firebase.config";
@@ -17,7 +18,7 @@ import Tabs from "@/components/Tabs";
 import Subheading from "@/components/Subheading";
 import { Error } from "@/components/Form";
 import SignUpFormStep from "@/components/SignUpForm/SignUpFormStep";
-import { useRouter } from "next/navigation";
+
 const SignUpForm = () => {
   const {
     handleSubmit,
@@ -29,7 +30,10 @@ const SignUpForm = () => {
     clearErrors,
   } = useForm({ mode: "all" });
 
+  const searchParams = useSearchParams();
   const router = useRouter();
+
+  const returnTo = searchParams.get("returnTo");
 
   const DEFAULT_TYPE = "creator";
 
@@ -89,7 +93,7 @@ const SignUpForm = () => {
           password
         );
         localStorage.setItem("token", JSON.stringify(authUser.accessToken));
-        router.push("/");
+        router.push(returnTo || "/");
       }
     } catch (error) {
       setError({ message: "Something went wrong during sign up" });
@@ -135,7 +139,7 @@ const SignUpForm = () => {
       }
     }, "");
 
-    trigger(fields);
+    await trigger(fields);
 
     setTimeout(() => {
       if (isLastStep || Object.keys(formErrors).length > 0 || isRegistered)
@@ -261,7 +265,7 @@ const SignUpForm = () => {
       <Text size="sm" className="mt-4">
         Already registered?{" "}
         <Link
-          href="/login"
+          href={`/login${returnTo ? `?returnTo=${encodeURIComponent(returnTo)}` : ""}`}
           className="font-medium text-queen-black/70 hover:text-queen-blue"
         >
           Login

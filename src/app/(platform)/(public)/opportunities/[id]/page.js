@@ -43,8 +43,8 @@ const Page = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center pt-20">
-        <Spinner className="h-6 w-6" />
+      <div className="flex items-center justify-center pt-20 fixed h-[calc(100vh_-_80px)] w-screen">
+        <Spinner className="h-8 w-8" />
       </div>
     );
   }
