@@ -16,9 +16,8 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREATOR_PLATFORM___PRODUCTION }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CONTENTISQUEEN_97AE5 }}
           channelId: live
-          projectId: creator-platform---production
+          projectId: contentisqueen-97ae5
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
-          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
