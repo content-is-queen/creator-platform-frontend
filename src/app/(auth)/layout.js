@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import Spinner from "@/components/Spinner";
+import SpinnerScreen from "@/components/SpinnerScreen";
 
 const AuthLayout = ({ children }) => {
   return (
@@ -19,7 +19,7 @@ const AuthLayout = ({ children }) => {
       </div>
       <div className="flex pt-12 pb-16 md:py-20 items-center h-full md:col-span-8 lg:col-span-7 bg-white">
         <div className="w-full max-w-md mx-auto px-8 md:px-0 space-y-6 md:space-y-8">
-          <Suspense fallback={<Spinner />}>{children}</Suspense>
+          <Suspense fallback={<SpinnerScreen />}>{children}</Suspense>
         </div>
       </div>
     </div>
