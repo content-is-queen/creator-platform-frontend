@@ -35,7 +35,7 @@ const OpportunitiesSearch = () => {
   });
 
   if (!data) {
-    return null
+    return null;
   }
 
   return (
