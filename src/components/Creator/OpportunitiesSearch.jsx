@@ -11,12 +11,10 @@ import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 
 const OpportunitiesSearch = () => {
-  const { isLoading, isError, data, error } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ["opportunities"],
     queryFn: async () => {
-      const formattedDate = new Intl.DateTimeFormat("en-CA")
-        .format(new Date())
-        .replace(/-/g, "/");
+      const formattedDate = new Intl.DateTimeFormat("en-CA").format(new Date());
 
       const q = query(
         collection(db, "opportunities"),
