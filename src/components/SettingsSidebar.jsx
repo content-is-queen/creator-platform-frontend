@@ -10,7 +10,8 @@ const SettingsSidebar = () => {
   const pathname = usePathname();
   const { subscribed } = useSubscribed();
 
-  const admin = user?.role === "admin" || user?.role === "super_admin";
+  const isAdmin = /^(admin|super_admin)$/i.test(user.role);
+
   const LINKS = [
     {
       href: "/settings",
@@ -24,7 +25,7 @@ const SettingsSidebar = () => {
       href: "/settings/password",
       label: "Password",
     },
-    ...(user && subscribed && !admin
+    ...(user && subscribed && !isAdmin
       ? [
           {
             href: "/settings/subscription",

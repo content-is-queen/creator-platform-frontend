@@ -52,7 +52,6 @@ const General = () => {
       setError({
         message: error?.message || "Something went wrong",
       });
-      return;
     } finally {
       setLoading(false);
     }

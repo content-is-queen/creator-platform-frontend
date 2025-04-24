@@ -3,7 +3,7 @@ import Container from "@/components/Container";
 
 const Opportunities = () => {
   return (
-    <Container size="2xl" className="mt-24 mb-32">
+    <Container size="2xl" className="pt-8 mb-p2">
       <OpportunitiesSearch />
     </Container>
   );

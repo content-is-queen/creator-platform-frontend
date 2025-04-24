@@ -3,6 +3,8 @@
 import { format } from "date-fns";
 
 import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
+
 import API from "@/api/api";
 import useSubscribed from "@/hooks/useSubscribed";
 
@@ -13,12 +15,11 @@ import Spinner from "@/components/Spinner";
 import CancelSubscriptionForm from "@/components/CancelSubscriptionForm";
 
 const Subscription = () => {
-  const [loading, setLoading] = useState(true);
   const [subscription, setSubscription] = useState(null);
   const [error, setError] = useState({});
   const [success, setSuccess] = useState({});
 
-  const subscribed = useSubscribed();
+  const { subscribed, loading: checkingSubscribed } = useSubscribed();
 
   const getSubscriptionInfo = async () => {
     try {
@@ -43,11 +44,10 @@ const Subscription = () => {
 
       setSubscription(subscription);
     } catch (error) {
+      console.error(error);
       setError({
         message: "We were unable to get your subscription information",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -55,8 +55,11 @@ const Subscription = () => {
     if (subscribed) {
       getSubscriptionInfo();
     }
-    setLoading(false);
-  }, []);
+  }, [checkingSubscribed, subscribed]);
+
+  if (!checkingSubscribed && !subscribed) {
+    return notFound();
+  }
 
   return (
     <Form
@@ -67,7 +70,7 @@ const Subscription = () => {
       className="mx-auto"
     >
       <div className="space-y-10">
-        {loading ? (
+        {checkingSubscribed ? (
           <div className="flex items-center h-80 justify-center">
             <Spinner className="h-6 w-6" />
           </div>

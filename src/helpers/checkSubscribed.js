@@ -1,14 +1,15 @@
 import { auth } from "@/firebase.config";
 
 const checkSubscribed = async () => {
-  if (!auth?.currentUser) return false;
-  const idTokenResult = await auth.currentUser.getIdTokenResult(true);
+  const user = auth?.currentUser;
 
-  return (
-    idTokenResult.claims.subscribed ||
-    idTokenResult.claims.role === "admin" ||
-    idTokenResult.claims.role === "super_admin"
-  );
+  const { claims } = await user.getIdTokenResult(true);
+
+  if (/^(admin|super_admin)$/i.test(claims.role)) {
+    return true;
+  }
+
+  return claims.subscribed;
 };
 
 export default checkSubscribed;

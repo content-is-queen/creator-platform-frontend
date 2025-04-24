@@ -15,6 +15,10 @@ const AuthGuard = ({ children }) => {
     }
   }, [loading]);
 
+  if (!user) {
+    return null;
+  }
+
   return <>{children}</>;
 };
 

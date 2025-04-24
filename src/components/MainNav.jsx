@@ -19,8 +19,8 @@ const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
-  const { user, setUser } = useUser();
-  const isSubscribed = useSubscribed();
+  const { user, setUser, loading } = useUser();
+  const { subscribed, loading: checkingSubscribed } = useSubscribed();
 
   const isAdmin = /^(admin|super_admin)$/i.test(user?.role);
 
@@ -119,7 +119,7 @@ const MainNav = () => {
                   </Link>
                 </li>
               ))}
-              {user && !isSubscribed && !isAdmin && (
+              {!checkingSubscribed && user && !subscribed && (
                 <li>
                   <Button variant="yellow" href="/plus">
                     Upgrade to {user.role} +

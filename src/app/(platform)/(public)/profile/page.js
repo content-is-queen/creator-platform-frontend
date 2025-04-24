@@ -1,6 +1,11 @@
 import Profile from "@/components/Profile";
+import AuthGuard from "@/components/AuthGuard";
 
-const Page = () => <Profile />;
+const Page = () => (
+  <AuthGuard>
+    <Profile />
+  </AuthGuard>
+);
 
 export default Page;
 

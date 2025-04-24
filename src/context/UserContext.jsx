@@ -25,9 +25,8 @@ export const UserProvider = ({ children }) => {
 
         if (user) {
           setUser(user);
+          localStorage.setItem("user", JSON.stringify(user));
         }
-
-        setLoading(false);
       } else {
         setUser(null);
         localStorage.removeItem("user");
