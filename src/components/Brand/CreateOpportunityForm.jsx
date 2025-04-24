@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import API from "@/api/api";
 import { useUser } from "@/context/UserContext";
-import useSubscribed from "@/hooks/useSubscribed";
 
 import formData from "@/data/opportunity_form_data.json";
 
