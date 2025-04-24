@@ -34,7 +34,6 @@ const ResetPasswordForm = () => {
     handleSubmit,
     control,
     formState: { errors: formErrors },
-    reset,
   } = useForm();
 
   const [error, setError] = useState({});
@@ -103,7 +102,7 @@ const ResetPasswordForm = () => {
 
   return (
     <>
-      <Text className="!mt-4">Enter new Password</Text>
+      <Text className="!pt-4">Enter new Password</Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-6">
           {FIELDS.map(({ name, children, rules }) => (
@@ -118,7 +117,7 @@ const ResetPasswordForm = () => {
             </AuthInputController>
           ))}
         </div>
-        <Button as="button" type="submit" className="mt-8">
+        <Button as="button" type="submit" className="pt-8">
           {loading && <Button.Spinner />}
           Change password
         </Button>

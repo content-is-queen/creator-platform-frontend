@@ -25,7 +25,7 @@ const AdminOpportunities = async () => {
   const opportunities = await getOpportunities();
 
   return (
-    <Container size="6xl" className="mt-10 text-center space-y-4">
+    <Container size="6xl" className="pt-10 text-center space-y-4">
       <Heading>Opportunities</Heading>
       <AdminOpportunitiesTable opportunities={opportunities} />
     </Container>

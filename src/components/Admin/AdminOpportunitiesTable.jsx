@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import API from "@/api/api";
 
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -21,7 +21,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
       status,
       fullName,
       deadline,
-      numberOfApplications,
       applications,
     }) => ({
       id,
@@ -112,12 +111,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
     <div className="py-8 space-y-6">
       {error?.message && <Error>{error?.message}</Error>}
       <div style={{ height: 500, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          className="bg-queen-white"
-          slots={{ toolbar: GridToolbar }}
-        />
+        <DataGrid rows={rows} columns={columns} className="bg-queen-white" />
       </div>
     </div>
   );

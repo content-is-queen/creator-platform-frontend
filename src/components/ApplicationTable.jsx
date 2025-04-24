@@ -1,7 +1,35 @@
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
+import useSubscribed from "@/hooks/useSubscribed";
+import Button from "@/components/Button";
 
 const ApplicationTable = ({ applications }) => {
-  console.log(applications);
+  const { subscribed, loading } = useSubscribed();
+
+  const CustomToolbar = () => {
+    if (loading) return null;
+
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+
+        {subscribed ? (
+          <GridToolbarExport />
+        ) : (
+          <Button variant="blue" size="sm" href="/plus">
+            Subscribe to export
+          </Button>
+        )}
+      </GridToolbarContainer>
+    );
+  };
+
   const rows = applications.map(
     ({ firstName = "n/a", lastName = "n/a", interests, ...rest }, index) => ({
       ...rest,
@@ -18,12 +46,15 @@ const ApplicationTable = ({ applications }) => {
     { field: "bio", minWidth: 200, headerName: "Bio" },
     { field: "proposal", minWidth: 300, headerName: "Proposal" },
   ];
+
   return (
     <DataGrid
-      slots={{ toolbar: GridToolbar }}
-      className="bg-white"
+      slots={{ toolbar: CustomToolbar }}
       columns={columns}
       rows={rows}
+      componentsProps={{
+        columnHeaders: { className: "text-queen-blue bg-red-500" },
+      }}
     />
   );
 };

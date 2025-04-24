@@ -59,7 +59,7 @@ const Applications = ({ id }) => {
     return snapshot.data();
   };
 
-  const { data: opportunity, isLoading } = useQuery({
+  const { data: opportunity } = useQuery({
     queryKey: ["opportunity", id],
     queryFn: getOpportunity,
     enabled: !!id,
@@ -76,7 +76,7 @@ const Applications = ({ id }) => {
             {applications?.length > 0 ? (
               <>
                 <ApplicationTable applications={applications} />
-                <div className="mt-20 grid md:grid-cols-2 gap-4">
+                <div className="pt-20 grid md:grid-cols-2 gap-4">
                   {applications.map((application) => (
                     <BrandApplicationCard
                       key={application.id}

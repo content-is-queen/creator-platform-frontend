@@ -6,11 +6,9 @@ import formData from "@/data/opportunity_form_data.json";
 import BackButton from "@/components/BackButton";
 
 export async function generateStaticParams() {
-  const types = Object.keys(formData).map((opp) => {
+  return Object.keys(formData).map((opp) => {
     return { slug: opp };
   });
-
-  return types;
 }
 
 export const dynamicParams = false;
@@ -24,7 +22,7 @@ const Page = async ({ params }) => {
         <div className="pt-20 pb-72 space-y-8">
           <div>
             <BackButton />
-            <Heading size="3xl" className="mt-4 mb-12">
+            <Heading size="3xl" className="pt-4 pb-12">
               Create a new {slug}
             </Heading>
           </div>
