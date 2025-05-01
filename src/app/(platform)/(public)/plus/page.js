@@ -20,64 +20,64 @@ const Plus = () => {
       title: "Elevate Your Audio Journey",
       lead: "Unlock unlimited opportunities, exclusive resources, and a global network",
       intro:
-        "Ready to take your audio content to the next level? With the Creator+ Membership, you gain unlimited access to opportunities and an array of resources designed to support and amplify your creative journey.",
+        "With Creator+ Membership, you gain unlimited access to curated industry opportunities and a powerful network of creators and brands. Whether you're aiming to grow your audience, secure sponsorships, or collaborate with respected industry voices, Creator+ provides the tools and support to help you succeed.",
       benefits: [
         {
           lead: "Unlimited Opportunities",
-          copy: " Apply to as many opportunities as you like, without any limits. Maximise your chances of finding the perfect projects and collaborations.",
+          copy: "Apply to as many projects and brand partnerships as you like. Increase your chances of securing paid collaborations and meaningful creative work.",
         },
         {
-          lead: "Exclusive Community Access",
-          copy: "Join our members-only Slack channel and virtual co-working space. Connect, share, and collaborate with fellow creators from around the world.",
+          lead: "Exclusive Community Access (Now on Google Groups)",
+          copy: "Join our members-only Google Group and virtual co-working sessions. Collaborate and connect with podcasters, producers, and sound creatives worldwide. Access real-time peer support and feedback in a focused, creator-driven environment.",
         },
         {
           lead: "Monthly Group Office Hours",
-          copy: " Gain insights and guidance from industry experts during our monthly group office hours, designed to help you navigate the audio content landscape.",
+          copy: "Learn from experienced industry professionals in live, interactive sessions. Get practical advice on audience growth, sponsorships, production, and more. Previous experts have worked with BBC, Acast, Audible, and other leading platforms.",
         },
         {
           lead: "Event Discounts",
-          copy: "Receive discounts on in-person events and enjoy free access to virtual events, giving you the chance to network and learn from the best.",
+          copy: "Receive discounted access to our in-person events. Enjoy free entry to virtual events, including expert panels and networking sessions. Stay connected to key players and future collaborators in the audio space.",
         },
         {
           lead: "Member Newsletter",
-          copy: " Stay informed with our exclusive newsletter, packed with industry news, trends, and tips to keep you ahead of the curve.",
+          copy: "Stay informed with insights tailored to emerging audio talent. Be the first to hear about new opportunities, platform updates, and industry trends. Get practical advice on format development, monetisation, and growing your brand.",
         },
       ],
       cta: {
         lead: "Upgrade now for just £100 per year",
-        copy: "Unlock the full potential of your creative journey. Join a community that celebrates and amplifies diverse voices in the audio industry.",
+        copy: "Join a forward-thinking community committed to amplifying diverse voices and building sustainable audio careers. Upgrade to Creator+ and access the support and opportunities you need to grow.",
       },
     },
     brand: {
-      title: "Amplify Your Reach  ",
+      title: "Amplify Your Reach with Direct Access to Top-Tier Creators",
       lead: "Unlimited postings, exclusive insights, and a direct connection to top-tier creators",
       intro:
-        "Ready to discover fresh voices and innovative content? The Brand+ Membership offers unlimited access to a diverse pool of talented audio creators, tailored to meet your brand's unique needs.",
+        "The Brand+ Membership gives you unlimited access to a curated network of talented audio creators. Whether you're launching a branded podcast, seeking creative partnerships, or looking to expand your brand’s presence through audio, Brand+ gives you the tools and connections to make it happen.",
       benefits: [
         {
           lead: "Unlimited Postings",
-          copy: "Post as many opportunities as you need. Connect with talented creators who can bring your projects to life without any limits.",
+          copy: "Post as many opportunities as you need without limits. Connect with creators who align with your brand’s values and target audience. Streamline the process of finding, vetting, and securing creative partners.",
         },
         {
           lead: "Global Network",
-          copy: "Engage with a diverse network of creators, expanding your reach and discovering new talent from around the world.",
+          copy: "Access a diverse pool of creators from around the world. Discover fresh voices and unique perspectives that resonate with your audience. Build long-term relationships with high-quality creators.",
+        },
+        {
+          lead: "Insightful Analytics (Coming soon!)",
+          copy: "Access performance data and engagement insights from creator campaigns. Measure the impact of your partnerships with real-time reporting. Use actionable insights to optimise your future campaigns and partnerships.",
         },
         {
           lead: "Exclusive Event Invitations",
-          copy: "Get invited to exclusive industry events, providing you with the perfect platform to network, stay ahead of trends, and build valuable connections.",
+          copy: "Gain access to exclusive industry events and networking sessions.Connect with leading brands, agencies, and creators in the audio industry. Get insider insights on emerging trends and best practices.",
         },
         {
-          lead: "Insightful Analytics",
-          copy: "Access advanced analytics and insights to measure the impact of your collaborations and refine your strategies.",
-        },
-        {
-          lead: "Member Newsletter",
-          copy: "Stay updated with our exclusive newsletter, featuring the latest industry news, trends, and insights tailored for brands.",
+          lead: "Member-Only Newsletter",
+          copy: "Stay updated with exclusive industry news and insights tailored for brands. Get early access to new creator collaborations and platform updates. Receive expert analysis on the evolving audio and podcasting landscape.",
         },
       ],
       cta: {
         lead: "Upgrade now for just £499 per year",
-        copy: "Take your brand’s presence to the next level. Join a platform committed to fostering diversity and driving innovation in audio content.",
+        copy: "Unlock unlimited opportunities, direct creator connections, and valuable industry insights. Drive brand growth through authentic, innovative audio storytelling.",
       },
     },
   };
@@ -108,7 +108,7 @@ const Plus = () => {
       <Block className="relative bg-right bg-queen-yellow" small>
         <div>
           <DecorativeText className="text-5xl mb-8 md:mb-16">
-            Benefits:
+            Why join {user?.role}+?
           </DecorativeText>
 
           <div className="grid md:grid-cols-3 gap-10">
