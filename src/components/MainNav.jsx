@@ -19,7 +19,7 @@ const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
-  const { user, setUser, loading } = useUser();
+  const { user, setUser } = useUser();
   const { subscribed, loading: checkingSubscribed } = useSubscribed();
 
   const isAdmin = /^(admin|super_admin)$/i.test(user?.role);
@@ -52,6 +52,11 @@ const MainNav = () => {
     ],
     brand: [
       { href: "/dashboard/opportunities", label: "Opportunities" },
+      { href: "/conversations", label: "Conversations" },
+    ],
+    super_admin: [
+      { href: "/dashboard/opportunities", label: "Opportunities" },
+      { href: "/dashboard/users", label: "Users" },
       { href: "/conversations", label: "Conversations" },
     ],
     admin: [

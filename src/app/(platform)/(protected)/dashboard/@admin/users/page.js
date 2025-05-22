@@ -26,7 +26,7 @@ const AdminUsers = async () => {
   const users = await getUsers();
 
   return (
-    <Container size="6xl" className="text-center space-y-4 mt-10">
+    <Container size="6xl" className="text-center space-y-4 pt-10">
       <Heading>Users</Heading>
       <AdminUsersTable users={users} />
     </Container>
