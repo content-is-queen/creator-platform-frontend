@@ -51,17 +51,17 @@ const MainNav = () => {
       { href: "/conversations", label: "Conversations" },
     ],
     brand: [
-      { href: "/dashboard/opportunities", label: "Opportunities" },
+      { href: "/opportunities", label: "Opportunities" },
       { href: "/conversations", label: "Conversations" },
     ],
     super_admin: [
-      { href: "/dashboard/opportunities", label: "Opportunities" },
-      { href: "/dashboard/users", label: "Users" },
+      { href: "/admin/opportunities", label: "Opportunities" },
+      { href: "/admin/users", label: "Users" },
       { href: "/conversations", label: "Conversations" },
     ],
     admin: [
-      { href: "/dashboard/opportunities", label: "Opportunities" },
-      { href: "/dashboard/users", label: "Users" },
+      { href: "/admin/opportunities", label: "Opportunities" },
+      { href: "/admin/users", label: "Users" },
       { href: "/conversations", label: "Conversations" },
     ],
   };

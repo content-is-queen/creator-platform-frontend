@@ -149,9 +149,7 @@ const BrandOpportunityCard = (props) => {
 
       <Button
         variant="white"
-        type="button"
-        as="button"
-        onClick={() => setApplicationsOpen(true)}
+        href={`/dashboard/opportunities/${opportunityId}`}
         className="relative"
       >
         View Applications{" "}
