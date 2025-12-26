@@ -58,12 +58,10 @@ const LoginForm = () => {
     setError({});
     const { email, password } = data;
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("token", JSON.stringify(user.accessToken));
+      await signInWithEmailAndPassword(auth, email, password);
       router.replace(returnTo || "/");
     } catch (error) {
       console.error(error.message);
-      localStorage.removeItem("token");
       setLoading(false);
 
       if (error.code === "auth/invalid-credential") {

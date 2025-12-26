@@ -39,10 +39,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
       width: "300",
       renderCell: (params) => {
         return (
-          <Link
-            className="hover:underline"
-            href={`/dashboard/opportunities/${params.id}`}
-          >
+          <Link className="hover:underline" href={`/applications/${params.id}`}>
             {params.row.col1}
           </Link>
         );
@@ -62,7 +59,7 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         return (
           <Link
             className="hover:underline"
-            href={`/dashboard/opportunities/${params.id}`}
+            href={`/admin/applications/${params.id}`}
           >
             {params.value.length}
           </Link>

@@ -18,6 +18,6 @@ export async function generateMetadata({ params }) {
   } = await API(`/opportunities/opportunityid/${params.id}`);
 
   return {
-    title: `${title} | Opportunity`,
+    title: `${title} | Applications`,
   };
 }

@@ -69,7 +69,7 @@ const CreditsInput = ({ setFormData, handleChange }) => {
 
     // Check if episode has already been added
     if (credits.find((i) => i.href === inputValue.href)) {
-      setError({ message: "This episode has already beena added" });
+      setError({ message: "This episode has already been added" });
       return;
     }
 

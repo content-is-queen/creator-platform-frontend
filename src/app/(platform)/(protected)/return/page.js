@@ -105,7 +105,6 @@ const Return = () => {
 
         if (status === "complete") {
           const newToken = await authUser.getIdToken(true);
-          localStorage.setItem("token", JSON.stringify(newToken));
         }
 
         setStatus(status);

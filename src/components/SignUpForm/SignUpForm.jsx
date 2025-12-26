@@ -76,7 +76,6 @@ const SignUpForm = () => {
       );
 
       if (response.status === 200) {
-        // Login the user if signup is successful
         const {
           data: {
             data: { uid },
@@ -87,12 +86,7 @@ const SignUpForm = () => {
 
         const { password, email } = user;
 
-        const { user: authUser } = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        localStorage.setItem("token", JSON.stringify(authUser.accessToken));
+        await signInWithEmailAndPassword(auth, email, password);
         router.push(returnTo || "/");
       }
     } catch (error) {

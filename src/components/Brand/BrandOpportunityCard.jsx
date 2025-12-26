@@ -94,7 +94,7 @@ const BrandOpportunityCard = (props) => {
       <div className="flex gap-x-3 content-start items-start justify-between">
         <Link
           className="mr-3 text-queen-black leading-tight hover:underline"
-          href={`/dashboard/opportunities/${opportunityId}`}
+          href={`/applications/${opportunityId}`}
         >
           {title}
         </Link>
@@ -149,7 +149,7 @@ const BrandOpportunityCard = (props) => {
 
       <Button
         variant="white"
-        href={`/dashboard/opportunities/${opportunityId}`}
+        href={`/applications/${opportunityId}`}
         className="relative"
       >
         View Applications{" "}

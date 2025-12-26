@@ -15,6 +15,9 @@ import {
 import { db } from "@/firebase.config";
 import { useQuery } from "@tanstack/react-query";
 import ApplicationTable from "@/components/ApplicationTable";
+import Pitch from "@/components/Opportunities/Pitch";
+import Job from "@/components/Opportunities/Job";
+import Campaign from "@/components/Opportunities/Campaign";
 
 const Applications = ({ id }) => {
   const getApplicant = async (id) => {
@@ -66,32 +69,36 @@ const Applications = ({ id }) => {
   });
 
   return (
-    <div className="pt-28 pb-20">
-      <Container className="space-y-2 text-center mb-12">
-        <Heading>Applications</Heading>
-      </Container>
-      <Container>
-        {!applicationsLoading && (
-          <>
-            {applications?.length > 0 ? (
-              <>
-                <ApplicationTable applications={applications} />
-                <div className="pt-20 grid md:grid-cols-2 gap-4">
-                  {applications.map((application) => (
-                    <BrandApplicationCard
-                      key={application.id}
-                      opportunityTitle={opportunity?.title}
-                      {...application}
-                    />
-                  ))}
-                </div>
-              </>
-            ) : (
-              <Text>No applications</Text>
-            )}
-          </>
-        )}
-      </Container>
+    <div className="grid grid-cols-6 gap-4 pt-16 pb-20">
+      <div className="col-span-2 bg-card">
+        <Container>
+          <Heading size="2xl">{opportunity.title}</Heading>
+        </Container>
+      </div>
+      <div className="col-span-4">
+        <Container>
+          {!applicationsLoading && (
+            <>
+              {applications?.length > 0 ? (
+                <>
+                  <ApplicationTable applications={applications} />
+                  <div className="pt-20 grid md:grid-cols-2 gap-4">
+                    {applications.map((application) => (
+                      <BrandApplicationCard
+                        key={application.id}
+                        opportunityTitle={opportunity?.title}
+                        {...application}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <Text>No applications</Text>
+              )}
+            </>
+          )}
+        </Container>
+      </div>
     </div>
   );
 };

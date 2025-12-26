@@ -34,7 +34,6 @@ const MainNav = () => {
     try {
       await auth.signOut();
       localStorage.removeItem("user");
-      localStorage.removeItem("token");
       setUser(null);
       router.replace("/login");
     } catch (error) {

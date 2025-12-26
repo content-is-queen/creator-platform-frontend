@@ -87,7 +87,6 @@ const CreateOpportunityForm = ({ type }) => {
       const response = await API.post("/opportunities", postData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       setSuccess({ message: "Opportunity posted successfully" });
@@ -96,7 +95,6 @@ const CreateOpportunityForm = ({ type }) => {
       setError({
         message: err.response.data.message || "Something went wrong",
       });
-
       console.error(err.response);
     } finally {
       setLoading(false);
