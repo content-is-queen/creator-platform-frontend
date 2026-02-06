@@ -18,7 +18,6 @@ const AdminStats = () => {
         const { data } = await API("/admin/info", {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
         setData(data.data);

@@ -61,7 +61,6 @@ const Password = () => {
     try {
       const response = await API.post(`/auth/password`, formData, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           "Content-Type": "application/json",
         },
       });

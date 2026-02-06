@@ -64,15 +64,7 @@ const ResetPasswordForm = () => {
     if (token) {
       const { uid } = token;
       try {
-        const response = await API.post(
-          "/auth/reset",
-          { ...data, uid },
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-            },
-          }
-        );
+        const response = await API.post("/auth/reset", { ...data, uid });
 
         if (response.data.status === 200) {
           setSuccess({

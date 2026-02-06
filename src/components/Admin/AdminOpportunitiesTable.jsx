@@ -90,7 +90,6 @@ const AdminOpportunitiesTable = ({ opportunities }) => {
         await API.delete(`/opportunities/opportunityid/${id}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
 

@@ -25,22 +25,11 @@ const Subscription = () => {
     try {
       const {
         data: { subscriptionId },
-      } = await API("/payments/info", {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-      });
+      } = await API("/payments/info");
 
       const {
         data: { subscription },
-      } = await API(
-        `/payments/subscription?subscription_id=${subscriptionId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-          },
-        }
-      );
+      } = await API(`/payments/subscription?subscription_id=${subscriptionId}`);
 
       setSubscription(subscription);
     } catch (error) {

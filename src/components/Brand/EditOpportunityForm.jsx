@@ -31,13 +31,7 @@ const EditOpportunityForm = (props) => {
     try {
       const response = await API.put(
         `/opportunities/opportunityid/${opportunityId}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-          },
-        }
+        data
       );
 
       if (response.statusCode === 200) {

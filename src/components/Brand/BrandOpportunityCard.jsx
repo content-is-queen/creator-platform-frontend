@@ -56,11 +56,7 @@ const BrandOpportunityCard = (props) => {
   const deleteOpportunity = async (id) => {
     try {
       if (confirm("Are you sure you want to delete this opportunity?")) {
-        await API.delete(`/opportunities/opportunityid/${id}`, {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-          },
-        });
+        await API.delete(`/opportunities/opportunityid/${id}`);
 
         window.location.reload();
       }
@@ -72,15 +68,10 @@ const BrandOpportunityCard = (props) => {
   const completeOpportunity = async (id) => {
     try {
       if (confirm("Mark opportunity as completed?")) {
-        await API.put(
-          `/opportunities/opportunityid/${id}`,
-          { status: "complete", type },
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-            },
-          }
-        );
+        await API.put(`/opportunities/opportunityid/${id}`, {
+          status: "complete",
+          type,
+        });
 
         window.location.reload();
       }

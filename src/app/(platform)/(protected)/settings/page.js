@@ -39,7 +39,6 @@ const General = () => {
       const response = await API.post("/auth/emailupdate", formData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       setUser({ ...user, ...formData });

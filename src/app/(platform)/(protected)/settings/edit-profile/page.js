@@ -106,12 +106,7 @@ const EditProfile = () => {
     });
 
     try {
-      const res = await API.post(`/auth/user`, data, {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await API.post(`/auth/user`, data);
 
       if (res.status === 200) {
         const { data } = res.data;

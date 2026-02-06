@@ -23,16 +23,9 @@ const CancelSubscriptionForm = ({
 
     try {
       if (confirm("Are you sure you want to cancel your subscription?")) {
-        const response = await API.post(
-          "/payments/cancel-subscription",
-          { userId: user.uid },
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await API.post("/payments/cancel-subscription", {
+          userId: user.uid,
+        });
 
         setUser({ ...user, subscribed: false });
         setSuccess({ message: "Subscription cancelled successfuly" });

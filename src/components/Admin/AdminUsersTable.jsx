@@ -18,11 +18,7 @@ const AdminUsersTable = ({ users }) => {
     setError({});
     try {
       if (confirm("Are you sure you want to delete this user?")) {
-        await API.delete(`/admin/delete/${id}`, {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-          },
-        });
+        await API.delete(`/admin/delete/${id}`);
         window.location.reload();
       }
     } catch (error) {
@@ -41,7 +37,6 @@ const AdminUsersTable = ({ users }) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
             },
           }
         );
@@ -49,15 +44,7 @@ const AdminUsersTable = ({ users }) => {
         window.location.reload();
       }
       if (activated === true) {
-        await API.put(
-          `/admin/deactivate/${id}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-            },
-          }
-        );
+        await API.put(`/admin/deactivate/${id}`, {});
 
         window.location.reload();
       }

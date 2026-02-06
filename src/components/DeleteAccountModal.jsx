@@ -17,9 +17,6 @@ const DeleteAccountModal = () => {
     setSuccess({});
     try {
       const response = await API.delete("/auth/delete-account", {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
         data: {
           email,
         },

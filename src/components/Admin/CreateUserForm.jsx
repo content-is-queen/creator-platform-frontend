@@ -81,7 +81,6 @@ const CreateUserForm = () => {
       const response = await API.post("/admin/users", data, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       if (response.status === 200) {

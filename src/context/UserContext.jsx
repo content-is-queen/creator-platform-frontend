@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { auth, db } from "@/firebase.config";
 import { onAuthStateChanged } from "firebase/auth";
@@ -5,58 +7,51 @@ import { doc, getDoc } from "firebase/firestore";
 
 export const UserContext = createContext(null);
 
-export const getUser = async (user) => {
-  if (localStorage.getItem("user"))
-    return JSON.parse(localStorage.getItem("user"));
-
-  const snapshot = await getDoc(doc(db, "users", user.uid));
-
-  return snapshot.data();
-};
-
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
-      if (authUser) {
-        const user = await getUser(authUser);
-
-        if (user) {
-          setUser(user);
-          localStorage.setItem("user", JSON.stringify(user));
-        }
-      } else {
+      if (!authUser) {
         setUser(null);
-        localStorage.removeItem("user");
+        setLoading(false);
+        return;
       }
+
+      setUser({
+        uid: authUser.uid,
+        email: authUser.email,
+      });
+
+      try {
+        const snap = await getDoc(doc(db, "users", authUser.uid));
+        if (snap.exists()) {
+          setUser((prev) => ({
+            ...prev,
+            ...snap.data(),
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to fetch user profile", err);
+      }
+
       setLoading(false);
     });
-    return () => {
-      unsubscribe();
-    };
+
+    return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    }
-  }, [user]);
-
-  return (
-    <UserContext.Provider
-      value={useMemo(
-        () => ({ user, setUser, loading }),
-        [user, setUser, loading]
-      )}
-    >
-      {children}
-    </UserContext.Provider>
+  const value = useMemo(
+    () => ({ user, setUser, loading }),
+    [user, setUser, loading]
   );
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {
-  const { user, setUser, loading } = useContext(UserContext);
-  return { user, setUser, loading };
+  const context = useContext(UserContext);
+  if (!context) throw new Error("useUser must be used within a UserProvider");
+  return context;
 };

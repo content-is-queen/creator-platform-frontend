@@ -40,8 +40,6 @@ const ApplicationProposalForm = ({
     try {
       await API.post(`/applications`, data, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-
           "Content-Type": "application/json",
         },
       });

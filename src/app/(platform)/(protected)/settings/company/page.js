@@ -71,7 +71,6 @@ const Company = () => {
 
       const response = await API.put("/admin/company", newData, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
           "Content-Type": "application/json",
         },
       });
