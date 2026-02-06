@@ -15,9 +15,7 @@ import {
 import { db } from "@/firebase.config";
 import { useQuery } from "@tanstack/react-query";
 import ApplicationTable from "@/components/ApplicationTable";
-import Pitch from "@/components/Opportunities/Pitch";
-import Job from "@/components/Opportunities/Job";
-import Campaign from "@/components/Opportunities/Campaign";
+import SpinnerScreen from "@/components/SpinnerScreen";
 
 const Applications = ({ id }) => {
   const getApplicant = async (id) => {
@@ -67,6 +65,10 @@ const Applications = ({ id }) => {
     queryFn: getOpportunity,
     enabled: !!id,
   });
+
+  if (!opportunity) {
+    return <SpinnerScreen />;
+  }
 
   return (
     <div className="grid grid-cols-6 gap-4 pt-16 pb-20">

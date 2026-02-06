@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import API from "@/api/api";
 import Applications from "@/components/Brand/Applications";
+import ResourceGuard from "@/components/ResourceGuard";
 
 export default async function Opportunity({ params: { id: opportunityId } }) {
   const { data } = await API(`/opportunities/opportunityid/${opportunityId}`);
@@ -9,7 +10,11 @@ export default async function Opportunity({ params: { id: opportunityId } }) {
     return notFound();
   }
 
-  return <Applications id={opportunityId} />;
+  return (
+    <ResourceGuard author={data.userId}>
+      <Applications id={opportunityId} />
+    </ResourceGuard>
+  );
 }
 
 export async function generateMetadata({ params }) {

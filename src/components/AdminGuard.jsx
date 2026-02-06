@@ -7,12 +7,9 @@ import { useUser } from "@/context/UserContext";
 
 const AdminGuard = ({ children }) => {
   const { loading, user } = useUser();
-  const [show, setShow] = useState(false);
   const router = useRouter();
 
   const isAdmin = /^(admin|super_admin)$/i.test(user?.role);
-
-  console.log(user.role);
 
   useEffect(() => {
     if (!loading && user?.role && !isAdmin) {
