@@ -62,27 +62,12 @@ const ForgotPasswordForm = () => {
   return (
     <>
       <Text className="!mt-4">
-        Enter your email and we’ll send you a link to reset your password
+        Contact{" "}
+        <a href="mailto:service@contentisqueen.org">
+          service@contentisqueen.org
+        </a>{" "}
+        to reset your password.
       </Text>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-6">
-          {FIELDS.map(({ children, name, ...otherProps }) => (
-            <AuthInputController
-              key={name}
-              control={control}
-              errors={formErrors}
-              name={name}
-              {...otherProps}
-            >
-              {children}
-            </AuthInputController>
-          ))}
-        </div>
-        <Button as="button" type="submit" className="mt-8">
-          {loading && <Button.Spinner />}
-          Send password recovery link
-        </Button>
-      </form>
       {error?.message && <Error>{error.message}</Error>}
       {success?.message && <Success>{success.message}</Success>}
     </>
