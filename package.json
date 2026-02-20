@@ -40,7 +40,7 @@
     "date-fns": "^3.6.0",
     "debounce": "^2.0.0",
     "firebase": "^10.10.0",
-    "firebase-functions": "^6.1.1",
+    "firebase-functions": "^7.0.5",
     "html-react-parser": "^5.1.10",
     "lint-staged": "^15.2.2",
     "lodash": "^4.17.21",
